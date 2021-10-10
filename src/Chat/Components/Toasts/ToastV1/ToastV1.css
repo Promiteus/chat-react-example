@@ -1,0 +1,5 @@
+.toast-msg {
+  z-index: 11;
+  background-color: rgb(217, 243, 231);
+  margin: 6px;
+}

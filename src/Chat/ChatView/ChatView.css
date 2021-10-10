@@ -1,0 +1,16 @@
+
+.chat-panel {   
+   margin-top: 12px;  
+   box-shadow: 2px 2px 6px rgb(144, 150, 155);
+   padding: 10px;
+   border: 1px solid rgb(192, 191, 191);
+}
+
+
+.chat {  
+   border: 1px solid rgb(161, 159, 159);
+}
+
+.users {
+   background-color: rgb(205, 206, 205);
+}
