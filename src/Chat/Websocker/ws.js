@@ -9,7 +9,7 @@ export class StompClient {
     constructor() {
         console.log('StompClient created!'); 
                
-        this.WS_ENDPOOINT_APP = 'http://localhost:8080/wsApp'
+        this.WS_ENDPOOINT_APP = 'http://localhost:10800/wsApp'
         this.topicName = 'roman';
         this.chatMessage = {type: 'chat', content: '', sender: ''};
         this.stompClient = null;
@@ -34,7 +34,7 @@ export class StompClient {
 
     onMessageReceived(message) {
         var content = JSON.stringify(message.body);
-        console.log('message -- '+content);
+       // console.log('message -- '+content);
     }
     
     disconnect() {
@@ -56,11 +56,13 @@ export class StompClient {
 
     sendMessage(type, sender, routerKey, content) {
         //this.topicName = routerKey;
-        this.stompClient.send(
-         "/app/chat.sendMessage2",
-         {}, 
-         JSON.stringify(new ChatMessage(type, sender, content, routerKey))
-        );
+        if (this.stompClient) {
+            this.stompClient.send(
+                "/app/chat.sendMessage2",
+                {},
+                JSON.stringify(new ChatMessage(type, sender, content, routerKey))
+            );
+        }
     }
 }
 

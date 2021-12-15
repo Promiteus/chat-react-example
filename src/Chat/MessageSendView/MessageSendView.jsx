@@ -11,18 +11,22 @@ function MessageSendView ({stomp}) {
   }
 
   function onSend() {
-     stomp.sendMessage('chat', 'Roman Matveev', TOPIC, content);
+    if (stomp) {
+       stomp.sendMessage('chat', 'Roman Matveev', TOPIC, content);
+    }
   }
 
   function onKey(e) {
     if (e.keyCode === 13) { //Enter key
-      stomp.sendMessage('chat', 'Roman Matveev', TOPIC, content);
+      if (stomp) {
+          stomp.sendMessage('chat', 'Roman Matveev', TOPIC, content);
+      }
     }
   }
 
   return (
     <div className="chat-msg-sender p-2 d-flex flex-row">
-      <input type="text" className="chat-msg-input text-dark form-control" onKeyDown={onKey} onChange={updateInputValue} placeholder="Message here" />
+      <input id="msgf" type="text" className="chat-msg-input text-dark form-control" onKeyDown={onKey} onChange={updateInputValue} placeholder="Message here" />
       <SendMsgButton onClick={onSend}/>
     </div>
   )

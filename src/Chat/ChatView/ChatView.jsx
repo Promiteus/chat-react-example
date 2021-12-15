@@ -39,19 +39,19 @@ function ChatView (props) {
         <Row>
           <Col md={3}>
             <div className="users h-100">
-              <Userlist users={users}/>
+             <Userlist users={users}/>
             </div>
           </Col>
           <Col md={9}>
             <div className="chat p-2">
              <TopHeaderView/>
-             <NameView />     
+             <NameView />
              <MessageView stomp={stompClient}/>
              <MessageSendView stomp={stompClient} />
             </div>
           </Col>
-        </Row>       
-      </Container>   
+        </Row>
+      </Container>
       <ToastV1 msg={errMsg} isShow={showError}/>
     </div>   
   );

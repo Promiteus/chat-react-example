@@ -7,17 +7,16 @@ function MessageView({stomp}) {
 
 
   useEffect(() => {
-    //divRef.current.scrollIntoView({behavior: "smooth"});
+    if (stomp) {
+      stomp.onMessageReceived = (data) => {
+        let body = JSON.parse(data.body);
 
-    stomp.onMessageReceived = (data) => {
-      let body = JSON.parse(data.body);
-     
-      if (body.content) {
-        setMessageList(prev => [...prev, body.content]);
-      }      
-    };
-  }); 
-
+        if ((body) && (body.content)) {
+          setMessageList(prev => [...prev, body.content]);
+        }
+      };
+    }
+  });
   
   return (
     <div className="chatView d-flex flex-column" >
