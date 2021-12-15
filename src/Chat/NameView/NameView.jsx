@@ -1,11 +1,22 @@
 import React from 'react';
+import {useSelector} from "react-redux";
+import {selectCount} from "../../Stores/slices/CommonSlice";
+import {selectUser} from "../../Stores/slices/UserSlice";
 
 
-const NameView = (props) => (
-  <div className="NameViewWrapper bg-light border-bottom border-dark">
-    Name View
-  </div>
-);
+function NameView(props)
+{
+   // const counter = useSelector((state) => state);
+    const count = useSelector(selectCount);
+    const user = useSelector(selectUser)
+
+    return (
+        <div className="NameViewWrapper bg-light border-bottom border-dark">
+            Сообщений от {user.firstName || 'user'}: {count}
+        </div>
+    )
+}
+
 
 
 export default NameView;

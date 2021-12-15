@@ -10,14 +10,13 @@ import './ChatView.css'
 import Userlist from "../Users/UserList/UserList";
 import {user_accounts} from "../TestData/TestConstants";
 
+let stompClient = new StompClient();
 
 function ChatView (props) {
   const [showError, setShowError] = useState(false);
   const [errMsg, setErrMsg] = useState('');
 
   let users = user_accounts;
-
-  var stompClient = new StompClient();
 
   useEffect(() => {    
     stompClient.connect();

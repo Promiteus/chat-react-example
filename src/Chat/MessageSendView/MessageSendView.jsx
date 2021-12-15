@@ -1,18 +1,24 @@
 import React, { useState } from 'react';
 import './MessageSendView.css';
 import SendMsgButton from '../Controls/SVG/SendMsgButton/SendMsgButton';
+import {useDispatch} from "react-redux";
+import {increment} from "../../Stores/slices/CommonSlice";
 
 function MessageSendView ({stomp}) {
-  const [content, setContent] = useState('');
+  const dispatch = useDispatch();
+
   const TOPIC = '/roman';
+  let content = '';
+  let inputMessage = {};
 
   function updateInputValue(e) {
-    setContent(e.target.value);
+    content = e.target.value;
   }
 
   function onSend() {
     if (stomp) {
        stomp.sendMessage('chat', 'Roman Matveev', TOPIC, content);
+       dispatch(increment());
     }
   }
 
@@ -20,13 +26,15 @@ function MessageSendView ({stomp}) {
     if (e.keyCode === 13) { //Enter key
       if (stomp) {
           stomp.sendMessage('chat', 'Roman Matveev', TOPIC, content);
+          dispatch(increment());
       }
+      inputMessage.value = '';
     }
   }
 
   return (
     <div className="chat-msg-sender p-2 d-flex flex-row">
-      <input id="msgf" type="text" className="chat-msg-input text-dark form-control" onKeyDown={onKey} onChange={updateInputValue} placeholder="Message here" />
+      <input ref={el => inputMessage = el} type="text" className="chat-msg-input text-dark form-control" onKeyDown={onKey} onChange={updateInputValue} placeholder="Message here" />
       <SendMsgButton onClick={onSend}/>
     </div>
   )
