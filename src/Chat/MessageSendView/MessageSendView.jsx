@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './MessageSendView.css';
 import SendMsgButton from '../Controls/SVG/SendMsgButton/SendMsgButton';
 import {useDispatch} from "react-redux";

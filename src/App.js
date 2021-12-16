@@ -1,9 +1,18 @@
 import './App.css';
 import ChatView from './Chat/ChatView/ChatView';
+import { Routes, Route } from 'react-router-dom';
+import SignIn from "./SignIn/SignIn";
+import NavMenu from "./Navigation/NavMenu";
 
 function App() {
   return (
-    <ChatView/>
+      <div>
+        <NavMenu/>
+        <Routes>
+          <Route path="/" element={<ChatView/>}/>
+          <Route path="/signin" element={<SignIn/>}/>
+        </Routes>
+      </div>
   );
 }
 
