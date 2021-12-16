@@ -1,6 +1,11 @@
 #sign-in-form {
     display: block;
+    margin: 0 auto;
+    padding: 1.3rem;
+    border: 1px solid gray;
+    border-radius: 0.5rem;
+}
 
-    padding: 3em;
-    background-color: antiquewhite;
+#fm {
+    background-color: gainsboro;
 }
