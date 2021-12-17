@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Person({onClick, w, h, color}) {
+export default function PersonSvg({onClick, w, h, color}) {
     return (
       <div onClick={onClick}>
         <svg width={w || 28} height={h || 28} fill={color || 'blue'}  viewBox="0 0 16 16">

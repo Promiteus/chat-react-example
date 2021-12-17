@@ -1,19 +1,21 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-//import { Test } from './RegistProfilePrimary.styles';
+import { Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import SelectSexForm from './SelectSexForm/SelectSexForm';
 
-const RegistProfilePrimary = (props) => (
-  <div className="RegistProfilePrimaryWrapper">
-    Test content
-  </div>
-);
 
-RegistProfilePrimary.propTypes = {
-  // bla: PropTypes.string,
-};
+function RegistProfilePrimary() {
+   return (
+     <div>
+        <nav className=' d-flex flex-row-reverse m-3' >
+          <Link to="/signin">Вход</Link>
+        </nav>
 
-RegistProfilePrimary.defaultProps = {
-  // bla: 'test',
-};
+       <SelectSexForm />  
+     </div>
+
+ 
+   );
+}
 
 export default RegistProfilePrimary;

@@ -1,5 +1,6 @@
 import React from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import KeySvg from "../Svg/KeySvg";
 import PersonSvg from "../Svg/PersonSvg";
 import "./SignIn.css"
@@ -24,8 +25,9 @@ export default function SignIn() {
     return (
         <div className="container p-2 d-flex justify-content-center">            
              <div id="sign-in-form" className="d-flex flex-column">
+               
                <div className="d-flex justify-content-center align-items-center"><h3 className="text-center">Вход</h3></div>
-               <Container>
+               <Container>                  
                   <div className="d-flex justify-content-center align-content-center mt-2">
                      <div className="mx-2"><PersonSvg/></div>
                      <div><input ref={el => (inputLogin = el)} onChange={loginOnChange} type="email" /></div> 
@@ -34,6 +36,7 @@ export default function SignIn() {
                     <div className="mx-2"><KeySvg/></div>
                     <div ><input ref={el => (inputPassword = el)} onChange={passwordOnChange} type="password" /></div>
                   </div>
+                  <div className="mt-3"><Link to="/#">Забыл пароль?</Link></div>
 
                   <div className="d-flex align-items-center justify-content-end">
                     <Button className="mt-3" onClick={SignInClick}>Войти</Button>

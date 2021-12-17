@@ -1,4 +1,16 @@
 
+.primary-form {
+  display: block;
+  margin: 0 auto;
+  padding: 1.3rem;
+  border: 1px solid gray;
+  border-radius: 0.5rem;
+}
+
+nav > a {
+  text-decoration: none;
+}
+
 .App {
   text-align: center;
 }
