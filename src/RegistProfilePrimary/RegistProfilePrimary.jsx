@@ -1,16 +1,27 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { Link } from 'react-router-dom';
 import SelectSexForm from './SelectSexForm/SelectSexForm';
+import BaseUserProfileForm from "./UserProfileForm/BaseUserProfileForm";
 
 
 function RegistProfilePrimary() {
-   return (
+    const [sex, setSex] = useState('');
+
+    useEffect(() => {
+        console.log(sex)
+    }, [])
+
+    return (
      <div>
         <nav className=' d-flex flex-row-reverse m-3' >
           <Link to="/signin">Вход</Link>
         </nav>
 
-       <SelectSexForm />  
+         { (sex === '') ?
+             <SelectSexForm
+                 onClick={(data) => {setSex(data.target.value)}}/> :
+             <BaseUserProfileForm/>
+         }
      </div>
 
  
