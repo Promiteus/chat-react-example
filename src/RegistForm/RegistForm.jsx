@@ -1,7 +1,6 @@
 import React from 'react';
-import { Button, Col, Container, Row } from 'react-bootstrap';
+import { Button, Container } from 'react-bootstrap';
 import BackArrowButton from '../Componetns/IconButtons/BackArrowButton/BackArrowButton';
-import ArrowLeftSvg from '../Svg/ArrowLeftSvg';
 import KeySvg from '../Svg/KeySvg';
 import PersonSvg from '../Svg/PersonSvg';
 import './RegistForm.css';
@@ -9,7 +8,7 @@ import './RegistForm.css';
 
 function RegistForm(props) {
   let inputPassword = {};
-  let inputLogin = {};
+  let inputLogin = {}
 
   function loginOnChange(e) {
     console.log(`inputLogin: ${e.target.value}`);
