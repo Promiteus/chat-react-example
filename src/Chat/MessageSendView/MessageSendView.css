@@ -1,5 +1,5 @@
 .chat-msg-sender {
-    background-color: rgb(196, 228, 226);    
+  border: 1px solid gray;
 }
 
 .chat-msg-input {

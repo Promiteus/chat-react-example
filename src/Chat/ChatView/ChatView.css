@@ -9,9 +9,11 @@
 
 .chat {  
    border: 1px solid rgb(161, 159, 159);
+   border-radius: 0.5rem;
 }
 
 .users {
    /*background-color: rgb(205, 206, 205);*/
    border: 1px solid rgb(161, 159, 159);
+   border-radius: 0.5rem;
 }

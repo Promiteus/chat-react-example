@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Toast } from 'react-bootstrap';
 import './ToastV1.css';
 
 
@@ -14,7 +13,7 @@ function ToastV1({msg, isShow}) {
 
   
   return (     
-       <Toast show={show} onClose={toggleShow} className="toast-msg position-fixed bottom-0 end-0 p-3">
+      {/* <Toast show={show} onClose={toggleShow} className="toast-msg position-fixed bottom-0 end-0 p-3">
          <Toast.Header>
             <img
               src="holder.js/20x20?text=%20"
@@ -25,7 +24,7 @@ function ToastV1({msg, isShow}) {
            <small>11 mins ago</small>
         </Toast.Header>
         <Toast.Body>{msg || `Woohoo, you're reading this text in a Toast!`}</Toast.Body>
-       </Toast>  
+       </Toast>  */}
   );
 };
 

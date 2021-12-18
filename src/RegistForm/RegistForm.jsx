@@ -1,9 +1,9 @@
 import React from 'react';
-import { Button, Container } from 'react-bootstrap';
 import BackArrowButton from '../Componetns/IconButtons/BackArrowButton/BackArrowButton';
 import KeySvg from '../Svg/KeySvg';
 import PersonSvg from '../Svg/PersonSvg';
 import './RegistForm.css';
+import {Button, Container} from "@mui/material";
 
 
 function RegistForm(props) {
@@ -54,8 +54,8 @@ function RegistForm(props) {
                    type="password" placeholder='Подтвердить пароль' />
               </div>
             </div>
-         <div className='d-flex justify-content-end'><Button className='mt-4'>Принять</Button></div> 
-       </Container>       
+         <div className='d-flex justify-content-end'><Button className='mt-4'>Принять</Button></div>
+       </Container>
     </div>
   </div>
   );

@@ -1,9 +1,9 @@
 import React from "react";
-import { Button, Col, Container, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import KeySvg from "../Svg/KeySvg";
 import PersonSvg from "../Svg/PersonSvg";
 import "./SignIn.css"
+import {Button, Container} from "@mui/material";
 
 
 export default function SignIn() {
@@ -27,7 +27,7 @@ export default function SignIn() {
              <div id="sign-in-form" className="d-flex flex-column">
                
                <div className="d-flex justify-content-center align-items-center"><h3 className="text-center">Вход</h3></div>
-               <Container>                  
+               <Container>
                   <div className="d-flex justify-content-center align-content-center mt-2">
                      <div className="mx-2"><PersonSvg/></div>
                      <div><input ref={el => (inputLogin = el)} onChange={loginOnChange} type="email" /></div> 
@@ -42,7 +42,7 @@ export default function SignIn() {
                     <Button className="mt-3" onClick={SignInClick}>Войти</Button>
                   </div>
                   
-               </Container>      
+               </Container>
                     
              </div>
         </div>
