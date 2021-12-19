@@ -1,25 +1,17 @@
-import React from "react";
+import React, {useState} from "react";
 import { Link } from "react-router-dom";
 import KeySvg from "../Svg/KeySvg";
-import PersonSvg from "../Svg/PersonSvg";
 import "./SignIn.css"
-import {Button, Container} from "@mui/material";
+import {Button, Container, TextField} from "@mui/material";
+import PersonSvg from "../Svg/PersonSvg";
 
 
-export default function SignIn() {
-    let inputPassword = {};
-    let inputLogin = {};
+export default function SignIn()  {
+    const [credential] = useState({login: '', password: ''});
 
-    function SignInClick(e) {
-       console.log(`inputPassword: ${inputPassword.value} inputLogin: ${inputLogin.value}`);
-    }
 
-    function loginOnChange(e) {
-        console.log(`inputLogin: ${e.target.value}`);
-    }
-
-    function passwordOnChange(e) {
-        console.log(`inputPassword: ${e.target.value}`);
+    function SignInClick() {
+       console.log(`inputPassword: ${credential.password} inputLogin: ${credential.login}`);
     }
 
     return (
@@ -27,22 +19,37 @@ export default function SignIn() {
              <div id="sign-in-form" className="d-flex flex-column">
                
                <div className="d-flex justify-content-center align-items-center"><h3 className="text-center">Вход</h3></div>
-               <Container>
+
                   <div className="d-flex justify-content-center align-content-center mt-2">
-                     <div className="mx-2"><PersonSvg/></div>
-                     <div><input ref={el => (inputLogin = el)} onChange={loginOnChange} type="email" /></div> 
+                      <div className="mx-2"><PersonSvg/></div>
+                      <TextField
+                          onChange={(e) => credential.login = e.target.value}
+                          required
+                          fullWidth={true}
+                          id="standard-required"
+                          label="Укажите ваш логин"
+                          variant="standard"
+                      />
                   </div>  
                   <div className="d-flex justify-content-center align-content-center mt-4">
                     <div className="mx-2"><KeySvg/></div>
-                    <div ><input ref={el => (inputPassword = el)} onChange={passwordOnChange} type="password" /></div>
+
+                        <TextField
+                            onChange={(e) => credential.password = e.target.value}
+                            type="password"
+                            required
+                            fullWidth={true}
+                            id="standard-required"
+                            label="Укажите ваш логин"
+                            variant="standard"
+                        />
+
                   </div>
                   <div className="mt-3"><Link to="/#">Забыл пароль?</Link></div>
 
                   <div className="d-flex align-items-center justify-content-end">
                     <Button className="mt-3" onClick={SignInClick}>Войти</Button>
                   </div>
-                  
-               </Container>
                     
              </div>
         </div>
