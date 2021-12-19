@@ -12,7 +12,7 @@ function RegistProfilePrimary() {
     }, [])
 
     return (
-     <div>
+     <div className="">
         <nav className=' d-flex flex-row-reverse m-3' >
           <Link to="/signin">Вход</Link>
         </nav>

@@ -1,12 +1,14 @@
 import React, {useState} from "react";
-import { TextField} from "@mui/material";
+import {FormControl, InputLabel, MenuItem, Select, TextField} from "@mui/material";
 import { DatePicker} from "@mui/lab";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import ruLocale from 'date-fns/locale/ru';
+import "./BaseUserProfileForm.css"
+import {classes} from "@mui/lab/ClockPicker/ClockNumber";
 
 export default function BaseUserProfileForm() {
-    const [birthDate, setBirthDate] = useState(new Date());
+    const [birthDate, setBirthDate] = useState('');
 
     let subProfile = {
         firstName: '',
@@ -15,7 +17,7 @@ export default function BaseUserProfileForm() {
     }
 
     return(
-        <div className="container p-3 d-flex justify-content-center">
+        <div className="p-3 d-flex justify-content-center ">
             <div className="d-flex flex-column primary-form">
                 <h4 className="text-center">Почти готово</h4>
 
@@ -23,27 +25,41 @@ export default function BaseUserProfileForm() {
                    <TextField
                        onChange={(e) => {subProfile.firstName = e.target.value}}
                        required
+                       fullWidth={true}
                        id="standard-required"
                        label="Как вас зовут?"
                        variant="standard"
                    />
                 </div>
                 <div className="d-flex justify-content-center align-content-center mt-2">
-                    <LocalizationProvider dateAdapter={AdapterDateFns} locale={ruLocale}>
-                        <DatePicker
-                            mask={'__.__.____'}
-                            date={new Date()}
-                            onChange={(e) => {setBirthDate(e)}}
-                            value={birthDate}
-                            openPicker={() => {console.log("open picker")}}
-                            rawValue={new Date()}
-                            renderInput={(params) => <TextField
-                                required
-                                id="standard-required"
-                                variant="standard"
-                                label="Когда родились?"
-                                {...params} />}/>
-                    </LocalizationProvider>
+                   <TextField
+                       id="date"
+                       label="Ваш день рождения"
+                       type="date"
+                       onChange={(e) => {console.log(e.target.value)}}
+                       defaultValue="2017-05-24"
+                       fullWidth={true}
+                       variant="standard"
+                       InputLabelProps={{
+                           shrink: true,
+                       }}
+                   />
+                </div>
+                <div className="d-flex justify-content-center align-content-center">
+                    <FormControl fullWidth={true} variant="standard" sx={{ m: 1, minWidth: 120 }}>
+                        <InputLabel id="demo-simple-select-standard-label">С кем знакомитесь?</InputLabel>
+                        <Select
+                            labelId="demo-simple-select-standard-label"
+                            id="demo-simple-select-standard"
+                            fullWidth={true}
+                            defaultValue={'WOMAN'}
+                            onChange={() => {}}
+                            label="С кем знакомитесь?">
+                              <MenuItem value={'MAN'}>Мужчины</MenuItem>
+                              <MenuItem value={'WOMAN'}>Женчины</MenuItem>
+                              <MenuItem value={'ALL'}>Все</MenuItem>
+                        </Select>
+                    </FormControl>
                 </div>
             </div>
         </div>
