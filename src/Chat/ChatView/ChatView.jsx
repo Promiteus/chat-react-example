@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import ToastV1 from '../Components/Toasts/ToastV1/ToastV1';
+//import ToastV1 from '../Components/Toasts/ToastV1/ToastV1';
 import MessageSendView from '../MessageSendView/MessageSendView';
 import MessageView from '../MessageView/MessageView';
 import NameView from '../NameView/NameView';
@@ -25,7 +25,8 @@ function ChatView (props) {
        setErrMsg(error);
        setShowError(true);
        setInterval(() => {setShowError(false)}, 5000);
-    }     
+    }
+
 
     return () => {
       stompClient.disconnect();  

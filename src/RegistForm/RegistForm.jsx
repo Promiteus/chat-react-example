@@ -7,8 +7,8 @@ import {Button, Container} from "@mui/material";
 
 
 function RegistForm(props) {
-  let inputPassword = {};
-  let inputLogin = {}
+ /* let inputPassword = {};
+  let inputLogin = {}*/
 
   function loginOnChange(e) {
     console.log(`inputLogin: ${e.target.value}`);
@@ -29,7 +29,7 @@ function RegistForm(props) {
                <div className="mx-2"><PersonSvg/></div>
                <div>
                  <input 
-                   ref={el => (inputLogin = el)} 
+                   /*ref={el => (inputLogin = el)} */
                    onChange={loginOnChange} 
                    type="email"
                    placeholder='Введите логин'/>
@@ -39,7 +39,7 @@ function RegistForm(props) {
                <div className="mx-2"><KeySvg/></div>
                <div>
                  <input 
-                   ref={el => (inputPassword = el)} 
+                   /*ref={el => (inputPassword = el)} */
                    onChange={passwordOnChange} 
                    type="password" 
                    placeholder='Введите пароль'/>
@@ -49,7 +49,7 @@ function RegistForm(props) {
                <div className="mx-2"><KeySvg/></div>
                <div >
                  <input 
-                   ref={el => (inputPassword = el)} 
+                  /* ref={el => (inputPassword = el)} */
                    onChange={passwordOnChange} 
                    type="password" placeholder='Подтвердить пароль' />
               </div>

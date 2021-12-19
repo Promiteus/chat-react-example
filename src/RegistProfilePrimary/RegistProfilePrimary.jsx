@@ -8,7 +8,7 @@ function RegistProfilePrimary() {
     const [sex, setSex] = useState('');
 
     useEffect(() => {
-        console.log(sex)
+       // console.log(sex);
     }, [])
 
     return (

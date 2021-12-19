@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import './ToastV1.css';
+//import  { useEffect, useState } from 'react';
+/*import './ToastV1.css';*/
 
 
 function ToastV1({msg, isShow}) {
-  const [show, setShow] = useState(false);
+ /* const [show, setShow] = useState(false);
 
-  const toggleShow = () => setShow(!show);
+  const toggleShow = () => setShow(!show);*/
 
-  useEffect(() => {
+ /* useEffect(() => {
      setShow(isShow);
-  }, [isShow]);
+  }, [isShow]);*/
 
   
   return (     
