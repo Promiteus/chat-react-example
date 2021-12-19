@@ -16,12 +16,12 @@ export default function SignIn()  {
 
     return (
         <div className="container p-2 d-flex justify-content-center">            
-             <div id="sign-in-form" className="d-flex flex-column">
+             <div className="d-flex flex-column primary-form">
                
                <div className="d-flex justify-content-center align-items-center"><h3 className="text-center">Вход</h3></div>
 
                   <div className="d-flex justify-content-center align-content-center mt-2">
-                      <div className="mx-2"><PersonSvg/></div>
+                      <div className="mx-2 d-flex align-items-center"><PersonSvg/></div>
                       <TextField
                           onChange={(e) => credential.login = e.target.value}
                           required
@@ -31,16 +31,15 @@ export default function SignIn()  {
                           variant="standard"
                       />
                   </div>  
-                  <div className="d-flex justify-content-center align-content-center mt-4">
-                    <div className="mx-2"><KeySvg/></div>
-
+                  <div className="d-flex justify-content-center align-content-center mt-2">
+                    <div className="mx-2 d-flex align-items-center"><KeySvg/></div>
                         <TextField
                             onChange={(e) => credential.password = e.target.value}
                             type="password"
                             required
                             fullWidth={true}
                             id="standard-required"
-                            label="Укажите ваш логин"
+                            label="Укажите ваш пароль"
                             variant="standard"
                         />
 
@@ -48,7 +47,7 @@ export default function SignIn()  {
                   <div className="mt-3"><Link to="/#">Забыл пароль?</Link></div>
 
                   <div className="d-flex align-items-center justify-content-end">
-                    <Button className="mt-3" onClick={SignInClick}>Войти</Button>
+                    <Button variant="outlined" className="mt-3" onClick={SignInClick}>Войти</Button>
                   </div>
                     
              </div>

@@ -1,11 +1,9 @@
 import React, {useState} from "react";
-import {FormControl, InputLabel, MenuItem, Select, TextField} from "@mui/material";
-import { DatePicker} from "@mui/lab";
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import ruLocale from 'date-fns/locale/ru';
+import {Button, FormControl, InputLabel, MenuItem, Select, TextField} from "@mui/material";
 import "./BaseUserProfileForm.css"
-import {classes} from "@mui/lab/ClockPicker/ClockNumber";
+import {Link} from "react-router-dom";
+import RightChevron from "../../Svg/RightChevron";
+import ArrowLeftSvg from "../../Svg/ArrowLeftSvg";
 
 export default function BaseUserProfileForm() {
     const [birthDate, setBirthDate] = useState('');
@@ -20,6 +18,16 @@ export default function BaseUserProfileForm() {
         <div className="p-3 d-flex justify-content-center ">
             <div className="d-flex flex-column primary-form">
                 <h4 className="text-center">Почти готово</h4>
+
+                <Link to="/signin">
+                    <div className="d-inline-block mx-1">
+                        <ArrowLeftSvg/>
+                    </div>
+                    <div className="d-inline-block mt-1">
+                        Вход
+                    </div>
+                </Link>
+
 
                 <div className="d-flex justify-content-center align-content-center mt-2">
                    <TextField
@@ -61,7 +69,43 @@ export default function BaseUserProfileForm() {
                         </Select>
                     </FormControl>
                 </div>
+                <div className="d-flex justify-content-center align-content-center mt-2">
+                    <TextField
+                       // onChange={(e) => credential.login = e.target.value}
+                        required
+                        fullWidth={true}
+                        id="standard-required"
+                        label="Укажите ваш логин"
+                        variant="standard"
+                    />
+                </div>
+                <div className="d-flex justify-content-center align-content-center mt-2">
+                    <TextField
+                       // onChange={(e) => credential.password = e.target.value}
+                        type="password"
+                        required
+                        fullWidth={true}
+                        id="standard-required"
+                        label="Укажите ваш пароль"
+                        variant="standard"
+                    />
+
+                </div>
+                <div className="d-flex justify-content-center align-content-center mt-2">
+                    <TextField
+                        // onChange={(e) => credential.password = e.target.value}
+                        type="password"
+                        required
+                        fullWidth={true}
+                        id="standard-required"
+                        label="Подтвердите ваш пароль"
+                        variant="standard"
+                    />
+
+                </div>
+                <Button className="mt-3" variant="outlined">Регистрация</Button>
             </div>
+
         </div>
     );
 }

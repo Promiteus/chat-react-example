@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import { Link } from 'react-router-dom';
 import SelectSexForm from './SelectSexForm/SelectSexForm';
 import BaseUserProfileForm from "./UserProfileForm/BaseUserProfileForm";
+import {Button} from "@mui/material";
 
 
 function RegistProfilePrimary() {
@@ -14,7 +15,7 @@ function RegistProfilePrimary() {
     return (
      <div className="">
         <nav className=' d-flex flex-row-reverse m-3' >
-          <Link to="/signin">Вход</Link>
+          <Link to="/signin"><Button variant="outlined">Вход</Button></Link>
         </nav>
 
          { (sex === '') ?
