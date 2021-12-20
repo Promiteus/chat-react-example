@@ -1,36 +1,29 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {authenticateUset, registrateUser} from "../api/AuthApi/AuthApi";
-import {saveUserProfile} from "../api/ChatDataApi/ChatDataApi";
-
 
 export const authUserAsync = createAsyncThunk(
     'auth/user',
     async (data) => {
-        return  await authenticateUset(data);
+        const response = await authenticateUset(data);
+        return response.data;
     }
 );
 
 export const regUserAsync = createAsyncThunk(
     'auth/add_user',
     async (data) => {
-        return await registrateUser(data);
+        const response = await registrateUser(data);
+        return response.data;
     }
 );
 
-export const userProfile = createAsyncThunk(
-    'data/profile',
-    async (profile) => {
-        return await saveUserProfile(profile);
-    }
-);
 
 export const userSlice = createSlice({
     name: 'user',
     initialState: {
-       profile: {
-           id: 0,
-           firstName: 'Roman',
-       }
+        token: '',
+        token_expire_sec: '',
+        user_id: '',
     },
     reducers: {
         setDefaultUser: (state, action) => {
@@ -40,6 +33,6 @@ export const userSlice = createSlice({
 
 });
 
-export const selectUser = (state) => state.user.profile;
+export const selectUser = (state) => state.user;
 export const {setDefaultUser} = userSlice.actions;
 export default userSlice.reducer;
