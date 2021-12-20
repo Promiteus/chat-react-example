@@ -34,15 +34,15 @@ function ChatView (props) {
   }, [])
 
   return (
-    <div>
+    <div  className="d-flex justify-content-center flex-column">
         <Container>
             <Grid container spacing={1}>
-                <Grid item md={3}>
+                <Grid item xs={12} md={3}>
                     <div className="users h-100">
                         <Userlist users={users}/>
                     </div>
                 </Grid>
-                <Grid item md={9}>
+                <Grid item xs={12} md={9}>
                     <div className="chat p-2">
                         <TopHeaderView/>
                         <NameView />
