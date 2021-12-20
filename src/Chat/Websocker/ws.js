@@ -4,7 +4,7 @@ import { ChatMessage } from "../Common/Models/ChatMessage";
 
 
 export class StompClient {
-
+    connected = false;
    
     constructor() {
         console.log('StompClient created!'); 
@@ -30,6 +30,7 @@ export class StompClient {
     connectionSuccess(frame) {
         let topic = '/topic/'+this.topicName;
         this.stompClient.subscribe(topic, (data) => this.onMessageReceived(data));
+        this.connected = true;
     }
 
     onMessageReceived(message) {
@@ -38,18 +39,21 @@ export class StompClient {
     }
     
     disconnect() {
-        if (this.stompClient) {
-            let topic = `/topic/${this.topicName}`;    
-            this.stompClient.unsubscribe(topic);            
-        }       
-    
-        if (this.client) {
-            this.client.close();    
-        }        
+       if ((this.connected)) {
+           if (this.stompClient) {
+               let topic = `/topic/${this.topicName}`;
+               this.stompClient.unsubscribe(topic);
+           }
+
+           if (this.client) {
+               this.client.close();
+           }
+       }
     }
 
     connectionError(error) {
         console.log('connectionError error: '+error);
+        this.connected = false;
     }
 
    

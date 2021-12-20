@@ -19,7 +19,9 @@ export default function SignIn()  {
         <div className="container p-2 d-flex justify-content-center">            
              <div className="d-flex flex-column primary-form">
                
-               <div className="d-flex justify-content-center align-items-center"><h3 className="text-center">Вход</h3></div>
+                 <div className="d-flex justify-content-center align-items-center">
+                     <h3 className="text-center">Вход</h3>
+                 </div>
 
                  <FormControl variant="standard">
                      <InputLabel htmlFor="input-with-icon-adornment">

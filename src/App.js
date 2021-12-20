@@ -1,16 +1,24 @@
 import './App.css';
 import ChatView from './Chat/ChatView/ChatView';
-import { Routes, Route } from 'react-router-dom';
+import {Routes, Route, useNavigate} from 'react-router-dom';
 import SignIn from "./SignIn/SignIn";
 import NavMenu from "./Navigation/NavMenu";
 import RegistProfilePrimary from './RegistProfilePrimary/RegistProfilePrimary';
+import {useEffect} from "react";
 
 function App() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+      navigate('/signin')
+  }, []);
+
+
   return (
       <div>
         <NavMenu/>
         <Routes>
-          <Route path="/signin" element={<SignIn/>}/>
+          <Route index path="/signin" element={<SignIn/>}/>
           <Route path="/registration" element={<RegistProfilePrimary/>}/>
           <Route path="/" element={<ChatView/>}/>
         </Routes>
