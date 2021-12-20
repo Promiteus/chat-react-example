@@ -7,13 +7,16 @@
 }
 
 
-.chat {  
+.chat {
+   padding: 1rem;
    border: 1px solid rgb(161, 159, 159);
    border-radius: 0.5rem;
+   background-color: white;
 }
 
 .users {
-   /*background-color: rgb(205, 206, 205);*/
-   border: 1px solid rgb(161, 159, 159);
+   padding: 0.5rem;
+   border: 1px solid rgb(201, 200, 200);
    border-radius: 0.5rem;
+   background-color: white;
 }

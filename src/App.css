@@ -2,9 +2,14 @@
 .primary-form {
   display: block;
   padding: 1rem 2.0rem;
-  border: 1px solid gray;
+  /*border: 1px solid gray;*/
   border-radius: 0.5rem;
   min-width: 350px;
+  background-color: white;
+}
+
+.inp {
+  text-indent: 0.2rem;
 }
 
 nav > a {

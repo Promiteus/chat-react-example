@@ -9,6 +9,7 @@ import './ChatView.css'
 import Userlist from "../Users/UserList/UserList";
 import {user_accounts} from "../TestData/TestConstants";
 import {Container, Grid} from "@mui/material";
+import {AlertToast} from "../../Componetns/Modals/Toasts/AlertToast";
 
 let stompClient = new StompClient();
 
@@ -43,7 +44,7 @@ function ChatView (props) {
                     </div>
                 </Grid>
                 <Grid item xs={12} md={9}>
-                    <div className="chat p-2">
+                    <div className="chat">
                         <TopHeaderView/>
                         <NameView />
                         <MessageView stomp={stompClient}/>
@@ -53,6 +54,7 @@ function ChatView (props) {
             </Grid>
         </Container>
         {/*<ToastV1 msg={errMsg} isShow={showError}/>*/}
+       <AlertToast text={errMsg} open={showError} success={false}/>
     </div>   
   );
 }
