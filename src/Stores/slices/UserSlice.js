@@ -90,7 +90,6 @@ export const userSlice = createSlice({
                 rejectRequestData({state, action});
             });
     },
-
 });
 
 /*
