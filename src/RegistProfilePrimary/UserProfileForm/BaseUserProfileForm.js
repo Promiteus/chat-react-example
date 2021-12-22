@@ -22,14 +22,7 @@ export default function BaseUserProfileForm() {
 
     const onRegisterUser = () => {
         console.log(`credentials: ${JSON.stringify(credentials)} userProfile: ${JSON.stringify(userProfile)} `);
-        dispatch(regUserAsync({
-            username: credentials.username,
-            password: credentials.password,
-            firstName: userProfile.firstName,
-            birthDate: userProfile.birthDate,
-            meetPreferences: userProfile.meetPreferences,
-            sex: "MAN"}
-       ));
+
     }
 
     return(
