@@ -1,37 +1,42 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {authenticateUset, registrateUser} from "../api/AuthApi/AuthApi";
 
+
 export const authUserAsync = createAsyncThunk(
     'auth/user',
     async (data) => {
-        const response = await authenticateUset(data);
-        return response.data;
-    }
+        return await authenticateUset(data);
+     }
 );
 
 export const regUserAsync = createAsyncThunk(
-    'auth/add_user',
+    'auth/addUser',
     async (data) => {
-        const response = await registrateUser(data);
-        return response.data;
-    }
+        return await registrateUser(data);
+     }
 );
 
 
 export const userSlice = createSlice({
     name: 'user',
     initialState: {
-        token: '',
-        token_expire_sec: '',
-        user_id: '',
+        response: {},
+        status: 0,
     },
-    reducers: {
-        setDefaultUser: (state, action) => {
-            state = action.payload;
-        }
-    }
+    reducers: {},
+    extraReducers: (builder) => {
+        builder
+            .addCase(authUserAsync.fulfilled, (state, action) => {
+               // console.log("action: "+JSON.stringify(action));
+                state.response = action.payload.data;
+                state.status = action.payload.status;
+            });
+    },
 
 });
+
+/*
+* */
 
 export const selectUser = (state) => state.user;
 export const {setDefaultUser} = userSlice.actions;

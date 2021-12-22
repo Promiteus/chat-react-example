@@ -1,18 +1,30 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import { Link } from "react-router-dom";
 import KeySvg from "../Svg/KeySvg";
 import "./SignIn.css"
 import {Button, FormControl, Input, InputLabel} from "@mui/material";
 import PersonSvg from "../Svg/PersonSvg";
+import {useDispatch, useSelector} from "react-redux";
+import {authUserAsync, selectUser} from "../Stores/slices/UserSlice";
 
 
 export default function SignIn()  {
     const [credential] = useState({login: '', password: ''});
-
+    const dispatch = useDispatch();
+    const {response, status} = useSelector(selectUser)
     const {login, password} = credential;
+
+    useEffect(() => {
+        console.log("status: "+status);
+        console.log("response: "+JSON.stringify(response));
+    });
 
     function SignInClick() {
        console.log(`inputPassword: ${password} inputLogin: ${login}`);
+       dispatch(authUserAsync({
+           username: "rom3889@yandex.ru",
+           password: "03045995"
+       }));
     }
 
     return (

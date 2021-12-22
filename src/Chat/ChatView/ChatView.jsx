@@ -19,18 +19,20 @@ function ChatView (props) {
 
   let users = user_accounts;
 
-  useEffect(() => {    
-    stompClient.connect();
+  useEffect(() => {
+      if (stompClient) {
+          stompClient.connect();
 
-    stompClient.connectionError = (error) => {
-       setErrMsg(error);
-       setShowError(true);
-       setInterval(() => {setShowError(false)}, 5000);
-    }
-
-
+          stompClient.connectionError = (error) => {
+              setErrMsg(error);
+              setShowError(true);
+              setInterval(() => {setShowError(false)}, 5000);
+          }
+      }
     return () => {
-      stompClient.disconnect();  
+          if (stompClient) {
+              stompClient.disconnect();
+          }
     }
   }, [])
 
