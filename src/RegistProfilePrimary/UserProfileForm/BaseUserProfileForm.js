@@ -3,18 +3,33 @@ import {Button, FormControl, InputLabel, MenuItem, Select, TextField} from "@mui
 import "./BaseUserProfileForm.css"
 import {Link} from "react-router-dom";
 import ArrowLeftSvg from "../../Svg/ArrowLeftSvg";
+import {useDispatch, useSelector} from "react-redux";
+import {regUserAsync, selectUser} from "../../Stores/slices/UserSlice";
 
 export default function BaseUserProfileForm() {
     const [credentials] = useState({username: '', password: ''});
-    const [userProfile] = useState({ firstName: '', birthDate: '', meetPreferences: ''})
+    const [userProfile] = useState({ firstName: '', birthDate: '', meetPreferences: ''});
+    const dispatch = useDispatch();
+    const {response, status, error, loading} = useSelector(selectUser);
 
 
     useEffect(() => {
-
+        console.log("status: "+status);
+        console.log("loading: "+loading);
+        console.log("response: "+JSON.stringify(response));
+        console.log("error: "+error);
     })
 
     const onRegisterUser = () => {
         console.log(`credentials: ${JSON.stringify(credentials)} userProfile: ${JSON.stringify(userProfile)} `);
+        dispatch(regUserAsync({
+            username: credentials.username,
+            password: credentials.password,
+            firstName: userProfile.firstName,
+            birthDate: userProfile.birthDate,
+            meetPreferences: userProfile.meetPreferences,
+            sex: "MAN"}
+       ));
     }
 
     return(

@@ -1,4 +1,5 @@
 import axios from "axios";
+import {saveUserProfile} from "../ChatDataApi/ChatDataApi";
 
 const baseUrl = 'http://localhost:8081';
 
@@ -7,7 +8,7 @@ const baseUrl = 'http://localhost:8081';
  * @param data
  * @returns {Promise<AxiosResponse<any>>}
  */
-export function authenticateUset(data) {
+export function authenticateUser(data) {
     return axios.post(baseUrl+'/login', data, {headers: { "Content-Type": "application/json" } });
 }
 
@@ -18,6 +19,36 @@ export function authenticateUset(data) {
  */
 export function registrateUser(data) {
     return axios.post(baseUrl+'/api/user', data, {headers: {"Content-Type:": "application/json"}});
+}
+
+/**
+ *
+ * @param username
+ * @param password
+ * @param firstName
+ * @param birthDate
+ * @param meetPreferences
+ * @param sex
+ * @returns {Promise<AxiosResponse<*>>}
+ */
+export function fullRegistration({username, password, firstName, birthDate, meetPreferences, sex}) {
+   return registrateUser({username, password})
+        .then((res) => authenticateUser({username, password}))
+        .then((res) => (saveUserProfile({
+            id: res.data.user_id,
+            firstName: firstName,
+            lastName: "",
+            birthDate: birthDate,
+            height: 176,
+            weight: 65,
+            aboutMe: "Обо мне любая инфа",
+            kids: 0,
+            familyStatus: "SINGLE",
+            rank: 1400,
+            meetPreferences: meetPreferences,
+            sexOrientation: "HETERO",
+            sex: sex
+        })));
 }
 
 

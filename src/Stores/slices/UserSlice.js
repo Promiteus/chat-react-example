@@ -1,18 +1,35 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import {authenticateUset, registrateUser} from "../api/AuthApi/AuthApi";
+import {authenticateUser, registrateUser} from "../api/AuthApi/AuthApi";
+import {saveUserProfile} from "../api/ChatDataApi/ChatDataApi";
 
 
 export const authUserAsync = createAsyncThunk(
     'auth/user',
     async (data) => {
-        return await authenticateUset(data);
+        return await authenticateUser(data);
      }
 );
 
 export const regUserAsync = createAsyncThunk(
     'auth/addUser',
-    async (data) => {
-        return await registrateUser(data);
+    async ({username, password, firstName, birthDate, meetPreferences, sex}) => {
+        return await registrateUser({username, password})
+            .then((res) => authenticateUser({username, password}))
+            .then((res) => (saveUserProfile({
+                id: res.data.user_id,
+                firstName: firstName,
+                lastName: "",
+                birthDate: birthDate,
+                height: 176,
+                weight: 65,
+                aboutMe: "Обо мне любая инфа",
+                kids: 0,
+                familyStatus: "SINGLE",
+                rank: 1400,
+                meetPreferences: meetPreferences,
+                sexOrientation: "HETERO",
+                sex: sex
+        })));
      }
 );
 
@@ -49,8 +66,11 @@ const rejectRequestData = ({state, action}) => {
         state.response = {};
         if (action.error.message) {
             state.status = action.error.message.match(/[0-9]+/);
+        } else if (action.payload) {
+            state.status = action.payload.status;
+            state.error = action.payload.error;
         } else {
-            state.status = 0
+            state.status = 0;
         }
         state.loading = 'idle'
         state.currentRequestId = undefined
