@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Snackbar} from "@mui/material";
-import {Alert} from "@mui/lab";
+import {Alert} from "@mui/material";
 
 export function AlertToast({open, text, success}) {
     const [isOpen, setOpen] = useState(false);
