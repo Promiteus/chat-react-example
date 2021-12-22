@@ -6,24 +6,27 @@ import {Button, FormControl, Input, InputLabel} from "@mui/material";
 import PersonSvg from "../Svg/PersonSvg";
 import {useDispatch, useSelector} from "react-redux";
 import {authUserAsync, selectUser} from "../Stores/slices/UserSlice";
+import {AlertToast} from "../Componetns/Modals/Toasts/AlertToast";
+import {getNotificationMsg} from "../Stores/api/AuthApi/AuthApi";
 
 
 export default function SignIn()  {
     const [credential] = useState({login: '', password: ''});
     const dispatch = useDispatch();
-    const {response, status} = useSelector(selectUser)
-    const {login, password} = credential;
+    const {response, status, error} = useSelector(selectUser);
+
 
     useEffect(() => {
         console.log("status: "+status);
         console.log("response: "+JSON.stringify(response));
+        console.log("error: "+error);
     });
 
     function SignInClick() {
-       console.log(`inputPassword: ${password} inputLogin: ${login}`);
+       //console.log(`inputPassword: ${credential.password} inputLogin: ${credential.login}`);
        dispatch(authUserAsync({
-           username: "rom3889@yandex.ru",
-           password: "03045995"
+           username: credential.login,
+           password: credential.password
        }));
     }
 
@@ -75,6 +78,7 @@ export default function SignIn()  {
                  </div>
                     
              </div>
+            <AlertToast text={getNotificationMsg(status)} open={(status !== 0) && (status !== 200)} success={false}/>
         </div>
     );
 }

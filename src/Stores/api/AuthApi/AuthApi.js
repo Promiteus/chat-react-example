@@ -19,3 +19,17 @@ export function authenticateUset(data) {
 export function registrateUser(data) {
     return axios.post(baseUrl+'/api/user', data, {headers: {"Content-Type:": "application/json"}});
 }
+
+
+/**
+ * Уведомление при не 200 статусе
+ * @param stat Number
+ * @returns {string}
+ */
+export function getNotificationMsg(stat) {
+    if (+stat === 403) {
+        return `Неверный логин или пароль. Код ${+stat}`;
+    } else if (+stat !== 200) {
+        return `Что-то пошло не так!`;
+    }
+}
