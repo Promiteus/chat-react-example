@@ -13,11 +13,12 @@ import {getNotificationMsg} from "../Stores/api/AuthApi/AuthApi";
 export default function SignIn()  {
     const [credential] = useState({login: '', password: ''});
     const dispatch = useDispatch();
-    const {response, status, error} = useSelector(selectUser);
+    const {response, status, error, loading} = useSelector(selectUser);
 
 
     useEffect(() => {
         console.log("status: "+status);
+        console.log("loading: "+loading);
         console.log("response: "+JSON.stringify(response));
         console.log("error: "+error);
     });
