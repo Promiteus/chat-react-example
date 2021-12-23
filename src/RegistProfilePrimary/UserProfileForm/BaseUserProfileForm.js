@@ -5,6 +5,7 @@ import {Link} from "react-router-dom";
 import ArrowLeftSvg from "../../Svg/ArrowLeftSvg";
 import {useDispatch, useSelector} from "react-redux";
 import {regUserAsync, selectUser} from "../../Stores/slices/UserSlice";
+import {fullRegistration} from "../../Stores/api/AuthApi/AuthApi";
 
 export default function BaseUserProfileForm() {
     const [credentials] = useState({username: '', password: ''});
@@ -23,6 +24,16 @@ export default function BaseUserProfileForm() {
     const onRegisterUser = () => {
         console.log(`credentials: ${JSON.stringify(credentials)} userProfile: ${JSON.stringify(userProfile)} `);
 
+        fullRegistration({
+            username: credentials.username,
+            password: credentials.password,
+            firstName: userProfile.firstName,
+            birthDate: userProfile.birthDate,
+            meetPreferences: userProfile.meetPreferences,
+            sex: 'MAN',
+        }).then((res) => {console.log("Answer : "+JSON.stringify(res.data))}).catch((error) => {
+            console.log("fullRegistration error: "+error);
+        });
     }
 
     return(

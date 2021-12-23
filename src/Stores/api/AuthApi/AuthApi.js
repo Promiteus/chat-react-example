@@ -9,7 +9,7 @@ const baseUrl = 'http://localhost:8081';
  * @returns {Promise<AxiosResponse<any>>}
  */
 export function authenticateUser(data) {
-    return axios.post(baseUrl+'/login', data, {headers: { "Content-Type": "application/json" } });
+    return axios.post(baseUrl+'/login', data, {headers: { contentType: "application/json" } });
 }
 
 /**
@@ -18,7 +18,7 @@ export function authenticateUser(data) {
  * @returns {Promise<AxiosResponse<any>>}
  */
 export function registrateUser(data) {
-    return axios.post(baseUrl+'/api/user', data, {headers: {"Content-Type:": "application/json"}});
+    return axios.post(baseUrl+'/api/user', data, {headers: { contentType: "application/json"}});
 }
 
 /**
@@ -31,8 +31,8 @@ export function registrateUser(data) {
  * @param sex
  * @returns {Promise<AxiosResponse<*>>}
  */
-export function fullRegistration({username, password, firstName, birthDate, meetPreferences, sex}) {
-   return registrateUser({username, password})
+export async function fullRegistration({username, password, firstName, birthDate, meetPreferences, sex}) {
+   return await registrateUser({username, password})
         .then((res) => authenticateUser({username, password}))
         .then((res) => (saveUserProfile({
             id: res.data.user_id,
@@ -48,7 +48,7 @@ export function fullRegistration({username, password, firstName, birthDate, meet
             meetPreferences: meetPreferences,
             sexOrientation: "HETERO",
             sex: sex
-        })));
+        }, res.data.token)));
 }
 
 

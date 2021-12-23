@@ -18,27 +18,38 @@ let userProfile = {
 
 const baseUrl = 'http://localhost:8090';
 
-function getHeaderConfigs(contentType, userId) {
-    let token = localStorage.getItem(userId);
-    return { headers: { "Content-Type": contentType,  "Authorization" : `Bearer ${token}`}};
+function getHeaderConfigs(contentType, userId, token) {
+    return { headers: { contentType: contentType,  authorization : `Bearer ${token}`}};
 }
 
 /**
  * Сохранить/изменить профиль пользователя
  * @param profile
+ * @param token
  * @returns {Promise<AxiosResponse<any>>}
  */
-export function saveUserProfile(profile) {
-    return axios.post(baseUrl+'/api/user_profile', profile, getHeaderConfigs("application/json", profile.id));
+export function saveUserProfile(profile, token) {
+    return axios.post(`${baseUrl}/api/user_profile`, profile, getHeaderConfigs("application/json", profile.id, token));
+}
+
+/**
+ * Удалить профиль пользователя
+ * @param userId
+ * @param token
+ * @returns {Promise<AxiosResponse<any>>}
+ */
+export function removeUserProfile(userId, token) {
+    return axios.delete(`${baseUrl}/api/user_profile/${userId}`,  getHeaderConfigs("application/json", userId, token))
 }
 
 /**
  * Получить профиль пользователя по userId
  * @param userId
+ * @param token
  * @returns {Promise<AxiosResponse<any>>}
  */
-export function getUserProfile(userId) {
-    return axios.get(baseUrl+'/api/user_profile/'+userId,getHeaderConfigs("application/json", userId));
+export function getUserProfile(userId, token) {
+    return axios.get(`${baseUrl}/api/user_profile/${userId}`,getHeaderConfigs("application/json", userId, token));
 }
 
 
