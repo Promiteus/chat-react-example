@@ -7,7 +7,7 @@ import PersonSvg from "../Svg/PersonSvg";
 import {useDispatch, useSelector} from "react-redux";
 import {authUserAsync, selectUser} from "../Stores/slices/UserSlice";
 import {AlertToast} from "../Componetns/Modals/Toasts/AlertToast";
-import {getNotificationMsg} from "../Stores/api/AuthApi/AuthApi";
+import {getNotificationMsg, TOKEN_KEY} from "../Stores/api/AuthApi/AuthApi";
 
 
 export default function SignIn()  {
@@ -17,10 +17,21 @@ export default function SignIn()  {
 
 
     useEffect(() => {
-        console.log("status: "+status);
+        //Обновить токен авторизации
+        if (response?.token) {
+            localStorage.setItem(TOKEN_KEY, response?.token);
+        }
+
+        console.log("signup token: "+localStorage.getItem(TOKEN_KEY));
+
+        /*console.log("status: "+status);
         console.log("loading: "+loading);
         console.log("response: "+JSON.stringify(response));
         console.log("error: "+error);
+        console.log("token: "+response?.token);
+
+
+        */
     });
 
     function SignInClick() {
@@ -79,7 +90,7 @@ export default function SignIn()  {
                  </div>
                     
              </div>
-            <AlertToast text={getNotificationMsg(status)} open={(status !== 0) && (status !== 200)} success={false}/>
+            <AlertToast text={getNotificationMsg(status)} open={(+status !== 0) && (+status !== 200)} success={false}/>
         </div>
     );
 }

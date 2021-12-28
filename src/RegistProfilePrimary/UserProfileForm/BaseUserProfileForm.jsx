@@ -6,6 +6,27 @@ import ArrowLeftSvg from "../../Svg/ArrowLeftSvg";
 import {useDispatch, useSelector} from "react-redux";
 import {regUserAsync, selectUser} from "../../Stores/slices/UserSlice";
 import { TOKEN_KEY} from "../../Stores/api/AuthApi/AuthApi";
+import {AlertToast} from "../../Componetns/Modals/Toasts/AlertToast";
+import {SOMETHING_WENT_WRONG, StrFormatter, SUCH_USER_EXISTS} from "../../Constants/TextMessagesRu";
+
+/**
+ * status = 409 - такой пользователь уже есть !
+ * status = 202 - success
+ * response = {
+ * "id":"ff8081817e006c52017e007000130000",
+ * "firstName":"Roman",
+ * "lastName":"",
+ * "birthDate":null,
+ * "height":176,
+ * "weight":65,
+ * "aboutMe":"Обо мне любая инфа",
+ * "kids":0,
+ * "familyStatus":"SINGLE",
+ * "rank":1400,
+ * "sexOrientation":"HETERO",
+ * "meetPreferences":"ALL",
+ * "sex":"MAN"}
+ * */
 
 export default function BaseUserProfileForm({sex}) {
     const [credentials] = useState({username: '', password: ''});
@@ -13,19 +34,22 @@ export default function BaseUserProfileForm({sex}) {
     const dispatch = useDispatch();
     const {response, status, error, loading} = useSelector(selectUser);
 
-
     useEffect(() => {
-        console.log("status: "+status);
+        /*console.log("status: "+status);
         console.log("loading: "+loading);
         console.log("response: "+JSON.stringify(response));
-        console.log("error: "+error);
+        console.log("error: "+error);*/
 
-        console.log("jwt token: "+localStorage.getItem(TOKEN_KEY));
+
+        if ((+status === 202) && (response?.id)) {
+
+        }
     })
 
     const onRegisterUser = () => {
         console.log(`credentials: ${JSON.stringify(credentials)} userProfile: ${JSON.stringify(userProfile)} `);
 
+        //Попытка зарегистрировать пользователя
         dispatch(regUserAsync({
             username: credentials.username,
             password: credentials.password,
@@ -133,7 +157,11 @@ export default function BaseUserProfileForm({sex}) {
                 </div>
                 <Button onClick={onRegisterUser} className="mt-3" variant="outlined">Регистрация</Button>
             </div>
-
+            <AlertToast
+                text={(+status === 409) ? SUCH_USER_EXISTS : SOMETHING_WENT_WRONG}
+                open={(+status !== 202) && (+status !== 0)}
+                success={false}/>
         </div>
+
     );
 }
