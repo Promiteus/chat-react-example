@@ -1,6 +1,5 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import {authenticateUser, registrateUser} from "../api/AuthApi/AuthApi";
-import {saveUserProfile} from "../api/ChatDataApi/ChatDataApi";
+import {authenticateUser, fullRegistration, registrateUser} from "../api/AuthApi/AuthApi";
 
 
 export const authUserAsync = createAsyncThunk(
@@ -13,23 +12,14 @@ export const authUserAsync = createAsyncThunk(
 export const regUserAsync = createAsyncThunk(
     'auth/addUser',
     async ({username, password, firstName, birthDate, meetPreferences, sex}) => {
-        return await registrateUser({username, password})
-            .then((res) => authenticateUser({username, password}))
-            .then((res) => (saveUserProfile({
-                id: res.data.user_id,
-                firstName: firstName,
-                lastName: "",
-                birthDate: birthDate,
-                height: 176,
-                weight: 65,
-                aboutMe: "Обо мне любая инфа",
-                kids: 0,
-                familyStatus: "SINGLE",
-                rank: 1400,
-                meetPreferences: meetPreferences,
-                sexOrientation: "HETERO",
-                sex: sex
-        })));
+        return await fullRegistration({
+            username: username,
+            password: password,
+            firstName: firstName,
+            birthDate: birthDate,
+            meetPreferences: meetPreferences,
+            sex: sex
+        });
      }
 );
 
@@ -65,7 +55,7 @@ const rejectRequestData = ({state, action}) => {
         state.error = action.error.message;
         state.response = {};
         if (action.error.message) {
-            state.status = action.error.message.match(/[0-9]+/);
+            state.status = action.error.message?.match(/[0-9]+/);
         } else if (action.payload) {
             state.status = action.payload.status;
             state.error = action.payload.error;

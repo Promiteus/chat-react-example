@@ -5,11 +5,11 @@ import {Link} from "react-router-dom";
 import ArrowLeftSvg from "../../Svg/ArrowLeftSvg";
 import {useDispatch, useSelector} from "react-redux";
 import {regUserAsync, selectUser} from "../../Stores/slices/UserSlice";
-import {fullRegistration} from "../../Stores/api/AuthApi/AuthApi";
+import { TOKEN_KEY} from "../../Stores/api/AuthApi/AuthApi";
 
-export default function BaseUserProfileForm() {
+export default function BaseUserProfileForm({sex}) {
     const [credentials] = useState({username: '', password: ''});
-    const [userProfile] = useState({ firstName: '', birthDate: '', meetPreferences: ''});
+    const [userProfile] = useState({ firstName: '', birthDate: '', meetPreferences: 'ALL', sex: sex});
     const dispatch = useDispatch();
     const {response, status, error, loading} = useSelector(selectUser);
 
@@ -19,21 +19,21 @@ export default function BaseUserProfileForm() {
         console.log("loading: "+loading);
         console.log("response: "+JSON.stringify(response));
         console.log("error: "+error);
+
+        console.log("jwt token: "+localStorage.getItem(TOKEN_KEY));
     })
 
     const onRegisterUser = () => {
         console.log(`credentials: ${JSON.stringify(credentials)} userProfile: ${JSON.stringify(userProfile)} `);
 
-        fullRegistration({
+        dispatch(regUserAsync({
             username: credentials.username,
             password: credentials.password,
             firstName: userProfile.firstName,
             birthDate: userProfile.birthDate,
             meetPreferences: userProfile.meetPreferences,
-            sex: 'MAN',
-        }).then((res) => {console.log("Answer : "+JSON.stringify(res.data))}).catch((error) => {
-            console.log("fullRegistration error: "+error);
-        });
+            sex: userProfile.sex,
+        }));
     }
 
     return(
@@ -70,7 +70,7 @@ export default function BaseUserProfileForm() {
                        label="Ваш день рождения"
                        type="date"
                        onChange={(e) => {userProfile.birthDate = (e.target.value)}}
-                       defaultValue="2017-05-24"
+                       defaultValue="1987-05-22"
                        fullWidth={true}
                        variant="standard"
                        InputLabelProps={{
@@ -79,13 +79,14 @@ export default function BaseUserProfileForm() {
                    />
                 </div>
                 <div className="d-flex justify-content-center align-content-center">
-                    <FormControl fullWidth={true} variant="standard" sx={{ m: 1, minWidth: 120 }}>
+                    <FormControl fullWidth={true} variant="standard" sx={{ minWidth: 120 }}>
                         <InputLabel id="sexual-preference">С кем знакомитесь?</InputLabel>
                         <Select
                             labelId="demo-simple-select-standard-label"
                             id="sexual-preference-list"
                             fullWidth={true}
-                            defaultValue={'WOMAN'}
+                            value={userProfile.meetPreferences}
+                            //defaultValue={'WOMAN'}
                             onChange={(e) => {console.log(e.target.value); userProfile.meetPreferences = e.target.value;}}
                             label="С кем знакомитесь?">
                               <MenuItem value={'MAN'}>Мужчины</MenuItem>
