@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from "react";
 import {Button, FormControl, InputLabel, MenuItem, Select, TextField} from "@mui/material";
 import "./BaseUserProfileForm.css"
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import ArrowLeftSvg from "../../Svg/ArrowLeftSvg";
 import {useDispatch, useSelector} from "react-redux";
 import {regUserAsync, selectUser} from "../../Stores/slices/UserSlice";
-import { TOKEN_KEY} from "../../Stores/api/AuthApi/AuthApi";
 import {AlertToast} from "../../Componetns/Modals/Toasts/AlertToast";
 import {SOMETHING_WENT_WRONG, StrFormatter, SUCH_USER_EXISTS} from "../../Constants/TextMessagesRu";
 
@@ -33,16 +32,11 @@ export default function BaseUserProfileForm({sex}) {
     const [userProfile] = useState({ firstName: '', birthDate: '', meetPreferences: 'ALL', sex: sex});
     const dispatch = useDispatch();
     const {response, status, error, loading} = useSelector(selectUser);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        /*console.log("status: "+status);
-        console.log("loading: "+loading);
-        console.log("response: "+JSON.stringify(response));
-        console.log("error: "+error);*/
-
-
-        if ((+status === 202) && (response?.id)) {
-
+        if ((+status === 202) && (response?.id?.toString().length > 0)) {
+            navigate('/', response);
         }
     })
 
