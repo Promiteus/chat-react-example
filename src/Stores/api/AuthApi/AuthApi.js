@@ -56,15 +56,4 @@ export async function fullRegistration({username, password, firstName, birthDate
 }
 
 
-/**
- * Уведомление при не 200 статусе
- * @param stat Number
- * @returns {string}
- */
-export function getNotificationMsg(stat) {
-    if (+stat === 403) {
-        return `Неверный логин или пароль. Код ${+stat}`;
-    } else if (+stat !== 200) {
-        return `Что-то пошло не так!`;
-    }
-}
+

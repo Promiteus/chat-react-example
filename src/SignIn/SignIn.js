@@ -7,7 +7,8 @@ import PersonSvg from "../Svg/PersonSvg";
 import {useDispatch, useSelector} from "react-redux";
 import {authUserAsync, selectUser} from "../Stores/slices/UserSlice";
 import {AlertToast} from "../Componetns/Modals/Toasts/AlertToast";
-import {getNotificationMsg, TOKEN_KEY} from "../Stores/api/AuthApi/AuthApi";
+import {TOKEN_KEY} from "../Stores/api/AuthApi/AuthApi";
+import {getNotificationMsg} from "../Constants/TextMessagesRu";
 
 
 export default function SignIn()  {
@@ -16,15 +17,21 @@ export default function SignIn()  {
     const {response, status, error, loading } = useSelector(selectUser);
     const navigator = useNavigate();
 
+    const openAlert = () => (((+status !== 0) && (+status !== 200) && (credential.login)) || (status === null));
+
     useEffect(() => {
         //Обновить токен авторизации
         if (response?.token) {
             localStorage.setItem(TOKEN_KEY, response?.token);
         }
 
+        //console.log("status: "+status)
+
         if ((+status === 200) && (response?.token) && (credential.login)) {
             //Перейти на главную страницу
             navigator(`/?userId=${response?.userId}`);
+        } else if ((+status === 404) && (credential.login)) {
+            navigator('/registration');
         }
     }, [status]);
 
@@ -84,7 +91,7 @@ export default function SignIn()  {
                  </div>
                     
              </div>
-            <AlertToast text={getNotificationMsg(status)} open={(+status !== 0) && (+status !== 200)} success={false}/>
+            <AlertToast text={getNotificationMsg(status)} open={openAlert} success={false}/>
         </div>
     );
 }

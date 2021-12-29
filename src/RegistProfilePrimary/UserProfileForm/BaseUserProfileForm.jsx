@@ -34,6 +34,8 @@ export default function BaseUserProfileForm({sex}) {
     const {response, status, error, loading} = useSelector(selectUser);
     const navigate = useNavigate();
 
+    const openAlert = () => (((+status !== 202) && (+status !== 0) && (credentials.username)) || (status === null));
+
     useEffect(() => {
         if ((+status === 202) && (response?.id?.toString().length > 0)) {
             navigate('/', response);
@@ -151,7 +153,7 @@ export default function BaseUserProfileForm({sex}) {
             </div>
             <AlertToast
                 text={(+status === 409) ? SUCH_USER_EXISTS : SOMETHING_WENT_WRONG}
-                open={(+status !== 202) && (+status !== 0)}
+                open={openAlert}
                 success={false}/>
         </div>
 
