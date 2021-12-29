@@ -12,7 +12,9 @@ import {Container, Grid} from "@mui/material";
 import {AlertToast} from "../../Componetns/Modals/Toasts/AlertToast";
 import {useDispatch, useSelector} from "react-redux";
 import {selectProfile, userProfileAsync} from "../../Stores/slices/UserProfileSlices";
-import {useLocation, useParams} from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
+import {deleteUserAccountAsync} from "../../Stores/slices/UserSlice";
+import {USER_ID_KEY} from "../../Stores/api/AuthApi/AuthApi";
 
 let stompClient = new StompClient();
 
@@ -26,17 +28,23 @@ function ChatView ({props}) {
   const {response, status, error, loading } = useSelector(selectProfile);
   const profileDispatch = useDispatch();
   const query = useQuery();
+  const navigate = useNavigate();
 
-  const userId = query.get("userId");
+  //Получить userId из параметра запроса или из локального хранилища.
+  const userId = query.get("userId") || localStorage.getItem(USER_ID_KEY);
 
   let users = user_accounts;
 
   //Реагирует на меняющийся статус запроса профиля пользователя
   useEffect(() => {
 
-      /*console.log("ChatView userId: "+userId);
-      console.log("ChatView status: "+status);*/
       console.log("ChatView response: "+JSON.stringify(response));
+      console.log("ChatView status: "+status);
+      console.log("localStorage.getItem(USER_ID_KEY): "+userId)
+
+      if ((+status === 404) && (response)) {
+           navigate('/registration');
+      }
 
   }, [status]);
 

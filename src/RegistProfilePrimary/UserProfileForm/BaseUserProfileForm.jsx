@@ -6,7 +6,8 @@ import ArrowLeftSvg from "../../Svg/ArrowLeftSvg";
 import {useDispatch, useSelector} from "react-redux";
 import {regUserAsync, selectUser} from "../../Stores/slices/UserSlice";
 import {AlertToast} from "../../Componetns/Modals/Toasts/AlertToast";
-import {SOMETHING_WENT_WRONG, StrFormatter, SUCH_USER_EXISTS} from "../../Constants/TextMessagesRu";
+import {SOMETHING_WENT_WRONG, SUCH_USER_EXISTS} from "../../Constants/TextMessagesRu";
+import {USER_ID_KEY} from "../../Stores/api/AuthApi/AuthApi";
 
 /**
  * status = 409 - такой пользователь уже есть !
@@ -38,7 +39,8 @@ export default function BaseUserProfileForm({sex}) {
 
     useEffect(() => {
         if ((+status === 202) && (response?.id?.toString().length > 0)) {
-            navigate('/', response);
+            localStorage.setItem(USER_ID_KEY, response?.id);
+            navigate(`/?userId=${response?.id}`, response);
         }
     })
 

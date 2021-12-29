@@ -25,12 +25,11 @@ export default function SignIn()  {
             localStorage.setItem(TOKEN_KEY, response?.token);
         }
 
-        //console.log("status: "+status)
-
         if ((+status === 200) && (response?.token) && (credential.login)) {
             //Перейти на главную страницу
             navigator(`/?userId=${response?.userId}`);
         } else if ((+status === 404) && (credential.login)) {
+            //Перейти на страницу регистрации
             navigator('/registration');
         }
     }, [status]);

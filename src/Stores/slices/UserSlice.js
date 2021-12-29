@@ -1,5 +1,5 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import {authenticateUser, fullRegistration } from "../api/AuthApi/AuthApi";
+import {authenticateUser, fullRegistration, removeFullUserAccountData} from "../api/AuthApi/AuthApi";
 import {fulfilledRequestData, initialRequestData, rejectRequestData} from "../api/Common/ApiCommon";
 
 
@@ -21,6 +21,13 @@ export const regUserAsync = createAsyncThunk(
             meetPreferences: meetPreferences,
             sex: sex
         });
+     }
+);
+
+export const deleteUserAccountAsync = createAsyncThunk(
+    'auth/deleteAccount',
+    async ({userId, isAccountOnly}) => {
+        return await removeFullUserAccountData({userId, isAccountOnly});
      }
 );
 
@@ -54,6 +61,16 @@ export const userSlice = createSlice({
                 fulfilledRequestData({state, action});
             })
             .addCase(regUserAsync.rejected, (state, action) => {
+                rejectRequestData({state, action});
+            })
+            //Полное удаление аккаунта пользователя из системы
+            .addCase(deleteUserAccountAsync.pending, (state, action) => {
+            initialRequestData({state, action});
+            })
+            .addCase(deleteUserAccountAsync.fulfilled, (state, action) => {
+                fulfilledRequestData({state, action});
+            })
+            .addCase(deleteUserAccountAsync.rejected, (state, action) => {
                 rejectRequestData({state, action});
             });
     },

@@ -18,7 +18,7 @@ let userProfile = {
 
 const baseUrl = 'http://localhost:8090';
 
-function getHeaderConfigs(contentType, userId, token) {
+export function getHeaderBearerConfigs(contentType, token) {
     return { headers: { contentType: contentType,  authorization : `Bearer ${token}`}};
 }
 
@@ -29,7 +29,7 @@ function getHeaderConfigs(contentType, userId, token) {
  * @returns {Promise<AxiosResponse<any>>}
  */
 export function saveUserProfile(profile, token) {
-    return axios.post(`${baseUrl}/api/user_profile`, profile, getHeaderConfigs("application/json", profile.id, token));
+    return axios.post(`${baseUrl}/api/user_profile`, profile, getHeaderBearerConfigs("application/json", token));
 }
 
 /**
@@ -39,7 +39,7 @@ export function saveUserProfile(profile, token) {
  * @returns {Promise<AxiosResponse<any>>}
  */
 export function removeUserProfile(userId, token) {
-    return axios.delete(`${baseUrl}/api/user_profile/${userId}`,  getHeaderConfigs("application/json", userId, token))
+    return axios.delete(`${baseUrl}/api/user_profile/${userId}`, getHeaderBearerConfigs("application/json", token))
 }
 
 /**
@@ -49,7 +49,7 @@ export function removeUserProfile(userId, token) {
  * @returns {Promise<AxiosResponse<any>>}
  */
 export function getUserProfile(userId, token) {
-    return axios.get(`${baseUrl}/api/user_profile/${userId}`,getHeaderConfigs("application/json", userId, token));
+    return axios.get(`${baseUrl}/api/user_profile/${userId}`, getHeaderBearerConfigs("application/json", token));
 }
 
 

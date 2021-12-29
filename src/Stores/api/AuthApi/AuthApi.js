@@ -1,8 +1,9 @@
 import axios from "axios";
-import {saveUserProfile} from "../ChatDataApi/ChatDataApi";
+import {getHeaderBearerConfigs, saveUserProfile} from "../ChatDataApi/ChatDataApi";
 
 const BASE_URL = 'http://localhost:8081';
 export const TOKEN_KEY = 'token';
+export const USER_ID_KEY = 'userId';
 
 /**
  * Получить JWT токен в обмен на логин и пароль
@@ -20,6 +21,17 @@ export function authenticateUser(data) {
  */
 export function registrateUser(data) {
     return axios.post(`${BASE_URL}/api/user`, data, {headers: { contentType: "application/json"}});
+}
+
+/**
+ * Удалить аккаунт пользователя из сервиса авторизации и сам профиль пользователя, если он есть
+ * @param userId
+ * @param isAccountOnly
+ * @returns {Promise<AxiosResponse<any>>}
+ */
+export function removeFullUserAccountData({userId, isAccountOnly}) {
+    let token = localStorage.getItem(TOKEN_KEY);
+    return axios.delete(`${BASE_URL}/api/user?user_id=${userId}&account_only=${isAccountOnly}`, getHeaderBearerConfigs("application/json", token))
 }
 
 /**

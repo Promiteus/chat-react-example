@@ -3,14 +3,16 @@ import { Link } from 'react-router-dom';
 import SelectSexForm from './SelectSexForm/SelectSexForm';
 import {Button} from "@mui/material";
 import BaseUserProfileForm from "./UserProfileForm/BaseUserProfileForm";
+import {useDispatch, useSelector} from "react-redux";
+import {deleteUserAccountAsync} from "../Stores/slices/UserSlice";
+import {USER_ID_KEY} from "../Stores/api/AuthApi/AuthApi";
+import {selectProfile} from "../Stores/slices/UserProfileSlices";
 
 
 function RegistProfilePrimary() {
     const [sex, setSex] = useState('');
-
-    useEffect(() => {
-       // console.log(sex);
-    }, [])
+    const userDispatch = useDispatch();
+    const { status, loading } = useSelector(selectProfile);
 
     return (
      <div className="">
@@ -20,7 +22,17 @@ function RegistProfilePrimary() {
 
          { (sex === '') ?
              <SelectSexForm
-                 onClick={(data) => {setSex(data.target.value)}}/> :
+                 onClick={(data) => {
+                     setSex(data.target.value);
+                     //Удалить аккаунт пользователя только из сервиса авторизации
+                     if (+status === 404) {
+                         userDispatch(deleteUserAccountAsync({
+                             userId: localStorage.getItem(USER_ID_KEY),
+                             isAccountOnly: true
+                         }));
+                     }
+
+                 }}/> :
              <BaseUserProfileForm sex={sex}/>
          }
      </div>
