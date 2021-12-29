@@ -41,8 +41,6 @@ export default function BaseUserProfileForm({sex}) {
     })
 
     const onRegisterUser = () => {
-        console.log(`credentials: ${JSON.stringify(credentials)} userProfile: ${JSON.stringify(userProfile)} `);
-
         //Попытка зарегистрировать пользователя
         dispatch(regUserAsync({
             username: credentials.username,

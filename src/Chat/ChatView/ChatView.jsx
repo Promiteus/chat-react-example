@@ -52,7 +52,6 @@ function ChatView (props) {
                 </Grid>
             </Grid>
         </Container>
-        {/*<ToastV1 msg={errMsg} isShow={showError}/>*/}
        <AlertToast text={errMsg} open={showError} success={false}/>
     </div>   
   );
