@@ -1,5 +1,6 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {authenticateUser, fullRegistration } from "../api/AuthApi/AuthApi";
+import {fulfilledRequestData, initialRequestData, rejectRequestData} from "../api/Common/ApiCommon";
 
 
 export const authUserAsync = createAsyncThunk(
@@ -23,57 +24,13 @@ export const regUserAsync = createAsyncThunk(
      }
 );
 
-const initialRequestData = ({state, action}) => {
-    if (state.loading === 'idle') {
-        state.loading = 'pending'
-        state.response = {};
-        state.status = 0;
-        state.currentRequestId = action.meta.requestId;
-    }
-}
-
-const fulfilledRequestData = ({state, action}) => {
-    const { requestId } = action.meta;
-    if (
-        (state.loading === 'pending') &&
-        (state.currentRequestId === requestId)
-    ) {
-        state.response = action.payload.data;
-        state.status = action.payload.status;
-        state.error = '';
-        state.currentRequestId = undefined;
-        state.loading = 'idle';
-    }
-}
-
-const rejectRequestData = ({state, action}) => {
-    const { requestId } = action.meta
-    if (
-        (state.loading === 'pending') &&
-        (state.currentRequestId === requestId)
-    ) {
-        state.error = action.error.message;
-        state.response = {};
-        if (action.error.message) {
-            state.status = action.error.message?.match(/[0-9]+/);
-        } else if (action.payload) {
-            state.status = action.payload.status;
-            state.error = action.payload.error;
-        } else {
-            state.status = 0;
-        }
-        state.loading = 'idle'
-        state.currentRequestId = undefined
-    }
-}
-
 export const userSlice = createSlice({
     name: 'user',
     initialState: {
         response: {},
         status: 0,
         error: '',
-        loading: 'idle',
+        loading: false,
         currentRequestId: undefined,
     },
     reducers: {},
