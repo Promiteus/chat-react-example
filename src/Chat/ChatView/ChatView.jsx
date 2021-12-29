@@ -10,28 +10,57 @@ import Userlist from "../Users/UserList/UserList";
 import {user_accounts} from "../TestData/TestConstants";
 import {Container, Grid} from "@mui/material";
 import {AlertToast} from "../../Componetns/Modals/Toasts/AlertToast";
+import {useDispatch, useSelector} from "react-redux";
+import {selectProfile, userProfileAsync} from "../../Stores/slices/UserProfileSlices";
+import {useLocation, useParams} from "react-router-dom";
 
 let stompClient = new StompClient();
 
-function ChatView (props) {
+function useQuery() {
+    return new URLSearchParams(useLocation().search);
+}
+
+function ChatView ({props}) {
   const [showError, setShowError] = useState(false);
   const [errMsg, setErrMsg] = useState('');
+  const {response, status, error, loading } = useSelector(selectProfile);
+  const profileDispatch = useDispatch();
+  const query = useQuery();
+
+  const userId = query.get("userId");
 
   let users = user_accounts;
 
+  //Реагирует на меняющийся статус запроса профиля пользователя
+  useEffect(() => {
+
+      /*console.log("ChatView userId: "+userId);
+      console.log("ChatView status: "+status);*/
+      console.log("ChatView response: "+JSON.stringify(response));
+
+  }, [status]);
+
+  //Реагирует однократно для userId
   useEffect(() => {
       stompClient?.connect();
 
       stompClient.connectionError = (error) => {
-              setErrMsg(error);
-              setShowError(true);
-              setInterval(() => {setShowError(false)}, 5000);
+          setErrMsg(error);
+          setShowError(true);
+          setInterval(() => {setShowError(false)}, 5000);
       }
 
-    return () => {
-        stompClient?.disconnect();
-    }
-  }, [])
+      if (userId) {
+          //Запросить данные профиля пользователя по userId
+          profileDispatch(userProfileAsync({userId}));
+      }
+
+      return () => {
+          stompClient?.disconnect();
+      }
+  }, [userId]);
+
+
 
   return (
     <div  className="d-flex justify-content-center flex-column">

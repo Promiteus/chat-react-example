@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import { Link } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import KeySvg from "../Svg/KeySvg";
 import "./SignIn.css"
 import {Button, FormControl, Input, InputLabel} from "@mui/material";
@@ -13,8 +13,8 @@ import {getNotificationMsg, TOKEN_KEY} from "../Stores/api/AuthApi/AuthApi";
 export default function SignIn()  {
     const [credential] = useState({login: '', password: ''});
     const dispatch = useDispatch();
-    const {response, status, error, loading} = useSelector(selectUser);
-
+    const {response, status, error, loading } = useSelector(selectUser);
+    const navigator = useNavigate();
 
     useEffect(() => {
         //Обновить токен авторизации
@@ -22,20 +22,14 @@ export default function SignIn()  {
             localStorage.setItem(TOKEN_KEY, response?.token);
         }
 
-        console.log("signup token: "+localStorage.getItem(TOKEN_KEY));
-
-        /*console.log("status: "+status);
-        console.log("loading: "+loading);
-        console.log("response: "+JSON.stringify(response));
-        console.log("error: "+error);
-        console.log("token: "+response?.token);
-
-
-        */
-    });
+        if ((+status === 200) && (response?.token) && (credential.login)) {
+            //Перейти на главную страницу
+            navigator(`/?userId=${response?.userId}`);
+        }
+    }, [status]);
 
     function SignInClick() {
-       //console.log(`inputPassword: ${credential.password} inputLogin: ${credential.login}`);
+       //Попытка войти в приложение
        dispatch(authUserAsync({
            username: credential.login,
            password: credential.password

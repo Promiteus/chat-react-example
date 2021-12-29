@@ -3,7 +3,7 @@ import {TOKEN_KEY} from "../api/AuthApi/AuthApi";
 import {getUserProfile, removeUserProfile} from "../api/ChatDataApi/ChatDataApi";
 import {fulfilledRequestData, initialRequestData, rejectRequestData} from "../api/Common/ApiCommon";
 
-export const userProfile = createAsyncThunk(
+export const userProfileAsync = createAsyncThunk(
    'profile/get',
    async ({userId}) => {
        let token = localStorage.getItem(TOKEN_KEY);
@@ -11,7 +11,7 @@ export const userProfile = createAsyncThunk(
    }
 );
 
-export const deleteProfile = createAsyncThunk(
+export const deleteProfileAsync = createAsyncThunk(
    'profile/delete',
    async ({userId}) => {
        let token = localStorage.getItem(TOKEN_KEY);
@@ -32,23 +32,23 @@ export const profileSlice = createSlice({
     extraReducers: (builder) => {
         builder
             //Получение профиль пользователя по userId и токену авторизации
-            .addCase(userProfile.pending, (state, action) => {
+            .addCase(userProfileAsync.pending, (state, action) => {
                 initialRequestData({state, action});
             })
-            .addCase(userProfile.fulfilled, (state, action) => {
+            .addCase(userProfileAsync.fulfilled, (state, action) => {
                 fulfilledRequestData({state, action});
             })
-            .addCase(userProfile.rejected, (state, action) => {
+            .addCase(userProfileAsync.rejected, (state, action) => {
                 rejectRequestData({state, action});
             })
             //Удалить профиль пользователя по userId и токену авторизации.
-            .addCase(deleteProfile.pending, (state, action) => {
+            .addCase(deleteProfileAsync.pending, (state, action) => {
                 initialRequestData({state, action});
             })
-            .addCase(deleteProfile.fulfilled, (state, action) => {
+            .addCase(deleteProfileAsync.fulfilled, (state, action) => {
                 fulfilledRequestData({state, action});
             })
-            .addCase(deleteProfile.rejected, (state, action) => {
+            .addCase(deleteProfileAsync.rejected, (state, action) => {
                 rejectRequestData({state, action});
             })
     }
