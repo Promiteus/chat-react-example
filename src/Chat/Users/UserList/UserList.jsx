@@ -23,7 +23,7 @@ export default function Userlist({users}) {
       <div className="UserList p-2">
           <div><h4>Анкеты</h4></div>
           {users.map((user) => {
-            return <div key={user.id} className="border-bottom border-1 border-dark">
+            return <div key={user.id} className="mt-1">
                   <Userprofile onClick={clickItem} selected={(selectedUser === user.id)} user={user}/>
               </div>
           })}

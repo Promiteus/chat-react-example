@@ -6,7 +6,6 @@ import TopHeaderView from '../TopHeaderView/TopHeaderView';
 import { StompClient } from '../Websocker/ws';
 import './ChatView.css'
 import Userlist from "../Users/UserList/UserList";
-import {user_accounts} from "../TestData/TestConstants";
 import {Container, Grid} from "@mui/material";
 import {AlertToast} from "../../Componetns/Modals/Toasts/AlertToast";
 import {useDispatch, useSelector} from "react-redux";
@@ -34,10 +33,10 @@ function ChatView ({props}) {
   //Получить userId из параметра запроса или из локального хранилища.
   const userId = !(query.get(USER_ID_KEY)) ? localStorage.getItem(USER_ID_KEY) : query.get(USER_ID_KEY);
 
-  let users = user_accounts;
 
   //Реагирует на меняющийся статус запроса профиля пользователя
   useEffect(() => {
+      console.log(JSON.stringify(response));
 
       if ((+status === 404) && !(response?.userProfile?.id) && (!loading)) {
           //Удалить аккаунт пользователя только из сервиса авторизации
@@ -80,7 +79,7 @@ function ChatView ({props}) {
             <Grid container spacing={1}>
                 <Grid item xs={12} md={3}>
                     <div className="users h-100">
-                        <Userlist users={users}/>
+                        <Userlist users={response?.lastVisitors || []}/>
                     </div>
                 </Grid>
                 <Grid item xs={12} md={9}>

@@ -1,6 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import RightChevron from "../../../../Svg/RightChevron";
 import './UserProfile.css';
+import {Avatar, Box, Typography} from "@mui/material";
+import {dateDiffYears} from "../../../../Componetns/DateHandlers";
+import {stringAvatar} from "../../../../Componetns/GraphicHandler";
 
 
 
@@ -13,25 +16,29 @@ export default function Userprofile({user, selected, onClick}) {
 
     const styles = {
         redBg: {
-            backgroundColor: select ? '#cff3a9': 'white',
+            backgroundColor: select ? '#d5e6f6': 'white',
+
         }
     }
 
     return (
-        <div className="UserProfile d-flex flex-row " style={styles.redBg} onClick={() => onClick({user})}>
-          <div className="border-dark border-1 d-flex p-1">
-              <img alt="" src="https://i.pinimg.com/originals/ff/a0/9a/ffa09aec412db3f54deadf1b3781de2a.png" width={40} height={40}/>
+        <Box sx={{'&:hover': { backgroundColor: 'primary.main', opacity: [0.9, 0.8, 0.7],}}}
+             className="d-flex flex-row "
+             style={styles.redBg}
+             onClick={() => onClick({user})}>
+          <div className="border-dark d-flex p-1">
+              <Avatar {...stringAvatar(`${user.firstName} ${user.lastName}`)} />
           </div>
           <div className="d-flex flex-row justify-content-between flex-grow-1">
               <div className="d-flex flex-column">
-                  <div><b>{user.name} {user.secondName}</b></div>
-                  <div>Возраст: {user.age}</div>
+                  <Typography variant={"subtitle1"}>{user.firstName} {user.lastName}</Typography>
+                  <Typography variant={"body2"}>Возраст: {dateDiffYears(user.birthDate, new Date().toDateString())}</Typography>
               </div>
               <div className="mt-2">
                   <RightChevron/>
               </div>
           </div>
-        </div>
+        </Box>
     );
 
 
