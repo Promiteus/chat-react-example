@@ -3,17 +3,11 @@ import { Link } from 'react-router-dom';
 import SelectSexForm from './SelectSexForm/SelectSexForm';
 import {Button} from "@mui/material";
 import BaseUserProfileForm from "./UserProfileForm/BaseUserProfileForm";
-import {useDispatch, useSelector} from "react-redux";
-import {selectProfile} from "../Stores/slices/UserProfileSlices";
-import Loader from "../Componetns/Loader/Loader";
+
 
 
 function RegistProfilePrimary() {
     const [sex, setSex] = useState('');
-    const userDispatch = useDispatch();
-    const { status, loading } = useSelector(selectProfile);
-
-    if (loading) return <Loader/>;
 
     return (
      <div className="">

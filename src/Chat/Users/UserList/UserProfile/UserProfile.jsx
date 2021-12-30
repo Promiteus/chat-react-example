@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import RightChevron from "../../../../Svg/RightChevron";
 import './UserProfile.css';
-import {Avatar, Box, Typography} from "@mui/material";
+import {Avatar, Box, Paper, Typography} from "@mui/material";
 import {dateDiffYears} from "../../../../Componetns/DateHandlers";
 import {stringAvatar} from "../../../../Componetns/GraphicHandler";
 
@@ -22,7 +22,7 @@ export default function Userprofile({user, selected, onClick}) {
     }
 
     return (
-        <Box sx={{'&:hover': { backgroundColor: 'primary.main', opacity: [0.9, 0.8, 0.7],}}}
+        <Paper elevation={2} sx={{'&:hover': { backgroundColor: 'primary.main', opacity: [0.9, 0.8, 0.7],}}}
              className="d-flex flex-row "
              style={styles.redBg}
              onClick={() => onClick({user})}>
@@ -38,7 +38,7 @@ export default function Userprofile({user, selected, onClick}) {
                   <RightChevron/>
               </div>
           </div>
-        </Box>
+        </Paper>
     );
 
 

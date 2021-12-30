@@ -15,7 +15,7 @@ import Loader from "../Componetns/Loader/Loader";
 export default function SignIn()  {
     const [credential] = useState({login: '', password: ''});
     const dispatch = useDispatch();
-    const {response, status, error, loading } = useSelector(selectUser);
+    const {response, status, loading } = useSelector(selectUser);
     const navigator = useNavigate();
 
     const openAlert = () => (((+status !== 0) && (+status !== 200) && (credential.login)) || (status === null));
@@ -68,6 +68,7 @@ export default function SignIn()  {
                                  <PersonSvg/>
                              </div>
                          }
+
                      />
                  </FormControl>
                  <FormControl variant="standard">
