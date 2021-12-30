@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-//import ToastV1 from '../Components/Toasts/ToastV1/ToastV1';
 import MessageSendView from '../MessageSendView/MessageSendView';
 import MessageView from '../MessageView/MessageView';
 import NameView from '../NameView/NameView';
@@ -11,10 +10,11 @@ import {user_accounts} from "../TestData/TestConstants";
 import {Container, Grid} from "@mui/material";
 import {AlertToast} from "../../Componetns/Modals/Toasts/AlertToast";
 import {useDispatch, useSelector} from "react-redux";
-import {selectProfile, userProfileAsync} from "../../Stores/slices/UserProfileSlices";
-import {useLocation, useNavigate, useParams} from "react-router-dom";
-import {deleteUserAccountAsync} from "../../Stores/slices/UserSlice";
+import {dropStatus, selectProfile, userProfileAsync} from "../../Stores/slices/UserProfileSlices";
+import {useLocation, useNavigate} from "react-router-dom";
 import {USER_ID_KEY} from "../../Stores/api/AuthApi/AuthApi";
+import Loader from "../../Componetns/Loader/Loader";
+import {deleteUserAccountAsync} from "../../Stores/slices/UserSlice";
 
 let stompClient = new StompClient();
 
@@ -30,26 +30,35 @@ function ChatView ({props}) {
   const query = useQuery();
   const navigate = useNavigate();
 
+
   //Получить userId из параметра запроса или из локального хранилища.
-  const userId = query.get("userId") || localStorage.getItem(USER_ID_KEY);
+  const userId = !(query.get(USER_ID_KEY)) ? localStorage.getItem(USER_ID_KEY) : query.get(USER_ID_KEY);
 
   let users = user_accounts;
 
   //Реагирует на меняющийся статус запроса профиля пользователя
   useEffect(() => {
 
-      console.log("ChatView response: "+JSON.stringify(response));
-      console.log("ChatView status: "+status);
-      console.log("localStorage.getItem(USER_ID_KEY): "+userId)
-
-      if ((+status === 404) && (response)) {
+      if ((+status === 404) && !(response?.userProfile?.id) && (!loading)) {
+          //Удалить аккаунт пользователя только из сервиса авторизации
+           profileDispatch(deleteUserAccountAsync({
+              userId: localStorage.getItem(USER_ID_KEY),
+              isAccountOnly: true
+           }));
            navigate('/registration');
+           //Сбросить статус на 0
+           profileDispatch(dropStatus());
       }
 
   }, [status]);
 
   //Реагирует однократно для userId
   useEffect(() => {
+      if (userId) {
+          //Запросить данные профиля пользователя по userId
+          profileDispatch(userProfileAsync({userId}));
+      }
+
       stompClient?.connect();
 
       stompClient.connectionError = (error) => {
@@ -58,17 +67,12 @@ function ChatView ({props}) {
           setInterval(() => {setShowError(false)}, 5000);
       }
 
-      if (userId) {
-          //Запросить данные профиля пользователя по userId
-          profileDispatch(userProfileAsync({userId}));
-      }
-
       return () => {
           stompClient?.disconnect();
       }
   }, [userId]);
 
-
+  if (loading) return <Loader/>;
 
   return (
     <div  className="d-flex justify-content-center flex-column">

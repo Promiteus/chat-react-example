@@ -28,7 +28,11 @@ export const profileSlice = createSlice({
         loading: false,
         currentRequestId: undefined,
     },
-    reducers: {},
+    reducers: {
+        dropStatus: (state) => {
+            state.status = 0;
+        }
+    },
     extraReducers: (builder) => {
         builder
             //Получение профиль пользователя по userId и токену авторизации
@@ -55,4 +59,5 @@ export const profileSlice = createSlice({
 });
 
 export const selectProfile = (state) => state.profile;
+export const {dropStatus} = profileSlice.actions;
 export default profileSlice.reducer;

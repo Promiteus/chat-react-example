@@ -35,7 +35,7 @@ export function removeFullUserAccountData({userId, isAccountOnly}) {
 }
 
 /**
- *
+ * Регистрация пользователя на сервере авторизации и создание профиля на сервисе данных пользователей
  * @param username
  * @param password
  * @param firstName

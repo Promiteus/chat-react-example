@@ -9,6 +9,7 @@ import {authUserAsync, selectUser} from "../Stores/slices/UserSlice";
 import {AlertToast} from "../Componetns/Modals/Toasts/AlertToast";
 import {TOKEN_KEY} from "../Stores/api/AuthApi/AuthApi";
 import {getNotificationMsg} from "../Constants/TextMessagesRu";
+import Loader from "../Componetns/Loader/Loader";
 
 
 export default function SignIn()  {
@@ -41,6 +42,8 @@ export default function SignIn()  {
            password: credential.password
        }));
     }
+
+    if (loading) return <Loader/>;
 
     return (
         <div className="container p-2 d-flex justify-content-center">            

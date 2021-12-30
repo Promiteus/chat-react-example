@@ -8,6 +8,7 @@ import {regUserAsync, selectUser} from "../../Stores/slices/UserSlice";
 import {AlertToast} from "../../Componetns/Modals/Toasts/AlertToast";
 import {SOMETHING_WENT_WRONG, SUCH_USER_EXISTS} from "../../Constants/TextMessagesRu";
 import {USER_ID_KEY} from "../../Stores/api/AuthApi/AuthApi";
+import Loader from "../../Componetns/Loader/Loader";
 
 /**
  * status = 409 - такой пользователь уже есть !
@@ -42,7 +43,9 @@ export default function BaseUserProfileForm({sex}) {
             localStorage.setItem(USER_ID_KEY, response?.id);
             navigate(`/?userId=${response?.id}`, response);
         }
-    })
+    });
+
+    if (loading) return <Loader/>;
 
     const onRegisterUser = () => {
         //Попытка зарегистрировать пользователя
