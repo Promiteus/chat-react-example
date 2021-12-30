@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import Userprofile from "./UserProfile/UserProfile";
-import {FormControl, IconButton, Input, InputBase, InputLabel, Paper, Typography} from "@mui/material";
+import {FormControl, Input, InputLabel, Paper, Typography} from "@mui/material";
 import {SearchSvg} from "../../../Svg";
-import PersonSvg from "../../../Svg/PersonSvg";
+
 
 /**
  *

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import RightChevron from "../../../../Svg/RightChevron";
 import './UserProfile.css';
-import {Avatar, Box, Paper, Typography} from "@mui/material";
+import {Avatar, Paper, Typography} from "@mui/material";
 import {dateDiffYears} from "../../../../Componetns/DateHandlers";
 import {stringAvatar} from "../../../../Componetns/GraphicHandler";
 

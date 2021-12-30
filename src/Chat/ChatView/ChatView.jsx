@@ -24,7 +24,7 @@ function useQuery() {
 function ChatView ({props}) {
   const [showError, setShowError] = useState(false);
   const [errMsg, setErrMsg] = useState('');
-  const {response, status, error, loading } = useSelector(selectProfile);
+  const {response, status, loading } = useSelector(selectProfile);
   const profileDispatch = useDispatch();
   const query = useQuery();
   const navigate = useNavigate();

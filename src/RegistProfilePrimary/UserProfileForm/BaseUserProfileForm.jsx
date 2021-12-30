@@ -33,7 +33,7 @@ export default function BaseUserProfileForm({sex}) {
     const [credentials] = useState({username: '', password: ''});
     const [userProfile] = useState({ firstName: '', birthDate: '', meetPreferences: 'ALL', sex: sex});
     const dispatch = useDispatch();
-    const {response, status, error, loading} = useSelector(selectUser);
+    const {response, status, loading} = useSelector(selectUser);
     const navigate = useNavigate();
 
     const openAlert = () => (((+status !== 202) && (+status !== 0) && (credentials.username)) || (status === null));
