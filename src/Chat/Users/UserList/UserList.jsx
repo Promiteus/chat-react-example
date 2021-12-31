@@ -2,20 +2,34 @@ import React, {useEffect, useState} from 'react';
 import Userprofile from "./UserProfile/UserProfile";
 import {FormControl, Input, InputLabel, Paper, Typography} from "@mui/material";
 import {SearchSvg} from "../../../Svg";
+import {useDispatch} from "react-redux";
+import {chatUserAsync} from "../../../Stores/slices/ChatSlice";
 
 
 /**
  *
  * @param users
+ * @param currentUserId
+ * @param page
  * @returns {JSX.Element}
  * @constructor
  */
-export default function Userlist({users}) {
+export default function Userlist({users, currentUserId, page}) {
     const [selectedUser, setSelectedUser] = useState(0);
+    const chatDispatch = useDispatch();
 
     function clickItem({user}) {
         console.log('clickItem: '+user.id);
         setSelectedUser(user.id);
+        if (user?.id) {
+            //Запросить переписку двух пользователей постранично
+            chatDispatch(chatUserAsync({
+                page: page,
+                size: 10,
+                userId: currentUserId,
+                fromUserId: user.id
+            }))
+        }
     }
 
     useEffect(() => {
@@ -45,11 +59,11 @@ export default function Userlist({users}) {
               </FormControl>
           </Paper>
 
-          {(users) ? users.map((user) => {
-            return <div key={user.id} className="mt-1">
+          {(users) ? users.map((user) => (
+                   <div key={user.id} className="mt-1">
                       <Userprofile onClick={clickItem} selected={(selectedUser === user.id)} user={user}/>
                    </div>
-          }) :
+              )) :
           <div><Typography variant={"h6"} className="text-center">Гостей нет</Typography></div>}
       </div>
     );

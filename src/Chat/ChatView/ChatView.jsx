@@ -36,8 +36,6 @@ function ChatView ({props}) {
 
   //Реагирует на меняющийся статус запроса профиля пользователя
   useEffect(() => {
-      console.log(JSON.stringify(response));
-
       if ((+status === 404) && !(response?.userProfile?.id) && (!loading)) {
           //Удалить аккаунт пользователя только из сервиса авторизации
            profileDispatch(deleteUserAccountAsync({
@@ -79,7 +77,7 @@ function ChatView ({props}) {
             <Grid container spacing={1}>
                 <Grid item xs={12} md={4}>
                     <div className="users h-100">
-                        <Userlist users={response?.lastVisitors || null}/>
+                        <Userlist users={response?.lastVisitors || null} currentUserId={userId} page={0}/>
                     </div>
                 </Grid>
                 <Grid item xs={12} md={8}>
