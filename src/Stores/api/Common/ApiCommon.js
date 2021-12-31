@@ -1,4 +1,19 @@
 
+const BASE_AUTH_URL = 'http://localhost:8081';
+const TOKEN_KEY = 'token';
+const USER_ID_KEY = 'userId';
+const BASE_DATA_URL = 'http://localhost:8090';
+
+/**
+ * Сформировать заголовок с токеном авторизации
+ * @param contentType
+ * @param token
+ * @returns {{headers: {authorization: string, contentType}}}
+ */
+function getHeaderBearerConfigs(contentType, token) {
+    return { headers: { contentType: contentType,  authorization : `Bearer ${token}`}};
+}
+
 const initialRequestData = ({state, action}) => {
     if (state.loading === false) {
         state.loading = true
@@ -47,4 +62,10 @@ export {
     initialRequestData,
     fulfilledRequestData,
     rejectRequestData,
+    BASE_AUTH_URL,
+    USER_ID_KEY,
+    TOKEN_KEY,
+    BASE_DATA_URL,
+    getHeaderBearerConfigs,
+
 }

@@ -7,9 +7,9 @@ import PersonSvg from "../Svg/PersonSvg";
 import {useDispatch, useSelector} from "react-redux";
 import {authUserAsync, selectUser} from "../Stores/slices/UserSlice";
 import {AlertToast} from "../Componetns/Modals/Toasts/AlertToast";
-import {TOKEN_KEY, USER_ID_KEY} from "../Stores/api/AuthApi/AuthApi";
 import {getNotificationMsg} from "../Constants/TextMessagesRu";
 import Loader from "../Componetns/Loader/Loader";
+import {TOKEN_KEY, USER_ID_KEY} from "../Stores/api/Common/ApiCommon";
 
 
 export default function SignIn()  {

@@ -1,7 +1,6 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import {TOKEN_KEY} from "../api/AuthApi/AuthApi";
 import {getUserProfile, removeUserProfile} from "../api/ChatDataApi/ChatDataApi";
-import {fulfilledRequestData, initialRequestData, rejectRequestData} from "../api/Common/ApiCommon";
+import {fulfilledRequestData, initialRequestData, rejectRequestData, TOKEN_KEY} from "../api/Common/ApiCommon";
 
 export const userProfileAsync = createAsyncThunk(
    'profile/get',

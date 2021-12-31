@@ -11,9 +11,9 @@ import {AlertToast} from "../../Componetns/Modals/Toasts/AlertToast";
 import {useDispatch, useSelector} from "react-redux";
 import {dropStatus, selectProfile, userProfileAsync} from "../../Stores/slices/UserProfileSlices";
 import {useLocation, useNavigate} from "react-router-dom";
-import {USER_ID_KEY} from "../../Stores/api/AuthApi/AuthApi";
 import Loader from "../../Componetns/Loader/Loader";
 import {deleteUserAccountAsync} from "../../Stores/slices/UserSlice";
+import {USER_ID_KEY} from "../../Stores/api/Common/ApiCommon";
 
 let stompClient = new StompClient();
 
@@ -41,7 +41,7 @@ function ChatView ({props}) {
       if ((+status === 404) && !(response?.userProfile?.id) && (!loading)) {
           //Удалить аккаунт пользователя только из сервиса авторизации
            profileDispatch(deleteUserAccountAsync({
-              userId: localStorage.getItem(USER_ID_KEY),
+              userId: userId,
               isAccountOnly: true
            }));
            navigate('/registration');

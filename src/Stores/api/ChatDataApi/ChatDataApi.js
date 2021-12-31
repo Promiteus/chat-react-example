@@ -1,26 +1,6 @@
 import axios from "axios";
+import {BASE_DATA_URL, getHeaderBearerConfigs} from "../Common/ApiCommon";
 
-let userProfile = {
-    id: '',
-    firstName: '',
-    lastName: '',
-    birthDate: '',
-    height: 0,
-    weight: 0,
-    aboutMe: '',
-    kids: 0,
-    familyStatus: 'SINGLE',
-    rank: 0,
-    sexOrientation: 'HETERO',
-    meetPreferences: 'WOMAN',
-    sex: 'MAN'
-}
-
-const baseUrl = 'http://localhost:8090';
-
-export function getHeaderBearerConfigs(contentType, token) {
-    return { headers: { contentType: contentType,  authorization : `Bearer ${token}`}};
-}
 
 /**
  * Сохранить/изменить профиль пользователя
@@ -29,7 +9,7 @@ export function getHeaderBearerConfigs(contentType, token) {
  * @returns {Promise<AxiosResponse<any>>}
  */
 export function saveUserProfile(profile, token) {
-    return axios.post(`${baseUrl}/api/user_profile`, profile, getHeaderBearerConfigs("application/json", token));
+    return axios.post(`${BASE_DATA_URL}/api/user_profile`, profile, getHeaderBearerConfigs("application/json", token));
 }
 
 /**
@@ -39,7 +19,7 @@ export function saveUserProfile(profile, token) {
  * @returns {Promise<AxiosResponse<any>>}
  */
 export function removeUserProfile(userId, token) {
-    return axios.delete(`${baseUrl}/api/user_profile/${userId}`, getHeaderBearerConfigs("application/json", token))
+    return axios.delete(`${BASE_DATA_URL}/api/user_profile/${userId}`, getHeaderBearerConfigs("application/json", token))
 }
 
 /**
@@ -49,11 +29,7 @@ export function removeUserProfile(userId, token) {
  * @returns {Promise<AxiosResponse<any>>}
  */
 export function getUserProfile(userId, token) {
-    return axios.get(`${baseUrl}/api/user_profile/${userId}`, getHeaderBearerConfigs("application/json", token));
+    return axios.get(`${BASE_DATA_URL}/api/user_profile/${userId}`, getHeaderBearerConfigs("application/json", token));
 }
 
 
-
-export {
-    userProfile,
-}

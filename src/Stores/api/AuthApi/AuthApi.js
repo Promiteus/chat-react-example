@@ -1,9 +1,8 @@
 import axios from "axios";
-import {getHeaderBearerConfigs, saveUserProfile} from "../ChatDataApi/ChatDataApi";
+import {saveUserProfile} from "../ChatDataApi/ChatDataApi";
+import {BASE_AUTH_URL, getHeaderBearerConfigs, TOKEN_KEY} from "../Common/ApiCommon";
 
-const BASE_URL = 'http://localhost:8081';
-export const TOKEN_KEY = 'token';
-export const USER_ID_KEY = 'userId';
+
 
 /**
  * Получить JWT токен в обмен на логин и пароль
@@ -11,7 +10,7 @@ export const USER_ID_KEY = 'userId';
  * @returns {Promise<AxiosResponse<any>>}
  */
 export function authenticateUser(data) {
-    return axios.post(`${BASE_URL}/login`, data, {headers: { contentType: "application/json" } });
+    return axios.post(`${BASE_AUTH_URL}/login`, data, {headers: { contentType: "application/json" } });
 }
 
 /**
@@ -20,7 +19,7 @@ export function authenticateUser(data) {
  * @returns {Promise<AxiosResponse<any>>}
  */
 export function registrateUser(data) {
-    return axios.post(`${BASE_URL}/api/user`, data, {headers: { contentType: "application/json"}});
+    return axios.post(`${BASE_AUTH_URL}/api/user`, data, {headers: { contentType: "application/json"}});
 }
 
 /**
@@ -31,7 +30,7 @@ export function registrateUser(data) {
  */
 export function removeFullUserAccountData({userId, isAccountOnly}) {
     let token = localStorage.getItem(TOKEN_KEY);
-    return axios.delete(`${BASE_URL}/api/user?user_id=${userId}&account_only=${isAccountOnly}`, getHeaderBearerConfigs("application/json", token))
+    return axios.delete(`${BASE_AUTH_URL}/api/user?user_id=${userId}&account_only=${isAccountOnly}`, getHeaderBearerConfigs("application/json", token))
 }
 
 /**

@@ -7,8 +7,9 @@ import {useDispatch, useSelector} from "react-redux";
 import {regUserAsync, selectUser} from "../../Stores/slices/UserSlice";
 import {AlertToast} from "../../Componetns/Modals/Toasts/AlertToast";
 import {SOMETHING_WENT_WRONG, SUCH_USER_EXISTS} from "../../Constants/TextMessagesRu";
-import {USER_ID_KEY} from "../../Stores/api/AuthApi/AuthApi";
+
 import Loader from "../../Componetns/Loader/Loader";
+import {USER_ID_KEY} from "../../Stores/api/Common/ApiCommon";
 
 /**
  * status = 409 - такой пользователь уже есть !
