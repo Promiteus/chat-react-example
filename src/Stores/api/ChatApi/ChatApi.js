@@ -2,11 +2,16 @@ import axios from "axios";
 import {BASE_DATA_URL, getHeaderBearerConfigs} from "../Common/ApiCommon";
 
 /**
- * Сохранить/изменить профиль пользователя
- * @param profile
+ * Получить последнюю переписку двух пользователей пострнично
+ * @param page
+ * @param size
+ * @param userId
+ * @param fromUserId
  * @param token
  * @returns {Promise<AxiosResponse<any>>}
  */
-export function chatUsersMessages(profile, token) {
-    return axios.post(`${BASE_DATA_URL}/api/user_profile`, profile, getHeaderBearerConfigs("application/json", token));
+export function chatUsersMessages(page, size, userId, fromUserId, token) {
+    let query = `?page=${page}&size=${size}&user_id=${userId}&from_user_id=${fromUserId}`;
+    return axios.get(`${BASE_DATA_URL}/api/chat_users_messages${query}`,
+        getHeaderBearerConfigs("application/json", token));
 }
