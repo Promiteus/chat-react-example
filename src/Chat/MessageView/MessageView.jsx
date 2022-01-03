@@ -11,21 +11,43 @@ function MessageView({stomp, currentUserId}) {
   const srollChat = useRef(null);
 
   useEffect(() => {
+    srollChat.current.addEventListener("scroll", () => {
+          if (srollChat.current.scrollTop === 0) {
+              loadMore();
+          }
+    });
+
     if (stomp) {
          stomp.onMessageReceived = (data) => {
-               let body = JSON.parse(data.body);
+             let body = JSON.parse(data?.body);
 
-               if ((body) && (body?.content)) {
-                 setMessageList(prev => [...prev, {
-                   id: '',
-                   userId: "201",
-                   fromUserId: currentUserId,
-                   message: body.content,
-                 }]);
-               }
+             if ((body) && (body?.content)) {
+               setMessageList(prev => [...prev, {
+                  id: '',
+                  userId: "201",
+                  fromUserId: currentUserId,
+                  message: body.content,
+               }]);
+             }
          };
     }
-  });
+ }, []);
+
+ function loadMore() {
+     console.log("loadMore()");
+ }
+
+ function defaultData() {
+     if (+status === 200) {
+         console.log("MessageView response: "+JSON.stringify(response?.data));
+         //Предочистка сиска сообщений перед переключением между пользователями
+         setMessageList([]);
+         //Обновить список сообщений для выбранного пользователя
+         response?.data?.forEach(elem => {
+             setMessageList(prevState => [...prevState, elem ]);
+         });
+     }
+ }
 
   /*
    * Так выгдядят сохраненные сообщения чата
@@ -36,16 +58,7 @@ function MessageView({stomp, currentUserId}) {
 
   //Реагировать на смену статуса при запросе последних сообщений из чата
   useEffect(() => {
-     console.log("MessageView status: "+status);
-     if (+status === 200) {
-         console.log("MessageView response: "+JSON.stringify(response?.data));
-         //Предочистка сиска сообщений перед переключением между пользователями
-         setMessageList([]);
-         //Обновить список сообщений для выбранного пользователя
-         response?.data?.forEach(elem => {
-              setMessageList(prevState => [...prevState, elem ]);
-         });
-     }
+        defaultData();
   }, [status]);
   
   return (

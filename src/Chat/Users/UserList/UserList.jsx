@@ -19,15 +19,17 @@ export default function Userlist({users, currentUserId, page}) {
     const chatDispatch = useDispatch();
 
     function clickItem({user}) {
-        console.log('clickItem: '+user.id);
-        setSelectedUser(user.id);
+        //Идентификатор выбранного пользователя
+        let selectedUserId = user?.id;
+        //console.log('selectedUserId: '+selectedUserId);
+        setSelectedUser(selectedUserId);
         if (user?.id) {
             //Запросить переписку двух пользователей постранично
             chatDispatch(chatUserAsync({
                 page: page,
                 size: 10,
                 userId: currentUserId,
-                fromUserId: user.id
+                fromUserId: selectedUserId
             }))
         }
     }
