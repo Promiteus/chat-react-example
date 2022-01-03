@@ -1,28 +1,29 @@
-import React, { useEffect,  useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import MessageItem from './MessageItem/MessageItem';
 import './MessageView.css'
 import {useSelector} from "react-redux";
 import {selectChat} from "../../Stores/slices/ChatSlice";
-import {v4 as uuidv4} from 'uuid';
 
-function MessageView({stomp, userId}) {
+
+function MessageView({stomp, currentUserId}) {
   const [messageList, setMessageList] = useState([]);
   const {status, response, loading} = useSelector(selectChat);
+  const srollChat = useRef(null);
 
   useEffect(() => {
     if (stomp) {
-      stomp.onMessageReceived = (data) => {
-        let body = JSON.parse(data.body);
+         stomp.onMessageReceived = (data) => {
+               let body = JSON.parse(data.body);
 
-        if ((body) && (body?.content)) {
-          setMessageList(prev => [...prev, {
-            id: uuidv4().replace('-', ''),
-            userId: "201",
-            fromUserId: userId,
-            message: body.content,
-          }]);
-        }
-      };
+               if ((body) && (body?.content)) {
+                 setMessageList(prev => [...prev, {
+                   id: '',
+                   userId: "201",
+                   fromUserId: currentUserId,
+                   message: body.content,
+                 }]);
+               }
+         };
     }
   });
 
@@ -48,8 +49,8 @@ function MessageView({stomp, userId}) {
   }, [status]);
   
   return (
-    <div className="chatView d-flex flex-column" >
-      {messageList.map((element) => (<MessageItem key={element?.id} data={element}/>))}
+    <div ref={srollChat} className="chatView d-flex flex-column" >
+      {messageList.map((element) => (<MessageItem key={element?.id} data={element} currentUserId={currentUserId}/>))}
     </div>
   );
 };

@@ -84,7 +84,7 @@ function ChatView ({props}) {
                     <div className="chat">
                         <TopHeaderView/>
                         <NameView />
-                        <MessageView stomp={stompClient}/>
+                        <MessageView stomp={stompClient} currentUserId={userId}/>
                         <MessageSendView stomp={stompClient} />
                     </div>
                 </Grid>
