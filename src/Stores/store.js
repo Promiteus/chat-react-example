@@ -1,5 +1,5 @@
 import {configureStore, getDefaultMiddleware} from "@reduxjs/toolkit";
-import counterSlice from "./slices/CommonSlice";
+import commonSlice from "./slices/CommonSlice";
 import userSlice from "./slices/UserSlice";
 import profileSlice from "./slices/UserProfileSlices";
 import chatSlice from "./slices/ChatSlice";
@@ -7,7 +7,7 @@ import chatSlice from "./slices/ChatSlice";
 
 export default configureStore({
     reducer: {
-        counter: counterSlice,
+        common: commonSlice,
         user: userSlice,
         profile: profileSlice,
         chat: chatSlice,

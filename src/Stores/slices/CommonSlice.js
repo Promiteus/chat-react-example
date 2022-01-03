@@ -1,27 +1,25 @@
 import {createSlice} from "@reduxjs/toolkit";
 
 
-export const counterSlice = createSlice({
-    name: 'counter',
+export const commonSlice = createSlice({
+    name: 'common',
     initialState: {
         value: 0,
+        selectedUser: {},
     },
     reducers: {
         increment: (state) => {
             state.value += 1
         },
-        decrement: (state) => {
-            state.value -= 1
-        },
-        incrementByAmount: (state, action) => {
-            state.value += action.payload
-        },
         setDefaultValue: (state, action) => {
-            state.value = action.payload
+            state.value = action.payload;
+        },
+        defineSelectedUser: (state, action) => {
+            state.selectedUser = action.payload;
         }
     },
 })
 
-export const selectCount = (state) => state.counter.value;
-export const {increment, decrement, incrementByAmount, setDefaultValue} = counterSlice.actions;
-export default counterSlice.reducer;
+export const selectCommon = (state) => state.common;
+export const {increment, setDefaultValue, defineSelectedUser} = commonSlice.actions;
+export default commonSlice.reducer;

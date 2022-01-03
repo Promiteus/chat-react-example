@@ -22,7 +22,7 @@ export const chatSlice = createSlice({
     reducers: {
         dropStatus: (state) => {
             state.status = 0;
-        }
+        },
     },
     extraReducers: (builder) => {
         builder

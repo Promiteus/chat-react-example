@@ -2,6 +2,7 @@
 const BASE_AUTH_URL = 'http://localhost:8081';
 const TOKEN_KEY = 'token';
 const USER_ID_KEY = 'userId';
+const SELECTED_USER_ID_KEY = 'selected_user_id';
 const BASE_DATA_URL = 'http://localhost:8090';
 
 /**
@@ -66,6 +67,6 @@ export {
     USER_ID_KEY,
     TOKEN_KEY,
     BASE_DATA_URL,
+    SELECTED_USER_ID_KEY,
     getHeaderBearerConfigs,
-
 }

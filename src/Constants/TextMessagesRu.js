@@ -2,6 +2,7 @@
 
 const SOMETHING_WENT_WRONG = 'Что-то пошло не так!';
 const SUCH_USER_EXISTS = "Такой пользователь уже есть!";
+const MSG_YOU = "Вы";
 
 /**
  * Уведомление при не 200 статусе
@@ -19,4 +20,5 @@ export function getNotificationMsg(stat) {
 export {
     SOMETHING_WENT_WRONG,
     SUCH_USER_EXISTS,
+    MSG_YOU,
 }
