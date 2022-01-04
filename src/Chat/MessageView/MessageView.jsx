@@ -18,7 +18,6 @@ function MessageView({stomp, currentUserId}) {
   const chatDispatch = useDispatch();
 
   useEffect(() => {
-
     scrollChat.current.addEventListener("scroll", () => {
           if (scrollChat.current.scrollTop === 0) {
               loadMore();
@@ -26,14 +25,15 @@ function MessageView({stomp, currentUserId}) {
     });
 
     if (stomp) {
+         //Получить подтверждение, что сообщение отправлено
          stomp.onMessageReceived = (data) => {
              let body = JSON.parse(data?.body);
 
              if ((body) && (body?.content)) {
                setMessageList(prev => [...prev, {
                   id: '',
-                  userId: "201",
-                  fromUserId: currentUserId,
+                  userId: selectedUser_?.id, //Кому сообщение
+                  fromUserId: currentUserId, //От кого сообщение
                   message: body.content,
                }]);
              }
