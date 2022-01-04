@@ -56,7 +56,7 @@ function ChatView ({props}) {
           profileDispatch(userProfileAsync({userId}));
       }
 
-      stompClient?.connect();
+      stompClient?.connect(userId);
 
       stompClient.connectionError = (error) => {
           setErrMsg(error);
@@ -85,7 +85,7 @@ function ChatView ({props}) {
                         <TopHeaderView/>
                         <NameView />
                         <MessageView stomp={stompClient} currentUserId={userId}/>
-                        <MessageSendView stomp={stompClient} />
+                        <MessageSendView stomp={stompClient} currentUserId={userId}/>
                     </div>
                 </Grid>
             </Grid>

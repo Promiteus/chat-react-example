@@ -10,25 +10,25 @@ export class StompClient {
         console.log('StompClient created!'); 
                
         this.WS_ENDPOOINT_APP = 'http://localhost:10800/wsApp'
-        this.topicName = 'roman';
+       // this.topicName = 'roman';
         //this.chatMessage = {type: 'chat', content: '', sender: ''};
         this.stompClient = null;
         this.client = null
     }
     
 
-    connect(event) {
+    connect(userId) {
         this.client = new SockJS(this.WS_ENDPOOINT_APP);
         this.stompClient = Stomp.over(this.client); 
         this.stompClient.connect(
             {}, 
-            (data) => this.connectionSuccess(data), 
+            (data) => this.connectionSuccess(userId),
             (error) => this.connectionError(error)
         );     
     }
 
-    connectionSuccess(frame) {
-        let topic = '/topic/'+this.topicName;
+    connectionSuccess(userId) {
+        let topic = '/topic/'+userId;
         this.stompClient.subscribe(topic, (data) => this.onMessageReceived(data));
         this.connected = true;
     }
@@ -62,7 +62,7 @@ export class StompClient {
         //this.topicName = routerKey;
         if (this.stompClient) {
             this.stompClient.send(
-                "/app/chat.sendMessage2",
+                "/app/chat",
                 {},
                 JSON.stringify(new ChatMessage(type, sender, content, routerKey))
             );

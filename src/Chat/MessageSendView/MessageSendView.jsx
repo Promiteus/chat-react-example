@@ -1,18 +1,24 @@
 import React from 'react';
 import './MessageSendView.css';
 import SendMsgButton from '../Controls/SVG/SendMsgButton/SendMsgButton';
-import {useDispatch} from "react-redux";
-import {increment} from "../../Stores/slices/CommonSlice";
+import {useDispatch, useSelector} from "react-redux";
+import {increment, selectCommon} from "../../Stores/slices/CommonSlice";
 
-function MessageSendView ({stomp}) {
+function MessageSendView ({stomp, currentUserId}) {
   const dispatch = useDispatch();
+  const {selectedUser} = useSelector(selectCommon);
 
-  const TOPIC = '/roman';
-  let content = '';
+  const TOPIC = `${selectedUser?.id}`;
+  let content = {};
   let inputMessage = {};
 
   function updateInputValue(e) {
-    content = e.target.value;
+    content = {
+        id: null,
+        userId: selectedUser?.id,
+        fromUserId: currentUserId,
+        message: e.target.value,
+    };
   }
 
   function onSend() {

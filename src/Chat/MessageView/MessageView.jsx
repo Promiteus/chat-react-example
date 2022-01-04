@@ -28,13 +28,14 @@ function MessageView({stomp, currentUserId}) {
          //Получить подтверждение, что сообщение отправлено
          stomp.onMessageReceived = (data) => {
              let body = JSON.parse(data?.body);
+             console.log("MessageView onMessageReceived: "+data?.body)
 
              if ((body) && (body?.content)) {
                setMessageList(prev => [...prev, {
-                  id: '',
-                  userId: selectedUser_?.id, //Кому сообщение
-                  fromUserId: currentUserId, //От кого сообщение
-                  message: body.content,
+                  id: body?.content?.id,
+                  userId: body?.content?.userId, //Кому сообщение
+                  fromUserId: body?.content?.fromUserId, //От кого сообщение
+                  message: body?.content?.message,
                }]);
              }
          };
