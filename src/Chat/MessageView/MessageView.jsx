@@ -4,8 +4,9 @@ import './MessageView.css'
 import {useDispatch, useSelector} from "react-redux";
 import {chatUserAsync, selectChat} from "../../Stores/slices/ChatSlice";
 import {selectCommon} from "../../Stores/slices/CommonSlice";
-import {SELECTED_USER_ID_KEY} from "../../Stores/api/Common/ApiCommon";
 
+let page_ = 0;
+let selectedUser_ = {};
 
 function MessageView({stomp, currentUserId}) {
   const [messageList, setMessageList] = useState([]);
@@ -14,7 +15,6 @@ function MessageView({stomp, currentUserId}) {
   const {selectedUser} = useSelector(selectCommon);
   const scrollChat = useRef(null);
   const chatDispatch = useDispatch();
-  let page = 0;
 
   useEffect(() => {
 
@@ -40,32 +40,37 @@ function MessageView({stomp, currentUserId}) {
     }
  }, []);
 
+  /**
+   * Запросить переписку постранично
+   * */
  function loadMore() {
-     let selectedUserId = localStorage.getItem(SELECTED_USER_ID_KEY);
-     page++;
+     let selectedUserId = selectedUser_?.id;
+     page_++;
      chatDispatch(chatUserAsync({
-         page: page,
+         page: page_,
          size: 10,
          userId: selectedUserId,
          fromUserId: currentUserId
      }))
  }
 
+ /**Загружает сообщения, которые были написанны ранее при прокрутке чата вверх*/
  function beforeData() {
      if ((+status === 200) && (response?.page > 0)) {
-
          response?.data?.forEach(elem => {
              setBeforeMessageList(prevState => [...prevState, elem ]);
          });
      }
  }
-
+/**
+ * Получает первую страницу сообщений переписки
+ * */
  function defaultData() {
      if ((+status === 200) && (response?.page === 0)) {
          //Предочистка сиска сообщений перед переключением между пользователями
          setMessageList([]);
          setBeforeMessageList([]);
-         page = 0;
+         page_ = 0;
          //Обновить список сообщений для выбранного пользователя
          response?.data?.forEach(elem => {
              setMessageList(prevState => [...prevState, elem ]);
@@ -81,7 +86,7 @@ function MessageView({stomp, currentUserId}) {
   * */
   //Реагировать на смену статуса при запросе последних сообщений из чата
   useEffect(() => {
-        localStorage.setItem(SELECTED_USER_ID_KEY, selectedUser?.id);
+        selectedUser_ = selectedUser;
         defaultData();
         beforeData();
   }, [status]);
