@@ -4,6 +4,7 @@ import './MessageView.css'
 import {useDispatch, useSelector} from "react-redux";
 import {chatUserAsync, selectChat} from "../../Stores/slices/ChatSlice";
 import {selectCommon} from "../../Stores/slices/CommonSlice";
+import {Box, CircularProgress, LinearProgress, Stack} from "@mui/material";
 
 let page_ = 0;
 let selectedUser_ = {};
@@ -92,10 +93,17 @@ function MessageView({stomp, currentUserId}) {
   }, [status]);
   
   return (
-    <div ref={scrollChat} className="chatView d-flex flex-column" >
-      {beforeMessageList.map((element) => (<MessageItem key={element?.id} data={element} currentUserId={currentUserId}/>))}
-      {messageList.map((element) => (<MessageItem key={element?.id} data={element} currentUserId={currentUserId}/>))}
+    <div>
+        {loading ?
+        <Stack sx={{ width: '100%', color: 'grey.500' }} spacing={2}>
+            <LinearProgress color="success" />
+        </Stack> : ''}
+        <div ref={scrollChat} className="chatView d-flex flex-column" >
+            {beforeMessageList.map((element) => (<MessageItem key={element?.id} data={element} currentUserId={currentUserId}/>))}
+            {messageList.map((element) => (<MessageItem key={element?.id} data={element} currentUserId={currentUserId}/>))}
+        </div>
     </div>
+
   );
 };
 
