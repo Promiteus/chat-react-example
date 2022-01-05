@@ -6,6 +6,7 @@ const MSG_YOU = "Вы";
 
 const CAPTION_CHATS = "Чаты";
 const CAPTION_GUESTS = "Гости";
+const CAPTION_EMPTY_CHAT = "Здесь пока нет чатов";
 
 /**
  * Уведомление при не 200 статусе
@@ -26,4 +27,5 @@ export {
     MSG_YOU,
     CAPTION_CHATS,
     CAPTION_GUESTS,
+    CAPTION_EMPTY_CHAT,
 }

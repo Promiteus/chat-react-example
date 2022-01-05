@@ -5,7 +5,7 @@ import {SearchSvg} from "../../../Svg";
 import {useDispatch} from "react-redux";
 import {chatUserAsync} from "../../../Stores/slices/ChatSlice";
 import {defineSelectedUser} from "../../../Stores/slices/CommonSlice";
-import {CAPTION_CHATS} from "../../../Constants/TextMessagesRu";
+import {CAPTION_CHATS, CAPTION_EMPTY_CHAT} from "../../../Constants/TextMessagesRu";
 
 
 /**
@@ -40,10 +40,12 @@ export default function Userlist({users, currentUserId, page}) {
 
     useEffect(() => {
         setSelectedUser(0);
+        console.log("users: "+JSON.stringify(users));
+        console.log("users length: "+users.length);
     }, [users]);
 
     return (
-      <div className="UserList p-2">
+      <div className="UserList p-2 d-flex flex-column">
           <div><Typography variant={"h5"}>{CAPTION_CHATS}</Typography></div>
 
           <Paper elevation={2} className="px-1">
@@ -65,12 +67,12 @@ export default function Userlist({users, currentUserId, page}) {
               </FormControl>
           </Paper>
 
-          {(users) ? users.map((user) => (
+          {(users.length !== 0) ? users.map((user) => (
                    <div key={user.id} className="mt-1">
                       <Userprofile onClick={clickItem} selected={(selectedUser === user.id)} user={user}/>
                    </div>
               )) :
-          <div><Typography variant={"h6"} className="text-center">Гостей нет</Typography></div>}
+           <div><Typography variant={"h6"} className="mt-1 text-center text-danger">{CAPTION_EMPTY_CHAT}</Typography></div>}
       </div>
     );
 }
