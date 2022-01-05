@@ -5,6 +5,7 @@ import {SearchSvg} from "../../../Svg";
 import {useDispatch} from "react-redux";
 import {chatUserAsync} from "../../../Stores/slices/ChatSlice";
 import {defineSelectedUser} from "../../../Stores/slices/CommonSlice";
+import {CAPTION_CHATS} from "../../../Constants/TextMessagesRu";
 
 
 /**
@@ -43,7 +44,7 @@ export default function Userlist({users, currentUserId, page}) {
 
     return (
       <div className="UserList p-2">
-          <div><Typography variant={"h5"}>Гости</Typography></div>
+          <div><Typography variant={"h5"}>{CAPTION_CHATS}</Typography></div>
 
           <Paper elevation={2} className="px-1">
               <FormControl variant="standard" fullWidth={true}>

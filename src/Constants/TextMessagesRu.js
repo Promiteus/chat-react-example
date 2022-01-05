@@ -4,6 +4,9 @@ const SOMETHING_WENT_WRONG = 'Что-то пошло не так!';
 const SUCH_USER_EXISTS = "Такой пользователь уже есть!";
 const MSG_YOU = "Вы";
 
+const CAPTION_CHATS = "Чаты";
+const CAPTION_GUESTS = "Гости";
+
 /**
  * Уведомление при не 200 статусе
  * @param stat Number
@@ -21,4 +24,6 @@ export {
     SOMETHING_WENT_WRONG,
     SUCH_USER_EXISTS,
     MSG_YOU,
+    CAPTION_CHATS,
+    CAPTION_GUESTS,
 }

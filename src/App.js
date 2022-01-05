@@ -4,6 +4,7 @@ import {Routes, Route} from 'react-router-dom';
 import SignIn from "./SignIn/SignIn";
 import NavMenu from "./Navigation/NavMenu";
 import RegistProfilePrimary from './RegistProfilePrimary/RegistProfilePrimary';
+import MainTab from "./Componetns/Tabs/MainTab";
 
 function App() {
   return (
@@ -12,7 +13,7 @@ function App() {
         <Routes>
           <Route index path="/signin" element={<SignIn/>}/>
           <Route path="/registration" element={<RegistProfilePrimary/>}/>
-          <Route path="/" element={<ChatView/>}/>
+          <Route path="/" element={<MainTab/>}/>
         </Routes>
       </div>
   );

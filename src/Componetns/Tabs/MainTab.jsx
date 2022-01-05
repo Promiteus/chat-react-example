@@ -1,5 +1,8 @@
 import React, {useState} from "react";
 import {Box, Container, Tab, Tabs} from "@mui/material";
+import TabItem from "./TabItem";
+import ChatView from "../../Chat/ChatView";
+import {CAPTION_CHATS, CAPTION_GUESTS} from "../../Constants/TextMessagesRu";
 
 function a11yProps(index) {
     return {
@@ -11,8 +14,9 @@ function a11yProps(index) {
 const MainTab = (props) => {
     const [tabIndex, setTabIndex] = useState(0);
 
-    const handleChange = (value) => {
-        console.log("tab index: "+value);
+    const handleChange = (event, newIndex) => {
+        console.log("tab index: "+newIndex);
+        setTabIndex(newIndex);
     }
 
     return (
@@ -20,11 +24,16 @@ const MainTab = (props) => {
           <Container>
               <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                   <Tabs value={tabIndex} onChange={handleChange} >
-                      <Tab label="Item One" {...a11yProps(0)} />
-                      <Tab label="Item Two" {...a11yProps(1)} />
-                      <Tab label="Item Three" {...a11yProps(2)} />
+                      <Tab label={CAPTION_CHATS} {...a11yProps(0)} />
+                      <Tab label={CAPTION_GUESTS} {...a11yProps(1)} />
                   </Tabs>
               </Box>
+              <TabItem value={tabIndex} index={0}>
+                  <ChatView/>
+              </TabItem>
+              <TabItem value={tabIndex} index={1}>
+                  Гости
+              </TabItem>
           </Container>
         </>
     );

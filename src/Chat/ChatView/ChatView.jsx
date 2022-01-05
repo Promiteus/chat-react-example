@@ -21,7 +21,7 @@ function useQuery() {
     return new URLSearchParams(useLocation().search);
 }
 
-function ChatView ({props}) {
+function ChatView (props) {
   const [showError, setShowError] = useState(false);
   const [errMsg, setErrMsg] = useState('');
   const {response, status, loading } = useSelector(selectProfile);
