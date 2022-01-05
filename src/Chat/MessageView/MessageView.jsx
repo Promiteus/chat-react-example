@@ -15,6 +15,7 @@ function MessageView({stomp, currentUserId}) {
   const {status, response, loading} = useSelector(selectChat);
   const {selectedUser} = useSelector(selectCommon);
   const scrollChat = useRef(null);
+  const chatBottomScroller = useRef(null);
   const chatDispatch = useDispatch();
 
   useEffect(() => {
@@ -23,6 +24,7 @@ function MessageView({stomp, currentUserId}) {
               loadMore();
           }
     });
+
 
     if (stomp) {
          //Получить подтверждение, что сообщение отправлено
@@ -36,11 +38,18 @@ function MessageView({stomp, currentUserId}) {
                   userId: body?.content?.userId, //Кому сообщение
                   fromUserId: body?.content?.fromUserId, //От кого сообщение
                   message: body?.content?.message,
+                  timestamp: body?.content?.timestamp,
                }]);
              }
+           scrollToBottom();
          };
     }
  }, []);
+
+ const scrollToBottom = () => {
+     console.log("scroll bottom");
+     chatBottomScroller.current.scrollIntoView({behavior: "smooth"});
+ }
 
   /**
    * Запросить переписку постранично
@@ -102,6 +111,7 @@ function MessageView({stomp, currentUserId}) {
         <div ref={scrollChat} className="chatView d-flex flex-column" >
             {beforeMessageList.map((element) => (<MessageItem key={element?.id} data={element} currentUserId={currentUserId}/>))}
             {messageList.map((element) => (<MessageItem key={element?.id} data={element} currentUserId={currentUserId}/>))}
+            <div ref={chatBottomScroller}/>
         </div>
     </div>
 
