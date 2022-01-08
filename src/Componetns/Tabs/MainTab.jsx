@@ -11,8 +11,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {AlertToast} from "../Modals/Toasts/AlertToast";
 import {deleteUserAccountAsync} from "../../Stores/slices/UserSlice";
 import Loader from "../Loader/Loader";
-
-
+import {GuestsView} from "../../Guests";
 
 function a11yProps(index) {
     return {
@@ -33,7 +32,7 @@ const MainTab = (props) => {
     const profileDispatch = useDispatch();
     const [showError, setShowError] = useState(false);
     const [errMsg, setErrMsg] = useState('');
-    const {response, status, loading } = useSelector(selectProfile);
+    const {response, status, loading} = useSelector(selectProfile);
     const navigate = useNavigate();
 
     //Получить userId из параметра запроса или из локального хранилища.
@@ -82,7 +81,7 @@ const MainTab = (props) => {
     if (loading) return <Loader/>;
 
     return (
-        <>
+        <div>
           <Container>
               <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                   <Tabs value={tabIndex} onChange={handleChange} >
@@ -94,11 +93,11 @@ const MainTab = (props) => {
                   <ChatView stomp={stompClient} userId={currentUserId} response={response}/>
               </TabItem>
               <TabItem value={tabIndex} index={1}>
-                  Гости
+                  <GuestsView visitors={response?.lastVisitors || []}/>
               </TabItem>
           </Container>
           <AlertToast text={errMsg} open={showError} success={false}/>
-        </>
+        </div>
     );
 }
 

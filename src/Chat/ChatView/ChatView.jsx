@@ -11,7 +11,7 @@ import {Container, Grid} from "@mui/material";
 function ChatView ({userId, stomp, response}) {
 
   return (
-    <div  className="d-flex justify-content-center flex-column">
+    <div className="d-flex justify-content-center flex-column">
         <Container>
             <Grid container spacing={1}>
                 <Grid item xs={12} md={4}>
