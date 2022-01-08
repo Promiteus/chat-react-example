@@ -8,8 +8,6 @@ import Userlist from "../Users/UserList/UserList";
 import {Container, Grid} from "@mui/material";
 
 
-
-
 function ChatView ({userId, stomp, response}) {
 
   return (

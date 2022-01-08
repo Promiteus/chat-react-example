@@ -2,4 +2,11 @@
     background-color: rgb(194, 247, 142);
     box-shadow: 2px 2px 6px rgb(187, 185, 185);
     padding: 6px;
+    min-width: 25%;
+    max-width: 70%;
+}
+
+.MessageItemElement:hover {
+    background-color: rgb(225, 248, 203);
+    opacity: 0.8;
 }
