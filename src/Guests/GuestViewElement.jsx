@@ -1,5 +1,6 @@
 import React from "react";
-import {Card, CardContent, CardHeader, Grid, IconButton, Typography} from "@mui/material";
+import {Card, CardContent, CardHeader, CardMedia, Grid, IconButton, Typography} from "@mui/material";
+import {BASE_DATA_URL} from "../Stores/api/Common/ApiCommon";
 
 const GuestViewElement = ({visitorDetails}) => {
 
@@ -16,9 +17,16 @@ const GuestViewElement = ({visitorDetails}) => {
                      title={`${visitorDetails?.firstName} ${visitorDetails?.lastName}`}
                      subheader={`Родился ${visitorDetails?.birthDate}`}
                  />
+                 <CardMedia
+                     component="img"
+                     height="194"
+                     image={BASE_DATA_URL+visitorDetails?.thumbUrl}
+                     alt="Paella dish"
+                 />
                  <CardContent>
                      <Typography variant="body2" color="text.secondary">
                          {visitorDetails?.aboutMe}
+
                      </Typography>
                  </CardContent>
              </Card>

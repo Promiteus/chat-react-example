@@ -4,6 +4,7 @@ import './UserProfile.css';
 import {Avatar, Paper, Typography} from "@mui/material";
 import {dateDiffYears} from "../../../../Componetns/DateHandlers";
 import {stringAvatar} from "../../../../Componetns/GraphicHandler";
+import {BASE_DATA_URL} from "../../../../Stores/api/Common/ApiCommon";
 
 
 
@@ -27,12 +28,15 @@ export default function Userprofile({user, selected, onClick}) {
              style={styles.redBg}
              onClick={() => onClick({user})}>
           <div className="border-dark d-flex p-1">
-              <Avatar {...stringAvatar(`${user.firstName} ${user.lastName}`)} />
+              {user?.thumbUrl ?
+                  <Avatar alt={user?.firstName} src={`${BASE_DATA_URL}${user?.thumbUrl}`}/> :
+                  <Avatar {...stringAvatar(`${user.firstName} ${user.lastName}`)} />
+              }
           </div>
           <div className="d-flex flex-row justify-content-between flex-grow-1">
               <div className="d-flex flex-column">
-                  <Typography variant={"subtitle1"}>{user.firstName} {user.lastName}</Typography>
-                  <Typography variant={"body2"}>Возраст: {dateDiffYears(user.birthDate, new Date().toDateString())}</Typography>
+                  <Typography variant={"subtitle1"}>{user?.firstName} {user?.lastName}</Typography>
+                  <Typography variant={"body2"}>Возраст: {dateDiffYears(user?.birthDate, new Date().toDateString())}</Typography>
               </div>
               <div className="mt-2">
                   <RightChevron/>

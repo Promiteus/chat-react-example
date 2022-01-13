@@ -16,7 +16,7 @@ function ChatView ({userId, stomp, response}) {
             <Grid container spacing={1}>
                 <Grid item xs={12} md={4}>
                     <div className="users h-100">
-                        <Userlist users={response?.lastVisitors || []} currentUserId={userId} page={0}/>
+                        <Userlist users={response?.lastChats || []} currentUserId={userId} page={0}/>
                     </div>
                 </Grid>
                 <Grid item xs={12} md={8}>

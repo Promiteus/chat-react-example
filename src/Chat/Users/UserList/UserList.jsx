@@ -40,8 +40,6 @@ export default function Userlist({users, currentUserId, page}) {
 
     useEffect(() => {
         setSelectedUser(0);
-        console.log("users: "+JSON.stringify(users));
-        console.log("users length: "+users.length);
     }, [users]);
 
     return (
