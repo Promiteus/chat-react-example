@@ -4,9 +4,8 @@ import GuestViewElement from "./GuestViewElement";
 import './index.css'
 
 const GuestsView = ({visitors}) => {
-
     return (
-        <div className="d-flex m-1 flex-column ">
+        <div className="d-block m-1">
            <Container>
                {visitors?.length ?
                    <Grid container spacing={1}>

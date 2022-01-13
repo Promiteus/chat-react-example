@@ -81,8 +81,8 @@ const MainTab = (props) => {
     if (loading) return <Loader/>;
 
     return (
-        <div>
-          <Container>
+        <div className="container main-panel">
+
               <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                   <Tabs value={tabIndex} onChange={handleChange} >
                       <Tab label={CAPTION_CHATS} {...a11yProps(0)} />
@@ -95,7 +95,7 @@ const MainTab = (props) => {
               <TabItem value={tabIndex} index={1}>
                   <GuestsView visitors={response?.lastVisitors || []}/>
               </TabItem>
-          </Container>
+
           <AlertToast text={errMsg} open={showError} success={false}/>
         </div>
     );

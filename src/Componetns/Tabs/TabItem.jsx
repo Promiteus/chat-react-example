@@ -7,6 +7,7 @@ function TabItem(props) {
 
     return (
         <div
+            className="tab-view"
             role="tabpanel"
             hidden={value !== index}
             id={`simple-tabpanel-${index}`}
