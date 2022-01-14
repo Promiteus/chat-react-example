@@ -8,8 +8,12 @@ import {Box, CircularProgress, LinearProgress, Stack} from "@mui/material";
 
 let page_ = 0;
 let selectedUser_ = {};
+let isExecuted = false;
+let chatViewHeight = 578;
+const CHAT_VIEW_PERCENT_HEIGHT = 76.253;
 
-function MessageView({stomp, currentUserId}) {
+
+function MessageView({stomp, currentUserId, chatClientHeight}) {
   const [messageList, setMessageList] = useState([]);
   const [beforeMessageList, setBeforeMessageList] = useState([]);
   const {status, response, loading} = useSelector(selectChat);
@@ -19,32 +23,40 @@ function MessageView({stomp, currentUserId}) {
   const chatDispatch = useDispatch();
 
   useEffect(() => {
-    scrollChat.current.addEventListener("scroll", () => {
-          if (scrollChat.current.scrollTop === 0) {
-              loadMore();
-          }
-    });
+      //При достижении прокрутки чата до верхней границы контейнера
+      //происходит дозагрузка прошлых сообщений
+      scrollChat.current.addEventListener("scroll", () => {
+            if (scrollChat.current.scrollTop === 0) {
+                isExecuted = false;
+                loadMore();
+            }
+      });
 
+      //Пересчитать фиксированнцю высоту chatView и присвоить div контейнеру.
+      chatViewHeight = (chatClientHeight*CHAT_VIEW_PERCENT_HEIGHT)/100;
 
-    if (stomp) {
-         //Получить подтверждение, что сообщение отправлено
-         stomp.onMessageReceived = (data) => {
-             let body = JSON.parse(data?.body);
+      if (stomp) {
+           //Получить подтверждение, что сообщение отправлено
+           stomp.onMessageReceived = (data) => {
+               let body = JSON.parse(data?.body);
 
-             if ((body) && (body?.content)) {
-               setMessageList(prev => [...prev, {
-                  id: body?.content?.id,
-                  userId: body?.content?.userId, //Кому сообщение
-                  fromUserId: body?.content?.fromUserId, //От кого сообщение
-                  message: body?.content?.message,
-                  timestamp: body?.content?.timestamp,
-               }]);
-             }
-           scrollToBottom();
-         };
-    }
+               if ((body) && (body?.content)) {
+                 setMessageList(prev => [...prev, {
+                    id: body?.content?.id,
+                    userId: body?.content?.userId, //Кому сообщение
+                    fromUserId: body?.content?.fromUserId, //От кого сообщение
+                    message: body?.content?.message,
+                    timestamp: body?.content?.timestamp,
+                 }]);
+               }
+             scrollToBottom();
+           };
+      }
  }, []);
 
+ /*
+   * Вызывает прокрутку чата вниз при появлении новых сообщений
+   *  */
  const scrollToBottom = () => {
      console.log("scroll bottom");
      chatBottomScroller.current.scrollIntoView({behavior: "smooth"});
@@ -55,13 +67,16 @@ function MessageView({stomp, currentUserId}) {
    * */
  function loadMore() {
      let selectedUserId = selectedUser_?.id;
-     page_++;
-     chatDispatch(chatUserAsync({
-         page: page_,
-         size: 10,
-         userId: selectedUserId,
-         fromUserId: currentUserId
-     }))
+     if (!isExecuted) {
+         page_++;
+         chatDispatch(chatUserAsync({
+             page: page_,
+             size: 10,
+             userId: selectedUserId,
+             fromUserId: currentUserId
+         }));
+         isExecuted = true;
+     }
  }
 
  /**Загружает сообщения, которые были написанны ранее при прокрутке чата вверх*/
@@ -102,12 +117,12 @@ function MessageView({stomp, currentUserId}) {
   }, [status]);
   
   return (
-    <div className="flex-grow-1 my-1">
+    <div className="flex-grow-1 my-1 ">
         {loading ?
         <Stack sx={{ width: '100%', color: 'grey.500' }} spacing={2}>
             <LinearProgress color="success" />
         </Stack> : ''}
-        <div ref={scrollChat} className="chatView d-flex flex-column " >
+        <div ref={scrollChat} style={{height: chatViewHeight}} className="chatView d-flex flex-column" >
             {beforeMessageList.map((element) => (<MessageItem key={element?.id} data={element} currentUserId={currentUserId}/>))}
             {messageList.map((element) => (<MessageItem key={element?.id} data={element} currentUserId={currentUserId}/>))}
             <div ref={chatBottomScroller}/>
