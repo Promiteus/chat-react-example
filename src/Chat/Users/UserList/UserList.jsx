@@ -43,7 +43,7 @@ export default function Userlist({users, currentUserId, page}) {
     }, [users]);
 
     return (
-      <div className="UserList p-2 d-flex flex-column">
+      <div className="UserList p-2 d-flex flex-column h-100">
           <div><Typography variant={"h5"}>{CAPTION_CHATS}</Typography></div>
 
           <Paper elevation={2} className="px-1">
@@ -65,12 +65,16 @@ export default function Userlist({users, currentUserId, page}) {
               </FormControl>
           </Paper>
 
-          {(users.length !== 0) ? users.map((user) => (
-                   <div key={user.id} className="mt-1">
-                      <Userprofile onClick={clickItem} selected={(selectedUser === user.id)} user={user}/>
-                   </div>
-              )) :
-           <div><Typography variant={"h6"} className="mt-1 text-center text-danger">{CAPTION_EMPTY_CHAT}</Typography></div>}
+          <div class="h-100 overflow-hidden">
+              <div className="last-chat">
+                  {(users.length !== 0) ? users.map((user) => (
+                          <div key={user.id} className="mt-1">
+                              <Userprofile onClick={clickItem} selected={(selectedUser === user.id)} user={user}/>
+                          </div>
+                      )) :
+                      <div><Typography variant={"h6"} className="mt-1 text-center text-danger">{CAPTION_EMPTY_CHAT}</Typography></div>}
+              </div>
+          </div>
       </div>
     );
 }

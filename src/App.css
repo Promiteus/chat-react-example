@@ -1,12 +1,15 @@
 .main-panel {
-  height: 90vh;
-  background-color: beige;
+  height: 92vh;
+  background-color: #fdfdf3;
 }
 
+.last-chat {
+   overflow-y: scroll;
+   height: 100%;
+}
 
 .tab-view {
-   height: 92%;
-   background-color: #e5e5e5;
+   height: 93%;
    overflow-y: scroll;
 }
 

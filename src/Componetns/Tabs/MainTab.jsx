@@ -90,9 +90,9 @@ const MainTab = (props) => {
                   </Tabs>
               </Box>
               <TabItem value={tabIndex} index={0}>
-                  <ChatView stomp={stompClient} userId={currentUserId} response={response}/>
+                 <ChatView stomp={stompClient} userId={currentUserId} response={response}/>
               </TabItem>
-              <TabItem value={tabIndex} index={1}>
+              <TabItem value={tabIndex} index={1} >
                   <GuestsView visitors={response?.lastVisitors || []}/>
               </TabItem>
 
