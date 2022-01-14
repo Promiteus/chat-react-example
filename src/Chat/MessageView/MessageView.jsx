@@ -4,7 +4,7 @@ import './MessageView.css'
 import {useDispatch, useSelector} from "react-redux";
 import {chatUserAsync, selectChat} from "../../Stores/slices/ChatSlice";
 import {selectCommon} from "../../Stores/slices/CommonSlice";
-import {Box, CircularProgress, LinearProgress, Stack} from "@mui/material";
+import {LinearProgress, Stack} from "@mui/material";
 
 let page_ = 0;
 let selectedUser_ = {};
@@ -45,8 +45,8 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
                     id: body?.content?.id,
                     userId: body?.content?.userId, //Кому сообщение
                     fromUserId: body?.content?.fromUserId, //От кого сообщение
-                    message: body?.content?.message,
-                    timestamp: body?.content?.timestamp,
+                    message: body?.content?.message, //Текст сообщения
+                    timestamp: body?.content?.timestamp, //Время создания сообщения
                  }]);
                }
              scrollToBottom();
@@ -58,7 +58,6 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
    * Вызывает прокрутку чата вниз при появлении новых сообщений
    *  */
  const scrollToBottom = () => {
-     console.log("scroll bottom");
      chatBottomScroller.current.scrollIntoView({behavior: "smooth"});
  }
 

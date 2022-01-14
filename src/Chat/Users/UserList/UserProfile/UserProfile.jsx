@@ -30,7 +30,7 @@ export default function Userprofile({user, selected, onClick}) {
           <div className="border-dark d-flex p-1">
               {user?.thumbUrl ?
                   <Avatar alt={user?.firstName} src={`${BASE_DATA_URL}${user?.thumbUrl}`}/> :
-                  <Avatar {...stringAvatar(`${user.firstName} ${user.lastName}`)} />
+                  <Avatar {...stringAvatar(`${user?.firstName} ${user?.lastName}`)} />
               }
           </div>
           <div className="d-flex flex-row justify-content-between flex-grow-1">
