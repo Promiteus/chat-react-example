@@ -15,7 +15,7 @@ function TabItem(props) {
             {...other}
         >
             {value === index && (
-                <Box sx={{ p: 0.5 }}>
+                <Box className="p-1 h-100">
                     {children}
                 </Box>
             )}

@@ -30,7 +30,6 @@ function MessageView({stomp, currentUserId}) {
          //Получить подтверждение, что сообщение отправлено
          stomp.onMessageReceived = (data) => {
              let body = JSON.parse(data?.body);
-             console.log("MessageView onMessageReceived: "+data?.body)
 
              if ((body) && (body?.content)) {
                setMessageList(prev => [...prev, {
