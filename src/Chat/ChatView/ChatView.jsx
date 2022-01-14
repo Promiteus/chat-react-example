@@ -11,15 +11,15 @@ import {Grid} from "@mui/material";
 function ChatView ({userId, stomp, response}) {
 
   return (
-    <div className="d-flex flex-row justify-content-center align-items-stretch h-100">
-            <Grid container spacing={1} className="h-100">
+    <div className="d-flex flex-row justify-content-center h-100">
+            <Grid container spacing={1}>
                 <Grid item xs={12} md={4}>
                     <div className="users h-100">
                         <Userlist users={response?.lastChats || []} currentUserId={userId} page={0}/>
                     </div>
                 </Grid>
                 <Grid item xs={12} md={8}>
-                    <div className="chat h-100">
+                    <div className="d-flex flex-column chat h-100">
                         <TopHeaderView/>
                         <NameView />
                         <MessageView stomp={stomp} currentUserId={userId}/>

@@ -102,12 +102,12 @@ function MessageView({stomp, currentUserId}) {
   }, [status]);
   
   return (
-    <div>
+    <div className="flex-grow-1 my-1">
         {loading ?
         <Stack sx={{ width: '100%', color: 'grey.500' }} spacing={2}>
             <LinearProgress color="success" />
         </Stack> : ''}
-        <div ref={scrollChat} className="chatView d-flex flex-column" >
+        <div ref={scrollChat} className="chatView d-flex flex-column " >
             {beforeMessageList.map((element) => (<MessageItem key={element?.id} data={element} currentUserId={currentUserId}/>))}
             {messageList.map((element) => (<MessageItem key={element?.id} data={element} currentUserId={currentUserId}/>))}
             <div ref={chatBottomScroller}/>
