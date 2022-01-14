@@ -27,7 +27,6 @@ function ChatView ({userId, stomp, response}) {
                   <Grid item xs={12} md={8}>
                       <div className="d-flex flex-column chat h-100">
                           <TopHeaderView/>
-                          <NameView />
                           <MessageView stomp={stomp} currentUserId={userId} chatClientHeight={chatClientHeight}/>
                           <MessageSendView stomp={stomp} currentUserId={userId}/>
                       </div>

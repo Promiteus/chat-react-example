@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import Userprofile from "./UserProfile/UserProfile";
-import {FormControl, Input, InputLabel, Paper, Typography} from "@mui/material";
+import {Divider, FormControl, Input, InputLabel, Paper, Typography} from "@mui/material";
 import {SearchSvg} from "../../../Svg";
 import {useDispatch} from "react-redux";
 import {chatUserAsync} from "../../../Stores/slices/ChatSlice";
@@ -46,7 +46,7 @@ export default function Userlist({users, currentUserId, page}) {
       <div className="UserList p-2 d-flex flex-column h-100">
           <div><Typography variant={"h5"}>{CAPTION_CHATS}</Typography></div>
 
-          <Paper elevation={2} className="px-1">
+          <div>
               <FormControl variant="standard" fullWidth={true}>
                   <InputLabel htmlFor="input-with-icon-adornment">
                       Поиск по имени
@@ -63,7 +63,8 @@ export default function Userlist({users, currentUserId, page}) {
                           }
                        />
               </FormControl>
-          </Paper>
+              <Divider/>
+          </div>
 
           <div class="h-100 overflow-hidden">
               <div className="last-chat">

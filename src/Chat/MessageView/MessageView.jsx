@@ -10,7 +10,7 @@ let page_ = 0;
 let selectedUser_ = {};
 let isExecuted = false;
 let chatViewHeight = 578;
-const CHAT_VIEW_PERCENT_HEIGHT = 76.253;
+const CHAT_VIEW_PERCENT_HEIGHT = 78;
 
 
 function MessageView({stomp, currentUserId, chatClientHeight}) {
