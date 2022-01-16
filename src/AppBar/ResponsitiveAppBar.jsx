@@ -12,7 +12,7 @@ import {
     Tooltip,
     Typography,
 } from "@mui/material";
-import MenuIcon from '@mui/icons-material/Menu';
+import {MenuListSvg} from "../Svg";
 
 
 const pages = ['Products', 'Pricing', 'Blog'];
@@ -60,7 +60,7 @@ const ResponsiveAppBar = () => {
                             color="inherit"
                         >
                             {/* eslint-disable-next-line react/jsx-no-undef */}
-                            <MenuIcon />
+                            <MenuListSvg />
                         </IconButton>
                         <Menu
                             id="menu-appbar"
