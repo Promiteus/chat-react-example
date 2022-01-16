@@ -1,6 +1,7 @@
 .main-panel {
-  height: 92vh;
+  height: 91vh;
   background-color: #fdfdf3;
+  box-shadow: 1px 1px 3px #AAAAAA;
 }
 
 .last-chat {

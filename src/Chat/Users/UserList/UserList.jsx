@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import Userprofile from "./UserProfile/UserProfile";
-import {Divider, FormControl, Input, InputLabel, Paper, Typography} from "@mui/material";
+import {Chip, Divider, FormControl, Input, InputLabel, Paper, Typography} from "@mui/material";
 import {SearchSvg} from "../../../Svg";
 import {useDispatch} from "react-redux";
 import {chatUserAsync} from "../../../Stores/slices/ChatSlice";
 import {defineSelectedUser} from "../../../Stores/slices/CommonSlice";
-import {CAPTION_CHATS, CAPTION_EMPTY_CHAT} from "../../../Constants/TextMessagesRu";
+import {CAPTION_CHATS, CAPTION_EMPTY_CHAT, CAPTION_EMPTY_PROFILES} from "../../../Constants/TextMessagesRu";
 
 
 /**
@@ -73,7 +73,9 @@ export default function Userlist({users, currentUserId, page}) {
                               <Userprofile onClick={clickItem} selected={(selectedUser === user.id)} user={user}/>
                           </div>
                       )) :
-                      <div><Typography variant={"h6"} className="mt-1 text-center text-danger">{CAPTION_EMPTY_CHAT}</Typography></div>}
+                      <div className="d-flex justify-content-center flex-row mt-2">
+                          <Chip label={CAPTION_EMPTY_CHAT.toUpperCase()} color={"error"} variant={"outlined"}/>
+                      </div>}
               </div>
           </div>
       </div>

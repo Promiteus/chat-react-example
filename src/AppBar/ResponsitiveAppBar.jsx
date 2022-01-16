@@ -16,6 +16,7 @@ import {MenuListSvg} from "../Svg";
 import {BASE_DATA_URL} from "../Stores/api/Common/ApiCommon";
 
 
+
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Logout'];
 
@@ -42,14 +43,13 @@ const ResponsiveAppBar = ({user}) => {
         <AppBar position="static">
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
-                    <Typography
-                        variant="h6"
+                    <Box
                         noWrap
                         component="div"
                         sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
                     >
-                        LOGO
-                    </Typography>
+                        <img alt="logo" src={''}/>
+                    </Box>
 
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                         <IconButton
@@ -87,14 +87,13 @@ const ResponsiveAppBar = ({user}) => {
                             ))*/}
                         </Menu>
                     </Box>
-                    <Typography
-                        variant="h6"
+                    <Box
                         noWrap
                         component="div"
                         sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
                     >
-                        LOGO
-                    </Typography>
+                        <img alt="logo" src={''}/>
+                    </Box>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                         {/*pages.map((page) => (
                             <Button
