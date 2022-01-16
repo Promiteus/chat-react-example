@@ -1,7 +1,8 @@
 import React from "react";
-import {Box, Container, Grid, Paper, Typography} from "@mui/material";
-import GuestViewElement from "./GuestViewElement";
+import {Box, Chip, Container, Grid, Paper, Typography} from "@mui/material";
+import ProfileViewElement from "./ProfileViewElement";
 import './index.css'
+import {CAPTION_EMPTY_GUESTS, CAPTION_EMPTY_PROFILES} from "../Constants/TextMessagesRu";
 
 const GuestsView = ({visitors}) => {
     return (
@@ -9,13 +10,13 @@ const GuestsView = ({visitors}) => {
                 {visitors?.length ?
                     <Grid container spacing={1} >
                         {visitors?.map(elem => (
-                            <GuestViewElement visitorDetails={elem}/>
+                            <ProfileViewElement profile={elem}/>
                         ))}
                     </Grid>
                     :
-                    <Paper elevation={3} className="text-center">
-                        <Typography variant="h5">У вас пока не было гостей</Typography>
-                    </Paper>}
+                    <div className="d-flex justify-content-center flex-row mt-2">
+                        <Chip label={CAPTION_EMPTY_GUESTS.toUpperCase()} color={"primary"} variant={"outlined"}/>
+                    </div>}
             </div>
     );
 }

@@ -2,7 +2,7 @@ import React from "react";
 import {Card, CardContent, CardHeader, CardMedia, Grid, IconButton, Typography} from "@mui/material";
 import {BASE_DATA_URL} from "../Stores/api/Common/ApiCommon";
 
-const GuestViewElement = ({visitorDetails}) => {
+const ProfileViewElement = ({profile}) => {
 
     return(
         <>
@@ -14,19 +14,18 @@ const GuestViewElement = ({visitorDetails}) => {
 
                          </IconButton>
                      }
-                     title={`${visitorDetails?.firstName} ${visitorDetails?.lastName}`}
-                     subheader={`Родился ${visitorDetails?.birthDate}`}
+                     title={`${profile?.firstName} ${profile?.lastName}`}
+                     subheader={`Родился ${profile?.birthDate}`}
                  />
                  <CardMedia
                      component="img"
                      height="194"
-                     image={BASE_DATA_URL+visitorDetails?.thumbUrl}
+                     image={BASE_DATA_URL+profile?.thumbUrl}
                      alt="Paella dish"
                  />
                  <CardContent>
                      <Typography variant="body2" color="text.secondary">
-                         {visitorDetails?.aboutMe}
-
+                         {profile?.aboutMe}
                      </Typography>
                  </CardContent>
              </Card>
@@ -35,4 +34,4 @@ const GuestViewElement = ({visitorDetails}) => {
     );
 }
 
-export default GuestViewElement;
+export default ProfileViewElement;

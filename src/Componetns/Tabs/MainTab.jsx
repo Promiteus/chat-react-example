@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Box, Container, Tab, Tabs} from "@mui/material";
 import TabItem from "./TabItem";
 import ChatView from "../../Chat/ChatView";
-import {CAPTION_CHATS, CAPTION_GUESTS} from "../../Constants/TextMessagesRu";
+import {CAPTION_CHATS, CAPTION_GUESTS, CAPTION_SEARCH} from "../../Constants/TextMessagesRu";
 import {StompClient} from "../../Chat/Websocker/ws";
 import {USER_ID_KEY} from "../../Stores/api/Common/ApiCommon";
 import {useLocation, useNavigate} from "react-router-dom";
@@ -13,6 +13,7 @@ import {deleteUserAccountAsync} from "../../Stores/slices/UserSlice";
 import Loader from "../Loader/Loader";
 import {GuestsView} from "../../Guests";
 import ResponsiveAppBar from "../../AppBar/ResponsitiveAppBar";
+import SearchProfiles from "../../SearchProfiles/SearchProfiles";
 
 function a11yProps(index) {
     return {
@@ -89,6 +90,7 @@ const MainTab = (props) => {
                     <Tabs value={tabIndex} onChange={handleChange} >
                         <Tab label={CAPTION_CHATS} {...a11yProps(0)} />
                         <Tab label={CAPTION_GUESTS} {...a11yProps(1)} />
+                        <Tab label={CAPTION_SEARCH} {...a11yProps(2)} />
                     </Tabs>
                 </Box>
                 <TabItem value={tabIndex} index={0}>
@@ -96,6 +98,9 @@ const MainTab = (props) => {
                 </TabItem>
                 <TabItem value={tabIndex} index={1} >
                     <GuestsView visitors={response?.lastVisitors || []}/>
+                </TabItem>
+                <TabItem value={tabIndex} index={2} >
+                    <SearchProfiles profiles={[]}/>
                 </TabItem>
 
                 <AlertToast text={errMsg} open={showError} success={false}/>
