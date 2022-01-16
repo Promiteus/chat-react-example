@@ -17,7 +17,7 @@ import {BASE_DATA_URL} from "../Stores/api/Common/ApiCommon";
 
 
 const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['Profile', 'Logout'];
 
 const ResponsiveAppBar = ({user}) => {
     const [anchorElNav, setAnchorElNav] = useState(null);
@@ -80,11 +80,11 @@ const ResponsiveAppBar = ({user}) => {
                                 display: { xs: 'block', md: 'none' },
                             }}
                         >
-                            {pages.map((page) => (
+                            {/*pages.map((page) => (
                                 <MenuItem key={page} onClick={handleCloseNavMenu}>
                                     <Typography textAlign="center">{page}</Typography>
                                 </MenuItem>
-                            ))}
+                            ))*/}
                         </Menu>
                     </Box>
                     <Typography
@@ -96,7 +96,7 @@ const ResponsiveAppBar = ({user}) => {
                         LOGO
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                        {pages.map((page) => (
+                        {/*pages.map((page) => (
                             <Button
                                 key={page}
                                 onClick={handleCloseNavMenu}
@@ -104,7 +104,7 @@ const ResponsiveAppBar = ({user}) => {
                             >
                                 {page}
                             </Button>
-                        ))}
+                        ))*/}
                     </Box>
 
                     <Box sx={{ flexGrow: 0 }}>

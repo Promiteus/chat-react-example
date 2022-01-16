@@ -21,14 +21,16 @@ function TopHeaderView (props)  {
                     <Typography variant={"h6"}>{CAPTION_CHATS}</Typography>
                 </div>
                 <div className="d-flex flex-row align-content-center">
-                    <div className="d-flex flex-column align-items-end">
-                        <Typography variant={"subtitle1"} className="m-0 p-0"><b>{selectedUser?.firstName} {selectedUser?.lastName}</b></Typography>
-                        <Typography variant={"body2"} className="m-0 p-0">Возраст: {dateDiffYears(selectedUser?.birthDate, new Date().toDateString())}</Typography>
-                    </div>
+                    {selectedUser.firstName ?
+                        <div className="d-flex flex-column align-items-end">
+                            <Typography variant={"subtitle1"} className="m-0 p-0"><b>{selectedUser?.firstName} {selectedUser?.lastName}</b></Typography>
+                            <Typography variant={"body2"} className="m-0 p-0">Возраст: {dateDiffYears(selectedUser?.birthDate, new Date().toDateString())}</Typography>
+                        </div> :
+                        <div></div>}
                     <div className="border-dark d-flex p-1">
                         {selectedUser?.thumbUrl ?
                             <Avatar alt={selectedUser?.firstName} src={`${BASE_DATA_URL}${selectedUser?.thumbUrl}`}/> :
-                            <Avatar {...stringAvatar(`${selectedUser?.firstName} ${selectedUser?.lastName}`)} />
+                            <Avatar src="/static/images/avatar/2.jpg" />
                         }
                     </div>
                 </div>
