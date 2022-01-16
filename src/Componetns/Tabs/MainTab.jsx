@@ -12,6 +12,7 @@ import {AlertToast} from "../Modals/Toasts/AlertToast";
 import {deleteUserAccountAsync} from "../../Stores/slices/UserSlice";
 import Loader from "../Loader/Loader";
 import {GuestsView} from "../../Guests";
+import ResponsiveAppBar from "../../AppBar/ResponsitiveAppBar";
 
 function a11yProps(index) {
     return {
@@ -81,22 +82,24 @@ const MainTab = (props) => {
     if (loading) return <Loader/>;
 
     return (
-        <div className="container main-panel mt-2">
+        <div>
+            <ResponsiveAppBar user={response?.userProfile}/>
+            <div className="container main-panel mt-2">
+                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                    <Tabs value={tabIndex} onChange={handleChange} >
+                        <Tab label={CAPTION_CHATS} {...a11yProps(0)} />
+                        <Tab label={CAPTION_GUESTS} {...a11yProps(1)} />
+                    </Tabs>
+                </Box>
+                <TabItem value={tabIndex} index={0}>
+                    <ChatView stomp={stompClient} userId={currentUserId} response={response}/>
+                </TabItem>
+                <TabItem value={tabIndex} index={1} >
+                    <GuestsView visitors={response?.lastVisitors || []}/>
+                </TabItem>
 
-              <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                  <Tabs value={tabIndex} onChange={handleChange} >
-                      <Tab label={CAPTION_CHATS} {...a11yProps(0)} />
-                      <Tab label={CAPTION_GUESTS} {...a11yProps(1)} />
-                  </Tabs>
-              </Box>
-              <TabItem value={tabIndex} index={0}>
-                 <ChatView stomp={stompClient} userId={currentUserId} response={response}/>
-              </TabItem>
-              <TabItem value={tabIndex} index={1} >
-                  <GuestsView visitors={response?.lastVisitors || []}/>
-              </TabItem>
-
-          <AlertToast text={errMsg} open={showError} success={false}/>
+                <AlertToast text={errMsg} open={showError} success={false}/>
+            </div>
         </div>
     );
 }

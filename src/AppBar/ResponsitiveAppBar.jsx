@@ -13,12 +13,13 @@ import {
     Typography,
 } from "@mui/material";
 import {MenuListSvg} from "../Svg";
+import {BASE_DATA_URL} from "../Stores/api/Common/ApiCommon";
 
 
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
-const ResponsiveAppBar = () => {
+const ResponsiveAppBar = ({user}) => {
     const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);
 
@@ -59,7 +60,6 @@ const ResponsiveAppBar = () => {
                             onClick={handleOpenNavMenu}
                             color="inherit"
                         >
-                            {/* eslint-disable-next-line react/jsx-no-undef */}
                             <MenuListSvg />
                         </IconButton>
                         <Menu
@@ -110,7 +110,9 @@ const ResponsiveAppBar = () => {
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                                {(!user) ?
+                                    <Avatar src="/static/images/avatar/2.jpg" /> :
+                                    <Avatar src={`${BASE_DATA_URL}${user?.thumbUrl}`} />}
                             </IconButton>
                         </Tooltip>
                         <Menu
