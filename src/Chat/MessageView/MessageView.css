@@ -2,4 +2,6 @@
     background-color: rgb(243, 238, 215);
     padding: 6px;
     overflow-y: scroll;
+    background-image: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), url("/src/assets/sex_icon_50.png");
+    background-repeat: repeat;
 }
