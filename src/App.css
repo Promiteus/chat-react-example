@@ -21,6 +21,10 @@
   border-radius: 0.5rem;
   min-width: 350px;
   background-color: white;
+
+  position: absolute;
+  top: 23%;
+  left: auto;
 }
 
 

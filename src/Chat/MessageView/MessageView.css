@@ -1,6 +1,5 @@
 .chatView {
-    background-color: rgb(252, 245, 236);
+    background-color: rgb(243, 238, 215);
     padding: 6px;
     overflow-y: scroll;
-    /*height: 578px;*/
 }

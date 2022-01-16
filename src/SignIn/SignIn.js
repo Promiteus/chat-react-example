@@ -47,7 +47,7 @@ export default function SignIn()  {
     if (loading) return <Loader/>;
 
     return (
-        <div className="container p-2 d-flex justify-content-center">            
+        <div className="p-2 d-flex justify-content-center h-100">
              <div className="d-flex flex-column primary-form">
                
                  <div className="d-flex justify-content-center align-items-center">

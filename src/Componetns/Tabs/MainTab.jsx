@@ -81,7 +81,7 @@ const MainTab = (props) => {
     if (loading) return <Loader/>;
 
     return (
-        <div className="container main-panel">
+        <div className="container main-panel mt-2">
 
               <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                   <Tabs value={tabIndex} onChange={handleChange} >

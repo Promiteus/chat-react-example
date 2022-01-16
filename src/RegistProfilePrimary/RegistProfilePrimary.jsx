@@ -11,10 +11,6 @@ function RegistProfilePrimary() {
 
     return (
      <div className="">
-        <nav className=' d-flex flex-row-reverse m-3' >
-          <Link to="/signin"><Button variant="outlined">Вход</Button></Link>
-        </nav>
-
          { (sex === '') ?
              <SelectSexForm
                  onClick={(data) => {
