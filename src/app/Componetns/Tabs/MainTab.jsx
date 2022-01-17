@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Box, Container, Tab, Tabs} from "@mui/material";
+import {Box, Tab, Tabs} from "@mui/material";
 import TabItem from "./TabItem";
 import ChatView from "../../Chat/ChatView";
 import {CAPTION_CHATS, CAPTION_GUESTS, CAPTION_SEARCH} from "../../Constants/TextMessagesRu";
@@ -56,7 +56,10 @@ const MainTab = (props) => {
             navigate('/registration');
             //Сбросить статус на 0
             profileDispatch(dropStatus());
+        } else if ((status === null) && (!loading)) {
+            navigate('signin');
         }
+
     }, [status]);
 
     //Реагирует однократно для userId
