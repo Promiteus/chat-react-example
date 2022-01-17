@@ -9,14 +9,14 @@ import {dateDiffYears} from "../../Componetns/DateHandlers";
 import {CAPTION_CHATS} from "../../Constants/TextMessagesRu";
 
 
-function TopHeaderView (props)  {
+function TopHeaderView ({onBack})  {
     const {selectedUser} = useSelector(selectCommon);
 
 
     return (
         <div>
             <div className="d-flex flex-row justify-content-between align-items-center my-1">
-                <div className="d-flex flex-row align-items-center" >
+                <div className="d-flex flex-row align-items-center" onClick={onBack}>
                     <LeftChevronSvg />
                     <Typography variant={"h6"}>{CAPTION_CHATS}</Typography>
                 </div>

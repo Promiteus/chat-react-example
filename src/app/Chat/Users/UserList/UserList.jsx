@@ -16,7 +16,7 @@ import {CAPTION_CHATS, CAPTION_EMPTY_CHAT, CAPTION_EMPTY_PROFILES} from "../../.
  * @returns {JSX.Element}
  * @constructor
  */
-export default function Userlist({users, currentUserId, page}) {
+export default function Userlist({users, currentUserId, page, onSelected}) {
     const [selectedUser, setSelectedUser] = useState(0);
     const chatDispatch = useDispatch();
     const commonDispatch = useDispatch();
@@ -34,7 +34,8 @@ export default function Userlist({users, currentUserId, page}) {
                 size: 10,
                 userId: selectedUserId,
                 fromUserId: currentUserId
-            }))
+            }));
+            onSelected(user?.id);
         }
     }
 
