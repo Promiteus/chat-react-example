@@ -14,6 +14,8 @@ import {
 } from "@mui/material";
 import {MenuListSvg} from "../Svg";
 import {BASE_DATA_URL} from "../Stores/api/Common/ApiCommon";
+import {IMG_LOGO} from "../assets";
+
 
 
 
@@ -48,7 +50,7 @@ const ResponsiveAppBar = ({user}) => {
                         component="div"
                         sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
                     >
-                        <img alt="logo" src={''}/>
+                        <img alt="logo" src={IMG_LOGO} style={{height: 50}}/>
                     </Box>
 
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -92,7 +94,7 @@ const ResponsiveAppBar = ({user}) => {
                         component="div"
                         sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
                     >
-                        <img alt="logo" src={''}/>
+                        <img alt="logo" src={IMG_LOGO} style={{height: 50}}/>
                     </Box>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                         {/*pages.map((page) => (
