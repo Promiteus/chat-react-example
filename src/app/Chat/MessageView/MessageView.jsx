@@ -23,6 +23,12 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
   const chatDispatch = useDispatch();
 
   useEffect(() => {
+      setTimeout(() => {
+          scrollToBottom();
+      }, 500);
+  }, [selectedUser])
+
+  useEffect(() => {
       //При достижении прокрутки чата до верхней границы контейнера
       //происходит дозагрузка прошлых сообщений
       scrollChat.current.addEventListener("scroll", () => {
@@ -58,7 +64,7 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
    * Вызывает прокрутку чата вниз при появлении новых сообщений
    *  */
  const scrollToBottom = () => {
-     chatBottomScroller.current.scrollIntoView({behavior: "smooth"});
+     chatBottomScroller?.current?.scrollIntoView({behavior: "smooth"});
  }
 
   /**
