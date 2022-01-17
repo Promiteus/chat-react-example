@@ -11,6 +11,7 @@ const CAPTION_SEARCH = "Поиск";
 const CAPTION_EMPTY_PROFILES = "Здесь пока нет людей.";
 const CAPTION_EMPTY_GUESTS = "У вас пока нет гостей.";
 
+
 /**
  * Уведомление при не 200 статусе
  * @param stat Number

@@ -10,6 +10,7 @@ import {AlertToast} from "../Componetns/Modals/Toasts/AlertToast";
 import {getNotificationMsg} from "../Constants/TextMessagesRu";
 import Loader from "../Componetns/Loader/Loader";
 import {TOKEN_KEY, USER_ID_KEY} from "../Stores/api/Common/ApiCommon";
+import {ROUTE_REGISTRATION} from "../Constants/Routes";
 
 
 export default function SignIn()  {
@@ -32,7 +33,7 @@ export default function SignIn()  {
             navigator(`/?userId=${response?.userId}`);
         } else if ((+status === 404) && (credential.login)) {
             //Перейти на страницу регистрации
-            navigator('/registration');
+            navigator(ROUTE_REGISTRATION);
         }
     }, [status]);
 

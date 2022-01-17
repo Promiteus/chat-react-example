@@ -10,6 +10,7 @@ import {SOMETHING_WENT_WRONG, SUCH_USER_EXISTS} from "../../Constants/TextMessag
 
 import Loader from "../../Componetns/Loader/Loader";
 import {USER_ID_KEY} from "../../Stores/api/Common/ApiCommon";
+import {ROUTE_SIGNUP} from "../../Constants/Routes";
 
 /**
  * status = 409 - такой пользователь уже есть !
@@ -65,7 +66,7 @@ export default function BaseUserProfileForm({sex}) {
             <div className="d-flex flex-column primary-form">
                 <h4 className="text-center">Почти готово</h4>
 
-                <Link to="/signin">
+                <Link to={ROUTE_SIGNUP}>
                     <div className="d-inline-block mx-1">
                         <ArrowLeftSvg/>
                     </div>

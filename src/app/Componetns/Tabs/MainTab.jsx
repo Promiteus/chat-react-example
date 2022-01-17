@@ -14,6 +14,7 @@ import Loader from "../Loader/Loader";
 import {GuestsView} from "../../Guests";
 import ResponsiveAppBar from "../../AppBar/ResponsitiveAppBar";
 import SearchProfiles from "../../SearchProfiles/SearchProfiles";
+import {ROUTE_REGISTRATION, ROUTE_SIGNUP} from "../../Constants/Routes";
 
 function a11yProps(index) {
     return {
@@ -53,11 +54,11 @@ const MainTab = (props) => {
                 userId: currentUserId,
                 isAccountOnly: true
             }));
-            navigate('/registration');
+            navigate(ROUTE_REGISTRATION);
             //Сбросить статус на 0
             profileDispatch(dropStatus());
         } else if ((status === null) && (!loading)) {
-            navigate('signin');
+            navigate(ROUTE_SIGNUP);
         }
 
     }, [status]);
