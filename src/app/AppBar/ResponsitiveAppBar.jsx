@@ -17,9 +17,6 @@ import {BASE_DATA_URL} from "../Stores/api/Common/ApiCommon";
 import {IMG_LOGO} from "../../assets";
 
 
-
-
-const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Logout'];
 
 const ResponsiveAppBar = ({user}) => {
@@ -42,9 +39,9 @@ const ResponsiveAppBar = ({user}) => {
     };
 
     return (
-        <AppBar position="static">
+        <AppBar position="static" elevation={1} sx={{backgroundColor: 'orange'}}>
             <Container maxWidth="xl">
-                <Toolbar disableGutters>
+                <Toolbar disableGutters >
                     <Box
                         noWrap
                         component="div"
@@ -82,12 +79,7 @@ const ResponsiveAppBar = ({user}) => {
                                 display: { xs: 'block', md: 'none' },
                             }}
                         >
-                            {/*pages.map((page) => (
-                                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center">{page}</Typography>
-                                </MenuItem>
-                            ))*/}
-                        </Menu>
+                       </Menu>
                     </Box>
                     <Box
                         noWrap
@@ -97,15 +89,7 @@ const ResponsiveAppBar = ({user}) => {
                         <img alt="logo" src={IMG_LOGO} style={{height: 50}}/>
                     </Box>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                        {/*pages.map((page) => (
-                            <Button
-                                key={page}
-                                onClick={handleCloseNavMenu}
-                                sx={{ my: 2, color: 'white', display: 'block' }}
-                            >
-                                {page}
-                            </Button>
-                        ))*/}
+
                     </Box>
 
                     <Box sx={{ flexGrow: 0 }}>
