@@ -4,7 +4,7 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.css';
 import {Provider} from "react-redux";
-import store from "./Stores/store";
+import store from "./app/Stores/store";
 import {BrowserRouter} from "react-router-dom";
 import App from "./App";
 

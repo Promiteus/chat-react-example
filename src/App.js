@@ -1,8 +1,8 @@
 import './App.css';
 import {Routes, Route} from 'react-router-dom';
-import SignIn from "./SignIn/SignIn";
-import RegistProfilePrimary from './RegistProfilePrimary/RegistProfilePrimary';
-import MainTab from "./Componetns/Tabs/MainTab";
+import SignIn from "./app/SignIn/SignIn";
+import RegistProfilePrimary from './app/RegistProfilePrimary/RegistProfilePrimary';
+import MainTab from "./app/Componetns/Tabs/MainTab";
 
 function App() {
   return (

@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import {MenuListSvg} from "../Svg";
 import {BASE_DATA_URL} from "../Stores/api/Common/ApiCommon";
-import {IMG_LOGO} from "../assets";
+import {IMG_LOGO} from "../../assets";
 
 
 
