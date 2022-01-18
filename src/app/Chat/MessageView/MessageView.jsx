@@ -26,7 +26,12 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
       setTimeout(() => {
           scrollToBottom();
       }, 500);
-  }, [selectedUser])
+  }, [selectedUser]);
+
+  useEffect(() => {
+      //Пересчитать фиксированнцю высоту chatView и присвоить div контейнеру.
+      chatViewHeight = (chatClientHeight*CHAT_VIEW_PERCENT_HEIGHT)/100;
+  }, [chatClientHeight]);
 
   useEffect(() => {
       //При достижении прокрутки чата до верхней границы контейнера
@@ -37,9 +42,6 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
                 loadMore();
             }
       });
-
-      //Пересчитать фиксированнцю высоту chatView и присвоить div контейнеру.
-      chatViewHeight = (chatClientHeight*CHAT_VIEW_PERCENT_HEIGHT)/100;
 
       if (stomp) {
            //Получить подтверждение, что сообщение отправлено
@@ -122,7 +124,7 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
   }, [status]);
   
   return (
-    <div className="flex-grow-1 my-1 ">
+    <div className="flex-grow-1 my-1 h-100">
         {loading ?
         <Stack sx={{ width: '100%', color: 'grey.500' }} spacing={2}>
             <LinearProgress color="success" />

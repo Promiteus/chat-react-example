@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {Box, Tab, Tabs} from "@mui/material";
 import TabItem from "./TabItem";
 import ChatView from "../../Chat/ChatView";
@@ -28,6 +28,7 @@ function useQuery() {
 }
 
 let stompClient = new StompClient();
+let pattleHeight = 0;
 
 const MainTab = (props) => {
     const [tabIndex, setTabIndex] = useState(0);
@@ -37,6 +38,7 @@ const MainTab = (props) => {
     const [errMsg, setErrMsg] = useState('');
     const {response, status, loading} = useSelector(selectProfile);
     const navigate = useNavigate();
+    const tabItemRef = useRef();
 
     //Получить userId из параметра запроса или из локального хранилища.
     const currentUserId = !(query.get(USER_ID_KEY)) ? localStorage.getItem(USER_ID_KEY) : query.get(USER_ID_KEY);
@@ -45,6 +47,10 @@ const MainTab = (props) => {
     const handleChange = (event, newIndex) => {
         setTabIndex(newIndex);
     }
+
+    useEffect(() => {
+        console.log("MainTab tabItem height: "+tabItemRef?.current?.clientHeight)
+    }, []);
 
     //Реагирует на меняющийся статус запроса профиля пользователя
     useEffect(() => {
@@ -100,7 +106,7 @@ const MainTab = (props) => {
                 <TabItem value={tabIndex} index={0}>
                     <ChatView stomp={stompClient} userId={currentUserId} response={response}/>
                 </TabItem>
-                <TabItem value={tabIndex} index={1} >
+                <TabItem ref={tabItemRef} value={tabIndex} index={1} >
                     <GuestsView visitors={response?.lastVisitors || []}/>
                 </TabItem>
                 <TabItem value={tabIndex} index={2} >

@@ -6,7 +6,7 @@ import {CAPTION_EMPTY_GUESTS, CAPTION_EMPTY_PROFILES} from "../Constants/TextMes
 
 const GuestsView = ({visitors}) => {
     return (
-            <div className="d-block m-1 ">
+            <div style={{overflowY: 'scroll'}} className="d-block m-1 h-100">
                 {visitors?.length ?
                     <Grid container spacing={1} >
                         {visitors?.map(elem => (

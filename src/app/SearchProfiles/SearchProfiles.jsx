@@ -12,7 +12,7 @@ import {CAPTION_EMPTY_PROFILES} from "../Constants/TextMessagesRu";
 const SearchProfiles = ({profiles}) => {
 
     return (
-        <div className="d-block m-1">
+        <div style={{overflowY: 'scroll'}} className="d-block m-1 h-100">
             {profiles?.length ?
                 <Grid container spacing={1} >
                     {profiles?.map(elem => (

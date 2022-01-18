@@ -11,7 +11,7 @@ import {Grid} from "@mui/material";
 const HIDE_BLOCK = { xs: 'none', sm: 'none', md: 'block' };
 const SHOW_BLOCK = { xs: 'block', sm: 'block', md: 'block' };
 
-let chatClientHeight = 750;
+let chatClientHeight = 0;
 let initialDisplayState = {
     chats: {
         value: SHOW_BLOCK
@@ -26,7 +26,7 @@ function ChatView ({userId, stomp, response}) {
     const [display, setDisplay] = useState(initialDisplayState);
 
     useEffect(() => {
-        chatClientHeight = chatRef.current.clientHeight;
+        chatClientHeight = chatRef?.current?.clientHeight;
     }, []);
 
     //Показать чат, скрыть список профилей чатов (история чатов)
