@@ -1,12 +1,10 @@
 
-.guests {
-    padding: 1rem;
-    border: 1px solid rgb(161, 159, 159);
-    border-radius: 0.5rem;
-    background-color: white;
-    height: 600px;
-}
 
 .card-item:hover {
-    opacity: 0.6;
+    opacity: 0.8;
+    border: 1px solid black;
+}
+
+.grid-element {
+    border: 1px solid #a19f9f;
 }

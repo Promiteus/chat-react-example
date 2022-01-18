@@ -6,3 +6,5 @@ export { default as RightChevronSvg } from './RightChevron';
 export { default as ArrowLeftSvg } from './ArrowLeftSvg';
 export { default as LeftChevronSvg } from './LeftChevron';
 export { default as MenuListSvg } from './MenuListSvg';
+export { default as ChatFillSvg } from './ChatFillSvg';
+export { default as HeartFillSvg } from './HeatFillSvg';
