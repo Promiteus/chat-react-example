@@ -1,7 +1,7 @@
 import React from 'react';
 import {useSelector} from "react-redux";
 import {LeftChevronSvg} from "../../Svg";
-import {Avatar, Divider, Paper, Typography} from "@mui/material";
+import {Avatar, Divider, IconButton, Paper, Typography} from "@mui/material";
 import {BASE_DATA_URL} from "../../Stores/api/Common/ApiCommon";
 import {stringAvatar} from "../../Componetns/GraphicHandler";
 import {selectCommon} from "../../Stores/slices/CommonSlice";
@@ -9,7 +9,7 @@ import {dateDiffYears} from "../../Componetns/DateHandlers";
 import {CAPTION_CHATS} from "../../Constants/TextMessagesRu";
 
 
-function TopHeaderView ({onBack})  {
+function TopHeaderView ({onBack, navButtonSx})  {
     const {selectedUser} = useSelector(selectCommon);
 
 
@@ -17,8 +17,9 @@ function TopHeaderView ({onBack})  {
         <div>
             <div className="d-flex flex-row justify-content-between align-items-center my-1">
                 <div className="d-flex flex-row align-items-center" onClick={onBack}>
-                    <LeftChevronSvg />
-                    <Typography variant={"h6"}>{CAPTION_CHATS}</Typography>
+                    <IconButton sx={{display: navButtonSx}}>
+                        <LeftChevronSvg />
+                    </IconButton>
                 </div>
                 <div className="d-flex flex-row align-content-center">
                     {selectedUser.firstName ?

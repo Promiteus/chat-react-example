@@ -50,9 +50,6 @@ const MainTab = (props) => {
         setTabIndex(newIndex);
     }
 
-    useEffect(() => {
-        console.log("MainTab pageIndex: "+pageIndex);
-    }, [pageIndex])
 
     //Реагирует на меняющийся статус запроса профиля пользователя
     useEffect(() => {
@@ -98,6 +95,7 @@ const MainTab = (props) => {
         <div>
             <ResponsiveAppBar user={response?.userProfile}/>
 
+            {/*Чат и поиск профиля*/}
             {pageIndex === 0 &&
               <div className="container main-panel mt-2">
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -118,6 +116,7 @@ const MainTab = (props) => {
                 </TabItem>
               </div>}
 
+            {/*Детали профиля*/}
             {pageIndex === 1 &&
               <div className="container main-panel mt-2">
                  <ProfileDetail profile={response?.userProfile}/>
