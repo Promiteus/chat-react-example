@@ -80,7 +80,6 @@ export default function BaseUserProfileForm({sex}) {
                    <TextField
                        onChange={(e) => {
                            userProfile.firstName = e.target.value;
-                          // console.log(e.target.value);
                        }}
                        required
                        fullWidth={true}

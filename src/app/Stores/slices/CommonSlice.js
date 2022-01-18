@@ -6,6 +6,7 @@ export const commonSlice = createSlice({
     initialState: {
         value: 0,
         selectedUser: {},
+        pageIndex: 0,
     },
     reducers: {
         increment: (state) => {
@@ -16,10 +17,13 @@ export const commonSlice = createSlice({
         },
         defineSelectedUser: (state, action) => {
             state.selectedUser = action.payload;
+        },
+        setPageIndex: (state, action) => {
+            state.pageIndex = action.payload;
         }
     },
 })
 
 export const selectCommon = (state) => state.common;
-export const {increment, setDefaultValue, defineSelectedUser} = commonSlice.actions;
+export const {increment, setDefaultValue, defineSelectedUser, setPageIndex} = commonSlice.actions;
 export default commonSlice.reducer;

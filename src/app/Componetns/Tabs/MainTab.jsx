@@ -15,6 +15,8 @@ import {GuestsView} from "../../Guests";
 import ResponsiveAppBar from "../../AppBar/ResponsitiveAppBar";
 import SearchProfiles from "../../SearchProfiles/SearchProfiles";
 import {ROUTE_REGISTRATION, ROUTE_SIGNUP} from "../../Constants/Routes";
+import {selectCommon} from "../../Stores/slices/CommonSlice";
+import ProfileDetail from "../../ProfileDetails/ProfileDetail";
 
 function a11yProps(index) {
     return {
@@ -37,6 +39,7 @@ const MainTab = (props) => {
     const [showError, setShowError] = useState(false);
     const [errMsg, setErrMsg] = useState('');
     const {response, status, loading} = useSelector(selectProfile);
+    const {pageIndex} = useSelector(selectCommon);
     const navigate = useNavigate();
 
     //Получить userId из параметра запроса или из локального хранилища.
@@ -46,6 +49,10 @@ const MainTab = (props) => {
     const handleChange = (event, newIndex) => {
         setTabIndex(newIndex);
     }
+
+    useEffect(() => {
+        console.log("MainTab pageIndex: "+pageIndex);
+    }, [pageIndex])
 
     //Реагирует на меняющийся статус запроса профиля пользователя
     useEffect(() => {
@@ -90,7 +97,9 @@ const MainTab = (props) => {
     return (
         <div>
             <ResponsiveAppBar user={response?.userProfile}/>
-            <div className="container main-panel mt-2">
+
+            {pageIndex === 0 &&
+              <div className="container main-panel mt-2">
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     <Tabs value={tabIndex} onChange={handleChange} >
                         <Tab label={CAPTION_CHATS} {...a11yProps(0)} />
@@ -107,9 +116,14 @@ const MainTab = (props) => {
                 <TabItem value={tabIndex} index={2} >
                     <SearchProfiles profiles={[]}/>
                 </TabItem>
+              </div>}
 
-                <AlertToast text={errMsg} open={showError} success={false}/>
-            </div>
+            {pageIndex === 1 &&
+              <div className="container main-panel mt-2">
+                 <ProfileDetail profile={response?.userProfile}/>
+              </div>}
+
+            <AlertToast text={errMsg} open={showError} success={false}/>
         </div>
     );
 }

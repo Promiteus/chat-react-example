@@ -1,7 +1,5 @@
 import React, {useState} from 'react';
-import { Link } from 'react-router-dom';
 import SelectSexForm from './SelectSexForm/SelectSexForm';
-import {Button} from "@mui/material";
 import BaseUserProfileForm from "./UserProfileForm/BaseUserProfileForm";
 
 
