@@ -1,10 +1,14 @@
-import React from "react";
+import React, {useEffect} from "react";
 import StandartHeader from "../Componetns/Header/StandartHeader";
 import {useDispatch} from "react-redux";
 import {setPageIndex} from "../Stores/slices/CommonSlice";
 
 const ProfileDetail = ({profile}) => {
     const commonDispatch = useDispatch();
+
+    useEffect(() => {
+        console.log("ProfileDetail profile: "+JSON.stringify(profile))
+    }, []);
 
     function onBack() {
         commonDispatch(setPageIndex(0));
