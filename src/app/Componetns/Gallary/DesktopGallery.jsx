@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {BASE_DATA_URL} from "../../Stores/api/Common/ApiCommon";
 import {Card, CardMedia, Divider, Grid, ImageList, ImageListItem, Typography} from "@mui/material";
-import {defineSelectedUser, setPageIndex} from "../../Stores/slices/CommonSlice";
-
+import Viewer from 'react-viewer';
 
 
 /**
@@ -20,7 +19,7 @@ import {defineSelectedUser, setPageIndex} from "../../Stores/slices/CommonSlice"
  * */
 
 const DesktopGallery = ({profile}) => {
-    const [isOpen, setOpen] = useState();
+    const [visible, setVisible] = useState(false);
 
     function getFullUrls() {
         return (profile?.imgUrls?.length > 0) ? profile?.imgUrls.map(elem => (`${BASE_DATA_URL}${elem}`)) : [];
@@ -28,11 +27,20 @@ const DesktopGallery = ({profile}) => {
 
     return(
         <div className="w-100 my-2">
+            <div>
+                <button onClick={() => { setVisible(true); } }>show</button>
+                <Viewer
+                    visible={visible}
+                    onClose={() => { setVisible(false); } }
+                    images={[{src: getFullUrls()[0], alt: ''}]}
+                    noFooter={true}
+                />
+            </div>
             <Typography variant="h5" className="mx-2">Мои фото</Typography>
-            <div className="d-flex justify-content-center my-2 w-100">
+            <div className="d-flex justify-content-start my-2 w-100">
                 <div>
                     <Grid container>
-                        {getFullUrls().map((item) => (
+                        {getFullUrls().map((item, key) => (
                             <Grid item xs={12} sm={6} md={4}>
                                 <Card className="card m-1">
                                     <CardMedia
