@@ -9,7 +9,7 @@ const ProfileDetail = ({profile}) => {
     const {selectedUser} = useSelector(selectCommon);
 
     useEffect(() => {
-        console.log("ProfileDetail profile: "+JSON.stringify(selectedUser))
+       // console.log("ProfileDetail profile: "+JSON.stringify(selectedUser))
     }, []);
 
     function onBack() {
@@ -19,8 +19,8 @@ const ProfileDetail = ({profile}) => {
     return (
         <div className="d-flex flex-column h-100">
             <StandartHeader onClick={onBack}/>
-            <DesktopGallery profile={profile}/>
-            <div style={{overflowY: 'scroll'}} className="d-flex flex-grow-3 h-100">
+            <div style={{overflowY: 'scroll'}} className="d-flex flex-grow-3 ">
+                <DesktopGallery profile={selectedUser}/>
 
             </div>
         </div>
