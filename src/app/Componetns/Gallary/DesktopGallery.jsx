@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import {BASE_DATA_URL} from "../../Stores/api/Common/ApiCommon";
 import {Divider} from "@mui/material";
 //import ImgsViewer from "react-images-viewer/src/ImgsViewer";
+import Viewer from 'react-viewer';
 
 
 /**
@@ -21,16 +22,14 @@ import {Divider} from "@mui/material";
 const DesktopGallery = ({profile}) => {
     const [isOpen, setOpen] = useState();
 
-    function getFullUrls(profile) {
+    function getFullUrls() {
         return (profile?.imgUrls?.length > 0) ? profile?.imgUrls.map(elem => ({src: `${BASE_DATA_URL}${elem}`})) : [{src: ''}];
     }
 
     return(
         <>
             <div className="d-flex flex-row justify-content-center align-content-center">
-                {/*<ImgsViewer
-                    imgs={getFullUrls(profile)}
-                    isOpen={isOpen}/>*/}
+
             </div>
             <Divider/>
         </>

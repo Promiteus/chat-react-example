@@ -2,14 +2,11 @@ import React from "react";
 import {Card, CardActions, CardContent, CardHeader, CardMedia, Grid, IconButton, Typography} from "@mui/material";
 import {BASE_DATA_URL} from "../Stores/api/Common/ApiCommon";
 import {ChatFillSvg, HeartFillSvg} from "../Svg";
-import {useNavigate} from "react-router-dom";
-import {ROUTE_PROFILE} from "../Constants/Routes";
 import {useDispatch} from "react-redux";
-import {setPageIndex} from "../Stores/slices/CommonSlice";
+import {defineSelectedUser, setPageIndex} from "../Stores/slices/CommonSlice";
 
 
 const ProfileViewElement = ({profile}) => {
-    const navigate = useNavigate();
     const dispatch = useDispatch();
 
     return(
@@ -30,7 +27,10 @@ const ProfileViewElement = ({profile}) => {
                      height="194"
                      image={BASE_DATA_URL+profile?.thumbUrl}
                      alt="Paella dish"
-                     onClick={() => {dispatch(setPageIndex(1))}}
+                     onClick={() => {
+                         dispatch(setPageIndex(1));
+                         dispatch(defineSelectedUser(profile));
+                     }}
                      sx = {{padding: 1}}
                  />
                  <CardActions>

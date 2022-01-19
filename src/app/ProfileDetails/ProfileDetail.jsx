@@ -1,14 +1,15 @@
 import React, {useEffect} from "react";
 import StandartHeader from "../Componetns/Header/StandartHeader";
-import {useDispatch} from "react-redux";
-import {setPageIndex} from "../Stores/slices/CommonSlice";
+import {useDispatch, useSelector} from "react-redux";
+import {selectCommon, setPageIndex} from "../Stores/slices/CommonSlice";
 import DesktopGallery from "../Componetns/Gallary/DesktopGallery";
 
 const ProfileDetail = ({profile}) => {
     const commonDispatch = useDispatch();
+    const {selectedUser} = useSelector(selectCommon);
 
     useEffect(() => {
-        console.log("ProfileDetail profile: "+JSON.stringify(profile))
+        console.log("ProfileDetail profile: "+JSON.stringify(selectedUser))
     }, []);
 
     function onBack() {
