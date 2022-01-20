@@ -11,6 +11,13 @@ const CAPTION_SEARCH = "Поиск";
 const CAPTION_EMPTY_PROFILES = "Здесь пока нет людей.";
 const CAPTION_EMPTY_GUESTS = "У вас пока нет гостей.";
 
+const SUBTITLE_MY_PHOTOS = "Мои фото";
+const SUBTITLE_ABOUT_ME = "О себе";
+const SUBTITLE_SEX_ORIENTATION = "Ориентация";
+const SUBTITLE_HOBBIES = "Интересы";
+const SUBTITLE_WHOM_LOFING_FOR = "Кого ищу";
+
+
 
 /**
  * Уведомление при не 200 статусе
@@ -35,4 +42,9 @@ export {
     CAPTION_SEARCH,
     CAPTION_EMPTY_PROFILES,
     CAPTION_EMPTY_GUESTS,
+    SUBTITLE_ABOUT_ME,
+    SUBTITLE_MY_PHOTOS,
+    SUBTITLE_SEX_ORIENTATION,
+    SUBTITLE_WHOM_LOFING_FOR,
+    SUBTITLE_HOBBIES,
 }
