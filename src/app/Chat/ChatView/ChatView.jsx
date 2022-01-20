@@ -12,7 +12,7 @@ const HIDE_BLOCK = { xs: 'none', sm: 'none', md: 'block' };
 const HIDE_MD_BLOCK = { xs: 'block', sm: 'block', md: 'none' };
 const SHOW_BLOCK = { xs: 'block', sm: 'block', md: 'block' };
 
-let chatClientHeight = 0;
+let chatClientHeight = 750;
 let initialDisplayState = {
     chats: {
         value: SHOW_BLOCK

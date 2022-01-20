@@ -20,20 +20,28 @@ import Viewer from 'react-viewer';
 
 const DesktopGallery = ({profile}) => {
     const [visible, setVisible] = useState(false);
+    const [imageIndex, setImageIndex] = useState(0);
 
     function getFullUrls() {
-        return (profile?.imgUrls?.length > 0) ? profile?.imgUrls.map(elem => (`${BASE_DATA_URL}${elem}`)) : [];
+        return (profile?.imgUrls?.length > 0) ?
+            profile?.imgUrls.map(elem => ({src: `${BASE_DATA_URL}${elem}`, alt: ''})) :
+            [{src: '', name: ''}];
+    }
+
+    function showImagePreview(index) {
+        setVisible(true);
+        setImageIndex(index);
     }
 
     return(
         <div className="w-100 my-2">
             <div>
-                <button onClick={() => { setVisible(true); } }>show</button>
                 <Viewer
                     visible={visible}
                     onClose={() => { setVisible(false); } }
-                    images={[{src: getFullUrls()[0], alt: ''}]}
+                    images={getFullUrls()}
                     noFooter={true}
+                    activeIndex={imageIndex}
                 />
             </div>
             <Typography variant="h5" className="mx-2">Мои фото</Typography>
@@ -46,9 +54,10 @@ const DesktopGallery = ({profile}) => {
                                     <CardMedia
                                         component="img"
                                         height="300"
-                                        image={item}
+                                        image={item.src}
                                         alt="Paella dish"
                                         sx = {{padding: 1}}
+                                        onClick={() => showImagePreview(key)}
                                     />
                                 </Card>
                             </Grid>
@@ -58,7 +67,6 @@ const DesktopGallery = ({profile}) => {
             </div>
             <Divider/>
         </div>
-
     )
 }
 
