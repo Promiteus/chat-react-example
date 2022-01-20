@@ -2,6 +2,8 @@ import React, {useEffect, useState} from "react";
 import {BASE_DATA_URL} from "../../Stores/api/Common/ApiCommon";
 import {Card, CardMedia, Divider, Grid, ImageList, ImageListItem, Typography} from "@mui/material";
 import Viewer from 'react-viewer';
+import {PhotoCamera} from "@mui/icons-material";
+import RoundSubstrate from '../../Svg/Sunstrate/RoundSubstrate';
 
 
 /**
@@ -44,7 +46,11 @@ const DesktopGallery = ({profile}) => {
                     activeIndex={imageIndex}
                 />
             </div>
-            <Typography variant="h5" className="mx-2">Мои фото</Typography>
+
+            <div className="d-flex flex-row justify-content-start align-content-center">
+                <RoundSubstrate color="orange" children={<PhotoCamera />} />
+                <Typography variant="h5" className="mx-2">Мои фото</Typography>
+            </div>
             <div className="d-flex justify-content-start my-2 w-100">
                 <div>
                     <Grid container>
