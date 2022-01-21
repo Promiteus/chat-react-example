@@ -4,6 +4,10 @@
   box-shadow: 1px 1px 3px #AAAAAA;
 }
 
+.multi-text-field {
+  background-color: blanchedalmond;
+  border-radius: 6px;
+}
 
 .last-chat {
    overflow-y: scroll;

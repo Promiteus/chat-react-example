@@ -67,7 +67,7 @@ export default function Userlist({users, currentUserId, page, onSelected}) {
               <Divider/>
           </div>
 
-          <div class="h-100 overflow-hidden">
+          <div className="h-100 overflow-hidden">
               <div className="last-chat">
                   {(users.length !== 0) ? users.map((user) => (
                           <div key={user.id} className="mt-1">

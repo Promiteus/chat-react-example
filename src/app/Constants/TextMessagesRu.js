@@ -23,8 +23,8 @@ const SUBTITLE_SEX = "Пол";
 const SUBTITLE_CHILDS = "Дети";
 const SUBTITLE_FAMILY_STATUS = "Семейное положение";
 
-const CAPTION_WRITE = "Напиши";
-const CAPTION_COMPLAIN = "Жалоба";
+const CAPTION_WRITE = "Написать";
+const CAPTION_COMPLAIN = "Пожаловаться";
 
 
 

@@ -1,6 +1,16 @@
 import React, {useEffect, useState} from "react";
 import {BASE_DATA_URL} from "../../Stores/api/Common/ApiCommon";
-import {Button, Card, CardMedia, Grid, IconButton, Typography} from "@mui/material";
+import {
+    Button,
+    Card,
+    CardMedia,
+    FormControl,
+    Grid,
+    IconButton, InputLabel, MenuItem, Select,
+    TextareaAutosize,
+    TextField,
+    Typography
+} from "@mui/material";
 import Viewer from 'react-viewer';
 import {
     Block,
@@ -74,6 +84,7 @@ const DesktopGallery = ({profile, isEdit}) => {
     const [visible, setVisible] = useState(false);
     const [imageIndex, setImageIndex] = useState(0);
 
+
     function getFullUrls() {
         return (profile?.imgUrls?.length > 0) ?
             profile?.imgUrls.map(elem => ({src: `${BASE_DATA_URL}${elem}`, alt: ''})) :
@@ -108,10 +119,11 @@ const DesktopGallery = ({profile, isEdit}) => {
                 <div>
                     <Grid container>
                         {getFullUrls().map((item, key) => (
-                            <Grid item xs={12} sm={4} md={4}>
+                            <Grid key={key} item xs={12} sm={4} md={4}>
                                 <Card className="card m-1">
                                     <CardMedia
                                         component="img"
+                                        key={key}
                                         height="300"
                                         image={item.src}
                                         alt="Paella dish"
@@ -132,8 +144,18 @@ const DesktopGallery = ({profile, isEdit}) => {
                         <ModeEdit/>
                     </IconButton>}
                 </div>
+                <Grid container>
+                    <Grid item md={7} lg={7} sm={12} xs={12}>
+                        <TextareaAutosize
+                            name={"hobbies"}
+                            value={'Гетеро'}
+                            className="multi-text-field px-2 py-1 w-100"
+                            maxRows={3}
+                            minRows={3}
+                        />
+                    </Grid>
+                </Grid>
                 <div className="mx-2 text-success">{<Typography variant={"h6"}>{'Гетеро'}</Typography>}</div>
-
             </div>
             <div className="d-flex flex-column my-4">
                 <div className="d-flex flex-row justify-content-start align-items-center">
@@ -143,6 +165,17 @@ const DesktopGallery = ({profile, isEdit}) => {
                         <ModeEdit/>
                     </IconButton>}
                 </div>
+                <Grid container>
+                    <Grid item md={7} lg={7} sm={12} xs={12}>
+                        <TextareaAutosize
+                            name={"search"}
+                            value={profile?.aboutMe}
+                            className="multi-text-field px-2 py-1 w-100"
+                            maxRows={3}
+                            minRows={3}
+                        />
+                    </Grid>
+                </Grid>
                 <div className="mx-2 text-success">{<Typography variant={"h6"}>{profile?.aboutMe}</Typography>}</div>
             </div>
             <div className="d-flex flex-column my-4">
@@ -153,6 +186,17 @@ const DesktopGallery = ({profile, isEdit}) => {
                         <ModeEdit/>
                     </IconButton>}
                 </div>
+                <Grid container>
+                    <Grid item md={7} lg={7} sm={12} xs={12}>
+                        <TextareaAutosize
+                            name={"aboutMe"}
+                            value={profile?.aboutMe}
+                            className="multi-text-field px-2 py-1 w-100"
+                            maxRows={3}
+                            minRows={3}
+                        />
+                    </Grid>
+                </Grid>
                 <div className="mx-2 text-success">{<Typography variant={"h6"}>{profile?.aboutMe}</Typography>}</div>
             </div>
             <div className="d-flex flex-column my-4">
@@ -163,10 +207,38 @@ const DesktopGallery = ({profile, isEdit}) => {
                         <ModeEdit/>
                     </IconButton>}
                 </div>
+                <Grid container>
+                    <Grid item md={4} lg={4} sm={12} xs={12}>
+                        <FormControl variant="standard" fullWidth>
+                            <Select
+                                labelId="demo-simple-select-standard-label"
+                                label="Age"
+                            >
+                                <MenuItem value={10}>Ten</MenuItem>
+                                <MenuItem value={20}>Twenty</MenuItem>
+                                <MenuItem value={30}>Thirty</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                </Grid>
                 <div className="mx-2 text-success">{<Typography variant={"h6"}>{profile?.sexOrientation}</Typography>}</div>
             </div>
             <div className="d-flex flex-column my-4">
                 <IconSubTitle text={SUBTITLE_SEX} icon={<Face />}/>
+                <Grid container>
+                    <Grid item md={4} lg={4} sm={12} xs={12}>
+                        <FormControl variant="standard" fullWidth>
+                            <Select
+                                labelId="demo-simple-select-standard-label"
+                                label="Age"
+                            >
+                                <MenuItem value={10}>Ten</MenuItem>
+                                <MenuItem value={20}>Twenty</MenuItem>
+                                <MenuItem value={30}>Thirty</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                </Grid>
                 <div className="mx-2 text-success">{<Typography variant={"h6"}>{profile?.sex}</Typography>}</div>
             </div>
             <div className="d-flex flex-column my-4">
@@ -177,7 +249,24 @@ const DesktopGallery = ({profile, isEdit}) => {
                         <ModeEdit/>
                     </IconButton>}
                 </div>
-                <div className="mx-2 text-success">{<Typography variant={"h6"}>{profile?.kids === 0 ? {MSG_NO} : `${MSG_YES} - ${profile?.kids}` }</Typography>}</div>
+                <Grid container>
+                    <Grid item md={4} lg={4} sm={12} xs={12}>
+                        <FormControl variant="standard" fullWidth>
+                            <Select
+                                labelId="demo-simple-select-standard-label"
+                                label="Age"
+                            >
+                                <MenuItem value={10}>Ten</MenuItem>
+                                <MenuItem value={20}>Twenty</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                </Grid>
+                <div className="mx-2 text-success">
+                    {<Typography variant={"h6"}>
+                            {(profile?.kids === 0) ? `${MSG_NO}` : `${MSG_YES} - ${profile?.kids}` }
+                     </Typography>}
+                </div>
             </div>
             <div className="d-flex flex-column my-4">
                 <div className="d-flex flex-row justify-content-start align-items-center">
@@ -187,6 +276,20 @@ const DesktopGallery = ({profile, isEdit}) => {
                         <ModeEdit/>
                     </IconButton>}
                 </div>
+                <Grid container>
+                    <Grid item md={4} lg={4} sm={12} xs={12}>
+                        <FormControl variant="standard" fullWidth>
+                            <Select
+                                labelId="demo-simple-select-standard-label"
+                                label="Age"
+                            >
+                                <MenuItem value={10}>Ten</MenuItem>
+                                <MenuItem value={20}>Twenty</MenuItem>
+                                <MenuItem value={30}>Thirty</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                </Grid>
                 <div className="mx-2 text-success">{<Typography variant={"h6"}>{profile?.familyStatus}</Typography>}</div>
             </div>
             <ActionButtons isEdit={isEdit}/>

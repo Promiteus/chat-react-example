@@ -20,8 +20,7 @@ const ProfileDetail = ({profile}) => {
         <div className="d-flex flex-column h-100">
             <StandartHeader onClick={onBack}/>
             <div style={{overflowY: 'scroll'}} className="d-flex flex-grow-3 ">
-                <DesktopGallery profile={selectedUser}/>
-
+                <DesktopGallery profile={selectedUser} isEdit={true}/>
             </div>
         </div>
 

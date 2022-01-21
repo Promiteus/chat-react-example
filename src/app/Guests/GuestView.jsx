@@ -10,7 +10,7 @@ const GuestsView = ({visitors}) => {
                 {visitors?.length ?
                     <Grid container spacing={1}  >
                         {visitors?.map(elem => (
-                            <ProfileViewElement profile={elem}/>
+                                <ProfileViewElement key={elem?.id} profile={elem}/>
                         ))}
                     </Grid>
                     :
