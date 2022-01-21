@@ -83,7 +83,16 @@ const ActionSave = ({isEdit}) => {
 const DesktopGallery = ({profile, isEdit}) => {
     const [visible, setVisible] = useState(false);
     const [imageIndex, setImageIndex] = useState(0);
-
+    const [profile_, setProfile] = useState(profile);
+    const [editToggle, setEditToggle] = useState({
+        interests: false,
+        aboutMe: false,
+        whoSearch: false,
+        sexOrientation: false,
+        sex: false,
+        kids: false,
+        familyStatus: false,
+    })
 
     function getFullUrls() {
         return (profile?.imgUrls?.length > 0) ?
@@ -140,10 +149,12 @@ const DesktopGallery = ({profile, isEdit}) => {
                 <div className="d-flex flex-row justify-content-start align-items-center">
                     <IconSubTitle text={SUBTITLE_HOBBIES} icon={<Kitesurfing />}/>
                     {isEdit &&
-                    <IconButton onClick={() => {}}>
+                    <IconButton
+                        onClick={() => {setEditToggle(prevState => ({...prevState, interests: !editToggle.interests}))}}>
                         <ModeEdit/>
                     </IconButton>}
                 </div>
+                {editToggle.interests &&
                 <Grid container>
                     <Grid item md={7} lg={7} sm={12} xs={12}>
                         <TextareaAutosize
@@ -154,7 +165,7 @@ const DesktopGallery = ({profile, isEdit}) => {
                             minRows={3}
                         />
                     </Grid>
-                </Grid>
+                </Grid>}
                 <div className="mx-2 text-success">{<Typography variant={"h6"}>{'Гетеро'}</Typography>}</div>
             </div>
             <div className="d-flex flex-column my-4">
