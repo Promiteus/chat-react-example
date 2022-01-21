@@ -85,13 +85,13 @@ const DesktopGallery = ({profile, isEdit}) => {
     const [imageIndex, setImageIndex] = useState(0);
     const [profile_, setProfile] = useState(profile);
     const [editToggle, setEditToggle] = useState({
-        interests: false,
-        aboutMe: false,
-        whoSearch: false,
-        sexOrientation: false,
-        sex: false,
-        kids: false,
-        familyStatus: false,
+        isInterests: false,
+        isAboutMe: false,
+        isWhoSearch: false,
+        isSexOrientation: false,
+        isSex: false,
+        isKids: false,
+        isFamilyStatus: false,
     })
 
     function getFullUrls() {
@@ -149,12 +149,11 @@ const DesktopGallery = ({profile, isEdit}) => {
                 <div className="d-flex flex-row justify-content-start align-items-center">
                     <IconSubTitle text={SUBTITLE_HOBBIES} icon={<Kitesurfing />}/>
                     {isEdit &&
-                    <IconButton
-                        onClick={() => {setEditToggle(prevState => ({...prevState, interests: !editToggle.interests}))}}>
+                    <IconButton onClick={() => {setEditToggle(prevState => ({...prevState, isInterests: !editToggle.isInterests}))}}>
                         <ModeEdit/>
                     </IconButton>}
                 </div>
-                {editToggle.interests &&
+                {editToggle.isInterests &&
                 <Grid container>
                     <Grid item md={7} lg={7} sm={12} xs={12}>
                         <TextareaAutosize
@@ -172,10 +171,11 @@ const DesktopGallery = ({profile, isEdit}) => {
                 <div className="d-flex flex-row justify-content-start align-items-center">
                     <IconSubTitle text={SUBTITLE_WHOM_LOOKING_FOR} icon={<Group />}/>
                     {isEdit &&
-                    <IconButton onClick={() => {}}>
+                    <IconButton onClick={() => {setEditToggle(prevState => ({...prevState, isWhoSearch: !editToggle.isWhoSearch}))}}>
                         <ModeEdit/>
                     </IconButton>}
                 </div>
+                {editToggle.isWhoSearch &&
                 <Grid container>
                     <Grid item md={7} lg={7} sm={12} xs={12}>
                         <TextareaAutosize
@@ -186,17 +186,18 @@ const DesktopGallery = ({profile, isEdit}) => {
                             minRows={3}
                         />
                     </Grid>
-                </Grid>
+                </Grid>}
                 <div className="mx-2 text-success">{<Typography variant={"h6"}>{profile?.aboutMe}</Typography>}</div>
             </div>
             <div className="d-flex flex-column my-4">
                 <div className="d-flex flex-row justify-content-start align-items-center">
                     <IconSubTitle text={SUBTITLE_ABOUT_ME} icon={<Mood />}/>
                     {isEdit &&
-                    <IconButton onClick={() => {}}>
+                    <IconButton onClick={() => {setEditToggle(prevState => ({...prevState, isAboutMe: !editToggle.isAboutMe}))}}>
                         <ModeEdit/>
                     </IconButton>}
                 </div>
+                {editToggle.isAboutMe &&
                 <Grid container>
                     <Grid item md={7} lg={7} sm={12} xs={12}>
                         <TextareaAutosize
@@ -207,31 +208,29 @@ const DesktopGallery = ({profile, isEdit}) => {
                             minRows={3}
                         />
                     </Grid>
-                </Grid>
+                </Grid>}
                 <div className="mx-2 text-success">{<Typography variant={"h6"}>{profile?.aboutMe}</Typography>}</div>
             </div>
             <div className="d-flex flex-column my-4">
                 <div className="d-flex flex-row justify-content-start align-items-center">
                     <IconSubTitle text={SUBTITLE_SEX_ORIENTATION} icon={<RoundaboutLeft />}/>
                     {isEdit &&
-                    <IconButton onClick={() => {}}>
+                    <IconButton onClick={() => {setEditToggle(prevState => ({...prevState, isSexOrientation: !editToggle.isSexOrientation}))}}>
                         <ModeEdit/>
                     </IconButton>}
                 </div>
+                {editToggle.isSexOrientation &&
                 <Grid container>
                     <Grid item md={4} lg={4} sm={12} xs={12}>
                         <FormControl variant="standard" fullWidth>
-                            <Select
-                                labelId="demo-simple-select-standard-label"
-                                label="Age"
-                            >
+                            <Select>
                                 <MenuItem value={10}>Ten</MenuItem>
                                 <MenuItem value={20}>Twenty</MenuItem>
                                 <MenuItem value={30}>Thirty</MenuItem>
                             </Select>
                         </FormControl>
                     </Grid>
-                </Grid>
+                </Grid>}
                 <div className="mx-2 text-success">{<Typography variant={"h6"}>{profile?.sexOrientation}</Typography>}</div>
             </div>
             <div className="d-flex flex-column my-4">
@@ -239,10 +238,7 @@ const DesktopGallery = ({profile, isEdit}) => {
                 <Grid container>
                     <Grid item md={4} lg={4} sm={12} xs={12}>
                         <FormControl variant="standard" fullWidth>
-                            <Select
-                                labelId="demo-simple-select-standard-label"
-                                label="Age"
-                            >
+                            <Select>
                                 <MenuItem value={10}>Ten</MenuItem>
                                 <MenuItem value={20}>Twenty</MenuItem>
                                 <MenuItem value={30}>Thirty</MenuItem>
@@ -256,23 +252,21 @@ const DesktopGallery = ({profile, isEdit}) => {
                 <div className="d-flex flex-row justify-content-start align-items-center">
                     <IconSubTitle text={SUBTITLE_CHILDS} icon={<ChildCare />}/>
                     {isEdit &&
-                    <IconButton onClick={() => {}}>
+                    <IconButton onClick={() => {setEditToggle(prevState => ({...prevState, isKids: !editToggle.isKids}))}}>
                         <ModeEdit/>
                     </IconButton>}
                 </div>
+                {editToggle.isKids &&
                 <Grid container>
                     <Grid item md={4} lg={4} sm={12} xs={12}>
                         <FormControl variant="standard" fullWidth>
-                            <Select
-                                labelId="demo-simple-select-standard-label"
-                                label="Age"
-                            >
-                                <MenuItem value={10}>Ten</MenuItem>
-                                <MenuItem value={20}>Twenty</MenuItem>
+                            <Select>
+                                <MenuItem value={0}>No</MenuItem>
+                                <MenuItem value={1}>Yes</MenuItem>
                             </Select>
                         </FormControl>
                     </Grid>
-                </Grid>
+                </Grid>}
                 <div className="mx-2 text-success">
                     {<Typography variant={"h6"}>
                             {(profile?.kids === 0) ? `${MSG_NO}` : `${MSG_YES} - ${profile?.kids}` }
@@ -283,24 +277,22 @@ const DesktopGallery = ({profile, isEdit}) => {
                 <div className="d-flex flex-row justify-content-start align-items-center">
                     <IconSubTitle text={SUBTITLE_FAMILY_STATUS} icon={<FamilyRestroom />}/>
                     {isEdit &&
-                    <IconButton onClick={() => {}}>
+                    <IconButton onClick={() => {setEditToggle(prevState => ({...prevState, isFamilyStatus: !editToggle.isFamilyStatus}))}}>
                         <ModeEdit/>
                     </IconButton>}
                 </div>
+                {editToggle.isFamilyStatus &&
                 <Grid container>
                     <Grid item md={4} lg={4} sm={12} xs={12}>
                         <FormControl variant="standard" fullWidth>
-                            <Select
-                                labelId="demo-simple-select-standard-label"
-                                label="Age"
-                            >
+                            <Select>
                                 <MenuItem value={10}>Ten</MenuItem>
-                                <MenuItem value={20}>Twenty</MenuItem>
-                                <MenuItem value={30}>Thirty</MenuItem>
+                                <MenuItem value={"MAN"}>Twenty</MenuItem>
+                                <MenuItem value={"ALL"}>Thirty</MenuItem>
                             </Select>
                         </FormControl>
                     </Grid>
-                </Grid>
+                </Grid>}
                 <div className="mx-2 text-success">{<Typography variant={"h6"}>{profile?.familyStatus}</Typography>}</div>
             </div>
             <ActionButtons isEdit={isEdit}/>
