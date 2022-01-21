@@ -1,18 +1,60 @@
 import React, {useEffect, useState} from "react";
 import {BASE_DATA_URL} from "../../Stores/api/Common/ApiCommon";
-import {Card, CardMedia, Divider, Grid, ImageList, ImageListItem, Typography} from "@mui/material";
+import {Button, Card, CardMedia, Grid, IconButton, Typography} from "@mui/material";
 import Viewer from 'react-viewer';
-import {Group, Kitesurfing, Mood, Person, PhotoCamera, RoundaboutLeft} from "@mui/icons-material";
+import {
+    Block,
+    ChatTwoTone,
+    ChildCare, Face, FamilyRestroom,
+    Group,
+    Kitesurfing, Mode,
+    Mood,
+    Person,
+    PhotoCamera,
+    RoundaboutLeft,
+    ModeEdit,
+} from "@mui/icons-material";
 import RoundSubstrate from '../../Svg/Sunstrate/RoundSubstrate';
 import IconSubTitle from "../Header/IconSubTitle";
 import {
-    SUBTITLE_ABOUT_ME, SUBTITLE_HOBBIES,
-    SUBTITLE_MY_PHOTOS,
+    CAPTION_COMPLAIN, CAPTION_SAVE,
+    CAPTION_WRITE, MSG_NO, MSG_YES,
+    SUBTITLE_ABOUT_ME, SUBTITLE_CHILDS, SUBTITLE_FAMILY_STATUS, SUBTITLE_HOBBIES,
+    SUBTITLE_MY_PHOTOS, SUBTITLE_SEX,
     SUBTITLE_SEX_ORIENTATION,
-    SUBTITLE_WHOM_LOFING_FOR
+    SUBTITLE_WHOM_LOOKING_FOR
 } from "../../Constants/TextMessagesRu";
 import {dateDiffYears} from "../DateHandlers";
 
+
+const ActionButtons = ({isEdit}) => {
+    return (
+      <div>
+          {!isEdit &&
+          <div className="d-flex flex-row justify-content-center align-content-center">
+              <Button variant={"outlined"} startIcon={<ChatTwoTone/>} className="mx-1">
+                  <Typography variant={"subtitle1"}>{CAPTION_WRITE}</Typography>
+              </Button>
+              <Button variant={"outlined"} color={"error"} startIcon={<Block/>} className="mx-1">
+                  <Typography variant={"subtitle1"}>{CAPTION_COMPLAIN}</Typography>
+              </Button>
+          </div>}
+      </div>
+    );
+}
+
+const ActionSave = ({isEdit}) => {
+    return (
+        <div>
+            {isEdit &&
+            <div className="d-flex flex-row justify-content-center align-content-center">
+                <Button variant={"outlined"} startIcon={<ChatTwoTone/>} className="mx-1">
+                    <Typography variant={"subtitle1"}>{CAPTION_SAVE}</Typography>
+                </Button>
+            </div>}
+        </div>
+    );
+}
 
 /**
  * ProfileDetail profile:
@@ -28,7 +70,7 @@ import {dateDiffYears} from "../DateHandlers";
  *
  * */
 
-const DesktopGallery = ({profile}) => {
+const DesktopGallery = ({profile, isEdit}) => {
     const [visible, setVisible] = useState(false);
     const [imageIndex, setImageIndex] = useState(0);
 
@@ -44,7 +86,7 @@ const DesktopGallery = ({profile}) => {
     }
 
     return(
-        <div className="w-100 my-2 p-4">
+        <div className="w-100 my-2 px-4 py-2">
             <div>
                 <Viewer
                     visible={visible}
@@ -54,7 +96,7 @@ const DesktopGallery = ({profile}) => {
                     activeIndex={imageIndex}
                 />
             </div>
-
+            <ActionButtons isEdit={isEdit}/>
             <div className="d-flex flex-row justify-content-start align-items-center my-4">
                 <RoundSubstrate children={<Person />} color={"orange"}/>
                 <div className="mx-2 text-success">{<Typography variant={"h4"}>{`${profile?.firstName} ${profile?.lastName}, ${dateDiffYears(profile?.birthDate, new Date().toDateString())}`}</Typography>}</div>
@@ -83,21 +125,72 @@ const DesktopGallery = ({profile}) => {
                 </div>
             </div>
             <div className="d-flex flex-column my-4">
-                <IconSubTitle text={SUBTITLE_HOBBIES} icon={<Kitesurfing />}/>
+                <div className="d-flex flex-row justify-content-start align-items-center">
+                    <IconSubTitle text={SUBTITLE_HOBBIES} icon={<Kitesurfing />}/>
+                    {isEdit &&
+                    <IconButton onClick={() => {}}>
+                        <ModeEdit/>
+                    </IconButton>}
+                </div>
                 <div className="mx-2 text-success">{<Typography variant={"h6"}>{'Гетеро'}</Typography>}</div>
+
             </div>
             <div className="d-flex flex-column my-4">
-                <IconSubTitle text={SUBTITLE_WHOM_LOFING_FOR} icon={<Group />}/>
+                <div className="d-flex flex-row justify-content-start align-items-center">
+                    <IconSubTitle text={SUBTITLE_WHOM_LOOKING_FOR} icon={<Group />}/>
+                    {isEdit &&
+                    <IconButton onClick={() => {}}>
+                        <ModeEdit/>
+                    </IconButton>}
+                </div>
                 <div className="mx-2 text-success">{<Typography variant={"h6"}>{profile?.aboutMe}</Typography>}</div>
             </div>
             <div className="d-flex flex-column my-4">
-                <IconSubTitle text={SUBTITLE_ABOUT_ME} icon={<Mood />}/>
+                <div className="d-flex flex-row justify-content-start align-items-center">
+                    <IconSubTitle text={SUBTITLE_ABOUT_ME} icon={<Mood />}/>
+                    {isEdit &&
+                    <IconButton onClick={() => {}}>
+                        <ModeEdit/>
+                    </IconButton>}
+                </div>
                 <div className="mx-2 text-success">{<Typography variant={"h6"}>{profile?.aboutMe}</Typography>}</div>
             </div>
             <div className="d-flex flex-column my-4">
-                <IconSubTitle text={SUBTITLE_SEX_ORIENTATION} icon={<RoundaboutLeft />}/>
-                <div className="mx-2 text-success">{<Typography variant={"h6"}>{'Гетеро'}</Typography>}</div>
+                <div className="d-flex flex-row justify-content-start align-items-center">
+                    <IconSubTitle text={SUBTITLE_SEX_ORIENTATION} icon={<RoundaboutLeft />}/>
+                    {isEdit &&
+                    <IconButton onClick={() => {}}>
+                        <ModeEdit/>
+                    </IconButton>}
+                </div>
+                <div className="mx-2 text-success">{<Typography variant={"h6"}>{profile?.sexOrientation}</Typography>}</div>
             </div>
+            <div className="d-flex flex-column my-4">
+                <IconSubTitle text={SUBTITLE_SEX} icon={<Face />}/>
+                <div className="mx-2 text-success">{<Typography variant={"h6"}>{profile?.sex}</Typography>}</div>
+            </div>
+            <div className="d-flex flex-column my-4">
+                <div className="d-flex flex-row justify-content-start align-items-center">
+                    <IconSubTitle text={SUBTITLE_CHILDS} icon={<ChildCare />}/>
+                    {isEdit &&
+                    <IconButton onClick={() => {}}>
+                        <ModeEdit/>
+                    </IconButton>}
+                </div>
+                <div className="mx-2 text-success">{<Typography variant={"h6"}>{profile?.kids === 0 ? {MSG_NO} : `${MSG_YES} - ${profile?.kids}` }</Typography>}</div>
+            </div>
+            <div className="d-flex flex-column my-4">
+                <div className="d-flex flex-row justify-content-start align-items-center">
+                    <IconSubTitle text={SUBTITLE_FAMILY_STATUS} icon={<FamilyRestroom />}/>
+                    {isEdit &&
+                    <IconButton onClick={() => {}}>
+                        <ModeEdit/>
+                    </IconButton>}
+                </div>
+                <div className="mx-2 text-success">{<Typography variant={"h6"}>{profile?.familyStatus}</Typography>}</div>
+            </div>
+            <ActionButtons isEdit={isEdit}/>
+            <ActionSave isEdit={isEdit}/>
             <div className="p-4"></div>
         </div>
     )
