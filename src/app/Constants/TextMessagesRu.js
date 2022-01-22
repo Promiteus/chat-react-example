@@ -27,6 +27,42 @@ const CAPTION_WRITE = "Написать";
 const CAPTION_COMPLAIN = "Пожаловаться";
 
 
+const SEX_DATA = [
+    {tag: 'MAN', value: 'Мужчина'},
+    {tag: 'WOMAN', value: 'Женщина'},
+];
+
+const FAMILY_STATUS_DATA = {
+    man: [
+        {tag: 'SINGLE', value: 'Холост'},
+        {tag: 'MARRIED', value: 'Женат'},
+        {tag: 'SKIPED', value: 'В разводе'},
+    ],
+    woman: [
+        {tag: 'SINGLE', value: 'Не замужем'},
+        {tag: 'MARRIED', value: 'Замужем'},
+        {tag: 'SKIPED', value: 'В разводе'},
+    ]
+};
+
+const KIDS_DATA = [
+    {tag: 'YES', value: 'Есть дети'},
+    {tag: 'NO', value: 'Детей нет'},
+];
+
+//  HETERO, HOMO, BI
+const SEX_ORIENTATION_DATA = [
+    {tag: 'HETERO', value: 'Гетеро'},
+    {tag: 'HOMO', value: 'Гомо'},
+    {tag: 'BI', value: 'Би'},
+];
+
+const MEET_PREFERENCES_DATA = [
+    {tag: 'MAN', value: 'С мужчиной'},
+    {tag: 'WOMAN', value: 'С женщиной'},
+    {tag: 'ALL', value: 'Найти друзей'},
+];
+
 
 /**
  * Уведомление при не 200 статусе
@@ -64,4 +100,9 @@ export {
     MSG_YES,
     SUBTITLE_FAMILY_STATUS,
     CAPTION_SAVE,
+    FAMILY_STATUS_DATA,
+    MEET_PREFERENCES_DATA,
+    SEX_DATA,
+    SEX_ORIENTATION_DATA,
+    KIDS_DATA,
 }

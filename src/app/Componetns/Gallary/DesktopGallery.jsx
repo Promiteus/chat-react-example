@@ -28,7 +28,7 @@ import RoundSubstrate from '../../Svg/Sunstrate/RoundSubstrate';
 import IconSubTitle from "../Header/IconSubTitle";
 import {
     CAPTION_COMPLAIN, CAPTION_SAVE,
-    CAPTION_WRITE, MSG_NO, MSG_YES,
+    CAPTION_WRITE, FAMILY_STATUS_DATA, KIDS_DATA, MSG_NO, MSG_YES, SEX_DATA, SEX_ORIENTATION_DATA,
     SUBTITLE_ABOUT_ME, SUBTITLE_CHILDS, SUBTITLE_FAMILY_STATUS, SUBTITLE_HOBBIES,
     SUBTITLE_MY_PHOTOS, SUBTITLE_SEX,
     SUBTITLE_SEX_ORIENTATION,
@@ -62,6 +62,87 @@ const ActionSave = ({isEdit}) => {
                     <Typography variant={"subtitle1"}>{CAPTION_SAVE}</Typography>
                 </Button>
             </div>}
+        </div>
+    );
+}
+
+const EditableTextAreaField = ({text, icon, iconTitle, isEdit, onChangeContent}) => {
+    const [editToggle, setEditToggle] = useState(false);
+    const [content, setContent] = useState(text)
+
+    function onChange(e) {
+        setContent(e?.target?.value);
+        onChangeContent(content);
+    }
+
+    return(
+        <div className="d-flex flex-column my-4">
+            <div className="d-flex flex-row justify-content-start align-items-center">
+                <IconSubTitle text={iconTitle} icon={icon}/>
+                {isEdit &&
+                <IconButton onClick={() => {setEditToggle(!editToggle)}}>
+                    <ModeEdit/>
+                </IconButton>}
+            </div>
+            {(editToggle && isEdit) &&
+            <Grid container>
+                  <Grid item md={7} lg={7} sm={12} xs={12}>
+                    <TextareaAutosize
+                        name={"aboutMe"}
+                        defaultValue={content}
+                        className="multi-text-field px-2 py-1 w-100"
+                        maxRows={3}
+                        minRows={3}
+                        onChange={onChange}
+                    />
+                  </Grid>
+            </Grid>}
+            <div className="mx-2 text-success">{<Typography variant={"h6"}>{content}</Typography>}</div>
+        </div>
+    );
+}
+
+const EditableListField = ({data, defaultValue, icon, iconTitle, isEdit, onSelectedItem}) => {
+    const [editToggle, setEditToggle] = useState(false);
+    const [value, setValue] = useState(getSelectedValue(defaultValue));
+
+    function onSelect(e) {
+        let selectedTag = e?.target?.value;
+        onSelectedItem(e?.target?.value);
+        setValue(getSelectedValue(selectedTag));
+    }
+
+    function getSelectedValue(selectedTag) {
+        if (data?.length > 0) {
+            return ((data.filter(elem => (elem?.tag === selectedTag))[0])?.value);
+        }
+        return '';
+    }
+
+    return(
+        <div className="d-flex flex-column my-4">
+            <div className="d-flex flex-row justify-content-start align-items-center">
+                <IconSubTitle text={iconTitle} icon={icon}/>
+                {isEdit &&
+                <IconButton onClick={() => {setEditToggle(!editToggle)}}>
+                    <ModeEdit/>
+                </IconButton>}
+            </div>
+            {(editToggle && isEdit) &&
+            <Grid container>
+                <Grid item md={4} lg={4} sm={12} xs={12}>
+                    <FormControl variant="standard" fullWidth>
+                        <Select
+                            defaultValue={defaultValue}
+                            onChange={onSelect}>
+                            {data.map((elem, key) =>
+                                <MenuItem key={key} value={elem?.tag}>{elem?.value}</MenuItem>
+                            )}
+                        </Select>
+                    </FormControl>
+                </Grid>
+            </Grid>}
+            <div className="mx-2 text-success">{<Typography variant={"h6"}>{value}</Typography>}</div>
         </div>
     );
 }
@@ -145,156 +226,63 @@ const DesktopGallery = ({profile, isEdit}) => {
                     </Grid>
                 </div>
             </div>
-            <div className="d-flex flex-column my-4">
-                <div className="d-flex flex-row justify-content-start align-items-center">
-                    <IconSubTitle text={SUBTITLE_HOBBIES} icon={<Kitesurfing />}/>
-                    {isEdit &&
-                    <IconButton onClick={() => {setEditToggle(prevState => ({...prevState, isInterests: !editToggle.isInterests}))}}>
-                        <ModeEdit/>
-                    </IconButton>}
-                </div>
-                {editToggle.isInterests &&
-                <Grid container>
-                    <Grid item md={7} lg={7} sm={12} xs={12}>
-                        <TextareaAutosize
-                            name={"hobbies"}
-                            value={'Гетеро'}
-                            className="multi-text-field px-2 py-1 w-100"
-                            maxRows={3}
-                            minRows={3}
-                        />
-                    </Grid>
-                </Grid>}
-                <div className="mx-2 text-success">{<Typography variant={"h6"}>{'Гетеро'}</Typography>}</div>
-            </div>
-            <div className="d-flex flex-column my-4">
-                <div className="d-flex flex-row justify-content-start align-items-center">
-                    <IconSubTitle text={SUBTITLE_WHOM_LOOKING_FOR} icon={<Group />}/>
-                    {isEdit &&
-                    <IconButton onClick={() => {setEditToggle(prevState => ({...prevState, isWhoSearch: !editToggle.isWhoSearch}))}}>
-                        <ModeEdit/>
-                    </IconButton>}
-                </div>
-                {editToggle.isWhoSearch &&
-                <Grid container>
-                    <Grid item md={7} lg={7} sm={12} xs={12}>
-                        <TextareaAutosize
-                            name={"search"}
-                            value={profile?.aboutMe}
-                            className="multi-text-field px-2 py-1 w-100"
-                            maxRows={3}
-                            minRows={3}
-                        />
-                    </Grid>
-                </Grid>}
-                <div className="mx-2 text-success">{<Typography variant={"h6"}>{profile?.aboutMe}</Typography>}</div>
-            </div>
-            <div className="d-flex flex-column my-4">
-                <div className="d-flex flex-row justify-content-start align-items-center">
-                    <IconSubTitle text={SUBTITLE_ABOUT_ME} icon={<Mood />}/>
-                    {isEdit &&
-                    <IconButton onClick={() => {setEditToggle(prevState => ({...prevState, isAboutMe: !editToggle.isAboutMe}))}}>
-                        <ModeEdit/>
-                    </IconButton>}
-                </div>
-                {editToggle.isAboutMe &&
-                <Grid container>
-                    <Grid item md={7} lg={7} sm={12} xs={12}>
-                        <TextareaAutosize
-                            name={"aboutMe"}
-                            value={profile?.aboutMe}
-                            className="multi-text-field px-2 py-1 w-100"
-                            maxRows={3}
-                            minRows={3}
-                        />
-                    </Grid>
-                </Grid>}
-                <div className="mx-2 text-success">{<Typography variant={"h6"}>{profile?.aboutMe}</Typography>}</div>
-            </div>
-            <div className="d-flex flex-column my-4">
-                <div className="d-flex flex-row justify-content-start align-items-center">
-                    <IconSubTitle text={SUBTITLE_SEX_ORIENTATION} icon={<RoundaboutLeft />}/>
-                    {isEdit &&
-                    <IconButton onClick={() => {setEditToggle(prevState => ({...prevState, isSexOrientation: !editToggle.isSexOrientation}))}}>
-                        <ModeEdit/>
-                    </IconButton>}
-                </div>
-                {editToggle.isSexOrientation &&
-                <Grid container>
-                    <Grid item md={4} lg={4} sm={12} xs={12}>
-                        <FormControl variant="standard" fullWidth>
-                            <Select>
-                                <MenuItem value={10}>Ten</MenuItem>
-                                <MenuItem value={20}>Twenty</MenuItem>
-                                <MenuItem value={30}>Thirty</MenuItem>
-                            </Select>
-                        </FormControl>
-                    </Grid>
-                </Grid>}
-                <div className="mx-2 text-success">{<Typography variant={"h6"}>{profile?.sexOrientation}</Typography>}</div>
-            </div>
-            <div className="d-flex flex-column my-4">
-                <IconSubTitle text={SUBTITLE_SEX} icon={<Face />}/>
-                <Grid container>
-                    <Grid item md={4} lg={4} sm={12} xs={12}>
-                        <FormControl variant="standard" fullWidth>
-                            <Select>
-                                <MenuItem value={10}>Ten</MenuItem>
-                                <MenuItem value={20}>Twenty</MenuItem>
-                                <MenuItem value={30}>Thirty</MenuItem>
-                            </Select>
-                        </FormControl>
-                    </Grid>
-                </Grid>
-                <div className="mx-2 text-success">{<Typography variant={"h6"}>{profile?.sex}</Typography>}</div>
-            </div>
-            <div className="d-flex flex-column my-4">
-                <div className="d-flex flex-row justify-content-start align-items-center">
-                    <IconSubTitle text={SUBTITLE_CHILDS} icon={<ChildCare />}/>
-                    {isEdit &&
-                    <IconButton onClick={() => {setEditToggle(prevState => ({...prevState, isKids: !editToggle.isKids}))}}>
-                        <ModeEdit/>
-                    </IconButton>}
-                </div>
-                {editToggle.isKids &&
-                <Grid container>
-                    <Grid item md={4} lg={4} sm={12} xs={12}>
-                        <FormControl variant="standard" fullWidth>
-                            <Select>
-                                <MenuItem value={0}>No</MenuItem>
-                                <MenuItem value={1}>Yes</MenuItem>
-                            </Select>
-                        </FormControl>
-                    </Grid>
-                </Grid>}
-                <div className="mx-2 text-success">
-                    {<Typography variant={"h6"}>
-                            {(profile?.kids === 0) ? `${MSG_NO}` : `${MSG_YES} - ${profile?.kids}` }
-                     </Typography>}
-                </div>
-            </div>
-            <div className="d-flex flex-column my-4">
-                <div className="d-flex flex-row justify-content-start align-items-center">
-                    <IconSubTitle text={SUBTITLE_FAMILY_STATUS} icon={<FamilyRestroom />}/>
-                    {isEdit &&
-                    <IconButton onClick={() => {setEditToggle(prevState => ({...prevState, isFamilyStatus: !editToggle.isFamilyStatus}))}}>
-                        <ModeEdit/>
-                    </IconButton>}
-                </div>
-                {editToggle.isFamilyStatus &&
-                <Grid container>
-                    <Grid item md={4} lg={4} sm={12} xs={12}>
-                        <FormControl variant="standard" fullWidth>
-                            <Select>
-                                <MenuItem value={10}>Ten</MenuItem>
-                                <MenuItem value={"MAN"}>Twenty</MenuItem>
-                                <MenuItem value={"ALL"}>Thirty</MenuItem>
-                            </Select>
-                        </FormControl>
-                    </Grid>
-                </Grid>}
-                <div className="mx-2 text-success">{<Typography variant={"h6"}>{profile?.familyStatus}</Typography>}</div>
-            </div>
+            <EditableTextAreaField
+                text={profile?.aboutMe}
+                isEdit={isEdit}
+                icon={<Kitesurfing />}
+                iconTitle={SUBTITLE_HOBBIES}
+                onChangeContent={(text) => {}}/>
+
+            <EditableTextAreaField
+                text={profile?.aboutMe}
+                isEdit={isEdit}
+                icon={<Group />}
+                iconTitle={SUBTITLE_WHOM_LOOKING_FOR}
+                onChangeContent={(text) => {}}/>
+
+            <EditableTextAreaField
+                text={profile?.aboutMe}
+                isEdit={isEdit}
+                icon={<Mood />}
+                iconTitle={SUBTITLE_ABOUT_ME}
+                onChangeContent={(text) => {}}/>
+
+            <EditableListField
+                iconTitle={SUBTITLE_SEX_ORIENTATION}
+                icon={<RoundaboutLeft />}
+                isEdit={isEdit}
+                onSelectedItem={(value) => {console.log("sex orientation: "+value)}}
+                defaultValue={profile?.sexOrientation}
+                data={SEX_ORIENTATION_DATA}
+            />
+
+            <EditableListField
+                iconTitle={SUBTITLE_SEX}
+                icon={<Face />}
+                isEdit={false}
+                onSelectedItem={(value) => {console.log("sex: "+value)}}
+                defaultValue={profile?.sex}
+                data={SEX_DATA}
+            />
+
+            <EditableListField
+                iconTitle={SUBTITLE_CHILDS}
+                icon={<ChildCare />}
+                isEdit={true}
+                onSelectedItem={(value) => {console.log("kids: "+value)}}
+                defaultValue={profile?.kids > 0 ? 'YES' : 'NO'}
+                data={KIDS_DATA}
+            />
+
+            <EditableListField
+                iconTitle={SUBTITLE_FAMILY_STATUS}
+                icon={<FamilyRestroom />}
+                isEdit={true}
+                onSelectedItem={(value) => {console.log("familyStatus: "+value)}}
+                defaultValue={profile?.familyStatus}
+                data={profile?.sex === 'MAN' ? FAMILY_STATUS_DATA.man : FAMILY_STATUS_DATA.woman}
+            />
+
             <ActionButtons isEdit={isEdit}/>
             <ActionSave isEdit={isEdit}/>
             <div className="p-4"></div>
