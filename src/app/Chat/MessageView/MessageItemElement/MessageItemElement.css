@@ -1,9 +1,10 @@
 .MessageItemElement {
-    background-color: rgb(194, 247, 142);
+    background-color: #C2F78E;
     box-shadow: 2px 2px 6px rgb(187, 185, 185);
     padding: 6px;
     min-width: 25%;
     max-width: 70%;
+    border-radius: 6px;
 }
 
 .MessageItemElement:hover {

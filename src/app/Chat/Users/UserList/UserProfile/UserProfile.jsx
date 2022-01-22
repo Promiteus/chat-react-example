@@ -18,7 +18,6 @@ export default function Userprofile({user, selected, onClick}) {
     const styles = {
         redBg: {
             backgroundColor: select ? '#d5e6f6': 'white',
-
         }
     }
 
@@ -29,8 +28,8 @@ export default function Userprofile({user, selected, onClick}) {
                  style={styles.redBg}
                  onClick={() => onClick({user})}>
                 <div className="border-dark d-flex p-1">
-                    {user?.thumbUrl ?
-                        <Avatar alt={user?.firstName} src={`${BASE_DATA_URL}${user?.thumbUrl}`}/> :
+                    {user?.thumbUrl?.src ?
+                        <Avatar alt={user?.firstName} src={`${BASE_DATA_URL}${user?.thumbUrl?.src}`}/> :
                         <Avatar {...stringAvatar(`${user?.firstName} ${user?.lastName}`)} />
                     }
                 </div>

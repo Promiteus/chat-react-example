@@ -25,7 +25,7 @@ const ProfileViewElement = ({profile}) => {
                  <CardMedia
                      component="img"
                      height="194"
-                     image={BASE_DATA_URL+profile?.thumbUrl}
+                     image={BASE_DATA_URL+profile?.thumbUrl?.src}
                      alt="Paella dish"
                      onClick={() => {
                          dispatch(setPageIndex(1));

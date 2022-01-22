@@ -3,7 +3,7 @@ import './MessageItemElement.css';
 
 
 const MessageItemElement = (props) => (
-  <div className="MessageItemElement" >
+  <div style={{backgroundColor: props.color || 'white'}} className="MessageItemElement" >
     {props.children}
   </div>
 );

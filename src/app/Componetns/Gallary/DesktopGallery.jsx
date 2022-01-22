@@ -152,12 +152,16 @@ const EditableListField = ({data, defaultValue, icon, iconTitle, isEdit, onSelec
  * {
  * "id":"200",
  * ...
- * "imgUrls":[
- * "/api/resource?user_id=200&file_id=ford_mustang_ford_avtomobil_226678_1280x1024.jpg",
- * "/api/resource?user_id=200&file_id=Снимок экрана от 2021-10-12 14-22-20.png",
- * "/api/resource?user_id=200&file_id=Снимок экрана от 2021-10-07 11-47-49.png"
- * ],"thumbUrl":"/api/resource/thumb?user_id=200"
- * }
+  "imgUrls": [
+                {
+                    "src": "/api/resource?user_id=201&file_id=kimi_ni_todoke_devushka_paren_lyubov_chuvstva_vstrecha_svidanie_29715_1280x1280.jpg",
+                    "alt": "kimi_ni_todoke_devushka_paren_lyubov_chuvstva_vstrecha_svidanie_29715_1280x1280.jpg"
+                }
+            ],
+            "thumbUrl": {
+                "src": "/api/resource/thumb?user_id=201",
+                "alt": "kimi_ni_todoke_devushka_paren_lyubov_chuvstva_vstrecha_svidanie_29715_1280x1280.jpg"
+            }
  *
  * */
 
@@ -165,20 +169,11 @@ const DesktopGallery = ({profile, isEdit}) => {
     const [visible, setVisible] = useState(false);
     const [imageIndex, setImageIndex] = useState(0);
     const [profile_, setProfile] = useState(profile);
-    const [editToggle, setEditToggle] = useState({
-        isInterests: false,
-        isAboutMe: false,
-        isWhoSearch: false,
-        isSexOrientation: false,
-        isSex: false,
-        isKids: false,
-        isFamilyStatus: false,
-    })
 
     function getFullUrls() {
         return (profile?.imgUrls?.length > 0) ?
-            profile?.imgUrls.map(elem => ({src: `${BASE_DATA_URL}${elem}`, alt: ''})) :
-            [{src: '', name: ''}];
+            profile?.imgUrls.map(elem => ({src: `${BASE_DATA_URL}${elem?.src}`, alt: elem?.alt})) :
+            [{src: '', alt: ''}];
     }
 
     function showImagePreview(index) {
@@ -209,14 +204,14 @@ const DesktopGallery = ({profile, isEdit}) => {
                 <div>
                     <Grid container>
                         {getFullUrls().map((item, key) => (
-                            <Grid key={key} item xs={12} sm={4} md={4}>
-                                <Card className="card m-1">
+                            <Grid key={key} item xs={12} sm={4} md={5}>
+                                <Card className="card m-1 w-100">
                                     <CardMedia
                                         component="img"
                                         key={key}
                                         height="300"
                                         image={item.src}
-                                        alt="Paella dish"
+                                        alt={item.alt}
                                         sx = {{padding: 1}}
                                         onClick={() => showImagePreview(key)}
                                     />

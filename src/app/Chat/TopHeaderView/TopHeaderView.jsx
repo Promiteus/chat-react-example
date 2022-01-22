@@ -3,11 +3,8 @@ import {useSelector} from "react-redux";
 import {LeftChevronSvg} from "../../Svg";
 import {Avatar, Divider, IconButton, Paper, Typography} from "@mui/material";
 import {BASE_DATA_URL} from "../../Stores/api/Common/ApiCommon";
-import {stringAvatar} from "../../Componetns/GraphicHandler";
 import {selectCommon} from "../../Stores/slices/CommonSlice";
 import {dateDiffYears} from "../../Componetns/DateHandlers";
-import {CAPTION_CHATS} from "../../Constants/TextMessagesRu";
-
 
 function TopHeaderView ({onBack, navButtonSx})  {
     const {selectedUser} = useSelector(selectCommon);
@@ -29,8 +26,8 @@ function TopHeaderView ({onBack, navButtonSx})  {
                         </div> :
                         <div></div>}
                     <div className="border-dark d-flex p-1">
-                        {selectedUser?.thumbUrl ?
-                            <Avatar alt={selectedUser?.firstName} src={`${BASE_DATA_URL}${selectedUser?.thumbUrl}`}/> :
+                        {selectedUser?.thumbUrl?.src ?
+                            <Avatar alt={selectedUser?.firstName} src={`${BASE_DATA_URL}${selectedUser?.thumbUrl?.src}`}/> :
                             <Avatar src="/static/images/avatar/2.jpg" />
                         }
                     </div>
