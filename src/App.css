@@ -9,6 +9,10 @@
   border-radius: 6px;
 }
 
+.photo-card {
+  border-radius: 8px;
+}
+
 .photo-card:hover {
   opacity: 0.8;
 }

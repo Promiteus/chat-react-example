@@ -1,9 +1,12 @@
 import React from "react";
-import {Card, CardActions, CardContent, CardHeader, CardMedia, Grid, IconButton, Typography} from "@mui/material";
+import {
+    IconButton,
+    ImageListItem, ImageListItemBar,
+} from "@mui/material";
 import {BASE_DATA_URL} from "../Stores/api/Common/ApiCommon";
-import {ChatFillSvg, HeartFillSvg} from "../Svg";
 import {useDispatch} from "react-redux";
 import {defineSelectedUser, setPageIndex} from "../Stores/slices/CommonSlice";
+import {Chat} from "@mui/icons-material";
 
 
 const ProfileViewElement = ({profile}) => {
@@ -11,38 +14,31 @@ const ProfileViewElement = ({profile}) => {
 
     return(
         <>
-          <Grid item xs={12} sm={6} md={3} >
-             <Card className="card-item card grid-element">
-                 <CardHeader
-                     action={
-                         <IconButton aria-label="settings">
-
-                         </IconButton>
-                     }
-                     title={`${profile?.firstName} ${profile?.lastName}`}
-                     subheader={`Родился ${profile?.birthDate}`}
-                 />
-                 <CardMedia
-                     component="img"
-                     height="194"
-                     image={BASE_DATA_URL+profile?.thumbUrl?.src}
-                     alt="Paella dish"
-                     onClick={() => {
-                         dispatch(setPageIndex(1));
-                         dispatch(defineSelectedUser(profile));
-                     }}
-                     sx = {{padding: 1}}
-                 />
-                 <CardActions>
-                     <IconButton aria-label="talk with person">
-                         <ChatFillSvg color="orange"/>
-                     </IconButton>
-                     <IconButton aria-label="like person">
-                         <HeartFillSvg color="red"/>
-                     </IconButton>
-                 </CardActions>
-             </Card>
-          </Grid>
+          <ImageListItem className="m-1">
+              <img
+                  className="photo-card"
+                  src={`${BASE_DATA_URL}${profile?.thumbUrl?.src}`}
+                  srcSet={`${BASE_DATA_URL}${profile?.thumbUrl?.src}`}
+                  alt={`${profile?.firstName} ${profile?.lastName}`}
+                  loading="lazy"
+                  onClick={() => {
+                      dispatch(setPageIndex(1));
+                      dispatch(defineSelectedUser(profile));
+                  }}
+              />
+              <ImageListItemBar
+                  title={`${profile?.firstName} ${profile?.lastName}`}
+                  subtitle={""}
+                  actionIcon={
+                      <IconButton
+                          sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
+                          aria-label={`info about ${profile.title}`}
+                      >
+                          <Chat />
+                      </IconButton>
+                  }
+              />
+          </ImageListItem>
         </>
     );
 }
