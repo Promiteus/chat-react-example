@@ -201,11 +201,11 @@ const DesktopGallery = ({profile, isEdit}) => {
                 <IconSubTitle text={SUBTITLE_MY_PHOTOS} icon={<PhotoCamera />}/>
             </div>
             <div className="d-flex justify-content-start my-2 w-100">
-                <div>
-                    <Grid container>
+                <div className="w-100">
+                    <Grid container >
                         {getFullUrls().map((item, key) => (
-                            <Grid key={key} item xs={12} sm={4} md={5}>
-                                <Card className="card m-1 w-100">
+                            <Grid key={key} item xs={12} sm={4} md={4} lg={4}>
+                                <Card className="card m-1 photo-card">
                                     <CardMedia
                                         component="img"
                                         key={key}

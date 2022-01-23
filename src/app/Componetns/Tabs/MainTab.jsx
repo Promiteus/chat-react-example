@@ -62,7 +62,7 @@ const MainTab = (props) => {
             navigate(ROUTE_REGISTRATION);
             //Сбросить статус на 0
             profileDispatch(dropStatus());
-        } else if ((status === null) && (!loading)) {
+        } else if (((status === null) || (+status === 403)) && (!loading)) {
             navigate(ROUTE_SIGNUP);
         }
 
