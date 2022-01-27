@@ -1,16 +1,32 @@
-import React from "react";
-import {Box, Chip, Container, Grid, ImageList, Paper, Typography} from "@mui/material";
+import React, {useEffect} from "react";
+import {Box, Chip, ImageList } from "@mui/material";
 import ProfileViewElement from "./ProfileViewElement";
 import './index.css'
 import {CAPTION_EMPTY_GUESTS, CAPTION_EMPTY_PROFILES} from "../Constants/TextMessagesRu";
+import useWindowDimensions, {D_LG, D_MD, D_SM, D_XL, D_XS} from "../Hooks/useWindowDimension";
+
+let imgCols = 5;
 
 const GuestsView = ({visitors}) => {
+    const {width, dimType} = useWindowDimensions();
+    const colsMap = new Map([
+        [D_XS, 2],
+        [D_SM, 2],
+        [D_MD, 3],
+        [D_LG, 5],
+        [D_XL, 6],
+    ]);
+
+    useEffect(() => {
+        imgCols = colsMap.get(dimType);
+    }, [dimType]);
+
     return (
             <div style={{overflowY: 'scroll'}} className="d-block m-1 p-1 h-100">
                 {visitors?.length ?
-                    <ImageList cols={5}>
+                    <ImageList cols={imgCols}>
                         {visitors?.map(elem => (
-                                <ProfileViewElement key={elem?.id} profile={elem}/>
+                              <ProfileViewElement key={elem?.id} profile={elem}/>
                         ))}
                     </ImageList>
                     :
