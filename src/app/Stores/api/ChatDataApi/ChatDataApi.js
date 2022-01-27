@@ -37,10 +37,23 @@ export function getUserProfile(userId, token) {
  * @param userId
  * @param page
  * @param token
+ * @param kids
+ * @param age
+ * @param sexOrientation
+ * @param meetPreferences
+ * @param sex
+ * @param familyStatus
+ * @param country
+ * @param region
+ * @param locality
  * @returns {Promise<AxiosResponse<any>>}
  */
-export function getUserProfilesPageable(userId, page, token, params) {
-    return axios.get(`${BASE_DATA_URL}/api/user_profiles?page=${page}&not_user_id=${userId}`, getHeaderBearerConfigs("application/json", token));
+export function getUserProfilesPageable(userId, page, token, {kids, age, sexOrientation, meetPreferences, sex, familyStatus, country, region, locality}) {
+    return axios.post(
+        `${BASE_DATA_URL}/api/user_profiles/${page}/${userId}`,
+        {kids, age, sexOrientation, meetPreferences, sex, familyStatus, country, region, locality},
+         getHeaderBearerConfigs("application/json", token)
+    );
 }
 
 

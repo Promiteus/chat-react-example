@@ -62,7 +62,10 @@ export async function fullRegistration({username, password, firstName, birthDate
                 rank: 1400,
                 meetPreferences: meetPreferences,
                 sexOrientation: "HETERO",
-                sex: sex
+                sex: sex,
+                country: 'Россия',
+                region: '',
+                locality: '',
                 }, res.data.token);
         });
 }
