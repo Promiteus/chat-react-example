@@ -193,6 +193,17 @@ const ProfileEditablePage = ({profile, isEdit}) => {
             [{src: '', alt: ''}];
     }
 
+    useEffect(() => {
+     //   console.log("updated profle: "+JSON.stringify(profile_));
+    });
+
+    useEffect(() => {
+        console.log("updated profile status: "+status);
+    }, [status]);
+
+    /**
+     * Событие отправки данных о отредактированном профиле пользователе
+     * */
     function onProfileSave() {
         profileDispatch(saveProfileAsync({profile: profile_}));
     }
@@ -246,7 +257,7 @@ const ProfileEditablePage = ({profile, isEdit}) => {
             <Grid container className="p-2">
                 <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                     <EditableTextAreaField
-                        text={profile?.hobby || EMPTY_TEXT_PROFILE_FIELD}
+                        text={profile_?.hobby || EMPTY_TEXT_PROFILE_FIELD}
                         isEdit={isEdit}
                         icon={<Kitesurfing />}
                         iconTitle={SUBTITLE_HOBBIES}
@@ -264,7 +275,7 @@ const ProfileEditablePage = ({profile, isEdit}) => {
                 </Grid>
                 <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                     <EditableTextAreaField
-                        text={profile?.aboutMe || EMPTY_TEXT_PROFILE_FIELD}
+                        text={profile_?.aboutMe || EMPTY_TEXT_PROFILE_FIELD}
                         isEdit={isEdit}
                         icon={<Mood />}
                         iconTitle={SUBTITLE_ABOUT_ME}
@@ -276,7 +287,7 @@ const ProfileEditablePage = ({profile, isEdit}) => {
                         icon={<RoundaboutLeft />}
                         isEdit={isEdit}
                         onSelectedItem={(value) => {setProfile(prevState => ({...prevState, sexOrientation: value}))}}
-                        defaultValue={profile?.sexOrientation}
+                        defaultValue={profile_?.sexOrientation}
                         data={SEX_ORIENTATION_DATA}
                     />
                 </Grid>
@@ -286,7 +297,7 @@ const ProfileEditablePage = ({profile, isEdit}) => {
                         icon={<Face />}
                         isEdit={false}
                         onSelectedItem={(value) => {setProfile(prevState => ({...prevState, sex: value}))}}
-                        defaultValue={profile?.sex}
+                        defaultValue={profile_?.sex}
                         data={SEX_DATA}
                     />
                 </Grid>
@@ -295,8 +306,8 @@ const ProfileEditablePage = ({profile, isEdit}) => {
                         iconTitle={SUBTITLE_CHILDS}
                         icon={<ChildCare />}
                         isEdit={true}
-                        onSelectedItem={(value) => {setProfile(prevState => ({...prevState, kids: value}))}}
-                        defaultValue={profile?.kids > 0 ? 'YES' : 'NO'}
+                        onSelectedItem={(value) => {setProfile(prevState => ({...prevState, kids: value === 'YES' ? 1 : 0}))}}
+                        defaultValue={profile_?.kids > 0 ? 'YES' : 'NO'}
                         data={KIDS_DATA}
                     />
                 </Grid>
@@ -306,7 +317,7 @@ const ProfileEditablePage = ({profile, isEdit}) => {
                         icon={<FamilyRestroom />}
                         isEdit={true}
                         onSelectedItem={(value) => {setProfile(prevState => ({...prevState, familyStatus: value}))}}
-                        defaultValue={profile?.familyStatus}
+                        defaultValue={profile_?.familyStatus}
                         data={profile?.sex === 'MAN' ? FAMILY_STATUS_DATA.man : FAMILY_STATUS_DATA.woman}
                     />
                 </Grid>

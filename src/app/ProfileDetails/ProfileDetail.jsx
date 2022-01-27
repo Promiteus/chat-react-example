@@ -20,7 +20,7 @@ const ProfileDetail = ({profile}) => {
         <div className="d-flex flex-column h-100">
             <StandartHeader onClick={onBack}/>
             <div style={{overflowY: 'scroll'}} className="d-flex flex-grow-3 ">
-                <ProfileEditablePage profile={selectedUser} isEdit={true}/>
+                <ProfileEditablePage profile={selectedUser} isEdit={false}/>
             </div>
         </div>
 
