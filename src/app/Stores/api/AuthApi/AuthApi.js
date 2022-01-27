@@ -1,8 +1,7 @@
 import axios from "axios";
 import {saveUserProfile} from "../ChatDataApi/ChatDataApi";
 import {BASE_AUTH_URL, getHeaderBearerConfigs, TOKEN_KEY} from "../Common/ApiCommon";
-
-
+import {dateDiffYears} from "../../../Componetns/DateHandlers";
 
 /**
  * Получить JWT токен в обмен на логин и пароль
@@ -52,6 +51,7 @@ export async function fullRegistration({username, password, firstName, birthDate
                 id: res.data.userId,
                 firstName: firstName,
                 lastName: "",
+                age: dateDiffYears(birthDate, new Date().toDateString()) || 18,
                 birthDate: birthDate,
                 height: 176,
                 weight: 65,

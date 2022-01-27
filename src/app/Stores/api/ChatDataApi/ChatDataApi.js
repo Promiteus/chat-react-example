@@ -32,4 +32,15 @@ export function getUserProfile(userId, token) {
     return axios.get(`${BASE_DATA_URL}/api/user_profile/${userId}`, getHeaderBearerConfigs("application/json", token));
 }
 
+/**
+ * Получить список профилей постранично и по параметрам
+ * @param userId
+ * @param page
+ * @param token
+ * @returns {Promise<AxiosResponse<any>>}
+ */
+export function getUserProfilesPageable(userId, page, token, params) {
+    return axios.get(`${BASE_DATA_URL}/api/user_profiles?page=${page}&not_user_id=${userId}`, getHeaderBearerConfigs("application/json", token));
+}
+
 
