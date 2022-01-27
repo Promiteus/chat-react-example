@@ -165,7 +165,7 @@ const EditableListField = ({data, defaultValue, icon, iconTitle, isEdit, onSelec
  *
  * */
 
-const DesktopGallery = ({profile, isEdit}) => {
+const ProfileEditablePage = ({profile, isEdit}) => {
     const [visible, setVisible] = useState(false);
     const [imageIndex, setImageIndex] = useState(0);
     const [profile_, setProfile] = useState(profile);
@@ -285,4 +285,4 @@ const DesktopGallery = ({profile, isEdit}) => {
     )
 }
 
-export default DesktopGallery;
+export default ProfileEditablePage;

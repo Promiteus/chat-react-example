@@ -1,7 +1,11 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import {getUserProfile, removeUserProfile} from "../api/ChatDataApi/ChatDataApi";
+import {getUserProfile, removeUserProfile, saveUserProfile} from "../api/ChatDataApi/ChatDataApi";
 import {fulfilledRequestData, initialRequestData, rejectRequestData, TOKEN_KEY} from "../api/Common/ApiCommon";
 
+/**
+ * Получить профиль пользователя по userId
+ * @type {AsyncThunk<AxiosResponse<*>, {readonly userId?: *}, {}>}
+ */
 export const userProfileAsync = createAsyncThunk(
    'profile/get',
    async ({userId}) => {
@@ -10,11 +14,27 @@ export const userProfileAsync = createAsyncThunk(
    }
 );
 
+/**
+ * Удалить профиль пользователя по его userId
+ * @type {AsyncThunk<AxiosResponse<*>, {readonly userId?: *}, {}>}
+ */
 export const deleteProfileAsync = createAsyncThunk(
    'profile/delete',
    async ({userId}) => {
        let token = localStorage.getItem(TOKEN_KEY);
        return await removeUserProfile(userId, token);
+   }
+);
+
+/**
+ * Сохранить/изменить профиль пользователя
+ * @type {AsyncThunk<AxiosResponse<*>, {readonly profile?: *}, {}>}
+ */
+export const saveProfileAsync = createAsyncThunk(
+  'profile/save',
+  async ({profile}) => {
+       let token = localStorage.getItem(TOKEN_KEY);
+       return await saveUserProfile(profile, token);
    }
 );
 
@@ -52,6 +72,16 @@ export const profileSlice = createSlice({
                 fulfilledRequestData({state, action});
             })
             .addCase(deleteProfileAsync.rejected, (state, action) => {
+                rejectRequestData({state, action});
+            })
+            //Сохранить/изменить параметры профиля пользователя
+            .addCase(saveProfileAsync.pending, (state, action) => {
+                initialRequestData({state, action});
+            })
+            .addCase(saveProfileAsync.fulfilled, (state, action) => {
+                fulfilledRequestData({state, action});
+            })
+            .addCase(saveProfileAsync.rejected, (state, action) => {
                 rejectRequestData({state, action});
             })
     }
