@@ -23,6 +23,8 @@ const SUBTITLE_SEX = "Пол";
 const SUBTITLE_CHILDS = "Дети";
 const SUBTITLE_FAMILY_STATUS = "Семейное положение";
 
+const EMPTY_TEXT_PROFILE_FIELD = "Не указанно";
+
 const CAPTION_WRITE = "Написать";
 const CAPTION_COMPLAIN = "Пожаловаться";
 
@@ -58,9 +60,9 @@ const SEX_ORIENTATION_DATA = [
 ];
 
 const MEET_PREFERENCES_DATA = [
-    {tag: 'MAN', value: 'С мужчиной'},
-    {tag: 'WOMAN', value: 'С женщиной'},
-    {tag: 'ALL', value: 'Найти друзей'},
+    {tag: 'MAN', value: 'Женщин/девушек'},
+    {tag: 'WOMAN', value: 'Мужчин/парней'},
+    {tag: 'ALL', value: 'Ищу друзей'},
 ];
 
 
@@ -105,4 +107,5 @@ export {
     SEX_DATA,
     SEX_ORIENTATION_DATA,
     KIDS_DATA,
+    EMPTY_TEXT_PROFILE_FIELD,
 }

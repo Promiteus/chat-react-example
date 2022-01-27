@@ -27,25 +27,39 @@ import {
 import RoundSubstrate from '../../Svg/Sunstrate/RoundSubstrate';
 import IconSubTitle from "../Header/IconSubTitle";
 import {
-    CAPTION_COMPLAIN, CAPTION_SAVE,
-    CAPTION_WRITE, FAMILY_STATUS_DATA, KIDS_DATA, MSG_NO, MSG_YES, SEX_DATA, SEX_ORIENTATION_DATA,
-    SUBTITLE_ABOUT_ME, SUBTITLE_CHILDS, SUBTITLE_FAMILY_STATUS, SUBTITLE_HOBBIES,
-    SUBTITLE_MY_PHOTOS, SUBTITLE_SEX,
+    CAPTION_COMPLAIN,
+    CAPTION_SAVE,
+    CAPTION_WRITE, EMPTY_TEXT_PROFILE_FIELD,
+    FAMILY_STATUS_DATA,
+    KIDS_DATA,
+    MEET_PREFERENCES_DATA,
+    MSG_NO,
+    MSG_YES,
+    SEX_DATA,
+    SEX_ORIENTATION_DATA,
+    SUBTITLE_ABOUT_ME,
+    SUBTITLE_CHILDS,
+    SUBTITLE_FAMILY_STATUS,
+    SUBTITLE_HOBBIES,
+    SUBTITLE_MY_PHOTOS,
+    SUBTITLE_SEX,
     SUBTITLE_SEX_ORIENTATION,
     SUBTITLE_WHOM_LOOKING_FOR
 } from "../../Constants/TextMessagesRu";
 import {dateDiffYears} from "../DateHandlers";
+import {useDispatch, useSelector} from "react-redux";
+import {saveProfileAsync, selectProfile} from "../../Stores/slices/UserProfileSlices";
 
 
-const ActionButtons = ({isEdit}) => {
+const ActionButtons = ({isEdit, onWriteClick, onComplainClick}) => {
     return (
       <div>
           {!isEdit &&
           <div className="d-flex flex-row justify-content-center align-content-center">
-              <Button variant={"outlined"} startIcon={<ChatTwoTone/>} className="mx-1">
+              <Button variant={"outlined"} startIcon={<ChatTwoTone/>} className="mx-1" onClick={onWriteClick}>
                   <Typography variant={"subtitle1"}>{CAPTION_WRITE}</Typography>
               </Button>
-              <Button variant={"outlined"} color={"error"} startIcon={<Block/>} className="mx-1">
+              <Button variant={"outlined"} color={"error"} startIcon={<Block/>} className="mx-1" onClick={onComplainClick}>
                   <Typography variant={"subtitle1"}>{CAPTION_COMPLAIN}</Typography>
               </Button>
           </div>}
@@ -53,12 +67,12 @@ const ActionButtons = ({isEdit}) => {
     );
 }
 
-const ActionSave = ({isEdit}) => {
+const ActionSave = ({isEdit, onClick}) => {
     return (
         <div>
             {isEdit &&
             <div className="d-flex flex-row justify-content-center align-content-center">
-                <Button variant={"outlined"} startIcon={<ChatTwoTone/>} className="mx-1">
+                <Button variant={"outlined"} startIcon={<ChatTwoTone/>} className="mx-1" onClick={onClick}>
                     <Typography variant={"subtitle1"}>{CAPTION_SAVE}</Typography>
                 </Button>
             </div>}
@@ -94,6 +108,7 @@ const EditableTextAreaField = ({text, icon, iconTitle, isEdit, onChangeContent})
                         maxRows={3}
                         minRows={3}
                         onChange={onChange}
+                        maxLength={1000}
                     />
                   </Grid>
             </Grid>}
@@ -169,11 +184,17 @@ const ProfileEditablePage = ({profile, isEdit}) => {
     const [visible, setVisible] = useState(false);
     const [imageIndex, setImageIndex] = useState(0);
     const [profile_, setProfile] = useState(profile);
+    const profileDispatch = useDispatch();
+    const {response, status, loading} = useSelector(selectProfile);
 
     function getFullUrls() {
         return (profile?.imgUrls?.length > 0) ?
             profile?.imgUrls.map(elem => ({src: `${BASE_DATA_URL}${elem?.src}`, alt: elem?.alt})) :
             [{src: '', alt: ''}];
+    }
+
+    function onProfileSave() {
+        profileDispatch(saveProfileAsync({profile: profile_}));
     }
 
     function showImagePreview(index) {
@@ -221,65 +242,78 @@ const ProfileEditablePage = ({profile, isEdit}) => {
                     </Grid>
                 </div>
             </div>
-            <EditableTextAreaField
-                text={profile?.aboutMe}
-                isEdit={isEdit}
-                icon={<Kitesurfing />}
-                iconTitle={SUBTITLE_HOBBIES}
-                onChangeContent={(text) => {}}/>
 
-            <EditableTextAreaField
-                text={profile?.aboutMe}
-                isEdit={isEdit}
-                icon={<Group />}
-                iconTitle={SUBTITLE_WHOM_LOOKING_FOR}
-                onChangeContent={(text) => {}}/>
-
-            <EditableTextAreaField
-                text={profile?.aboutMe}
-                isEdit={isEdit}
-                icon={<Mood />}
-                iconTitle={SUBTITLE_ABOUT_ME}
-                onChangeContent={(text) => {}}/>
-
-            <EditableListField
-                iconTitle={SUBTITLE_SEX_ORIENTATION}
-                icon={<RoundaboutLeft />}
-                isEdit={isEdit}
-                onSelectedItem={(value) => {console.log("sex orientation: "+value)}}
-                defaultValue={profile?.sexOrientation}
-                data={SEX_ORIENTATION_DATA}
-            />
-
-            <EditableListField
-                iconTitle={SUBTITLE_SEX}
-                icon={<Face />}
-                isEdit={false}
-                onSelectedItem={(value) => {console.log("sex: "+value)}}
-                defaultValue={profile?.sex}
-                data={SEX_DATA}
-            />
-
-            <EditableListField
-                iconTitle={SUBTITLE_CHILDS}
-                icon={<ChildCare />}
-                isEdit={true}
-                onSelectedItem={(value) => {console.log("kids: "+value)}}
-                defaultValue={profile?.kids > 0 ? 'YES' : 'NO'}
-                data={KIDS_DATA}
-            />
-
-            <EditableListField
-                iconTitle={SUBTITLE_FAMILY_STATUS}
-                icon={<FamilyRestroom />}
-                isEdit={true}
-                onSelectedItem={(value) => {console.log("familyStatus: "+value)}}
-                defaultValue={profile?.familyStatus}
-                data={profile?.sex === 'MAN' ? FAMILY_STATUS_DATA.man : FAMILY_STATUS_DATA.woman}
-            />
+            <Grid container className="p-2">
+                <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                    <EditableTextAreaField
+                        text={profile?.hobby || EMPTY_TEXT_PROFILE_FIELD}
+                        isEdit={isEdit}
+                        icon={<Kitesurfing />}
+                        iconTitle={SUBTITLE_HOBBIES}
+                        onChangeContent={(text) => {setProfile(prevState => ({...prevState, hobby: text}))}}/>
+                </Grid>
+                <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                    <EditableListField
+                        iconTitle={SUBTITLE_WHOM_LOOKING_FOR}
+                        icon={<Group />}
+                        isEdit={isEdit}
+                        onSelectedItem={(value) => {setProfile(prevState => ({...prevState, meetPreferences: value}))}}
+                        defaultValue={profile?.meetPreferences}
+                        data={MEET_PREFERENCES_DATA}
+                    />
+                </Grid>
+                <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                    <EditableTextAreaField
+                        text={profile?.aboutMe || EMPTY_TEXT_PROFILE_FIELD}
+                        isEdit={isEdit}
+                        icon={<Mood />}
+                        iconTitle={SUBTITLE_ABOUT_ME}
+                        onChangeContent={(text) => {setProfile(prevState => ({...prevState, aboutMe: text}))}}/>
+                </Grid>
+                <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                    <EditableListField
+                        iconTitle={SUBTITLE_SEX_ORIENTATION}
+                        icon={<RoundaboutLeft />}
+                        isEdit={isEdit}
+                        onSelectedItem={(value) => {setProfile(prevState => ({...prevState, sexOrientation: value}))}}
+                        defaultValue={profile?.sexOrientation}
+                        data={SEX_ORIENTATION_DATA}
+                    />
+                </Grid>
+                <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                    <EditableListField
+                        iconTitle={SUBTITLE_SEX}
+                        icon={<Face />}
+                        isEdit={false}
+                        onSelectedItem={(value) => {setProfile(prevState => ({...prevState, sex: value}))}}
+                        defaultValue={profile?.sex}
+                        data={SEX_DATA}
+                    />
+                </Grid>
+                <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                    <EditableListField
+                        iconTitle={SUBTITLE_CHILDS}
+                        icon={<ChildCare />}
+                        isEdit={true}
+                        onSelectedItem={(value) => {setProfile(prevState => ({...prevState, kids: value}))}}
+                        defaultValue={profile?.kids > 0 ? 'YES' : 'NO'}
+                        data={KIDS_DATA}
+                    />
+                </Grid>
+                <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                    <EditableListField
+                        iconTitle={SUBTITLE_FAMILY_STATUS}
+                        icon={<FamilyRestroom />}
+                        isEdit={true}
+                        onSelectedItem={(value) => {setProfile(prevState => ({...prevState, familyStatus: value}))}}
+                        defaultValue={profile?.familyStatus}
+                        data={profile?.sex === 'MAN' ? FAMILY_STATUS_DATA.man : FAMILY_STATUS_DATA.woman}
+                    />
+                </Grid>
+            </Grid>
 
             <ActionButtons isEdit={isEdit}/>
-            <ActionSave isEdit={isEdit}/>
+            <ActionSave isEdit={isEdit} onClick={onProfileSave}/>
             <div className="p-4"></div>
         </div>
     )

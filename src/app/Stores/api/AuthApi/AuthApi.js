@@ -55,6 +55,7 @@ export async function fullRegistration({username, password, firstName, birthDate
                 birthDate: birthDate,
                 height: 176,
                 weight: 65,
+                hobby: "Мои увлечения",
                 aboutMe: "Обо мне любая инфа",
                 kids: 0,
                 familyStatus: "SINGLE",
