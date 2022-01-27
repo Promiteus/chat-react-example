@@ -193,19 +193,33 @@ const ProfileEditablePage = ({profile, isEdit}) => {
             [{src: '', alt: ''}];
     }
 
-    useEffect(() => {
+    /*useEffect(() => {
      //   console.log("updated profle: "+JSON.stringify(profile_));
     });
 
     useEffect(() => {
         console.log("updated profile status: "+status);
-    }, [status]);
+    }, [status]);*/
 
     /**
      * Событие отправки данных о отредактированном профиле пользователе
      * */
     function onProfileSave() {
         profileDispatch(saveProfileAsync({profile: profile_}));
+    }
+
+    /**
+     * Пожаловаться на пользователя
+     */
+    function onComplainClick() {
+       //TODO
+    }
+
+    /**
+     * Перейти в чат с пользователем
+     */
+    function onWriteClick() {
+       //TODO
     }
 
     function showImagePreview(index) {
@@ -323,7 +337,7 @@ const ProfileEditablePage = ({profile, isEdit}) => {
                 </Grid>
             </Grid>
 
-            <ActionButtons isEdit={isEdit}/>
+            <ActionButtons isEdit={isEdit} onComplainClick={onComplainClick} onWriteClick={onWriteClick}/>
             <ActionSave isEdit={isEdit} onClick={onProfileSave}/>
             <div className="p-4"></div>
         </div>
