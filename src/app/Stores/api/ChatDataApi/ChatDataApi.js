@@ -33,27 +33,14 @@ export function getUserProfile(userId, token) {
 }
 
 /**
- * Получить список профилей постранично и по параметрам
+ * Получить список профилей постранично и по параметрам searchBody
  * @param userId
  * @param page
  * @param token
- * @param kids
- * @param age
- * @param sexOrientation
- * @param meetPreferences
- * @param sex
- * @param familyStatus
- * @param country
- * @param region
- * @param locality
  * @returns {Promise<AxiosResponse<any>>}
  */
-export function getUserProfilesPageable(userId, page, token, {kids, age, sexOrientation, meetPreferences, sex, familyStatus, country, region, locality}) {
-    return axios.post(
-        `${BASE_DATA_URL}/api/user_profiles/${page}/${userId}`,
-        {kids, age, sexOrientation, meetPreferences, sex, familyStatus, country, region, locality},
-         getHeaderBearerConfigs("application/json", token)
-    );
+export function searchUserProfilesPageable(userId, page, token, searchBody) {
+    return axios.post(`${BASE_DATA_URL}/api/user_profiles/${page}/${userId}`, searchBody, getHeaderBearerConfigs("application/json", token));
 }
 
 
