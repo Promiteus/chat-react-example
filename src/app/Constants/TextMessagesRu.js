@@ -23,6 +23,8 @@ const SUBTITLE_SEX = "Пол";
 const SUBTITLE_CHILDS = "Дети";
 const SUBTITLE_FAMILY_STATUS = "Семейное положение";
 
+const CAPTION_SEARCH_PARAMS = "Параметры поиска";
+
 const EMPTY_TEXT_PROFILE_FIELD = "Не указанно";
 
 const CAPTION_WRITE = "Написать";
@@ -108,4 +110,5 @@ export {
     SEX_ORIENTATION_DATA,
     KIDS_DATA,
     EMPTY_TEXT_PROFILE_FIELD,
+    CAPTION_SEARCH_PARAMS,
 }

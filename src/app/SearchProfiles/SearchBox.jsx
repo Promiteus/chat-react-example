@@ -3,6 +3,7 @@ import {Container, FormControl, Grid, IconButton, MenuItem, Select, Typography} 
 import IconSubTitle from "../Componetns/Header/IconSubTitle";
 import {ChildCare, Face, FamilyRestroom, HistoryToggleOffOutlined, ModeEdit, RoundaboutLeft} from "@mui/icons-material";
 import {
+    CAPTION_SEARCH_PARAMS,
     FAMILY_STATUS_DATA,
     KIDS_DATA,
     SEX_DATA, SEX_ORIENTATION_DATA,
@@ -79,6 +80,7 @@ const SearchBox = (props) => {
 
     return(
         <div className="d-flex flex-column container p-3">
+            <Typography className="mb-2" variant={"h5"}>{CAPTION_SEARCH_PARAMS}</Typography>
              <Grid container>
                  <Grid item sm={12} xs={12} md={6} lg={6} xl={6} className="my-2">
                      <ListField iconTitle={SUBTITLE_CHILDS}
