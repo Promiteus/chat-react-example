@@ -1,7 +1,15 @@
 import React, {useEffect, useState} from "react";
 import {Drawer} from "@mui/material";
 
-const BottomDrawer = ({isOpen, onClosed}) => {
+/**
+ * Понимающаяся снизу панель для размещения произвольного контента
+ * @param isOpen
+ * @param onClosed
+ * @param children
+ * @returns {JSX.Element}
+ * @constructor
+ */
+const BottomDrawer = ({isOpen, onClosed, children}) => {
     const [open, setOpen] = useState(isOpen);
 
     useEffect(() => {
@@ -23,7 +31,7 @@ const BottomDrawer = ({isOpen, onClosed}) => {
                 anchor={"bottom"}
                 open={open}
                 onClose={toggleDrawer(false)}>
-                {'test'}
+                {children}
             </Drawer>
         </div>
     );

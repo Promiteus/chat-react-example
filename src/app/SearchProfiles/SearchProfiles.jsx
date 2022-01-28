@@ -37,7 +37,9 @@ const SearchProfiles = ({profiles}) => {
             <Fab color="primary" aria-label="add" sx={fabStyle} onClick={() => {setOpenSearch(!openSearch)}}>
                 <SearchOutlined />
             </Fab>
-            <BottomDrawer isOpen={openSearch} onClosed={() => {setOpenSearch(false)}}/>
+            <BottomDrawer isOpen={openSearch} onClosed={() => {setOpenSearch(false)}}>
+                {'test params'}
+            </BottomDrawer>
         </div>
     );
 }
