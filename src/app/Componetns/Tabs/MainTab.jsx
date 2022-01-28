@@ -1,8 +1,8 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Box, Tab, Tabs} from "@mui/material";
 import TabItem from "./TabItem";
 import ChatView from "../../Chat/ChatView";
-import {CAPTION_CHATS, CAPTION_GUESTS, CAPTION_SEARCH} from "../../Constants/TextMessagesRu";
+import {CAPTION_CHATS, CAPTION_GUESTS, CAPTION_SEARCH } from "../../Constants/TextMessagesRu";
 import {StompClient} from "../../Chat/Websocker/ws";
 import {USER_ID_KEY} from "../../Stores/api/Common/ApiCommon";
 import {useLocation, useNavigate} from "react-router-dom";
@@ -17,6 +17,7 @@ import SearchProfiles from "../../SearchProfiles/SearchProfiles";
 import {ROUTE_REGISTRATION, ROUTE_SIGNUP} from "../../Constants/Routes";
 import {selectCommon} from "../../Stores/slices/CommonSlice";
 import ProfileDetail from "../../ProfileDetails/ProfileDetail";
+
 
 function a11yProps(index) {
     return {
