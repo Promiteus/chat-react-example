@@ -4,6 +4,7 @@ import ProfileViewElement from "../Guests/ProfileViewElement";
 import {CAPTION_EMPTY_PROFILES} from "../Constants/TextMessagesRu";
 import { SearchOutlined} from "@mui/icons-material";
 import BottomDrawer from "../Componetns/Drawers/BottomDrawer";
+import SearchBox from "./SearchBox";
 
 const fabStyle = {
     position: 'absolute',
@@ -38,7 +39,7 @@ const SearchProfiles = ({profiles}) => {
                 <SearchOutlined />
             </Fab>
             <BottomDrawer isOpen={openSearch} onClosed={() => {setOpenSearch(false)}}>
-                {'test params'}
+                <SearchBox />
             </BottomDrawer>
         </div>
     );

@@ -309,7 +309,7 @@ const ProfileEditablePage = ({profile, isEdit}) => {
                     <EditableListField
                         iconTitle={SUBTITLE_SEX}
                         icon={<Face />}
-                        isEdit={false}
+                        isEdit={isEdit}
                         onSelectedItem={(value) => {setProfile(prevState => ({...prevState, sex: value}))}}
                         defaultValue={profile_?.sex}
                         data={SEX_DATA}
@@ -319,7 +319,7 @@ const ProfileEditablePage = ({profile, isEdit}) => {
                     <EditableListField
                         iconTitle={SUBTITLE_CHILDS}
                         icon={<ChildCare />}
-                        isEdit={true}
+                        isEdit={isEdit}
                         onSelectedItem={(value) => {setProfile(prevState => ({...prevState, kids: value === 'YES' ? 1 : 0}))}}
                         defaultValue={profile_?.kids > 0 ? 'YES' : 'NO'}
                         data={KIDS_DATA}
@@ -329,7 +329,7 @@ const ProfileEditablePage = ({profile, isEdit}) => {
                     <EditableListField
                         iconTitle={SUBTITLE_FAMILY_STATUS}
                         icon={<FamilyRestroom />}
-                        isEdit={true}
+                        isEdit={isEdit}
                         onSelectedItem={(value) => {setProfile(prevState => ({...prevState, familyStatus: value}))}}
                         defaultValue={profile_?.familyStatus}
                         data={profile?.sex === 'MAN' ? FAMILY_STATUS_DATA.man : FAMILY_STATUS_DATA.woman}

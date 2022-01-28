@@ -26,7 +26,7 @@ const BottomDrawer = ({isOpen, onClosed, children}) => {
     };
 
     return(
-        <div className="">
+        <div>
             <Drawer
                 anchor={"bottom"}
                 open={open}
