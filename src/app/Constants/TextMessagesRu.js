@@ -22,6 +22,8 @@ const SUBTITLE_WHOM_LOOKING_FOR = "Кого ищу";
 const SUBTITLE_SEX = "Пол";
 const SUBTITLE_CHILDS = "Дети";
 const SUBTITLE_FAMILY_STATUS = "Семейное положение";
+const SUBTITLE_FAMILY_STATUS_SHORT = "Семья";
+const SUBTITLE_YEARS_OLD = "Возраст";
 
 const CAPTION_SEARCH_PARAMS = "Параметры поиска";
 
@@ -111,4 +113,6 @@ export {
     KIDS_DATA,
     EMPTY_TEXT_PROFILE_FIELD,
     CAPTION_SEARCH_PARAMS,
+    SUBTITLE_FAMILY_STATUS_SHORT,
+    SUBTITLE_YEARS_OLD,
 }
