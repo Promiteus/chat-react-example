@@ -18,7 +18,6 @@ import {
     SUBTITLE_SEX_ORIENTATION, SUBTITLE_YEARS_OLD
 } from "../Constants/TextMessagesRu";
 import {ListField, RangeField} from "../Componetns/Controls";
-import {useDispatch} from "react-redux";
 
 /**
  {
@@ -35,7 +34,7 @@ import {useDispatch} from "react-redux";
 }
  * */
 
-let searchParams = {
+/*let searchParams = {
     kids: -1,
     ageFrom: 18,
     ageTo: 55,
@@ -46,7 +45,7 @@ let searchParams = {
     country: "Россия",
     region: "",
     locality: ""
-};
+};*/
 
 /**
  * Контейнер с параметрами поиска профилей по SearchBox
@@ -54,13 +53,22 @@ let searchParams = {
  * @returns {JSX.Element}
  * @constructor
  */
-const SearchBox = ({onClose}) => {
-    const search = useDispatch();
-
+const SearchBox = ({onClose, defaultParams}) => {
+    const [searchParams, setSearchParams] = useState(defaultParams || {
+        kids: 'YES',
+        ageFrom: 18,
+        ageTo: 55,
+        sexOrientation: "HETERO",
+        meetPreferences: "ALL",
+        sex: "MAN",
+        familyStatus: null,
+        country: "Россия",
+        region: "",
+        locality: ""
+    })
 
     function onSearch() {
-        console.log(JSON.stringify(searchParams));
-        //onClose();
+        onClose(searchParams);
     }
 
     return(
@@ -76,38 +84,38 @@ const SearchBox = ({onClose}) => {
                      <RangeField iconTitle={SUBTITLE_YEARS_OLD}
                                  icon={<CakeOutlined />}
                                  onChangeRange={(value) => {
-                                     searchParams.ageFrom = value[0];
-                                     searchParams.ageTo = value[1];
+                                     setSearchParams(prevState => ({...prevState, ageFrom: value[0]}));
+                                     setSearchParams(prevState => ({...prevState, ageTo: value[1]}));
                                  }}
-                                 defaultValue={[18, 50]}/>
+                                 defaultValue={[defaultParams?.ageFrom || 18, defaultParams?.ageTo || 50]}/>
                      <Divider className="mt-2"/>
                  </Grid>
                  <Grid item sm={12} xs={12} md={6} lg={6} xl={6} className="my-2">
                      <ListField iconTitle={SUBTITLE_CHILDS}
                                 icon={<ChildCare />}
-                                onSelectedItem={(value) => {searchParams.kids = value}}
-                                defaultValue={'YES'}
+                                onSelectedItem={(value) => {setSearchParams(prevState => ({...prevState, kids: value}));}}
+                                defaultValue={defaultParams?.kids || 'YES'}
                                 data={KIDS_DATA}/>
                  </Grid>
                  <Grid item sm={12} xs={12} md={6} lg={6} xl={6} className="my-2">
                      <ListField iconTitle={SUBTITLE_SEX}
                                 icon={<Face />}
-                                onSelectedItem={(value) => {searchParams.sex = value}}
-                                defaultValue={'MAN'}
+                                onSelectedItem={(value) => {setSearchParams(prevState => ({...prevState, sex: value}));}}
+                                defaultValue={defaultParams?.sex || 'MAN'}
                                 data={SEX_DATA}/>
                  </Grid>
                  <Grid item sm={12} xs={12} md={6} lg={6} xl={6} className="my-2">
                      <ListField iconTitle={SUBTITLE_SEX_ORIENTATION}
                                 icon={<RoundaboutLeft />}
-                                onSelectedItem={(value) => {searchParams.sexOrientation = value}}
-                                defaultValue={'HETERO'}
+                                onSelectedItem={(value) => {setSearchParams(prevState => ({...prevState, sexOrientation: value}));}}
+                                defaultValue={defaultParams?.sexOrientation || 'HETERO'}
                                 data={SEX_ORIENTATION_DATA}/>
                  </Grid>
                  <Grid item sm={12} xs={12} md={6} lg={6} xl={6} className="my-2">
                      <ListField iconTitle={SUBTITLE_FAMILY_STATUS_SHORT}
                                 icon={<FamilyRestroom />}
-                                onSelectedItem={(value) => {searchParams.familyStatus = value}}
-                                defaultValue={'MARRIED'}
+                                onSelectedItem={(value) => {setSearchParams(prevState => ({...prevState, familyStatus: value}));}}
+                                defaultValue={defaultParams?.familyStatus || 'MARRIED'}
                                 data={FAMILY_STATUS_DATA.man}/>
                  </Grid>
              </Grid>

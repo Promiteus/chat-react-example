@@ -28,8 +28,11 @@ const RangeField = ({defaultValue, icon, iconTitle, onChangeRange}) => {
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
-        onChangeRange(value);
     };
+
+    const onKeyUp = (event) => {
+        onChangeRange(value);
+    }
 
     return(
         <div className="d-flex flex-row justify-content-start align-items-center">
@@ -49,7 +52,9 @@ const RangeField = ({defaultValue, icon, iconTitle, onChangeRange}) => {
                             disabled={!check}
                             getAriaLabel={() => 'Age range'}
                             value={value}
+                            min={18}
                             onChange={handleChange}
+                            onMouseUp={onKeyUp}
                             valueLabelDisplay="auto"
                             getAriaValueText={valuetext}
                         />

@@ -20,7 +20,13 @@ const fabStyle = {
  */
 const SearchProfiles = ({profiles}) => {
     const [openSearch, setOpenSearch] = useState(false);
+    const [searchParams, setSearchParams] = useState(null);
 
+    function onSearch(params) {
+        setSearchParams(params);
+        console.log(JSON.stringify(params));
+        setOpenSearch(false);
+    }
 
     return (
         <div style={{overflowY: 'scroll', position: 'relative'}} className="d-block m-1 h-100">
@@ -39,7 +45,7 @@ const SearchProfiles = ({profiles}) => {
                 <SearchOutlined />
             </Fab>
             <BottomDrawer isOpen={openSearch} onClosed={() => {setOpenSearch(false)}}>
-                <SearchBox />
+                <SearchBox onClose={onSearch} defaultParams={searchParams}/>
             </BottomDrawer>
         </div>
     );
