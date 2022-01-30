@@ -2,14 +2,19 @@ import React, {useEffect, useState} from "react";
 import IconSubTitle from "../Header/IconSubTitle";
 import {Checkbox, FormControl, Grid, MenuItem, Select} from "@mui/material";
 
+
 const ListField = ({data, defaultValue, icon, iconTitle, onSelectedItem}) => {
     const [value, setValue] = useState(getSelectedValue(defaultValue));
     const [check, setCheck] = useState(true);
+    const [lastValue, setLastValue] = useState(defaultValue);
 
     function onSelect(e) {
         let selectedTag = e?.target?.value;
         onSelectedItem(e?.target?.value);
         setValue(getSelectedValue(selectedTag));
+        if (check) {
+            setLastValue(e?.target?.value);
+        }
     }
 
     useEffect(() => {
@@ -27,7 +32,12 @@ const ListField = ({data, defaultValue, icon, iconTitle, onSelectedItem}) => {
 
     return(
         <div className="d-flex flex-row justify-content-start align-items-center">
-            <Checkbox defaultChecked onChange={(e) => {setCheck(e?.target?.checked)}}/>
+            <Checkbox defaultChecked onChange={(e) => {
+                setCheck(e?.target?.checked);
+                if (!check) {
+                    onSelectedItem(lastValue);
+                }
+            }}/>
             <div className="d-flex flex-row justify-content-start align-items-center">
                 <IconSubTitle text={iconTitle} icon={icon} font={'h6'}/>
             </div>

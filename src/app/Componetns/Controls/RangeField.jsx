@@ -33,7 +33,11 @@ const RangeField = ({defaultValue, icon, iconTitle, onChangeRange}) => {
 
     return(
         <div className="d-flex flex-row justify-content-start align-items-center">
-            <Checkbox defaultChecked onChange={(e) => {setCheck(e?.target?.checked)}}/>
+            <Checkbox defaultChecked onChange={(e) => {
+                setCheck(e?.target?.checked);
+                if (!check) {
+                    onChangeRange(value)
+                }}}/>
             <div className="d-flex flex-row justify-content-start align-items-center">
                 <IconSubTitle text={iconTitle} icon={icon} font={'h6'} dataText={`(от ${value[0]} до ${value[1]})`}/>
             </div>
@@ -43,7 +47,7 @@ const RangeField = ({defaultValue, icon, iconTitle, onChangeRange}) => {
                     <FormControl variant="standard" fullWidth>
                         <Slider
                             disabled={!check}
-                            getAriaLabel={() => 'Temperature range'}
+                            getAriaLabel={() => 'Age range'}
                             value={value}
                             onChange={handleChange}
                             valueLabelDisplay="auto"
