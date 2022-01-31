@@ -113,7 +113,7 @@ const MainTab = (props) => {
                     <GuestsView visitors={response?.lastVisitors || []}/>
                 </TabItem>
                 <TabItem value={tabIndex} index={2} >
-                    <SearchProfiles profiles={[]} userId={currentUserId}/>
+                    <SearchProfiles userId={currentUserId}/>
                 </TabItem>
               </div>}
 

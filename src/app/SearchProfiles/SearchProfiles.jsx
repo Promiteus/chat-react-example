@@ -1,12 +1,15 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Chip, Fab, Grid} from "@mui/material";
 import ProfileViewElement from "../Guests/ProfileViewElement";
 import {CAPTION_EMPTY_PROFILES, kidsVal} from "../Constants/TextMessagesRu";
 import { SearchOutlined} from "@mui/icons-material";
 import BottomDrawer from "../Componetns/Drawers/BottomDrawer";
 import SearchBox from "./SearchBox";
-import {useDispatch} from "react-redux";
-import {userProfileSearchAsync} from "../Stores/slices/UserProfileSearchSlice";
+import {useDispatch, useSelector} from "react-redux";
+import {
+    selectSearchProfile,
+    userProfileSearchAsync
+} from "../Stores/slices/UserProfileSearchSlice";
 
 
 const fabStyle = {
@@ -21,7 +24,7 @@ const fabStyle = {
  * @returns {JSX.Element}
  * @constructor
  */
-const SearchProfiles = ({profiles, userId}) => {
+const SearchProfiles = ({userId}) => {
     const [openSearch, setOpenSearch] = useState(false);
     const [searchParams, setSearchParams] = useState({
         kids: 0,
@@ -36,6 +39,7 @@ const SearchProfiles = ({profiles, userId}) => {
         locality: ""
     });
     const profileDispatch = useDispatch();
+    const {status, response, loading} = useSelector(selectSearchProfile);
 
     function onSearch(params) {
         setSearchParams(params);
@@ -49,11 +53,15 @@ const SearchProfiles = ({profiles, userId}) => {
         setOpenSearch(false);
     }
 
+    /*useEffect(() => {
+        console.log("response: "+JSON.stringify(response));
+    }, [status])*/
+
     return (
         <div style={{overflowY: 'scroll', position: 'relative'}} className="d-block m-1 h-100">
-            {profiles?.length ?
+            {response?.length ?
                 <Grid container spacing={1} >
-                    {profiles?.map(elem => (
+                    {response?.map(elem => (
                         <ProfileViewElement profile={elem}/>
                     ))}
                 </Grid>

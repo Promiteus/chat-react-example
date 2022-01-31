@@ -3,7 +3,7 @@ import commonSlice from "./slices/CommonSlice";
 import userSlice from "./slices/UserSlice";
 import profileSlice from "./slices/UserProfileSlices";
 import chatSlice from "./slices/ChatSlice";
-import {searchProfileSlice} from "./slices/UserProfileSearchSlice";
+import searchProfileSlice from "./slices/UserProfileSearchSlice";
 
 
 export default configureStore({
