@@ -49,7 +49,6 @@ function getWindowDimensions() {
  @media (min-width: 1200px) { ... }
  * */
 
-
 export default function useWindowDimensions() {
     const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
 

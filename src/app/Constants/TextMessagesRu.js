@@ -65,6 +65,10 @@ function kidsVal(value) {
     return -1;
 }
 
+function kidsValReverse(value) {
+    return value === 1 ? KIDS_DATA[0].tag : KIDS_DATA[1].tag;
+}
+
 //  HETERO, HOMO, BI
 const SEX_ORIENTATION_DATA = [
     {tag: 'HETERO', value: 'Гетеро'},
@@ -125,4 +129,5 @@ export {
     SUBTITLE_FAMILY_STATUS_SHORT,
     SUBTITLE_YEARS_OLD,
     kidsVal,
+    kidsValReverse,
 }
