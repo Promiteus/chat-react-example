@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Chip, Fab, Grid} from "@mui/material";
 import ProfileViewElement from "../Guests/ProfileViewElement";
-import {CAPTION_EMPTY_PROFILES} from "../Constants/TextMessagesRu";
+import {CAPTION_EMPTY_PROFILES, kidsVal} from "../Constants/TextMessagesRu";
 import { SearchOutlined} from "@mui/icons-material";
 import BottomDrawer from "../Componetns/Drawers/BottomDrawer";
 import SearchBox from "./SearchBox";
@@ -40,9 +40,12 @@ const SearchProfiles = ({profiles, userId}) => {
     function onSearch(params) {
         setSearchParams(params);
         console.log(JSON.stringify(params));
-        //Свернуть панель параметров поиска
 
-        profileDispatch(userProfileSearchAsync({userId: userId, page: 0, searchBody: searchParams}));
+        let searchBody = {};
+        Object.assign(searchBody, params);
+        searchBody.kids = kidsVal(params.kids);
+
+        profileDispatch(userProfileSearchAsync({userId: userId, page: 0, searchBody: searchBody}));
         setOpenSearch(false);
     }
 

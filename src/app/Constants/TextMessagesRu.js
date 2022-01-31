@@ -56,6 +56,15 @@ const KIDS_DATA = [
     {tag: 'NO', value: 'Детей нет'},
 ];
 
+function kidsVal(value) {
+    if (value === KIDS_DATA[0].tag) {
+        return 1;
+    } else if (value === KIDS_DATA[1].tag) {
+        return 0;
+    }
+    return -1;
+}
+
 //  HETERO, HOMO, BI
 const SEX_ORIENTATION_DATA = [
     {tag: 'HETERO', value: 'Гетеро'},
@@ -115,4 +124,5 @@ export {
     CAPTION_SEARCH_PARAMS,
     SUBTITLE_FAMILY_STATUS_SHORT,
     SUBTITLE_YEARS_OLD,
+    kidsVal,
 }

@@ -11,7 +11,7 @@ import {
     CAPTION_SEARCH,
     CAPTION_SEARCH_PARAMS,
     FAMILY_STATUS_DATA,
-    KIDS_DATA,
+    KIDS_DATA, kidsVal,
     SEX_DATA, SEX_ORIENTATION_DATA,
     SUBTITLE_CHILDS, SUBTITLE_FAMILY_STATUS_SHORT,
     SUBTITLE_SEX,
@@ -60,6 +60,7 @@ const SearchBox = ({onClose, defaultParams}) => {
         onClose(searchParams);
     }
 
+
     return(
         <div className="d-flex flex-column container p-3">
              <div className="d-flex flex-row justify-content-end align-content-center">
@@ -82,7 +83,7 @@ const SearchBox = ({onClose, defaultParams}) => {
                  <Grid item sm={12} xs={12} md={6} lg={6} xl={6} className="my-2">
                      <ListField iconTitle={SUBTITLE_CHILDS}
                                 icon={<ChildCare />}
-                                onSelectedItem={(value) => {setSearchParams(prevState => ({...prevState, kids: value === 'YES'? 1 : 0}));}}
+                                onSelectedItem={(value) => {setSearchParams(prevState => ({...prevState, kids: value}));}}
                                 defaultValue={defaultParams?.kids || 'YES'}
                                 data={KIDS_DATA}/>
                  </Grid>
