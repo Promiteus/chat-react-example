@@ -3,7 +3,6 @@ import {
     getUserProfile,
     removeUserProfile,
     saveUserProfile,
-    searchUserProfilesPageable
 } from "../api/ChatDataApi/ChatDataApi";
 import {fulfilledRequestData, initialRequestData, rejectRequestData, TOKEN_KEY} from "../api/Common/ApiCommon";
 
@@ -17,17 +16,6 @@ export const userProfileAsync = createAsyncThunk(
        let token = localStorage.getItem(TOKEN_KEY);
        return await getUserProfile(userId, token);
    }
-);
-/**
- * Метод поиска профилей пользователей за искобчением профиля с userId и по параметрам searchBody
- * @type {AsyncThunk<AxiosResponse<*>, {readonly userId?: *, readonly page?: *, readonly searchBody?: *}, {}>}
- */
-export const userProfileSearchAsync = createAsyncThunk(
-    'profile/search',
-    async ({userId, page, searchBody}) => {
-        let token = localStorage.getItem(TOKEN_KEY);
-        return await searchUserProfilesPageable(userId, page, token, searchBody);
-    }
 );
 
 /**
@@ -98,16 +86,6 @@ export const profileSlice = createSlice({
                 fulfilledRequestData({state, action});
             })
             .addCase(saveProfileAsync.rejected, (state, action) => {
-                rejectRequestData({state, action});
-            })
-            //Поиск профилей пользователей за искобчением профиля с userId и по параметрам searchBody
-            .addCase(userProfileSearchAsync.pending, (state, action) => {
-                initialRequestData({state, action});
-            })
-            .addCase(userProfileSearchAsync.fulfilled, (state, action) => {
-                fulfilledRequestData({state, action});
-            })
-            .addCase(userProfileSearchAsync.rejected, (state, action) => {
                 rejectRequestData({state, action});
             })
     }

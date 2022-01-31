@@ -54,18 +54,7 @@ import {ListField, RangeField} from "../Componetns/Controls";
  * @constructor
  */
 const SearchBox = ({onClose, defaultParams}) => {
-    const [searchParams, setSearchParams] = useState(defaultParams || {
-        kids: 'YES',
-        ageFrom: 18,
-        ageTo: 55,
-        sexOrientation: "HETERO",
-        meetPreferences: "ALL",
-        sex: "MAN",
-        familyStatus: null,
-        country: "Россия",
-        region: "",
-        locality: ""
-    })
+    const [searchParams, setSearchParams] = useState(defaultParams)
 
     function onSearch() {
         onClose(searchParams);
@@ -93,7 +82,7 @@ const SearchBox = ({onClose, defaultParams}) => {
                  <Grid item sm={12} xs={12} md={6} lg={6} xl={6} className="my-2">
                      <ListField iconTitle={SUBTITLE_CHILDS}
                                 icon={<ChildCare />}
-                                onSelectedItem={(value) => {setSearchParams(prevState => ({...prevState, kids: value}));}}
+                                onSelectedItem={(value) => {setSearchParams(prevState => ({...prevState, kids: value === 'YES'? 1 : 0}));}}
                                 defaultValue={defaultParams?.kids || 'YES'}
                                 data={KIDS_DATA}/>
                  </Grid>

@@ -5,6 +5,9 @@ import {CAPTION_EMPTY_PROFILES} from "../Constants/TextMessagesRu";
 import { SearchOutlined} from "@mui/icons-material";
 import BottomDrawer from "../Componetns/Drawers/BottomDrawer";
 import SearchBox from "./SearchBox";
+import {useDispatch} from "react-redux";
+import {userProfileSearchAsync} from "../Stores/slices/UserProfileSearchSlice";
+
 
 const fabStyle = {
     position: 'absolute',
@@ -18,13 +21,28 @@ const fabStyle = {
  * @returns {JSX.Element}
  * @constructor
  */
-const SearchProfiles = ({profiles}) => {
+const SearchProfiles = ({profiles, userId}) => {
     const [openSearch, setOpenSearch] = useState(false);
-    const [searchParams, setSearchParams] = useState(null);
+    const [searchParams, setSearchParams] = useState({
+        kids: 0,
+        ageFrom: 18,
+        ageTo: 55,
+        sexOrientation: "HETERO",
+        meetPreferences: "ALL",
+        sex: "MAN",
+        familyStatus: null,
+        country: "Россия",
+        region: "",
+        locality: ""
+    });
+    const profileDispatch = useDispatch();
 
     function onSearch(params) {
         setSearchParams(params);
         console.log(JSON.stringify(params));
+        //Свернуть панель параметров поиска
+
+        profileDispatch(userProfileSearchAsync({userId: userId, page: 0, searchBody: searchParams}));
         setOpenSearch(false);
     }
 
