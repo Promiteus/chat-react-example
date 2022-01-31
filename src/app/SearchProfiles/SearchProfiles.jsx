@@ -11,6 +11,8 @@ import {
     userProfileSearchAsync
 } from "../Stores/slices/UserProfileSearchSlice";
 import useWindowDimensions, {D_LG, D_MD, D_SM, D_XL, D_XS} from "../Hooks/useWindowDimension";
+import {Skeleton} from "@mui/lab";
+import UserProfilesSkeletons from "../Componetns/Skeletons/UserProfilesSkeletons";
 
 
 const fabStyle = {
@@ -69,26 +71,21 @@ const SearchProfiles = ({userId}) => {
         setOpenSearch(false);
     }
 
-    /*useEffect(() => {
-        if ((+status === 200) && (loading === false)) {
-            console.log("response: "+JSON.stringify(response));
-        }
-
-    }, [response])*/
-
     return (
         <div style={{overflowY: 'scroll', position: 'relative'}} className="d-block m-1 h-100">
-            {((response?.length) && (+status === 200)) ?
+
+             {((response?.length) && (+status === 200) && (loading === false)) ?
                 <ImageList cols={imgCols}>
-                    {response?.map(elem => (
-                        <ProfileViewElement profile={elem}/>
+                    {response?.map((elem) => (
+                        <ProfileViewElement key={elem?.id} profile={elem}/>
                     ))}
                 </ImageList>
                 :
                 <div className="d-flex justify-content-center flex-row mt-2">
                     <Chip label={CAPTION_EMPTY_PROFILES.toUpperCase()} color={"primary"} variant={"outlined"}/>
                 </div>
-           }
+            }
+            {(loading) && <UserProfilesSkeletons count={30} />}
             <Fab color="primary" aria-label="add" sx={fabStyle} onClick={() => {setOpenSearch(!openSearch)}}>
                 <SearchOutlined />
             </Fab>
