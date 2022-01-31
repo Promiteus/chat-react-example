@@ -9,8 +9,6 @@
   border-radius: 6px;
 }
 
-
-
 .photo-card {
   border-radius: 8px;
 }
@@ -19,10 +17,10 @@
   opacity: 0.8;
 }
 
-.card-item:hover {
+/*.card-item:hover {
   opacity: 0.8;
   border: 1px solid black;
-}
+}*/
 
 .grid-element {
   border: 1px solid #a19f9f;

@@ -4,10 +4,10 @@ export const searchBoxSlice = createSlice({
     name: 'searchBox',
     initialState: {
         ageCheck: true,
-        kidsCheck: true,
-        sexOrientationCheck: true,
-        sexCheck: true,
-        familyCheck: true,
+        kidsCheck: false,
+        sexOrientationCheck: false,
+        sexCheck: false,
+        familyCheck: false,
     },
     reducers: {
         setAgeCheck: (state, action) => {

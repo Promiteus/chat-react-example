@@ -30,7 +30,8 @@ const UserProfilesSkeletons = ({count}) => {
         <ImageList cols={imgCols}>
             {getItems().map((i, key) => (
                 <ImageListItem key={key} className="m-1">
-                    <Skeleton variant="rectangular"  height={220} />
+                    <Skeleton variant="rectangular"  height={290} />
+                    <Skeleton variant={"text"} height={60}/>
                 </ImageListItem>
             ))}
         </ImageList>

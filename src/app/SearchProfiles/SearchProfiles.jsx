@@ -28,6 +28,7 @@ const fabStyle = {
  * @constructor
  */
 const SearchProfiles = ({userId}) => {
+    const [page, setPage] = useState(0);
     const [openSearch, setOpenSearch] = useState(false);
     const [searchParams, setSearchParams] = useState({
         kids: 0,
@@ -58,22 +59,32 @@ const SearchProfiles = ({userId}) => {
         setImgCols(colsMap.get(dimType));
     }, [dimType]);
 
+    useEffect(() => {
+        if ((+status === 200) && (!loading) && (response?.length > 0)) {
+            setPage(page+1);
+            console.log("page: "+page);
+        }
+
+    }, [response]);
+
     function onSearch(params) {
         setSearchParams(params);
+        setPage(0);
 
         let searchBody = {};
         Object.assign(searchBody, params);
         searchBody.kids = kidsVal(params.kids);
 
-        console.log(JSON.stringify(searchBody));
 
         profileDispatch(userProfileSearchAsync({userId: userId, page: 0, searchBody: searchBody}));
         setOpenSearch(false);
     }
 
     return (
-        <div style={{overflowY: 'scroll', position: 'relative'}} className="d-block m-1 h-100">
-
+        <div style={{overflowY: loading ? 'hidden': 'scroll', position: 'relative'}} className="d-block m-1 h-100">
+             {/*Скелетон-прелодер для первой страницы*/}
+             {((loading) && (page === 0)) && <UserProfilesSkeletons count={20} />}
+             {/*Загружаемый контент постранично (фотокарточки пользователей)*/}
              {((response?.length) && (+status === 200) && (loading === false)) ?
                 <ImageList cols={imgCols}>
                     {response?.map((elem) => (
@@ -85,7 +96,8 @@ const SearchProfiles = ({userId}) => {
                     <Chip label={CAPTION_EMPTY_PROFILES.toUpperCase()} color={"primary"} variant={"outlined"}/>
                 </div>
             }
-            {(loading) && <UserProfilesSkeletons count={30} />}
+            {/*Скелетон-прелодер для последующих страниц*/}
+            {((loading) && (page > 0)) && <div></div>}
             <Fab color="primary" aria-label="add" sx={fabStyle} onClick={() => {setOpenSearch(!openSearch)}}>
                 <SearchOutlined />
             </Fab>

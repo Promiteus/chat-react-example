@@ -14,7 +14,7 @@ const ProfileViewElement = ({profile}) => {
 
     return(
         <>
-          <ImageListItem className="m-1">
+          <ImageListItem sx={{boxShadow: 'gray'}} className="m-1">
               <img
                   className="photo-card"
                   src={`${BASE_DATA_URL}${profile?.thumbUrl?.src}`}
