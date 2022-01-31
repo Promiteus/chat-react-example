@@ -16,14 +16,15 @@ function valuetext(value) {
  * @returns {JSX.Element}
  * @constructor
  */
-const RangeField = ({defaultValue, icon, iconTitle, onChangeRange}) => {
+const RangeField = ({defaultValue, icon, iconTitle, onChangeRange, onChecked, isChecked}) => {
     const [value, setValue] = useState(defaultValue);
-    const [check, setCheck] = useState(true);
+    const [check, setCheck] = useState(isChecked);
 
     useEffect(() => {
         if (!check) {
             onChangeRange([null, null]);
         }
+        onChecked(check);
     }, [check]);
 
     const handleChange = (event, newValue) => {
@@ -36,7 +37,7 @@ const RangeField = ({defaultValue, icon, iconTitle, onChangeRange}) => {
 
     return(
         <div className="d-flex flex-row justify-content-start align-items-center">
-            <Checkbox defaultChecked onChange={(e) => {
+            <Checkbox checked={isChecked} onChange={(e) => {
                 setCheck(e?.target?.checked);
                 if (!check) {
                     onChangeRange(value)

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Button, Divider, Grid, Typography} from "@mui/material";
 import {
     CakeOutlined,
@@ -18,6 +18,14 @@ import {
     SUBTITLE_SEX_ORIENTATION, SUBTITLE_YEARS_OLD
 } from "../Constants/TextMessagesRu";
 import {ListField, RangeField} from "../Componetns/Controls";
+import {useDispatch, useSelector} from "react-redux";
+import {
+    selectSearchBox,
+    setAgeCheck, setFamilyCheck,
+    setKidsCheck,
+    setSexCheck,
+    setSexOrientationCheck
+} from "../Stores/slices/SearchBoxSlice";
 
 /**
  {
@@ -54,12 +62,13 @@ import {ListField, RangeField} from "../Componetns/Controls";
  * @constructor
  */
 const SearchBox = ({onClose, defaultParams}) => {
-    const [searchParams, setSearchParams] = useState(defaultParams)
+    const [searchParams, setSearchParams] = useState(defaultParams);
+    const checkDispatch = useDispatch();
+    const {ageCheck, kidsCheck, sexOrientationCheck, sexCheck, familyCheck} = useSelector(selectSearchBox);
 
     function onSearch() {
         onClose(searchParams);
     }
-
 
     return(
         <div className="d-flex flex-column container p-3">
@@ -77,7 +86,10 @@ const SearchBox = ({onClose, defaultParams}) => {
                                      setSearchParams(prevState => ({...prevState, ageFrom: value[0]}));
                                      setSearchParams(prevState => ({...prevState, ageTo: value[1]}));
                                  }}
-                                 defaultValue={[defaultParams?.ageFrom || 18, defaultParams?.ageTo || 50]}/>
+                                 defaultValue={[defaultParams?.ageFrom || 18, defaultParams?.ageTo || 50]}
+                                 onChecked={(value) => {checkDispatch(setAgeCheck(value))}}
+                                 isChecked={ageCheck}
+                     />
                      <Divider className="mt-2"/>
                  </Grid>
                  <Grid item sm={12} xs={12} md={6} lg={6} xl={6} className="my-2">
@@ -85,28 +97,40 @@ const SearchBox = ({onClose, defaultParams}) => {
                                 icon={<ChildCare />}
                                 onSelectedItem={(value) => {setSearchParams(prevState => ({...prevState, kids: value}));}}
                                 defaultValue={defaultParams?.kids || 'YES'}
-                                data={KIDS_DATA}/>
+                                data={KIDS_DATA}
+                                onChecked={(value) => {checkDispatch(setKidsCheck(value))}}
+                                isChecked={kidsCheck}
+                     />
                  </Grid>
                  <Grid item sm={12} xs={12} md={6} lg={6} xl={6} className="my-2">
                      <ListField iconTitle={SUBTITLE_SEX}
                                 icon={<Face />}
                                 onSelectedItem={(value) => {setSearchParams(prevState => ({...prevState, sex: value}));}}
                                 defaultValue={defaultParams?.sex || 'MAN'}
-                                data={SEX_DATA}/>
+                                data={SEX_DATA}
+                                onChecked={(value) => {checkDispatch(setSexCheck(value))}}
+                                isChecked={sexCheck}
+                     />
                  </Grid>
                  <Grid item sm={12} xs={12} md={6} lg={6} xl={6} className="my-2">
                      <ListField iconTitle={SUBTITLE_SEX_ORIENTATION}
                                 icon={<RoundaboutLeft />}
                                 onSelectedItem={(value) => {setSearchParams(prevState => ({...prevState, sexOrientation: value}));}}
                                 defaultValue={defaultParams?.sexOrientation || 'HETERO'}
-                                data={SEX_ORIENTATION_DATA}/>
+                                data={SEX_ORIENTATION_DATA}
+                                onChecked={(value) => {checkDispatch(setSexOrientationCheck(value))}}
+                                isChecked={sexOrientationCheck}
+                     />
                  </Grid>
                  <Grid item sm={12} xs={12} md={6} lg={6} xl={6} className="my-2">
                      <ListField iconTitle={SUBTITLE_FAMILY_STATUS_SHORT}
                                 icon={<FamilyRestroom />}
                                 onSelectedItem={(value) => {setSearchParams(prevState => ({...prevState, familyStatus: value}));}}
                                 defaultValue={defaultParams?.familyStatus || 'MARRIED'}
-                                data={FAMILY_STATUS_DATA.man}/>
+                                data={FAMILY_STATUS_DATA.man}
+                                onChecked={(value) => {checkDispatch(setFamilyCheck(value))}}
+                                isChecked={familyCheck}
+                     />
                  </Grid>
              </Grid>
         </div>

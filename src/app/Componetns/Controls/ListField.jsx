@@ -3,9 +3,9 @@ import IconSubTitle from "../Header/IconSubTitle";
 import {Checkbox, FormControl, Grid, MenuItem, Select} from "@mui/material";
 
 
-const ListField = ({data, defaultValue, icon, iconTitle, onSelectedItem}) => {
+const ListField = ({data, defaultValue, icon, iconTitle, onSelectedItem, onChecked, isChecked}) => {
     const [value, setValue] = useState(getSelectedValue(defaultValue));
-    const [check, setCheck] = useState(true);
+    const [check, setCheck] = useState(isChecked);
     const [lastValue, setLastValue] = useState(defaultValue);
 
     function onSelect(e) {
@@ -21,6 +21,7 @@ const ListField = ({data, defaultValue, icon, iconTitle, onSelectedItem}) => {
         if (!check) {
             onSelectedItem(null);
         }
+        onChecked(check);
     }, [check]);
 
     function getSelectedValue(selectedTag) {
@@ -32,7 +33,7 @@ const ListField = ({data, defaultValue, icon, iconTitle, onSelectedItem}) => {
 
     return(
         <div className="d-flex flex-row justify-content-start align-items-center">
-            <Checkbox defaultChecked onChange={(e) => {
+            <Checkbox checked={isChecked} onChange={(e) => {
                 setCheck(e?.target?.checked);
                 if (!check) {
                     onSelectedItem(lastValue);
