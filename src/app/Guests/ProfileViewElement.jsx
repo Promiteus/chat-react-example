@@ -32,6 +32,10 @@ const ProfileViewElement = ({profile}) => {
                       className="photo-card"
                       alt={`${profile?.firstName} ${profile?.lastName}`}
                       src={NO_PHOTO_PNG}
+                      onClick={() => {
+                          dispatch(setPageIndex(1));
+                          dispatch(defineSelectedUser(profile));
+                      }}
                   />
               }
 

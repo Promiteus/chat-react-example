@@ -49,6 +49,7 @@ import {
 import {dateDiffYears} from "../DateHandlers";
 import {useDispatch, useSelector} from "react-redux";
 import {saveProfileAsync, selectProfile} from "../../Stores/slices/UserProfileSlices";
+import {NO_PHOTO_PNG} from "../../../assets";
 
 
 const ActionButtons = ({isEdit, onWriteClick, onComplainClick}) => {
@@ -252,15 +253,26 @@ const ProfileEditablePage = ({profile, isEdit}) => {
                         {getFullUrls().map((item, key) => (
                             <Grid key={key} item xs={12} sm={4} md={4} lg={4}>
                                 <Card className="card m-1 photo-card">
-                                    <CardMedia
-                                        component="img"
-                                        key={key}
-                                        height="300"
-                                        image={item.src}
-                                        alt={item.alt}
-                                        sx = {{padding: 1}}
-                                        onClick={() => showImagePreview(key)}
-                                    />
+                                    {(item.src !== '') ?
+                                        <CardMedia
+                                            component="img"
+                                            key={key}
+                                            height="300"
+                                            image={item.src}
+                                            alt={item.alt}
+                                            sx = {{padding: 1}}
+                                            onClick={() => showImagePreview(key)}
+                                        /> :
+                                        <CardMedia
+                                            component="img"
+                                            key={key}
+                                            height="300"
+                                            image={NO_PHOTO_PNG}
+                                            alt={item.alt}
+                                            sx = {{padding: 1}}
+                                        />
+                                    }
+
                                 </Card>
                             </Grid>
                         ))}
