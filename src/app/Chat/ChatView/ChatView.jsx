@@ -41,13 +41,13 @@ function ChatView ({userId, stomp, response}) {
 
     return (
       <div ref={chatRef} className="d-flex flex-row justify-content-center h-100">
-              <Grid container spacing={1}>
-                  <Grid item xs={12} sm={12} md={4} sx={{ display:  display.chats.value}}>
+              <Grid container spacing={0}>
+                  <Grid item xs={12} sm={12} md={4} sx={{ display:  display.chats.value}} className="h-100">
                       <div className="users h-100">
                           <Userlist users={response?.lastChats || []} currentUserId={userId} page={0} onSelected={onSelectedUser}/>
                       </div>
                   </Grid>
-                  <Grid item xs={12} sm={12} md={8} sx={{ display:  display.chatView.value}}>
+                  <Grid item xs={12} sm={12} md={8} sx={{ display:  display.chatView.value}} className="h-100">
                       <div className="d-flex flex-column chat h-100">
                           <TopHeaderView onBack={onBackToChats} navButtonSx={HIDE_MD_BLOCK}/>
                           <MessageView stomp={stomp} currentUserId={userId} chatClientHeight={chatClientHeight}/>
