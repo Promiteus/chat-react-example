@@ -36,7 +36,7 @@ export default function Userprofile({user, selected, onClick}) {
                 <div className="d-flex flex-row justify-content-between flex-grow-1">
                     <div className="d-flex flex-column">
                         <Typography variant={"subtitle1"}><b>{user?.firstName} {user?.lastName}</b></Typography>
-                        <Typography variant={"body2"}>Возраст: {dateDiffYears(user?.birthDate, new Date().toDateString())}</Typography>
+                        <Typography variant={"body2"}>Возраст: {user?.age}</Typography>
                     </div>
                     <div className="mt-2">
                         <RightChevron/>

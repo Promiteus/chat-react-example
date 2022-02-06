@@ -242,7 +242,7 @@ const ProfileEditablePage = ({profile, isEdit}) => {
             <ActionButtons isEdit={isEdit}/>
             <div className="d-flex flex-row justify-content-start align-items-center my-4">
                 <RoundSubstrate children={<Person />} color={"orange"}/>
-                <div className="mx-2 text-success">{<Typography variant={"h4"}>{`${profile?.firstName} ${profile?.lastName}, ${dateDiffYears(profile?.birthDate, new Date().toDateString())}`}</Typography>}</div>
+                <div className="mx-2 text-success">{<Typography variant={"h4"}>{`${profile?.firstName} ${profile?.lastName}, ${profile?.age}`}</Typography>}</div>
             </div>
             <div className="d-flex flex-row justify-content-start align-items-center">
                 <IconSubTitle text={SUBTITLE_MY_PHOTOS} icon={<PhotoCamera />}/>
