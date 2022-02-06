@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import {Box, Chip, ImageList } from "@mui/material";
 import ProfileViewElement from "./ProfileViewElement";
 import './index.css'
-import {CAPTION_EMPTY_GUESTS, CAPTION_EMPTY_PROFILES} from "../Constants/TextMessagesRu";
+import {CAPTION_EMPTY_GUESTS} from "../Constants/TextMessagesRu";
 import useWindowDimensions, {D_LG, D_MD, D_SM, D_XL, D_XS} from "../Hooks/useWindowDimension";
 
 let imgCols = 5;
