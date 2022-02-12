@@ -5,6 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {chatUserAsync, selectChat} from "../../Stores/slices/ChatSlice";
 import {selectCommon} from "../../Stores/slices/CommonSlice";
 import {LinearProgress, Stack} from "@mui/material";
+import {selectUserChatCommon} from "../../Stores/slices/UserProfileChatCommonSlice";
 
 let page_ = 0;
 let selectedUser_ = {};
@@ -17,7 +18,7 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
   const [messageList, setMessageList] = useState([]);
   const [beforeMessageList, setBeforeMessageList] = useState([]);
   const {status, response, loading} = useSelector(selectChat);
-  const {selectedUser} = useSelector(selectCommon);
+  const {profile} = useSelector(selectUserChatCommon);
   const scrollChat = useRef(null);
   const chatBottomScroller = useRef(null);
   const chatDispatch = useDispatch();
@@ -26,7 +27,7 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
       setTimeout(() => {
           scrollToBottom();
       }, 500);
-  }, [selectedUser]);
+  }, [profile]);
 
   useEffect(() => {
       //Пересчитать фиксированнцю высоту chatView и присвоить div контейнеру.
@@ -118,7 +119,7 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
   * */
   //Реагировать на смену статуса при запросе последних сообщений из чата
   useEffect(() => {
-        selectedUser_ = selectedUser;
+        selectedUser_ = profile;
         defaultData();
         beforeData();
   }, [status]);

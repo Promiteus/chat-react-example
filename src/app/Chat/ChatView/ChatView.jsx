@@ -25,6 +25,7 @@ let initialDisplayState = {
 
 function ChatView ({userId, stomp, data}) {
     const chatRef = useRef();
+    //Переключение между списком пользователей и чатом с ними
     const [display, setDisplay] = useState(initialDisplayState);
     const userChatDispath = useDispatch();
     const {response, status, loading} = useSelector(selectUserChats);

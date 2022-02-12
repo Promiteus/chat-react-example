@@ -4,8 +4,8 @@ import {Chip, Divider, FormControl, Input, InputLabel, Paper, Typography} from "
 import {SearchSvg} from "../../../Svg";
 import {useDispatch} from "react-redux";
 import {chatUserAsync} from "../../../Stores/slices/ChatSlice";
-import {defineSelectedUser} from "../../../Stores/slices/CommonSlice";
 import {CAPTION_CHATS, CAPTION_EMPTY_CHAT, CAPTION_EMPTY_PROFILES} from "../../../Constants/TextMessagesRu";
+import {defineUserProfileOfChat} from "../../../Stores/slices/UserProfileChatCommonSlice";
 
 
 /**
@@ -19,7 +19,7 @@ import {CAPTION_CHATS, CAPTION_EMPTY_CHAT, CAPTION_EMPTY_PROFILES} from "../../.
 export default function Userlist({users, currentUserId, page, onSelected}) {
     const [selectedUser, setSelectedUser] = useState(0);
     const chatDispatch = useDispatch();
-    const commonDispatch = useDispatch();
+    const userChatDispatch = useDispatch();
 
     function clickItem({user}) {
         //Идентификатор выбранного пользователя
@@ -27,7 +27,7 @@ export default function Userlist({users, currentUserId, page, onSelected}) {
         setSelectedUser(selectedUserId);
         if (user?.id) {
             //Занести в хранилище выбранного объект выбранного пользователя
-            commonDispatch(defineSelectedUser(user));
+            userChatDispatch(defineUserProfileOfChat(user));
             //Запросить переписку двух пользователей постранично
             chatDispatch(chatUserAsync({
                 page: page,

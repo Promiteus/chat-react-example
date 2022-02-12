@@ -6,6 +6,7 @@ import chatSlice from "./slices/ChatSlice";
 import searchProfileSlice from "./slices/UserProfileSearchSlice";
 import searchBoxSlice from "./slices/SearchBoxSlice";
 import userProfileChatsSlice from "./slices/UserProfileChatsSlice";
+import userProfileChatCommonSlice from "./slices/UserProfileChatCommonSlice";
 
 
 export default configureStore({
@@ -17,6 +18,7 @@ export default configureStore({
         searchProfile: searchProfileSlice,
         searchBox: searchBoxSlice,
         userChat: userProfileChatsSlice,
+        chatCommon: userProfileChatCommonSlice,
     },
     middleware: getDefaultMiddleware({serializableCheck: false}),
 });

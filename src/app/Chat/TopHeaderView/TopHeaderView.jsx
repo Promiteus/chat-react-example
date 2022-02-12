@@ -1,13 +1,14 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useSelector} from "react-redux";
 import {LeftChevronSvg} from "../../Svg";
 import {Avatar, Divider, IconButton, Paper, Typography} from "@mui/material";
 import {BASE_DATA_URL} from "../../Stores/api/Common/ApiCommon";
 import {selectCommon} from "../../Stores/slices/CommonSlice";
 import {dateDiffYears} from "../../Componetns/DateHandlers";
+import {selectUserChatCommon} from "../../Stores/slices/UserProfileChatCommonSlice";
 
 function TopHeaderView ({onBack, navButtonSx})  {
-    const {selectedUser} = useSelector(selectCommon);
+    const {profile} = useSelector(selectUserChatCommon);
 
 
     return (
@@ -19,15 +20,15 @@ function TopHeaderView ({onBack, navButtonSx})  {
                     </IconButton>
                 </div>
                 <div className="d-flex flex-row align-content-center">
-                    {selectedUser.firstName ?
+                    {profile?.firstName ?
                         <div className="d-flex flex-column align-items-end">
-                            <Typography variant={"subtitle1"} className="m-0 p-0"><b>{selectedUser?.firstName} {selectedUser?.lastName}</b></Typography>
-                            <Typography variant={"body2"} className="m-0 p-0">Возраст: {dateDiffYears(selectedUser?.birthDate, new Date().toDateString())}</Typography>
+                            <Typography variant={"subtitle1"} className="m-0 p-0"><b>{profile?.firstName} {profile?.lastName}</b></Typography>
+                            <Typography variant={"body2"} className="m-0 p-0">Возраст: {profile?.age}</Typography>
                         </div> :
                         <div></div>}
                     <div className="border-dark d-flex p-1">
-                        {selectedUser?.thumbUrl?.src ?
-                            <Avatar alt={selectedUser?.firstName} src={`${BASE_DATA_URL}${selectedUser?.thumbUrl?.src}`}/> :
+                        {profile?.thumbUrl?.src ?
+                            <Avatar alt={profile?.firstName} src={`${BASE_DATA_URL}${profile?.thumbUrl?.src}`}/> :
                             <Avatar src="/static/images/avatar/2.jpg" />
                         }
                     </div>
