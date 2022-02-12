@@ -129,6 +129,7 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
         <Stack sx={{ width: '100%', color: 'grey.500' }} spacing={2}>
             <LinearProgress color="success" />
         </Stack> : ''}
+
         <div ref={scrollChat} style={{height: chatViewHeight}} className="chatView d-flex flex-column" >
             {beforeMessageList.map((element) => (<MessageItem key={element?.id} data={element} currentUserId={currentUserId}/>))}
             {messageList.map((element) => (<MessageItem key={element?.id} data={element} currentUserId={currentUserId}/>))}

@@ -1,11 +1,12 @@
 import React, {useEffect, useRef, useState} from 'react';
 import MessageSendView from '../MessageSendView/MessageSendView';
 import MessageView from '../MessageView/MessageView';
-import NameView from '../NameView/NameView';
 import TopHeaderView from '../TopHeaderView/TopHeaderView';
 import './ChatView.css'
 import Userlist from "../Users/UserList/UserList";
 import {Grid} from "@mui/material";
+import {useDispatch, useSelector} from "react-redux";
+import {selectUserChats, userProfileChatsAsync} from "../../Stores/slices/UserProfileChatsSlice";
 
 
 const HIDE_BLOCK = { xs: 'none', sm: 'none', md: 'block' };
@@ -22,13 +23,25 @@ let initialDisplayState = {
     }
 };
 
-function ChatView ({userId, stomp, response}) {
+function ChatView ({userId, stomp, data}) {
     const chatRef = useRef();
     const [display, setDisplay] = useState(initialDisplayState);
+    const userChatDispath = useDispatch();
+    const {response, status, loading} = useSelector(selectUserChats);
 
     useEffect(() => {
         chatClientHeight = chatRef?.current?.clientHeight;
+
+        loadNextPage();
     }, []);
+
+    function loadNextPage() {
+        userChatDispath(userProfileChatsAsync({
+            page: 0,
+            size: 10,
+            userId: userId}));
+    }
+
 
     //Показать чат, скрыть список профилей чатов (история чатов)
     const onSelectedUser = (userId) => {
@@ -44,7 +57,8 @@ function ChatView ({userId, stomp, response}) {
               <Grid container spacing={0}>
                   <Grid item xs={12} sm={12} md={4} sx={{ display:  display.chats.value}} className="h-100">
                       <div className="users h-100">
-                          <Userlist users={response?.lastChats || []} currentUserId={userId} page={0} onSelected={onSelectedUser}/>
+                          {status === 200 &&
+                             <Userlist users={response || []} currentUserId={userId} page={0} onSelected={onSelectedUser}/>}
                       </div>
                   </Grid>
                   <Grid item xs={12} sm={12} md={8} sx={{ display:  display.chatView.value}} className="h-100">
