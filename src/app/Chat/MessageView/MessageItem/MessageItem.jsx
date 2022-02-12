@@ -5,8 +5,6 @@ import {Typography} from "@mui/material";
 import {MSG_YOU} from "../../../Constants/TextMessagesRu";
 
 function MessageItem({data, currentUserId}) {
-     console.log("MessageItem: ")
-
     function chatBudge(data, curUserId) {
         if (data?.userId === curUserId) {
             return (
