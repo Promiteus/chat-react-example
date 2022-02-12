@@ -15,3 +15,17 @@ export function chatUsersMessages(page, size, userId, fromUserId, token) {
     return axios.get(`${BASE_DATA_URL}/api/chat_users_messages${query}`,
         getHeaderBearerConfigs("application/json", token));
 }
+
+/**
+ * Получить список чатов пользователя постранично
+ * @param page
+ * @param size
+ * @param userId
+ * @param token
+ * @returns {Promise<AxiosResponse<any>>}
+ */
+export function getUserProfileChatsPageable(page, size, userId, token) {
+    let query = `?page=${page}&size=${size}&user_id=${userId}`;
+    return axios.get(`${BASE_DATA_URL}/api/user_profiles_chats${query}`,
+        getHeaderBearerConfigs("application/json", token));
+}
