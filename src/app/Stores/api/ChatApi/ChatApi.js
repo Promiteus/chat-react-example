@@ -29,3 +29,13 @@ export function getUserProfileChatsPageable(page, size, userId, token) {
     return axios.get(`${BASE_DATA_URL}/api/user_profiles_chats${query}`,
         getHeaderBearerConfigs("application/json", token));
 }
+
+/**
+ * Добавить сообщение в чат
+ * @param data
+ * @param token
+ * @returns {Promise<AxiosResponse<any>>}
+ */
+export function addMessage(data, token) {
+    return axios.post(`${BASE_DATA_URL}/api/chat/add`, data, getHeaderBearerConfigs("application/json", token));
+}
