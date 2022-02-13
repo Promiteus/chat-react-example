@@ -4,13 +4,9 @@ import {useDispatch, useSelector} from "react-redux";
 import {selectCommon, setPageIndex} from "../Stores/slices/CommonSlice";
 import ProfileEditablePage from "../Componetns/ProfilePage/ProfileEditablePage";
 
-const ProfileDetail = ({profile}) => {
+const ProfileDetail = ({currentUserId}) => {
     const commonDispatch = useDispatch();
     const {selectedUser} = useSelector(selectCommon);
-
-    useEffect(() => {
-       // console.log("ProfileDetail profile: "+JSON.stringify(selectedUser))
-    }, []);
 
     function onBack() {
         commonDispatch(setPageIndex(0));
@@ -20,7 +16,7 @@ const ProfileDetail = ({profile}) => {
         <div className="d-flex flex-column h-100">
             <StandartHeader onClick={onBack}/>
             <div style={{overflowY: 'scroll'}} className="d-flex flex-grow-3 ">
-                <ProfileEditablePage profile={selectedUser} isEdit={false}/>
+                <ProfileEditablePage profile={selectedUser} currentUserId={currentUserId} isEdit={false}/>
             </div>
         </div>
 

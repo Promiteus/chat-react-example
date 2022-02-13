@@ -50,6 +50,8 @@ import {dateDiffYears} from "../DateHandlers";
 import {useDispatch, useSelector} from "react-redux";
 import {saveProfileAsync, selectProfile} from "../../Stores/slices/UserProfileSlices";
 import {NO_PHOTO_PNG} from "../../../assets";
+import {setPageIndex} from "../../Stores/slices/CommonSlice";
+import {addChatMessageAsync} from "../../Stores/slices/ChatMessageSlice";
 
 
 const ActionButtons = ({isEdit, onWriteClick, onComplainClick}) => {
@@ -181,12 +183,14 @@ const EditableListField = ({data, defaultValue, icon, iconTitle, isEdit, onSelec
  *
  * */
 
-const ProfileEditablePage = ({profile, isEdit}) => {
+const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
     const [visible, setVisible] = useState(false);
     const [imageIndex, setImageIndex] = useState(0);
     const [profile_, setProfile] = useState(profile);
     const profileDispatch = useDispatch();
-    const {response, status, loading} = useSelector(selectProfile);
+    const pageDispatch = useDispatch();
+    //const {response, status, loading} = useSelector(selectProfile);
+
 
     function getFullUrls() {
         return (profile?.imgUrls?.length > 0) ?
@@ -194,13 +198,6 @@ const ProfileEditablePage = ({profile, isEdit}) => {
             [{src: '', alt: ''}];
     }
 
-    /*useEffect(() => {
-     //   console.log("updated profle: "+JSON.stringify(profile_));
-    });
-
-    useEffect(() => {
-        console.log("updated profile status: "+status);
-    }, [status]);*/
 
     /**
      * Событие отправки данных о отредактированном профиле пользователе
@@ -220,7 +217,12 @@ const ProfileEditablePage = ({profile, isEdit}) => {
      * Перейти в чат с пользователем
      */
     function onWriteClick() {
-       //TODO
+        //Отправить пустое сообщение, чтобы добавить новую историю чата для текущего пользователя
+        pageDispatch(addChatMessageAsync({
+            userId: profile?.id,
+            fromUserId: currentUserId,
+            message: "",
+        }));
     }
 
     function showImagePreview(index) {
@@ -239,7 +241,7 @@ const ProfileEditablePage = ({profile, isEdit}) => {
                     activeIndex={imageIndex}
                 />
             </div>
-            <ActionButtons isEdit={isEdit}/>
+            <ActionButtons isEdit={isEdit} onComplainClick={onComplainClick} onWriteClick={onWriteClick}/>
             <div className="d-flex flex-row justify-content-start align-items-center my-4">
                 <RoundSubstrate children={<Person />} color={"orange"}/>
                 <div className="mx-2 text-success">{<Typography variant={"h4"}>{`${profile?.firstName} ${profile?.lastName}, ${profile?.age}`}</Typography>}</div>

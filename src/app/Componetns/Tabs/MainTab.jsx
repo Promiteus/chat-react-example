@@ -17,6 +17,7 @@ import SearchProfiles from "../../SearchProfiles/SearchProfiles";
 import {ROUTE_REGISTRATION, ROUTE_SIGNUP} from "../../Constants/Routes";
 import {selectCommon} from "../../Stores/slices/CommonSlice";
 import ProfileDetail from "../../ProfileDetails/ProfileDetail";
+import {selectChatMsg} from "../../Stores/slices/ChatMessageSlice";
 
 
 function a11yProps(index) {
@@ -42,6 +43,7 @@ const MainTab = (props) => {
     const {response, status, loading} = useSelector(selectProfile);
     const {pageIndex} = useSelector(selectCommon);
     const navigate = useNavigate();
+    const chatData = useSelector(selectChatMsg);
 
     //Получить userId из параметра запроса или из локального хранилища.
     const currentUserId = !(query.get(USER_ID_KEY)) ? localStorage.getItem(USER_ID_KEY) : query.get(USER_ID_KEY);
@@ -51,6 +53,9 @@ const MainTab = (props) => {
         setTabIndex(newIndex);
     }
 
+    useEffect(() => {
+        console.log("chatData response: "+JSON.stringify(chatData?.response))
+    }, [chatData?.status]);
 
     //Реагирует на меняющийся статус запроса профиля пользователя
     useEffect(() => {
@@ -120,7 +125,7 @@ const MainTab = (props) => {
             {/*Детали профиля*/}
             {pageIndex === 1 &&
               <div className="container main-panel mt-2">
-                 <ProfileDetail profile={response?.userProfile}/>
+                 <ProfileDetail profile={response?.userProfile} currentUserId={currentUserId}/>
               </div>}
 
             <AlertToast text={errMsg} open={showError} success={false}/>
