@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {BASE_DATA_URL} from "../../Stores/api/Common/ApiCommon";
 import {
     Button,
@@ -6,9 +6,8 @@ import {
     CardMedia,
     FormControl,
     Grid,
-    IconButton, InputLabel, MenuItem, Select,
+    IconButton, MenuItem, Select,
     TextareaAutosize,
-    TextField,
     Typography
 } from "@mui/material";
 import Viewer from 'react-viewer';
@@ -33,8 +32,6 @@ import {
     FAMILY_STATUS_DATA,
     KIDS_DATA,
     MEET_PREFERENCES_DATA,
-    MSG_NO,
-    MSG_YES,
     SEX_DATA,
     SEX_ORIENTATION_DATA,
     SUBTITLE_ABOUT_ME,
@@ -46,11 +43,10 @@ import {
     SUBTITLE_SEX_ORIENTATION,
     SUBTITLE_WHOM_LOOKING_FOR
 } from "../../Constants/TextMessagesRu";
-import {dateDiffYears} from "../DateHandlers";
 import {useDispatch, useSelector} from "react-redux";
 import {saveProfileAsync, selectProfile} from "../../Stores/slices/UserProfileSlices";
 import {NO_PHOTO_PNG} from "../../../assets";
-import {setPageIndex} from "../../Stores/slices/CommonSlice";
+import {setPageIndex, setTbIndex} from "../../Stores/slices/CommonSlice";
 import {addChatMessageAsync} from "../../Stores/slices/ChatMessageSlice";
 
 
@@ -189,7 +185,7 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
     const [profile_, setProfile] = useState(profile);
     const profileDispatch = useDispatch();
     const pageDispatch = useDispatch();
-    //const {response, status, loading} = useSelector(selectProfile);
+    const tabDispatch = useDispatch();
 
 
     function getFullUrls() {
@@ -223,6 +219,9 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
             fromUserId: currentUserId,
             message: "",
         }));
+        tabDispatch(setTbIndex(0));
+        pageDispatch(setPageIndex(0));
+
     }
 
     function showImagePreview(index) {

@@ -6,20 +6,32 @@ import {useDispatch} from "react-redux";
 import {chatUserAsync} from "../../../Stores/slices/ChatSlice";
 import {CAPTION_CHATS, CAPTION_EMPTY_CHAT, CAPTION_EMPTY_PROFILES} from "../../../Constants/TextMessagesRu";
 import {defineUserProfileOfChat} from "../../../Stores/slices/UserProfileChatCommonSlice";
+import LoaderV2 from "../../../Componetns/Loader/LoaderV2";
+import {PROFILE_CHATS_PAGE_SIZE} from "../../../Stores/api/Common/ApiCommon";
 
 
 /**
  *
  * @param users
- * @param currentUserId
- * @param page
+ * @param {string} currentUserId
+ * @param {int} page
+ * @param onSelected
+ * @param {boolean} loading
  * @returns {JSX.Element}
  * @constructor
  */
-export default function Userlist({users, currentUserId, page, onSelected}) {
+export default function UserList({users, currentUserId, page, onSelected, loading}) {
     const [selectedUser, setSelectedUser] = useState(0);
+    const [chatUsers, setChatUsers] = useState(users);
     const chatDispatch = useDispatch();
     const userChatDispatch = useDispatch();
+
+    useEffect(() => {
+        if (users?.length <= PROFILE_CHATS_PAGE_SIZE) {
+            setChatUsers([]);
+            setChatUsers(users);
+        }
+    }, [users]);
 
     function clickItem({user}) {
         //Идентификатор выбранного пользователя
@@ -69,14 +81,15 @@ export default function Userlist({users, currentUserId, page, onSelected}) {
 
           <div className="h-100 overflow-hidden">
               <div className="last-chat">
-                  {(users.length !== 0) ? users.map((user) => (
-                          <div key={user.id} className="mt-1">
-                              <Userprofile onClick={clickItem} selected={(selectedUser === user.id)} user={user}/>
-                          </div>
+                  {(chatUsers.length !== 0) ? chatUsers.map((user) => (
+                       <div key={user.id} className="mt-1">
+                          <Userprofile onClick={clickItem} selected={(selectedUser === user.id)} user={user}/>
+                       </div>
                       )) :
                       <div className="d-flex justify-content-center flex-row mt-2">
                           <Chip label={CAPTION_EMPTY_CHAT.toUpperCase()} color={"error"} variant={"outlined"}/>
                       </div>}
+                  {loading && <LoaderV2 />}
               </div>
           </div>
       </div>

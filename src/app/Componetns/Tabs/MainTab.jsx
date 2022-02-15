@@ -41,7 +41,7 @@ const MainTab = (props) => {
     const [showError, setShowError] = useState(false);
     const [errMsg, setErrMsg] = useState('');
     const {response, status, loading} = useSelector(selectProfile);
-    const {pageIndex} = useSelector(selectCommon);
+    const {pageIndex, tbIndex} = useSelector(selectCommon);
     const navigate = useNavigate();
     const chatData = useSelector(selectChatMsg);
 
@@ -52,6 +52,11 @@ const MainTab = (props) => {
     const handleChange = (event, newIndex) => {
         setTabIndex(newIndex);
     }
+
+    useEffect(() => {
+        setTabIndex(tbIndex);
+        console.log("tabIndex: "+tabIndex);
+    }, [tbIndex]);
 
     useEffect(() => {
         console.log("chatData response: "+JSON.stringify(chatData?.response))

@@ -1,8 +1,13 @@
 import React from "react";
 import {Box, CircularProgress} from "@mui/material";
 
-
-const Loader = () => {
+/**
+ *
+ * @param {int} height
+ * @returns {JSX.Element}
+ * @constructor
+ */
+const Loader = ({height}) => {
     return (
         <>
             <Box sx={{ display: 'flex' }}>

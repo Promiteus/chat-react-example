@@ -1,12 +1,16 @@
 import {createSlice} from "@reduxjs/toolkit";
 
-
+/**
+ *
+ * @type {Slice<{pageIndex: number, tbIndex: number, selectedUser: {}, value: number}, {setDefaultValue: reducers.setDefaultValue, defineSelectedUser: reducers.defineSelectedUser, setTabIndex: reducers.setTabIndex, setPageIndex: reducers.setPageIndex, increment: reducers.increment}, string>}
+ */
 export const commonSlice = createSlice({
     name: 'common',
     initialState: {
         value: 0,
         selectedUser: {},
         pageIndex: 0,
+        tbIndex: 0,
     },
     reducers: {
         increment: (state) => {
@@ -20,10 +24,13 @@ export const commonSlice = createSlice({
         },
         setPageIndex: (state, action) => {
             state.pageIndex = action.payload;
-        }
+        },
+        setTbIndex: (state, action) => {
+            state.tbIndex = action.payload;
+        },
     },
 })
 
 export const selectCommon = (state) => state.common;
-export const {increment, setDefaultValue, defineSelectedUser, setPageIndex} = commonSlice.actions;
+export const {increment, setDefaultValue, defineSelectedUser, setPageIndex, setTbIndex} = commonSlice.actions;
 export default commonSlice.reducer;
