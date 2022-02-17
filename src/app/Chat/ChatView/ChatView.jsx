@@ -49,6 +49,7 @@ function ChatView ({userId, stomp}) {
     //Показать чат, скрыть список профилей чатов (история чатов)
     const onSelectedUser = (userId) => {
         setDisplay(prevState => ({...prevState, chatView: {value: SHOW_BLOCK}, chats: {value: HIDE_BLOCK}}));
+        console.log("onSelectedUser ok")
     }
     //Показать список профилей (исорию чатов), скрыть чат
     const onBackToChats = (e) => {

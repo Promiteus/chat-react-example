@@ -46,7 +46,7 @@ import {
 import {useDispatch, useSelector} from "react-redux";
 import {saveProfileAsync, selectProfile} from "../../Stores/slices/UserProfileSlices";
 import {NO_PHOTO_PNG} from "../../../assets";
-import {setPageIndex, setTbIndex} from "../../Stores/slices/CommonSlice";
+import {setChatSelectedUser, setPageIndex, setTbIndex} from "../../Stores/slices/CommonSlice";
 import {addChatMessageAsync} from "../../Stores/slices/ChatMessageSlice";
 
 
@@ -220,6 +220,7 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
             message: "",
         }));
         pageDispatch(setPageIndex(-1));
+        pageDispatch(setChatSelectedUser(profile));
     }
 
     function showImagePreview(index) {
@@ -250,7 +251,7 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
                 <div className="w-100">
                     <Grid container >
                         {getFullUrls().map((item, key) => (
-                            <Grid key={key} item xs={12} sm={4} md={4} lg={4}>
+                            <Grid key={key} item xs={12} sm={12} md={3} lg={4}>
                                 <Card className="card m-1 photo-card">
                                     {(item.src !== '') ?
                                         <CardMedia

@@ -2,13 +2,15 @@ import React, {useEffect, useState} from 'react';
 import Userprofile from "./UserProfile/UserProfile";
 import {Chip, Divider, FormControl, Input, InputLabel, Paper, Typography} from "@mui/material";
 import {SearchSvg} from "../../../Svg";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {chatUserAsync} from "../../../Stores/slices/ChatSlice";
 import {CAPTION_CHATS, CAPTION_EMPTY_CHAT, CAPTION_EMPTY_PROFILES} from "../../../Constants/TextMessagesRu";
 import {defineUserProfileOfChat} from "../../../Stores/slices/UserProfileChatCommonSlice";
 import LoaderV2 from "../../../Componetns/Loader/LoaderV2";
 import {PROFILE_CHATS_PAGE_SIZE} from "../../../Stores/api/Common/ApiCommon";
+import {selectCommon} from "../../../Stores/slices/CommonSlice";
 
+let _chatSelectedUser = null;
 
 /**
  *
@@ -25,6 +27,15 @@ export default function UserList({users, currentUserId, page, onSelected, loadin
     const [chatUsers, setChatUsers] = useState(users);
     const chatDispatch = useDispatch();
     const userChatDispatch = useDispatch();
+    const {chatSelectedUser} = useSelector(selectCommon);
+
+    useEffect(() => {
+        if ((chatSelectedUser) && (_chatSelectedUser !== chatSelectedUser)) {
+            getUserChat(chatSelectedUser);
+            _chatSelectedUser = chatSelectedUser;
+            console.log("chatSelectedUser: "+chatSelectedUser?.id)
+        }
+    }, [chatSelectedUser]);
 
     useEffect(() => {
         if (users?.length <= PROFILE_CHATS_PAGE_SIZE) {
@@ -33,7 +44,8 @@ export default function UserList({users, currentUserId, page, onSelected, loadin
         }
     }, [users]);
 
-    function clickItem({user}) {
+    function getUserChat(user) {
+        console.log("clickItem ok before "+user?.id);
         //Идентификатор выбранного пользователя
         let selectedUserId = user?.id;
         setSelectedUser(selectedUserId);
@@ -48,7 +60,31 @@ export default function UserList({users, currentUserId, page, onSelected, loadin
                 fromUserId: currentUserId
             }));
             onSelected(user?.id);
+
+            console.log("clickItem ok")
         }
+    }
+
+    function clickItem({user}) {
+       /* console.log("clickItem ok before "+user?.id);
+        //Идентификатор выбранного пользователя
+        let selectedUserId = user?.id;
+        setSelectedUser(selectedUserId);
+        if (user?.id) {
+            //Занести в хранилище выбранного объект выбранного пользователя
+            userChatDispatch(defineUserProfileOfChat(user));
+            //Запросить переписку двух пользователей постранично
+            chatDispatch(chatUserAsync({
+                page: page,
+                size: 10,
+                userId: selectedUserId,
+                fromUserId: currentUserId
+            }));
+            onSelected(user?.id);
+
+            console.log("clickItem ok")
+        }*/
+        getUserChat(user);
     }
 
     useEffect(() => {

@@ -11,6 +11,7 @@ export const commonSlice = createSlice({
         selectedUser: {},
         pageIndex: 0,
         tbIndex: 0,
+        chatSelectedUser: null,
     },
     reducers: {
         increment: (state) => {
@@ -25,9 +26,12 @@ export const commonSlice = createSlice({
         setPageIndex: (state, action) => {
             state.pageIndex = action.payload;
         },
+        setChatSelectedUser: (state, action) => {
+            state.chatSelectedUser = action.payload;
+        }
     },
 })
 
 export const selectCommon = (state) => state.common;
-export const {increment, setDefaultValue, defineSelectedUser, setPageIndex} = commonSlice.actions;
+export const {increment, setDefaultValue, defineSelectedUser, setPageIndex, setChatSelectedUser} = commonSlice.actions;
 export default commonSlice.reducer;
