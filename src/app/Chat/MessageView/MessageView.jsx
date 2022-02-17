@@ -70,9 +70,10 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
      chatBottomScroller?.current?.scrollIntoView({behavior: "smooth"});
  }
 
-  /**
-   * Запросить переписку постранично
-   * */
+    /**
+     * Запросить переписку постранично
+     * @param {boolean} isMore
+     */
  function loadMore() {
      let selectedUserId = selectedUser_?.id;
      if (!isExecuted) {
@@ -127,9 +128,9 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
   return (
     <div className="flex-grow-1 my-1 h-100">
         {loading ?
-        <Stack sx={{ width: '100%', color: 'grey.500' }} spacing={2}>
+        <Stack sx={{ width: '100%', color: 'grey.500'}} spacing={2}>
             <LinearProgress color="success" />
-        </Stack> : ''}
+        </Stack> : <div className="w-100" style={{height: 4}}></div>}
 
         <div ref={scrollChat} style={{height: chatViewHeight}} className="chatView d-flex flex-column" >
             {beforeMessageList.map((element) => (<MessageItem key={element?.id} data={element} currentUserId={currentUserId}/>))}
