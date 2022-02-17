@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Userprofile from "./UserProfile/UserProfile";
 import {Chip, Divider, FormControl, Input, InputLabel, Paper, Typography} from "@mui/material";
 import {SearchSvg} from "../../../Svg";
@@ -28,6 +28,21 @@ export default function UserList({users, currentUserId, page, onSelected, loadin
     const chatDispatch = useDispatch();
     const userChatDispatch = useDispatch();
     const {chatSelectedUser} = useSelector(selectCommon);
+    const chatScroll = useRef(null);
+
+    function loadMore() {
+        console.log("loadMore()");
+    }
+
+    useEffect(() => {
+        if (chatUsers.length >= PROFILE_CHATS_PAGE_SIZE) {
+            chatScroll?.current?.addEventListener("scroll", () => {
+                if ((chatScroll?.current?.scrollTop + chatScroll?.current?.clientHeight) >= chatScroll?.current?.scrollHeight) {
+                    loadMore();
+                }
+            });
+        }
+    }, []);
 
     useEffect(() => {
         if ((chatSelectedUser) && (_chatSelectedUser !== chatSelectedUser)) {
@@ -66,24 +81,6 @@ export default function UserList({users, currentUserId, page, onSelected, loadin
     }
 
     function clickItem({user}) {
-       /* console.log("clickItem ok before "+user?.id);
-        //Идентификатор выбранного пользователя
-        let selectedUserId = user?.id;
-        setSelectedUser(selectedUserId);
-        if (user?.id) {
-            //Занести в хранилище выбранного объект выбранного пользователя
-            userChatDispatch(defineUserProfileOfChat(user));
-            //Запросить переписку двух пользователей постранично
-            chatDispatch(chatUserAsync({
-                page: page,
-                size: 10,
-                userId: selectedUserId,
-                fromUserId: currentUserId
-            }));
-            onSelected(user?.id);
-
-            console.log("clickItem ok")
-        }*/
         getUserChat(user);
     }
 
@@ -116,7 +113,7 @@ export default function UserList({users, currentUserId, page, onSelected, loadin
           </div>
 
           <div className="h-100 overflow-hidden">
-              <div className="last-chat">
+              <div ref={chatScroll} className="last-chat">
                   {(chatUsers.length !== 0) ? chatUsers.map((user) => (
                        <div key={user.id} className="mt-1">
                           <Userprofile onClick={clickItem} selected={(selectedUser === user.id)} user={user}/>
