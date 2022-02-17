@@ -25,12 +25,9 @@ export const commonSlice = createSlice({
         setPageIndex: (state, action) => {
             state.pageIndex = action.payload;
         },
-        setTbIndex: (state, action) => {
-            state.tbIndex = action.payload;
-        },
     },
 })
 
 export const selectCommon = (state) => state.common;
-export const {increment, setDefaultValue, defineSelectedUser, setPageIndex, setTbIndex} = commonSlice.actions;
+export const {increment, setDefaultValue, defineSelectedUser, setPageIndex} = commonSlice.actions;
 export default commonSlice.reducer;

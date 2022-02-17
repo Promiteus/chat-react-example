@@ -219,9 +219,7 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
             fromUserId: currentUserId,
             message: "",
         }));
-        tabDispatch(setTbIndex(0));
-        pageDispatch(setPageIndex(0));
-
+        pageDispatch(setPageIndex(-1));
     }
 
     function showImagePreview(index) {

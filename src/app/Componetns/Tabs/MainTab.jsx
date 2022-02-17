@@ -41,7 +41,7 @@ const MainTab = (props) => {
     const [showError, setShowError] = useState(false);
     const [errMsg, setErrMsg] = useState('');
     const {response, status, loading} = useSelector(selectProfile);
-    const {pageIndex, tbIndex} = useSelector(selectCommon);
+    const {pageIndex} = useSelector(selectCommon);
     const navigate = useNavigate();
     const chatData = useSelector(selectChatMsg);
 
@@ -54,9 +54,11 @@ const MainTab = (props) => {
     }
 
     useEffect(() => {
-        setTabIndex(tbIndex);
+        if (pageIndex === -1) {
+            setTabIndex(0);
+        }
         console.log("tabIndex: "+tabIndex);
-    }, [tbIndex]);
+    }, [pageIndex]);
 
     useEffect(() => {
         console.log("chatData response: "+JSON.stringify(chatData?.response))
@@ -107,7 +109,7 @@ const MainTab = (props) => {
             <ResponsiveAppBar user={response?.userProfile}/>
 
             {/*Чат и поиск профиля*/}
-            {pageIndex === 0 &&
+            {((pageIndex === 0) || (pageIndex < 0)) &&
               <div className="container main-panel mt-2">
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     <Tabs value={tabIndex} onChange={handleChange} >
@@ -117,7 +119,7 @@ const MainTab = (props) => {
                     </Tabs>
                 </Box>
                 <TabItem value={tabIndex} index={0}>
-                    <ChatView stomp={stompClient} userId={currentUserId} response={response}/>
+                    <ChatView stomp={stompClient} userId={currentUserId} response={response} />
                 </TabItem>
                 <TabItem value={tabIndex} index={1} >
                     <GuestsView visitors={response?.lastVisitors || []}/>
