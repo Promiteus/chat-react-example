@@ -32,7 +32,6 @@ export default function UserList({currentUserId, onSelected}) {
 
     useEffect(() => {
         loadChatsHistoryNextPage(0);
-        console.log("loadChatsHistoryNextPage")
     }, []);
 
     /**
@@ -40,7 +39,9 @@ export default function UserList({currentUserId, onSelected}) {
      */
     function loadMore() {
         if (chatPage === 0) {
-            chatPage++;
+           chatPage++;
+        } else if (chatPage > 0) {
+            chatPage = chatPage + (userChats?.response?.length > 0 ? 1: 0);
         }
         loadChatsHistoryNextPage(chatPage);
     }
@@ -48,12 +49,10 @@ export default function UserList({currentUserId, onSelected}) {
     useEffect(() => {
         console.log("UserList status: "+userChats?.status)
         if (userChats?.status === 200)  {
-            console.log("update chatUsers")
             if (chatUsers?.length === 0) {
                 setChatUsers(userChats?.response);
             } else if (chatUsers?.length > 0) {
-                console.log("userChat response: "+JSON.stringify(userChats?.response))
-                setChatUsers(prevState => [...prevState, userChats?.response]);
+                setChatUsers(prevState => prevState.concat(userChats?.response));
             }
         }
     }, [userChats?.response]);
