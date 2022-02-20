@@ -31,7 +31,7 @@ export default function UserList({currentUserId, onSelected}) {
     const chatScroll = useRef(null);
 
     useEffect(() => {
-      //  loadChatsHistoryNextPage(0);
+        loadChatsHistoryNextPage(0);
         console.log("loadChatsHistoryNextPage")
     }, []);
 
@@ -42,7 +42,7 @@ export default function UserList({currentUserId, onSelected}) {
         if (chatPage === 0) {
             chatPage++;
         }
-      //  loadChatsHistoryNextPage(chatPage);
+        loadChatsHistoryNextPage(chatPage);
     }
 
     useEffect(() => {

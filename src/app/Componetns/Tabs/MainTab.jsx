@@ -114,10 +114,12 @@ const MainTab = (props) => {
                     </Tabs>
                 </Box>
                 <TabItem value={tabIndex} index={0}>
-                    <ChatView stomp={stompClient} userId={currentUserId} response={response} />
+                    {(status === 200) &&
+                    <ChatView stomp={stompClient} userId={currentUserId} response={response} />}
                 </TabItem>
                 <TabItem value={tabIndex} index={1} >
-                    <GuestsView visitors={response?.lastVisitors || []}/>
+                    {(status === 200) &&
+                    <GuestsView visitors={response?.lastVisitors || []}/>}
                 </TabItem>
                 <TabItem value={tabIndex} index={2} >
                     <SearchProfiles userId={currentUserId}/>
@@ -133,6 +135,6 @@ const MainTab = (props) => {
             <AlertToast text={errMsg} open={showError} success={false}/>
         </div>
     );
-}
+};
 
 export default MainTab;
