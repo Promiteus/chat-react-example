@@ -13,7 +13,7 @@ import {selectCommon} from "../../../Stores/slices/CommonSlice";
 let _chatSelectedUser = null;
 
 /**
- *
+ * Компонент историй переписки для данного пользователя
  * @param users
  * @param {string} currentUserId
  * @param {int} page
@@ -28,12 +28,17 @@ export default function UserList({users, currentUserId, page, onSelected, loadin
     const chatDispatch = useDispatch();
     const userChatDispatch = useDispatch();
     const {chatSelectedUser} = useSelector(selectCommon);
+   // const userChats = useSelector();
     const chatScroll = useRef(null);
 
     function loadMore() {
         console.log("loadMore()");
     }
 
+    /**
+     * Установить механизм подгрузки истории чатов текущего пользователя при достиженн числа
+     * историй чатов значения PROFILE_CHATS_PAGE_SIZE
+     */
     useEffect(() => {
         if (chatUsers.length >= PROFILE_CHATS_PAGE_SIZE) {
             chatScroll?.current?.addEventListener("scroll", () => {
@@ -44,23 +49,28 @@ export default function UserList({users, currentUserId, page, onSelected, loadin
         }
     }, []);
 
+    /**
+     * Получение чата текущего и выбранного пользователя при изменении chatSelectedUser
+     */
     useEffect(() => {
         if ((chatSelectedUser) && (_chatSelectedUser !== chatSelectedUser)) {
             getUserChat(chatSelectedUser);
             _chatSelectedUser = chatSelectedUser;
-            console.log("chatSelectedUser: "+chatSelectedUser?.id)
         }
     }, [chatSelectedUser]);
 
-    useEffect(() => {
+   /* useEffect(() => {
         if (users?.length <= PROFILE_CHATS_PAGE_SIZE) {
-            setChatUsers([]);
+           // setChatUsers([]);
             setChatUsers(users);
         }
-    }, [users]);
+    }, [users]);*/
 
+    /**
+     * Запросить переписку для текущего и выбранного пользователей
+     * @param user
+     */
     function getUserChat(user) {
-        console.log("clickItem ok before "+user?.id);
         //Идентификатор выбранного пользователя
         let selectedUserId = user?.id;
         setSelectedUser(selectedUserId);
@@ -75,11 +85,13 @@ export default function UserList({users, currentUserId, page, onSelected, loadin
                 fromUserId: currentUserId
             }));
             onSelected(user?.id);
-
-            console.log("clickItem ok")
         }
     }
 
+    /**
+     * Запросить переписку для текущего и выбранного пользователей при выборе чата из списка
+     * @param user
+     */
     function clickItem({user}) {
         getUserChat(user);
     }

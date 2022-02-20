@@ -35,12 +35,16 @@ function ChatView ({userId, stomp}) {
     useEffect(() => {
         chatClientHeight = chatRef?.current?.clientHeight;
 
-        loadNextPage();
+        loadNextPage(0);
     }, []);
 
-    function loadNextPage() {
+    /**
+     * Запросить у api историю чатов для текущего пользователя постранично
+     * @param {number} aPage
+     */
+    function loadNextPage(aPage) {
         userChatDispath(userProfileChatsAsync({
-            page: 0,
+            page: aPage,
             size: PROFILE_CHATS_PAGE_SIZE,
             userId: userId}));
     }
