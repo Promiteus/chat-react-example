@@ -17,8 +17,9 @@ import UserProfilesSkeletons from "../Componetns/Skeletons/UserProfilesSkeletons
 
 const fabStyle = {
     position: 'absolute',
-    bottom: 16,
-    right: 16,
+    bottom: 25,
+    right: 36,
+    zIndex: 999
 };
 
 /**
@@ -81,29 +82,32 @@ const SearchProfiles = ({userId}) => {
     }
 
     return (
-        <div style={{overflowY: loading ? 'hidden': 'scroll', position: 'relative'}} className="d-block m-1 h-100">
-             {/*Скелетон-прелодер для первой страницы*/}
-             {((loading) && (page === 0)) && <UserProfilesSkeletons count={20} />}
-             {/*Загружаемый контент постранично (фотокарточки пользователей)*/}
-             {((response?.length) && (+status === 200) && (loading === false)) ?
-                <ImageList cols={imgCols}>
-                    {response?.map((elem) => (
-                        <ProfileViewElement key={elem?.id} profile={elem}/>
-                    ))}
-                </ImageList>
-                :
-                <div className="d-flex justify-content-center flex-row mt-2">
-                    <Chip label={CAPTION_EMPTY_PROFILES.toUpperCase()} color={"primary"} variant={"outlined"}/>
-                </div>
-            }
-            {/*Скелетон-прелодер для последующих страниц*/}
-            {((loading) && (page > 0)) && <div></div>}
+        <div className="d-block m-1 h-100 position-relative">
+            <div style={{overflowY: loading ? 'hidden': 'scroll', position: 'relative'}} className="d-block m-1 h-100">
+                {/*Скелетон-прелодер для первой страницы*/}
+                {((loading) && (page === 0)) && <UserProfilesSkeletons count={20} />}
+                {/*Загружаемый контент постранично (фотокарточки пользователей)*/}
+                {((response?.length) && (+status === 200) && (loading === false)) ?
+                    <ImageList cols={imgCols}>
+                        {response?.map((elem) => (
+                            <ProfileViewElement key={elem?.id} profile={elem}/>
+                        ))}
+                    </ImageList>
+                    :
+                    <div className="d-flex justify-content-center flex-row mt-2">
+                        <Chip label={CAPTION_EMPTY_PROFILES.toUpperCase()} color={"primary"} variant={"outlined"}/>
+                    </div>
+                }
+                {/*Скелетон-прелодер для последующих страниц*/}
+                {((loading) && (page > 0)) && <div></div>}
+
+                <BottomDrawer isOpen={openSearch} onClosed={() => {setOpenSearch(false)}}>
+                    <SearchBox onClose={onSearch} defaultParams={searchParams}/>
+                </BottomDrawer>
+            </div>
             <Fab color="primary" aria-label="add" sx={fabStyle} onClick={() => {setOpenSearch(!openSearch)}}>
                 <SearchOutlined />
             </Fab>
-            <BottomDrawer isOpen={openSearch} onClosed={() => {setOpenSearch(false)}}>
-                <SearchBox onClose={onSearch} defaultParams={searchParams}/>
-            </BottomDrawer>
         </div>
     );
 };

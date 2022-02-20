@@ -5,7 +5,6 @@ import TopHeaderView from '../TopHeaderView/TopHeaderView';
 import './ChatView.css'
 import UserList from "../Users/UserList/UserList";
 import {Grid} from "@mui/material";
-import {useDispatch} from "react-redux";
 
 
 const HIDE_BLOCK = { xs: 'none', sm: 'none', md: 'block' };
