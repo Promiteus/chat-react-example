@@ -9,30 +9,53 @@ import {defineUserProfileOfChat} from "../../../Stores/slices/UserProfileChatCom
 import LoaderV2 from "../../../Componetns/Loader/LoaderV2";
 import {PROFILE_CHATS_PAGE_SIZE} from "../../../Stores/api/Common/ApiCommon";
 import {selectCommon} from "../../../Stores/slices/CommonSlice";
+import {selectUserChats, userProfileChatsAsync} from "../../../Stores/slices/UserProfileChatsSlice";
 
 let _chatSelectedUser = null;
+let chatPage = 0;
 
 /**
  * Компонент историй переписки для данного пользователя
- * @param users
  * @param {string} currentUserId
- * @param {int} page
  * @param onSelected
- * @param {boolean} loading
  * @returns {JSX.Element}
  * @constructor
  */
-export default function UserList({users, currentUserId, page, onSelected, loading}) {
+export default function UserList({currentUserId, onSelected}) {
     const [selectedUser, setSelectedUser] = useState(0);
-    const [chatUsers, setChatUsers] = useState(users);
+    const [chatUsers, setChatUsers] = useState([]);
     const chatDispatch = useDispatch();
     const userChatDispatch = useDispatch();
     const {chatSelectedUser} = useSelector(selectCommon);
-   // const userChats = useSelector();
+    const userChats = useSelector(selectUserChats);
     const chatScroll = useRef(null);
 
+    /**
+     * Выполняется для подрузки данных постранично при прокрутке вниз
+     */
     function loadMore() {
         console.log("loadMore()");
+      /*  if (chatPage === 0) {
+            chatPage++;
+        }
+        loadChatsHistoryNextPage(chatPage);*/
+    }
+
+    useEffect(() => {
+        if (userChats?.status === 200) {
+            setChatUsers(userChats?.response);
+        }
+    }, [userChats?.response]);
+
+    /**
+     * Запросить у api историю чатов для текущего пользователя постранично
+     * @param {number} aPage
+     */
+    function loadChatsHistoryNextPage(aPage) {
+        chatDispatch(userProfileChatsAsync({
+            page: aPage,
+            size: PROFILE_CHATS_PAGE_SIZE,
+            userId: currentUserId}));
     }
 
     /**
@@ -40,13 +63,17 @@ export default function UserList({users, currentUserId, page, onSelected, loadin
      * историй чатов значения PROFILE_CHATS_PAGE_SIZE
      */
     useEffect(() => {
-        if (chatUsers.length >= PROFILE_CHATS_PAGE_SIZE) {
-            chatScroll?.current?.addEventListener("scroll", () => {
-                if ((chatScroll?.current?.scrollTop + chatScroll?.current?.clientHeight) >= chatScroll?.current?.scrollHeight) {
-                    loadMore();
-                }
-            });
-        }
+          if (chatUsers.length >= PROFILE_CHATS_PAGE_SIZE) {
+                chatScroll?.current?.addEventListener("scroll", () => {
+                    if ((chatScroll?.current?.scrollTop + chatScroll?.current?.clientHeight) >= chatScroll?.current?.scrollHeight) {
+                        loadMore();
+                    }
+                });
+          }
+    }, [chatUsers]);
+
+    useEffect(() => {
+        loadChatsHistoryNextPage(0);
     }, []);
 
     /**
@@ -59,12 +86,6 @@ export default function UserList({users, currentUserId, page, onSelected, loadin
         }
     }, [chatSelectedUser]);
 
-   /* useEffect(() => {
-        if (users?.length <= PROFILE_CHATS_PAGE_SIZE) {
-           // setChatUsers([]);
-            setChatUsers(users);
-        }
-    }, [users]);*/
 
     /**
      * Запросить переписку для текущего и выбранного пользователей
@@ -79,7 +100,7 @@ export default function UserList({users, currentUserId, page, onSelected, loadin
             userChatDispatch(defineUserProfileOfChat(user));
             //Запросить переписку двух пользователей постранично
             chatDispatch(chatUserAsync({
-                page: page,
+                page: 0,
                 size: 10,
                 userId: selectedUserId,
                 fromUserId: currentUserId
@@ -98,7 +119,7 @@ export default function UserList({users, currentUserId, page, onSelected, loadin
 
     useEffect(() => {
         setSelectedUser(0);
-    }, [users]);
+    }, [chatUsers]);
 
     return (
       <div className="UserList p-2 d-flex flex-column h-100">
@@ -127,14 +148,14 @@ export default function UserList({users, currentUserId, page, onSelected, loadin
           <div className="h-100 overflow-hidden">
               <div ref={chatScroll} className="last-chat">
                   {(chatUsers.length !== 0) ? chatUsers.map((user) => (
-                       <div key={user.id} className="mt-1">
+                      <div key={user.id} className="mt-1">
                           <Userprofile onClick={clickItem} selected={(selectedUser === user.id)} user={user}/>
-                       </div>
+                      </div>
                       )) :
                       <div className="d-flex justify-content-center flex-row mt-2">
                           <Chip label={CAPTION_EMPTY_CHAT.toUpperCase()} color={"error"} variant={"outlined"}/>
                       </div>}
-                  {loading && <LoaderV2 />}
+                  {userChats?.loading && <LoaderV2 />}
               </div>
           </div>
       </div>

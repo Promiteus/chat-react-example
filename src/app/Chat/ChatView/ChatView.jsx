@@ -30,11 +30,11 @@ function ChatView ({userId, stomp}) {
     //Переключение между списком пользователей и чатом с ними
     const [display, setDisplay] = useState(initialDisplayState);
     const userChatDispath = useDispatch();
-    const {response, status, loading} = useSelector(selectUserChats);
+    //const {response, status, loading} = useSelector(selectUserChats);
 
     useEffect(() => {
         chatClientHeight = chatRef?.current?.clientHeight;
-        loadNextPage(0);
+        //loadNextPage(0);
     }, []);
 
     /**
@@ -64,8 +64,7 @@ function ChatView ({userId, stomp}) {
               <Grid container spacing={0}>
                   <Grid item xs={12} sm={12} md={4} sx={{ display:  display.chats.value}} className="h-100">
                       <div className="users h-100">
-                          {(status === 200) &&
-                             <UserList users={response || []} loading={loading} currentUserId={userId} page={0} onSelected={onSelectedUser}/>}
+                             <UserList  currentUserId={userId} onSelected={onSelectedUser}/>
                       </div>
                   </Grid>
                   <Grid item xs={12} sm={12} md={8} sx={{ display:  display.chatView.value}} className="h-100">
