@@ -106,7 +106,7 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
          setBeforeMessageList([]);
          page_ = 0;
          //Обновить список сообщений для выбранного пользователя
-         response?.data?.forEach(elem => {
+         response?.data?.filter(elem => (elem?.message !== '')).forEach(elem => {
              setMessageList(prevState => [...prevState, elem ]);
          });
      }

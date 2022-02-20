@@ -34,7 +34,6 @@ function ChatView ({userId, stomp}) {
 
     useEffect(() => {
         chatClientHeight = chatRef?.current?.clientHeight;
-
         loadNextPage(0);
     }, []);
 
