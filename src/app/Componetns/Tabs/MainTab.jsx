@@ -59,7 +59,6 @@ const MainTab = (props) => {
     }, [pageIndex]);
 
 
-
     //Реагирует на меняющийся статус запроса профиля пользователя
     useEffect(() => {
         if ((+status === 404) && !(response?.userProfile?.id) && (!loading)) {

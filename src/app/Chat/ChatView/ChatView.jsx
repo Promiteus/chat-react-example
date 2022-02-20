@@ -5,7 +5,7 @@ import TopHeaderView from '../TopHeaderView/TopHeaderView';
 import './ChatView.css'
 import UserList from "../Users/UserList/UserList";
 import {Grid} from "@mui/material";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {userProfileChatsAsync} from "../../Stores/slices/UserProfileChatsSlice";
 import {PROFILE_CHATS_PAGE_SIZE} from "../../Stores/api/Common/ApiCommon";
 
@@ -33,18 +33,10 @@ function ChatView ({userId, stomp}) {
 
     useEffect(() => {
         chatClientHeight = chatRef?.current?.clientHeight;
+
+        console.log("ChatView render")
     }, []);
 
-    /**
-     * Запросить у api историю чатов для текущего пользователя постранично
-     * @param {number} aPage
-     */
-    function loadNextPage(aPage) {
-        userChatDispatch(userProfileChatsAsync({
-            page: aPage,
-            size: PROFILE_CHATS_PAGE_SIZE,
-            userId: userId}));
-    }
 
 
     //Показать чат, скрыть список профилей чатов (история чатов)

@@ -31,7 +31,7 @@ export default function UserList({currentUserId, onSelected}) {
     const chatScroll = useRef(null);
 
     useEffect(() => {
-        //  loadChatsHistoryNextPage(0);
+      //  loadChatsHistoryNextPage(0);
         console.log("loadChatsHistoryNextPage")
     }, []);
 
@@ -42,7 +42,7 @@ export default function UserList({currentUserId, onSelected}) {
         if (chatPage === 0) {
             chatPage++;
         }
-        loadChatsHistoryNextPage(chatPage);
+      //  loadChatsHistoryNextPage(chatPage);
     }
 
     useEffect(() => {
@@ -50,7 +50,7 @@ export default function UserList({currentUserId, onSelected}) {
         if (userChats?.status === 200)  {
             console.log("update chatUsers")
             if (chatUsers?.length === 0) {
-              //  setChatUsers(userChats?.response);
+                setChatUsers(userChats?.response);
             } else if (chatUsers?.length > 0) {
                 console.log("userChat response: "+JSON.stringify(userChats?.response))
                 setChatUsers(prevState => [...prevState, userChats?.response]);
