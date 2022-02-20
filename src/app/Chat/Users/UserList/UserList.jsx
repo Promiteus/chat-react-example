@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import Userprofile from "./UserProfile/UserProfile";
-import {Chip, Divider, FormControl, Input, InputLabel, Paper, Typography} from "@mui/material";
+import {Chip, Divider, FormControl, Input, InputLabel, LinearProgress, Paper, Stack, Typography} from "@mui/material";
 import {SearchSvg} from "../../../Svg";
 import {useDispatch, useSelector} from "react-redux";
 import {chatUserAsync} from "../../../Stores/slices/ChatSlice";
@@ -31,6 +31,7 @@ export default function UserList({currentUserId, onSelected}) {
     const chatScroll = useRef(null);
 
     useEffect(() => {
+        setChatUsers([]);
         chatPage = 0;
         loadChatsHistoryNextPage(0);
     }, []);
@@ -172,9 +173,12 @@ export default function UserList({currentUserId, onSelected}) {
                       <div className="d-flex justify-content-center flex-row mt-2">
                           <Chip label={CAPTION_EMPTY_CHAT.toUpperCase()} color={"error"} variant={"outlined"}/>
                       </div>}
-                  {userChats?.loading && <LoaderV2 />}
               </div>
           </div>
+          {userChats?.loading ?
+              <Stack sx={{ width: '100%', color: 'grey.500', height: 4}} spacing={2}>
+                  <LinearProgress color="success" />
+              </Stack> : <div className="w-100" style={{height: 4}}></div>}
       </div>
     );
 }
