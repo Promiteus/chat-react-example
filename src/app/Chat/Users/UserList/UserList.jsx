@@ -22,7 +22,7 @@ let chatPage = 0;
  * @constructor
  */
 export default function UserList({currentUserId, onSelected}) {
-    const [selectedUser, setSelectedUser] = useState(0);
+    const [selectedUser, setSelectedUser] = useState('0');
     const [chatUsers, setChatUsers] = useState([]);
     const chatDispatch = useDispatch();
     const userChatDispatch = useDispatch();
@@ -30,11 +30,15 @@ export default function UserList({currentUserId, onSelected}) {
     const userChats = useSelector(selectUserChats);
     const chatScroll = useRef(null);
 
+    useEffect(() => {
+        //  loadChatsHistoryNextPage(0);
+        console.log("loadChatsHistoryNextPage")
+    }, []);
+
     /**
      * Выполняется для подрузки данных постранично при прокрутке вниз
      */
     function loadMore() {
-        console.log("loadMore()");
         if (chatPage === 0) {
             chatPage++;
         }
@@ -42,9 +46,15 @@ export default function UserList({currentUserId, onSelected}) {
     }
 
     useEffect(() => {
-        if (userChats?.status === 200) {
+        console.log("status: "+userChats?.status)
+        if (userChats?.status === 200)  {
             console.log("update chatUsers")
-            setChatUsers(userChats?.response);
+            if (chatUsers?.length === 0) {
+              //  setChatUsers(userChats?.response);
+            } else if (chatUsers?.length > 0) {
+                console.log("userChat response: "+JSON.stringify(userChats?.response))
+                setChatUsers(prevState => [...prevState, userChats?.response]);
+            }
         }
     }, [userChats?.response]);
 
@@ -81,9 +91,7 @@ export default function UserList({currentUserId, onSelected}) {
        }
     }, [chatUsers]);
 
-    useEffect(() => {
-        loadChatsHistoryNextPage(0);
-    }, []);
+
 
     /**
      * Получение чата текущего и выбранного пользователя при изменении chatSelectedUser

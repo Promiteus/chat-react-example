@@ -6,8 +6,7 @@ import './ChatView.css'
 import UserList from "../Users/UserList/UserList";
 import {Grid} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
-import {selectUserChats, userProfileChatsAsync} from "../../Stores/slices/UserProfileChatsSlice";
-import LoaderV2 from "../../Componetns/Loader/LoaderV2";
+import {userProfileChatsAsync} from "../../Stores/slices/UserProfileChatsSlice";
 import {PROFILE_CHATS_PAGE_SIZE} from "../../Stores/api/Common/ApiCommon";
 
 
@@ -29,12 +28,11 @@ function ChatView ({userId, stomp}) {
     const chatRef = useRef();
     //Переключение между списком пользователей и чатом с ними
     const [display, setDisplay] = useState(initialDisplayState);
-    const userChatDispath = useDispatch();
+    const userChatDispatch = useDispatch();
     //const {response, status, loading} = useSelector(selectUserChats);
 
     useEffect(() => {
         chatClientHeight = chatRef?.current?.clientHeight;
-        //loadNextPage(0);
     }, []);
 
     /**
@@ -42,7 +40,7 @@ function ChatView ({userId, stomp}) {
      * @param {number} aPage
      */
     function loadNextPage(aPage) {
-        userChatDispath(userProfileChatsAsync({
+        userChatDispatch(userProfileChatsAsync({
             page: aPage,
             size: PROFILE_CHATS_PAGE_SIZE,
             userId: userId}));
