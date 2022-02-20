@@ -34,15 +34,17 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
       chatViewHeight = (chatClientHeight*CHAT_VIEW_PERCENT_HEIGHT)/100;
   }, [chatClientHeight]);
 
+  function scrollLoad() {
+      if (scrollChat.current.scrollTop === 0) {
+          isExecuted = false;
+          loadMore();
+      }
+  }
+
   useEffect(() => {
       //При достижении прокрутки чата до верхней границы контейнера
       //происходит дозагрузка прошлых сообщений
-      scrollChat.current.addEventListener("scroll", () => {
-            if (scrollChat.current.scrollTop === 0) {
-                isExecuted = false;
-                loadMore();
-            }
-      });
+      scrollChat?.current.addEventListener("scroll", scrollLoad);
 
       if (stomp) {
            //Получить подтверждение, что сообщение отправлено
@@ -60,6 +62,10 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
                }
              scrollToBottom();
            };
+      }
+
+      return () => {
+          scrollChat?.current?.removeEventListener("scroll", scrollLoad);
       }
  }, []);
 

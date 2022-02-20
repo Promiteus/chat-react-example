@@ -35,14 +35,15 @@ export default function UserList({currentUserId, onSelected}) {
      */
     function loadMore() {
         console.log("loadMore()");
-      /*  if (chatPage === 0) {
+        if (chatPage === 0) {
             chatPage++;
         }
-        loadChatsHistoryNextPage(chatPage);*/
+        loadChatsHistoryNextPage(chatPage);
     }
 
     useEffect(() => {
         if (userChats?.status === 200) {
+            console.log("update chatUsers")
             setChatUsers(userChats?.response);
         }
     }, [userChats?.response]);
@@ -58,18 +59,26 @@ export default function UserList({currentUserId, onSelected}) {
             userId: currentUserId}));
     }
 
+    function scrollLoad() {
+        if ((chatScroll?.current?.scrollTop + chatScroll?.current?.clientHeight) >= chatScroll?.current?.scrollHeight) {
+            loadMore();
+        }
+    }
+
     /**
      * Установить механизм подгрузки истории чатов текущего пользователя при достиженн числа
      * историй чатов значения PROFILE_CHATS_PAGE_SIZE
      */
     useEffect(() => {
-          if (chatUsers.length >= PROFILE_CHATS_PAGE_SIZE) {
-                chatScroll?.current?.addEventListener("scroll", () => {
-                    if ((chatScroll?.current?.scrollTop + chatScroll?.current?.clientHeight) >= chatScroll?.current?.scrollHeight) {
-                        loadMore();
-                    }
-                });
-          }
+            if (chatUsers.length >= PROFILE_CHATS_PAGE_SIZE) {
+                chatScroll?.current?.addEventListener("scroll", scrollLoad);
+            } else {
+                chatScroll?.current?.removeEventListener("scroll", scrollLoad);
+            }
+
+       return () => {
+           chatScroll?.current?.removeEventListener("scroll", scrollLoad);
+       }
     }, [chatUsers]);
 
     useEffect(() => {
