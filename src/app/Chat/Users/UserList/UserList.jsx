@@ -46,7 +46,7 @@ export default function UserList({currentUserId, onSelected}) {
     }
 
     useEffect(() => {
-        console.log("status: "+userChats?.status)
+        console.log("UserList status: "+userChats?.status)
         if (userChats?.status === 200)  {
             console.log("update chatUsers")
             if (chatUsers?.length === 0) {

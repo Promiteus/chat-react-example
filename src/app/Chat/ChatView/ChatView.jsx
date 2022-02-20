@@ -6,8 +6,6 @@ import './ChatView.css'
 import UserList from "../Users/UserList/UserList";
 import {Grid} from "@mui/material";
 import {useDispatch} from "react-redux";
-import {userProfileChatsAsync} from "../../Stores/slices/UserProfileChatsSlice";
-import {PROFILE_CHATS_PAGE_SIZE} from "../../Stores/api/Common/ApiCommon";
 
 
 const HIDE_BLOCK = { xs: 'none', sm: 'none', md: 'block' };
@@ -28,8 +26,7 @@ function ChatView ({userId, stomp}) {
     const chatRef = useRef();
     //Переключение между списком пользователей и чатом с ними
     const [display, setDisplay] = useState(initialDisplayState);
-    const userChatDispatch = useDispatch();
-    //const {response, status, loading} = useSelector(selectUserChats);
+
 
     useEffect(() => {
         chatClientHeight = chatRef?.current?.clientHeight;
@@ -54,7 +51,7 @@ function ChatView ({userId, stomp}) {
               <Grid container spacing={0}>
                   <Grid item xs={12} sm={12} md={4} sx={{ display:  display.chats.value}} className="h-100">
                       <div className="users h-100">
-                             <UserList  currentUserId={userId} onSelected={onSelectedUser}/>
+                           <UserList  currentUserId={userId} onSelected={onSelectedUser}/>
                       </div>
                   </Grid>
                   <Grid item xs={12} sm={12} md={8} sx={{ display:  display.chatView.value}} className="h-100">
