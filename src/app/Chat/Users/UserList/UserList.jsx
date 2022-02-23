@@ -9,7 +9,7 @@ import {defineUserProfileOfChat} from "../../../Stores/slices/UserProfileChatCom
 import LoaderV2 from "../../../Componetns/Loader/LoaderV2";
 import {PROFILE_CHATS_PAGE_SIZE} from "../../../Stores/api/Common/ApiCommon";
 import {selectCommon} from "../../../Stores/slices/CommonSlice";
-import {selectUserChats, userProfileChatsAsync} from "../../../Stores/slices/UserProfileChatsSlice";
+import {dropStatus, selectUserChats, userProfileChatsAsync} from "../../../Stores/slices/UserProfileChatsSlice";
 
 let _chatSelectedUser = null;
 let chatPage = 0;
@@ -31,7 +31,6 @@ export default function UserList({currentUserId, onSelected}) {
     const chatScroll = useRef(null);
 
     useEffect(() => {
-        setChatUsers([]);
         chatPage = 0;
         loadChatsHistoryNextPage(0);
     }, []);
@@ -49,9 +48,9 @@ export default function UserList({currentUserId, onSelected}) {
     }
 
     useEffect(() => {
-        console.log("UserList status: "+userChats?.status)
         if (userChats?.status === 200)  {
             if (chatUsers?.length === 0) {
+                chatDispatch(dropStatus());
                 setChatUsers(userChats?.response);
             } else if (chatUsers?.length > 0) {
                 setChatUsers(prevState => prevState.concat(userChats?.response));
