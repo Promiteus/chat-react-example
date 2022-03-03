@@ -3,7 +3,6 @@ import MessageItem from './MessageItem/MessageItem';
 import './MessageView.css'
 import {useDispatch, useSelector} from "react-redux";
 import {chatUserAsync, selectChat} from "../../Stores/slices/ChatSlice";
-import {selectCommon} from "../../Stores/slices/CommonSlice";
 import {LinearProgress, Stack} from "@mui/material";
 import {selectUserChatCommon} from "../../Stores/slices/UserProfileChatCommonSlice";
 
@@ -12,6 +11,8 @@ let selectedUser_ = {};
 let isExecuted = false;
 let chatViewHeight = 578;
 const CHAT_VIEW_PERCENT_HEIGHT = 78;
+
+
 
 
 function MessageView({stomp, currentUserId, chatClientHeight}) {
@@ -58,6 +59,7 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
                     fromUserId: body?.content?.fromUserId, //От кого сообщение
                     message: body?.content?.message, //Текст сообщения
                     timestamp: body?.content?.timestamp, //Время создания сообщения
+                    read: body?.content?.isRead,
                  }]);
                }
              scrollToBottom();
@@ -119,12 +121,7 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
     /*.filter(elem => (elem?.message !== ''))*/
  }
 
-  /*
-   * Так выгдядят сохраненные сообщения чата
-   data:
-   [{"id":"61a0343931b2e54902c1b0b4","userId":"200","fromUserId":"203","message":"Сообщение от Konstantin номер 8.","timestamp":"2021-11-26 01:11:21"},
-    {"id":"61a0343931b2e54902c1b0b5","userId":"200","fromUserId":"203","message":"Сообщение от Konstantin номер 9.","timestamp":"2021-11-26 01:11:21"},]
-  * */
+
   //Реагировать на смену статуса при запросе последних сообщений из чата
   useEffect(() => {
         selectedUser_ = profile;

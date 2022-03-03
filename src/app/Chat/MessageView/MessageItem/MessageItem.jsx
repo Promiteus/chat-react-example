@@ -3,6 +3,7 @@ import MessageItemElement from '../MessageItemElement/MessageItemElement';
 import './MessageItem.css';
 import {Typography} from "@mui/material";
 import {MSG_YOU} from "../../../Constants/TextMessagesRu";
+import {MessageStatus} from "../../Common";
 
 function MessageItem({data, currentUserId}) {
     function chatBudge(data, curUserId) {
@@ -22,6 +23,7 @@ function MessageItem({data, currentUserId}) {
                       <div><Typography variant={"body2"} sx={{color: '#555588'}}>{MSG_YOU}</Typography></div>
                       <div className="d-flex">{data?.message}</div>
                       <div className="date-message-badge d-flex flex-row-reverse text-danger">{data?.timestamp}</div>
+                      <MessageStatus isRead={data?.read}/>
                   </MessageItemElement>
               </div>
             );
