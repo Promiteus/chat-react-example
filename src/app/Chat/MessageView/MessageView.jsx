@@ -12,9 +12,28 @@ let isExecuted = false;
 let chatViewHeight = 578;
 const CHAT_VIEW_PERCENT_HEIGHT = 78;
 
+/**
+ * Список непрочитанных сообщений.
+ * */
+let unreadMessageList = [];
 
+/**
+ * Выдать массив из непрочитанных сообщений
+ * @param messageList
+ * @returns {*}
+ */
+function unreadMessages(messageList) {
+     return messageList.filter(item => (item?.read === false));
+}
 
-
+/**
+ *
+ * @param stomp
+ * @param {string} currentUserId
+ * @param {number} chatClientHeight
+ * @returns {JSX.Element}
+ * @constructor
+ */
 function MessageView({stomp, currentUserId, chatClientHeight}) {
   const [messageList, setMessageList] = useState([]);
   const [beforeMessageList, setBeforeMessageList] = useState([]);
@@ -23,6 +42,12 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
   const scrollChat = useRef(null);
   const chatBottomScroller = useRef(null);
   const chatDispatch = useDispatch();
+
+
+
+  function setReadMessages() {
+
+  }
 
   useEffect(() => {
       setTimeout(() => {
@@ -42,10 +67,19 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
       }
   }
 
+  function scrollDownLoad() {
+      if ((scrollChat?.current?.scrollTop + scrollChat?.current?.clientHeight) >= scrollChat?.current?.scrollHeight) {
+            console.log("scroll down");
+            console.log("Unread messages: "+JSON.stringify(unreadMessageList));
+      }
+  }
+
   useEffect(() => {
       //При достижении прокрутки чата до верхней границы контейнера
       //происходит дозагрузка прошлых сообщений
       scrollChat?.current.addEventListener("scroll", scrollLoad);
+      //Событие вызывается при прокрутки чата вниз до самого последнего сообщения
+      scrollChat?.current.addEventListener("scroll", scrollDownLoad);
 
       if (stomp) {
            //Получить подтверждение, что сообщение отправлено
@@ -68,6 +102,7 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
 
       return () => {
           scrollChat?.current?.removeEventListener("scroll", scrollLoad);
+          scrollChat?.current?.removeEventListener("scroll", scrollDownLoad);
       }
  }, []);
 
@@ -102,6 +137,7 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
          response?.data?.forEach(elem => {
              setBeforeMessageList(prevState => [...prevState, elem ]);
          });
+         unreadMessageList = unreadMessages(response?.data);
      }
  }
 /**
@@ -117,6 +153,7 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
          response?.data?.forEach(elem => {
              setMessageList(prevState => [...prevState, elem ]);
          });
+         unreadMessageList = unreadMessages(response?.data);
      }
     /*.filter(elem => (elem?.message !== ''))*/
  }
