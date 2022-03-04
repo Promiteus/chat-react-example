@@ -15,15 +15,21 @@ const CHAT_VIEW_PERCENT_HEIGHT = 78;
 /**
  * Список непрочитанных сообщений.
  * */
-let unreadMessageList = [];
+let unreadMessageListForCurrentUser = new Set();
+let unreadMessageListForAnotherUser = new Set();
 
 /**
- * Выдать массив из непрочитанных сообщений
+ * Выдать массив из непрочитанных сообщений для выбранного пользователя
  * @param messageList
+ * @param {string} userId
+ * @param {boolean} isNotForUserId
  * @returns {*}
  */
-function unreadMessages(messageList) {
-     return messageList.filter(item => (item?.read === false));
+function unreadMessages(messageList, userId, isNotForUserId) {
+    if (isNotForUserId) {
+         return messageList.filter(item => (item?.read === false)).filter(item => (item?.fromUserId !== userId));
+    }
+    return messageList.filter(item => (item?.read === false)).filter(item => (item?.fromUserId === userId));
 }
 
 /**
@@ -43,12 +49,6 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
   const chatBottomScroller = useRef(null);
   const chatDispatch = useDispatch();
 
-
-
-  function setReadMessages() {
-
-  }
-
   useEffect(() => {
       setTimeout(() => {
           scrollToBottom();
@@ -64,13 +64,19 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
       if (scrollChat.current.scrollTop === 0) {
           isExecuted = false;
           loadMore();
+          console.log("scroll up");
+          unreadMessageListForCurrentUser?.forEach(item => {
+              console.log("Unread messages: "+JSON.stringify(item));
+          });
       }
   }
 
   function scrollDownLoad() {
       if ((scrollChat?.current?.scrollTop + scrollChat?.current?.clientHeight) >= scrollChat?.current?.scrollHeight) {
-            console.log("scroll down");
-            console.log("Unread messages: "+JSON.stringify(unreadMessageList));
+          console.log("scroll down");
+          unreadMessageListForCurrentUser?.forEach(item => {
+              console.log("Unread messages: "+JSON.stringify(item));
+          });
       }
   }
 
@@ -137,7 +143,7 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
          response?.data?.forEach(elem => {
              setBeforeMessageList(prevState => [...prevState, elem ]);
          });
-         unreadMessageList = unreadMessages(response?.data);
+         unreadMessageListForCurrentUser.add(unreadMessages(response?.data, currentUserId, false));
      }
  }
 /**
@@ -153,7 +159,7 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
          response?.data?.forEach(elem => {
              setMessageList(prevState => [...prevState, elem ]);
          });
-         unreadMessageList = unreadMessages(response?.data);
+         unreadMessageListForCurrentUser.add(unreadMessages(response?.data, currentUserId, false));
      }
     /*.filter(elem => (elem?.message !== ''))*/
  }
