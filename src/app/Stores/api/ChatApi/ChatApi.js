@@ -3,11 +3,11 @@ import {BASE_DATA_URL, getHeaderBearerConfigs} from "../Common/ApiCommon";
 
 /**
  * Получить последнюю переписку двух пользователей пострнично
- * @param page
- * @param size
- * @param userId
- * @param fromUserId
- * @param token
+ * @param {number} page
+ * @param {number} size
+ * @param {string} userId
+ * @param {string} fromUserId
+ * @param {string} token
  * @returns {Promise<AxiosResponse<any>>}
  */
 export function chatUsersMessages(page, size, userId, fromUserId, token) {
@@ -18,10 +18,10 @@ export function chatUsersMessages(page, size, userId, fromUserId, token) {
 
 /**
  * Получить список чатов пользователя постранично
- * @param page
- * @param size
- * @param userId
- * @param token
+ * @param {number} page
+ * @param {number} size
+ * @param {string} userId
+ * @param {string} token
  * @returns {Promise<AxiosResponse<any>>}
  */
 export function getUserProfileChatsPageable(page, size, userId, token) {
@@ -33,9 +33,20 @@ export function getUserProfileChatsPageable(page, size, userId, token) {
 /**
  * Добавить сообщение в чат
  * @param data
- * @param token
+ * @param {string} token
  * @returns {Promise<AxiosResponse<any>>}
  */
 export function addMessage(data, token) {
     return axios.post(`${BASE_DATA_URL}/api/chat/add`, data, getHeaderBearerConfigs("application/json", token));
+}
+
+/**
+ *
+ * @param {string[]} chatItemIds
+ * @param {string} token
+ * @returns {Promise<AxiosResponse<any>>}
+ */
+export function getChatMessagesByIds(chatItemIds, token) {
+    return axios.get(`${BASE_DATA_URL}/api/chat/status/messages`,
+        getHeaderBearerConfigs("application/json", token));
 }

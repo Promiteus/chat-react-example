@@ -15,15 +15,15 @@ const CHAT_VIEW_PERCENT_HEIGHT = 78;
 /**
  * Список непрочитанных сообщений.
  * */
-let unreadMessageListForCurrentUser = [];
-let unreadMessageListForAnotherUser = new Map();
+let unreadMessageListForCurrentUser = new Set();
+let unreadMessageListForAnotherUser = new Set();
 
 /**
  * Выдать массив из непрочитанных сообщений для выбранного пользователя
  * @param messageList
  * @param {string} userId
  * @param {boolean} isNotForUserId
- * @returns {*}
+ * @returns {{any[]}}
  */
 function unreadMessages(messageList, userId, isNotForUserId) {
     if (isNotForUserId) {
@@ -41,7 +41,7 @@ var d = c.filter((item, pos) => c.indexOf(item) === pos); //
 
 /**
  *
- * @param msgIds
+ * @param {string[]} msgIds
  */
 function setAsReadMessagesOfCurrentUser(msgIds) {
     msgIds?.forEach(key => {
@@ -86,14 +86,19 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
           isExecuted = false;
           loadMore();
           console.log("scroll up");
-          console.log("keys: "+JSON.stringify(unreadMessageListForCurrentUser));
+          unreadMessageListForCurrentUser?.forEach(item => {
+              console.log("keys: "+item);
+          })
+
       }
   }
 
   function scrollDownLoad() {
       if ((scrollChat?.current?.scrollTop + scrollChat?.current?.clientHeight) >= scrollChat?.current?.scrollHeight) {
           console.log("scroll down");
-          console.log("keys: "+JSON.stringify(unreadMessageListForCurrentUser));
+          unreadMessageListForCurrentUser?.forEach(item => {
+              console.log("keys: "+item);
+          })
       }
   }
 
@@ -162,7 +167,10 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
          });
 
          unreadMessages(response?.data, currentUserId, false)?.forEach(item => {
-            unreadMessageListForCurrentUser.push(item?.id);
+            unreadMessageListForCurrentUser.add(item?.id);
+         });
+         unreadMessages(response?.data, currentUserId, true)?.forEach(item => {
+            unreadMessageListForAnotherUser.add(item?.id);
          });
      }
  }
@@ -181,7 +189,10 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
          });
 
          unreadMessages(response?.data, currentUserId, false)?.forEach(item => {
-             unreadMessageListForCurrentUser.push(item?.id);
+             unreadMessageListForCurrentUser.add(item?.id);
+         });
+         unreadMessages(response?.data, currentUserId, true)?.forEach(item => {
+             unreadMessageListForAnotherUser.add(item?.id);
          });
 
      }
