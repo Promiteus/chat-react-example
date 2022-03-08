@@ -7,7 +7,7 @@ import {createSlice} from "@reduxjs/toolkit";
 export const commonSlice = createSlice({
     name: 'common',
     initialState: {
-        value: 0,
+        value: 10,
         selectedUser: {},
         pageIndex: 0,
         tbIndex: 0,
