@@ -3,7 +3,7 @@ import MessageItemElement from '../MessageItemElement/MessageItemElement';
 import './MessageItem.css';
 import {Typography} from "@mui/material";
 import {MSG_YOU} from "../../../Constants/TextMessagesRu";
-import {MessageStatus} from "../../Common";
+import {MessageStatus, MessageStatusRound} from "../../Common";
 
 function MessageItem({data, currentUserId}) {
     function chatBudge(data, curUserId) {
@@ -13,7 +13,10 @@ function MessageItem({data, currentUserId}) {
                   <MessageItemElement>
                       <div><Typography variant={"body2"} sx={{color: '#555588'}}>{`${data?.firstName}`}</Typography></div>
                       <div className="d-flex">{data?.message}</div>
-                      <div className="date-message-badge d-flex flex-row-reverse text-danger">{data?.timestamp}</div>
+                      <div className="date-message-badge d-flex flex-row justify-content-between align-items-center text-danger">
+                          <MessageStatusRound isRead={data?.read}/>
+                          {data?.timestamp}
+                      </div>
                   </MessageItemElement>
               </div>);
         } else {

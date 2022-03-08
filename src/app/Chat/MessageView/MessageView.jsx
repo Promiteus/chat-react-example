@@ -87,9 +87,11 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
           loadMore();
           console.log("scroll up");
           unreadMessageListForCurrentUser?.forEach(item => {
-              console.log("keys: "+item);
-          })
-
+              console.log("current user keys: "+item);
+          });
+          unreadMessageListForAnotherUser?.forEach(item => {
+              console.log("another user keys: "+item);
+          });
       }
   }
 
@@ -97,8 +99,11 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
       if ((scrollChat?.current?.scrollTop + scrollChat?.current?.clientHeight) >= scrollChat?.current?.scrollHeight) {
           console.log("scroll down");
           unreadMessageListForCurrentUser?.forEach(item => {
-              console.log("keys: "+item);
-          })
+              console.log("current user keys: "+item);
+          });
+          unreadMessageListForAnotherUser?.forEach(item => {
+              console.log("another user keys: "+item);
+          });
       }
   }
 

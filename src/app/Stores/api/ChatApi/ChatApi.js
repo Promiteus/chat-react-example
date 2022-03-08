@@ -41,12 +41,13 @@ export function addMessage(data, token) {
 }
 
 /**
- *
- * @param {string[]} chatItemIds
+ * Проверить/изменить статус прочтения сообщений в чате
+ * @param {string[]} readChatItemIds
+ * @param {string[]} writeChatItemIds
  * @param {string} token
  * @returns {Promise<AxiosResponse<any>>}
  */
-export function getChatMessagesByIds(chatItemIds, token) {
-    return axios.get(`${BASE_DATA_URL}/api/chat/status/messages`,
+export async function getChatMessagesByIds(readChatItemIds, writeChatItemIds, token) {
+    return await axios.post(`${BASE_DATA_URL}/api/chat/apply/messages`,
         getHeaderBearerConfigs("application/json", token));
 }
