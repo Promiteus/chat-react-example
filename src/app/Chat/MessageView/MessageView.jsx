@@ -5,6 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {chatUserAsync, selectChat} from "../../Stores/slices/ChatSlice";
 import {LinearProgress, Stack} from "@mui/material";
 import {selectUserChatCommon} from "../../Stores/slices/UserProfileChatCommonSlice";
+import {getChatMessagesByIds} from "../../Stores/api/ChatApi/ChatApi";
 
 let page_ = 0;
 let selectedUser_ = {};
@@ -32,25 +33,40 @@ function unreadMessages(messageList, userId, isNotForUserId) {
     return messageList.filter(item => (item?.read === false)).filter(item => (item?.fromUserId === userId));
 }
 
-/*
-* var a = [1, 2, 3], b = [101, 2, 1, 10]
-var c = a.concat(b)
-var d = c.filter((item, pos) => c.indexOf(item) === pos); //
-*
-* */
+/*function concatUnique(a1, a2) {
+    let c = a1.concat(a2);
+    return c.filter((item, pos) => c.indexOf(item) === pos);
+}*/
 
 /**
- *
- * @param {string[]} msgIds
+ * Проверить/изменить статус непрочитанных сообщений
+ * @param {string[]} readArr
+ * @param {string[]} writeArr
  */
-function setAsReadMessagesOfCurrentUser(msgIds) {
-    msgIds?.forEach(key => {
-      /*  let msg = unreadMessageListForCurrentUser.get(key);
-        if (msg) {
-            msg.read = true;
-            unreadMessageListForCurrentUser.set(key, msg);
-        }*/
+function updateChatMessages(readArr, writeArr, state) {
+    if ((readArr?.length > 0) || (writeArr?.length > 0)) {
+        getChatMessagesByIds(readArr, []).then((res) => {
+           console.log("read messages: "+JSON.stringify(res?.data?.readMessages));
+
+        });
+    }
+}
+
+/**
+ * Найти и обновить статус сообщения
+ * @param {any[]} msgArr
+ * @param {any[]} state
+ * @return {any[]}
+ */
+function updateReadMessages(msgArr, state) {
+    let source = state;
+    let indexes = [];
+    msgArr?.forEach(item => {
+        indexes.push(source?.indexOf(item));
     });
+    console.log("indexes: "+JSON.stringify(indexes))
+    console.log("state: "+JSON.stringify(source))
+
 }
 
 /**
@@ -85,25 +101,15 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
       if (scrollChat.current.scrollTop === 0) {
           isExecuted = false;
           loadMore();
-          console.log("scroll up");
-          unreadMessageListForCurrentUser?.forEach(item => {
-              console.log("current user keys: "+item);
-          });
-          unreadMessageListForAnotherUser?.forEach(item => {
-              console.log("another user keys: "+item);
-          });
+          //Проверить/изменить статус непрочитанных сообщений
+          updateChatMessages(Array.from(unreadMessageListForCurrentUser), [], beforeMessageList);
       }
   }
 
   function scrollDownLoad() {
       if ((scrollChat?.current?.scrollTop + scrollChat?.current?.clientHeight) >= scrollChat?.current?.scrollHeight) {
-          console.log("scroll down");
-          unreadMessageListForCurrentUser?.forEach(item => {
-              console.log("current user keys: "+item);
-          });
-          unreadMessageListForAnotherUser?.forEach(item => {
-              console.log("another user keys: "+item);
-          });
+          //Проверить/изменить статус непрочитанных сообщений
+          updateChatMessages(Array.from(unreadMessageListForCurrentUser), [], messageList);
       }
   }
 
@@ -177,6 +183,8 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
          unreadMessages(response?.data, currentUserId, true)?.forEach(item => {
             unreadMessageListForAnotherUser.add(item?.id);
          });
+
+
      }
  }
 /**
@@ -199,7 +207,6 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
          unreadMessages(response?.data, currentUserId, true)?.forEach(item => {
              unreadMessageListForAnotherUser.add(item?.id);
          });
-
      }
     /*.filter(elem => (elem?.message !== ''))*/
  }
