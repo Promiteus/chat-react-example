@@ -38,19 +38,7 @@ function unreadMessages(messageList, userId, isNotForUserId) {
     return c.filter((item, pos) => c.indexOf(item) === pos);
 }*/
 
-/**
- * Проверить/изменить статус непрочитанных сообщений
- * @param {string[]} readArr
- * @param {string[]} writeArr
- */
-function updateChatMessages(readArr, writeArr, state) {
-    if ((readArr?.length > 0) || (writeArr?.length > 0)) {
-        getChatMessagesByIds(readArr, []).then((res) => {
-           console.log("read messages: "+JSON.stringify(res?.data?.readMessages));
 
-        });
-    }
-}
 
 /**
  * Найти и обновить статус сообщения
@@ -96,6 +84,21 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
       //Пересчитать фиксированнцю высоту chatView и присвоить div контейнеру.
       chatViewHeight = (chatClientHeight*CHAT_VIEW_PERCENT_HEIGHT)/100;
   }, [chatClientHeight]);
+
+    /**
+     * Проверить/изменить статус непрочитанных сообщений
+     * @param {string[]} readArr
+     * @param {string[]} writeArr
+     */
+    function updateChatMessages(readArr, writeArr, state) {
+        if ((readArr?.length > 0) || (writeArr?.length > 0)) {
+            getChatMessagesByIds(readArr, []).then((res) => {
+                console.log("read messages: "+JSON.stringify(res?.data?.readMessages));
+                console.log("state len: "+state?.length);
+            });
+        }
+    }
+
 
   function scrollLoad() {
       if (scrollChat.current.scrollTop === 0) {
