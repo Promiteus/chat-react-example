@@ -55,6 +55,17 @@ function fillUnreadMessages(data, userId) {
 }
 
 /**
+ *
+ * @param {any} chatMessages
+ */
+function removeMsgElem(elem) {
+       if (elem?.read) {
+           //console.log("key: "+unreadMessageListForCurrentUser);
+           console.log("delete: "+unreadMessageListForCurrentUser.delete(elem?.id));
+       }
+}
+
+/**
  * Найти позицию сообщения для обновления
  * @param {any[]} msgArr
  * @param {any[]} state
@@ -109,24 +120,17 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
 
       let res = posForUpdateReadMessages(concatUnique(readMsg, writeMsg), messageList);
       res?.forEach(elem => {
-          setMessageList(prevState => {
-              prevState[elem.index] = elem.data;
-              if (elem?.data?.read) {
-                  unreadMessageListForCurrentUser.delete(elem);
-              }
-              return prevState;
-          });
+          let arr = messageList;
+          arr[elem.index] = elem.data;
+          setMessageList(arr);
+          //removeMsgElem(elem.data);
       });
 
       res = posForUpdateReadMessages(concatUnique(readMsg, writeMsg), beforeMessageList);
       res?.forEach(elem => {
-          setBeforeMessageList(prevState => {
-              prevState[elem.index] = elem.data;
-              if (elem?.data?.read) {
-                  unreadMessageListForCurrentUser.delete(elem);
-              }
-              return prevState;
-          });
+          let arr = messageList;
+          arr[elem.index] = elem.data;
+          setBeforeMessageList(arr);
       });
   }, [updatedMsgChatStatus]);
 
@@ -235,6 +239,9 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
  * Получает первую страницу сообщений переписки
  * */
  function defaultData() {
+     unreadMessageListForAnotherUser?.clear();
+     unreadMessageListForCurrentUser?.clear();
+
      if ((+status === 200) && (response?.page === 0)) {
          //Предочистка сиска сообщений перед переключением между пользователями
          setMessageList([]);
