@@ -65,6 +65,11 @@ function removeMsgElem(elem) {
        }
 }
 
+function clearUnreadMessages() {
+    unreadMessageListForAnotherUser?.clear();
+    unreadMessageListForCurrentUser?.clear();
+}
+
 /**
  * Найти позицию сообщения для обновления
  * @param {any[]} msgArr
@@ -114,17 +119,18 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
   //Получить/подтвердить статус о прочтении сообщений
   useEffect(() => {
       console.log("useEffect read messages: "+JSON.stringify(updatedMsgChatStatus?.data?.readMsg));
+      console.log("useEffect write messages: "+JSON.stringify(updatedMsgChatStatus?.data?.writeMsg));
 
       let readMsg = updatedMsgChatStatus?.data?.readMsg;
       let writeMsg = updatedMsgChatStatus?.data?.writeMsg;
 
       let res = posForUpdateReadMessages(concatUnique(readMsg, writeMsg), messageList);
+      let arr = messageList;
       res?.forEach(elem => {
-          let arr = messageList;
           arr[elem.index] = elem.data;
-          setMessageList(arr);
-          //removeMsgElem(elem.data);
       });
+      //setMessageList([]);
+      setMessageList(prevState => (prevState = arr));
 
       res = posForUpdateReadMessages(concatUnique(readMsg, writeMsg), beforeMessageList);
       res?.forEach(elem => {
@@ -141,7 +147,7 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
      */
     function updateChatMessagesStatus(readArr, writeArr) {
         if ((readArr?.length > 0) || (writeArr?.length > 0)) {
-            getChatMessagesByIds(readArr, []).then((res) => {
+            getChatMessagesByIds(readArr, writeArr).then((res) => {
                // console.log("write messages: "+JSON.stringify(updatedMsgChatStatus?.data?.writeMsg));
                 chatDispatch(setChatMessageStatus({readMsg: res?.data?.readMessages, writeMsg: res?.data?.writeMessages}))
             });
@@ -154,14 +160,14 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
           isExecuted = false;
           loadMore();
           //Проверить/изменить статус непрочитанных сообщений
-          updateChatMessagesStatus(Array.from(unreadMessageListForCurrentUser), []);
+          updateChatMessagesStatus(Array.from(unreadMessageListForCurrentUser), Array.from(unreadMessageListForAnotherUser));
       }
   }
 
   function scrollDown() {
       if ((scrollChat?.current?.scrollTop + scrollChat?.current?.clientHeight) >= scrollChat?.current?.scrollHeight) {
           //Проверить/изменить статус непрочитанных сообщений
-          updateChatMessagesStatus(Array.from(unreadMessageListForCurrentUser), []);
+          updateChatMessagesStatus(Array.from(unreadMessageListForCurrentUser), Array.from(unreadMessageListForAnotherUser));
       }
   }
 
@@ -191,8 +197,7 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
            };
       }
 
-      unreadMessageListForAnotherUser?.clear();
-      unreadMessageListForCurrentUser?.clear();
+      clearUnreadMessages();
 
       return () => {
           scrollChat?.current?.removeEventListener("scroll", scrollUp);
@@ -239,8 +244,7 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
  * Получает первую страницу сообщений переписки
  * */
  function defaultData() {
-     unreadMessageListForAnotherUser?.clear();
-     unreadMessageListForCurrentUser?.clear();
+     clearUnreadMessages();
 
      if ((+status === 200) && (response?.page === 0)) {
          //Предочистка сиска сообщений перед переключением между пользователями
