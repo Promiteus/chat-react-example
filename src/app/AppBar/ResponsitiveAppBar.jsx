@@ -4,7 +4,7 @@ import {
     Avatar,
     Box,
     Button,
-    Container,
+    Container, Divider,
     IconButton,
     Menu,
     MenuItem,
@@ -12,14 +12,23 @@ import {
     Tooltip,
     Typography,
 } from "@mui/material";
-import {MenuListSvg} from "../Svg";
+import {MenuListSvg, PersonSvg, SearchSvg} from "../Svg";
 import {BASE_DATA_URL} from "../Stores/api/Common/ApiCommon";
 import {IMG_LOGO} from "../../assets";
+import {LogoutOutlined, Person} from "@mui/icons-material";
+import RoundSubstrate from "../Svg/Sunstrate/RoundSubstrate";
+import {useNavigate} from "react-router-dom";
+import {ROUTE_PROFILE} from "../Constants/Routes";
 
 
-const settings = ['Profile', 'Logout'];
+const settings = ['Настройки профиля', 'Выход'];
+const menuItems = [
+    {img: <Person />, title: 'Настройки профиля'},
+    {img: <LogoutOutlined />, title: 'Выход'}
+];
 
 const ResponsiveAppBar = ({user}) => {
+    const navigate = useNavigate();
     const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);
 
@@ -33,6 +42,10 @@ const ResponsiveAppBar = ({user}) => {
     const handleCloseNavMenu = () => {
         setAnchorElNav(null);
     };
+
+    const handleNavigateToMyProfile = () => {
+        navigate(`${ROUTE_PROFILE}?userId=${user?.id}`)
+    }
 
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
@@ -116,9 +129,10 @@ const ResponsiveAppBar = ({user}) => {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            {settings.map((setting) => (
-                                <MenuItem key={setting} onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center">{setting}</Typography>
+                            {menuItems.map((item, index) => (
+                                <MenuItem key={index} onClick={() => {handleCloseNavMenu(); handleNavigateToMyProfile();}}>
+                                    <div className="mr-2"><RoundSubstrate color="orange" children={item?.img} /></div>
+                                    <Typography >{item?.title}</Typography>
                                 </MenuItem>
                             ))}
                         </Menu>

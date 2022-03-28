@@ -4,6 +4,11 @@
   box-shadow: 1px 1px 3px #AAAAAA;
 }
 
+.my-profile {
+  background-color: #fdfdf3;
+  box-shadow: 1px 1px 3px #AAAAAA;
+}
+
 .multi-text-field {
   background-color: blanchedalmond;
   border-radius: 6px;

@@ -8,6 +8,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.mr-2 {
+  margin-right: 0.5em;
+}
 
 .main {
   background-color: #e5e5e5;

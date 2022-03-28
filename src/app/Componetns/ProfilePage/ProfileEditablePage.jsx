@@ -240,10 +240,6 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
                 />
             </div>
             <ActionButtons isEdit={isEdit} onComplainClick={onComplainClick} onWriteClick={onWriteClick}/>
-            <div className="d-flex flex-row justify-content-start align-items-center my-4">
-                <RoundSubstrate children={<Person />} color={"orange"}/>
-                <div className="mx-2 text-success">{<Typography variant={"h4"}>{`${profile?.firstName} ${profile?.lastName}, ${profile?.age}`}</Typography>}</div>
-            </div>
             <div className="d-flex flex-row justify-content-start align-items-center">
                 <IconSubTitle text={SUBTITLE_MY_PHOTOS} icon={<PhotoCamera />}/>
             </div>
@@ -279,7 +275,10 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
                     </Grid>
                 </div>
             </div>
-
+            <div className="d-flex flex-row justify-content-start align-items-center my-4">
+                <RoundSubstrate children={<Person />} color={"orange"}/>
+                <div className="mx-2 text-success">{<Typography variant={"h4"}>{`${profile?.firstName} ${profile?.lastName}, ${profile?.age}`}</Typography>}</div>
+            </div>
             <Grid container className="p-2">
                 <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                     <EditableTextAreaField
