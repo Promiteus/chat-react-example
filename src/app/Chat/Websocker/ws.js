@@ -10,8 +10,6 @@ export class StompClient {
         console.log('StompClient created!'); 
                
         this.WS_ENDPOOINT_APP = 'http://localhost:10800/wsApp'
-       // this.topicName = 'roman';
-        //this.chatMessage = {type: 'chat', content: '', sender: ''};
         this.stompClient = null;
         this.client = null
     }

@@ -17,6 +17,7 @@ import SearchProfiles from "../../SearchProfiles/SearchProfiles";
 import {ROUTE_REGISTRATION, ROUTE_SIGNUP} from "../../Constants/Routes";
 import {selectCommon} from "../../Stores/slices/CommonSlice";
 import ProfileDetail from "../../ProfileDetails/ProfileDetail";
+import {userProfile} from "../../Stores/api/ChatDataApi/ChatDataApi";
 
 
 
@@ -31,7 +32,7 @@ function useQuery() {
     return new URLSearchParams(useLocation().search);
 }
 
-let stompClient = new StompClient();
+let stompClient =  new StompClient();
 let pattleHeight = 0;
 
 const MainTab = (props) => {
@@ -40,7 +41,7 @@ const MainTab = (props) => {
     const profileDispatch = useDispatch();
     const [showError, setShowError] = useState(false);
     const [errMsg, setErrMsg] = useState('');
-    const {response, status, loading} = useSelector(selectProfile);
+    const [profileData, setProfileData] = useState({data: {}, status: 0});
     const {pageIndex} = useSelector(selectCommon);
     const navigate = useNavigate();
 
@@ -58,29 +59,35 @@ const MainTab = (props) => {
         }
     }, [pageIndex]);
 
+    /**
+     * Обработчик ошибок при попытки получить профиль пользователя
+     * @param {boolean} isDelete
+     */
+    function errorProfileHandler(isDelete= true) {
+        //Удалить аккаунт пользователя только из сервиса авторизации
+        profileDispatch(deleteUserAccountAsync({
+            userId: currentUserId,
+            isAccountOnly: true
+        }));
+        navigate(ROUTE_REGISTRATION);
+    }
 
-    //Реагирует на меняющийся статус запроса профиля пользователя
-    useEffect(() => {
-        if ((+status === 404) && !(response?.userProfile?.id) && (!loading)) {
-            //Удалить аккаунт пользователя только из сервиса авторизации
-            profileDispatch(deleteUserAccountAsync({
-                userId: currentUserId,
-                isAccountOnly: true
-            }));
-            navigate(ROUTE_REGISTRATION);
-            //Сбросить статус на 0
-            profileDispatch(dropStatus());
-        } else if (((status === null) || (+status === 403)) && (!loading)) {
-            navigate(ROUTE_SIGNUP);
-        }
-
-    }, [status]);
 
     //Реагирует однократно для userId
     useEffect(() => {
         if (currentUserId) {
             //Запросить данные профиля пользователя по userId
-            profileDispatch(userProfileAsync({userId: currentUserId}));
+            userProfile(currentUserId)
+                .then((res) => {
+                    setProfileData({data: res?.data, status: res?.status});
+                    if (res?.status === 404) {
+                        errorProfileHandler();
+                    }
+                })
+                .catch((err) => {
+                    console.error(err);
+                    errorProfileHandler(false);
+                })
         }
 
         stompClient?.connect(currentUserId);
@@ -97,11 +104,11 @@ const MainTab = (props) => {
     }, [currentUserId]);
 
 
-    if (loading) return <Loader/>;
+    //if (loading) return <Loader/>;
 
     return (
         <div>
-            <ResponsiveAppBar user={response?.userProfile}/>
+            <ResponsiveAppBar user={profileData?.data?.userProfile}/>
 
             {/*Чат и поиск профиля*/}
             {((pageIndex === 0) || (pageIndex < 0)) &&
@@ -114,12 +121,10 @@ const MainTab = (props) => {
                     </Tabs>
                 </Box>
                 <TabItem value={tabIndex} index={0}>
-                    {(status === 200) &&
-                    <ChatView stomp={stompClient} userId={currentUserId} response={response} />}
+                    <ChatView stomp={stompClient} userId={currentUserId} response={profileData?.data} />
                 </TabItem>
                 <TabItem value={tabIndex} index={1} >
-                    {(status === 200) &&
-                    <GuestsView visitors={response?.lastVisitors || []}/>}
+                    <GuestsView visitors={profileData?.data?.lastVisitors || []}/>
                 </TabItem>
                 <TabItem value={tabIndex} index={2} >
                     <SearchProfiles userId={currentUserId}/>
@@ -129,7 +134,7 @@ const MainTab = (props) => {
             {/*Детали профиля*/}
             {pageIndex === 1 &&
               <div className="container main-panel mt-2">
-                 <ProfileDetail profile={response?.userProfile} currentUserId={currentUserId}/>
+                 <ProfileDetail profile={profileData?.data?.userProfile} currentUserId={currentUserId}/>
               </div>}
 
             <AlertToast text={errMsg} open={showError} success={false}/>

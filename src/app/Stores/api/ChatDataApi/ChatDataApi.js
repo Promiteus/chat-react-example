@@ -1,11 +1,11 @@
 import axios from "axios";
-import {BASE_DATA_URL, getHeaderBearerConfigs} from "../Common/ApiCommon";
+import {BASE_DATA_URL, getHeaderBearerConfigs, TOKEN_KEY} from "../Common/ApiCommon";
 
 
 /**
  * Сохранить/изменить профиль пользователя
- * @param profile
- * @param token
+ * @param {string} profile
+ * @param {string} token
  * @returns {Promise<AxiosResponse<any>>}
  */
 export function saveUserProfile(profile, token) {
@@ -14,8 +14,8 @@ export function saveUserProfile(profile, token) {
 
 /**
  * Удалить профиль пользователя
- * @param userId
- * @param token
+ * @param {string} userId
+ * @param {string} token
  * @returns {Promise<AxiosResponse<any>>}
  */
 export function removeUserProfile(userId, token) {
@@ -24,8 +24,8 @@ export function removeUserProfile(userId, token) {
 
 /**
  * Получить профиль пользователя по userId
- * @param userId
- * @param token
+ * @param {string} userId
+ * @param {string} token
  * @returns {Promise<AxiosResponse<any>>}
  */
 export function getUserProfile(userId, token) {
@@ -33,10 +33,20 @@ export function getUserProfile(userId, token) {
 }
 
 /**
+ * Получить профиль пользователя по userId
+ * @param {string} userId
+ * @returns {Promise<AxiosResponse<*>>}
+ */
+export async function userProfile(userId)  {
+    let token = localStorage.getItem(TOKEN_KEY);
+    return await getUserProfile(userId, token);
+}
+
+/**
  * Получить список профилей постранично и по параметрам searchBody
- * @param userId
- * @param page
- * @param token
+ * @param {string} userId
+ * @param {number} page
+ * @param {string} token
  * @returns {Promise<AxiosResponse<any>>}
  */
 export function searchUserProfilesPageable(userId, page, token, searchBody) {
