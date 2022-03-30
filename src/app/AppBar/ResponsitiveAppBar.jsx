@@ -21,7 +21,6 @@ import {useNavigate} from "react-router-dom";
 import {ROUTE_PROFILE, ROUTE_SIGNUP} from "../Constants/Routes";
 
 
-const settings = ['Настройки профиля', 'Выход'];
 const menuItems = [
     {img: <Person />, title: 'Настройки профиля'},
     {img: <LogoutOutlined />, title: 'Выход'}
