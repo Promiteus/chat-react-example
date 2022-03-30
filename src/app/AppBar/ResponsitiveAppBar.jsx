@@ -18,7 +18,7 @@ import {IMG_LOGO} from "../../assets";
 import {LogoutOutlined, Person} from "@mui/icons-material";
 import RoundSubstrate from "../Svg/Sunstrate/RoundSubstrate";
 import {useNavigate} from "react-router-dom";
-import {ROUTE_PROFILE} from "../Constants/Routes";
+import {ROUTE_PROFILE, ROUTE_SIGNUP} from "../Constants/Routes";
 
 
 const settings = ['Настройки профиля', 'Выход'];
@@ -43,8 +43,16 @@ const ResponsiveAppBar = ({user}) => {
         setAnchorElNav(null);
     };
 
-    const handleNavigateToMyProfile = () => {
-        navigate(`${ROUTE_PROFILE}?userId=${user?.id}`)
+    const handleNavigate = (index) => {
+        switch (index) {
+            case 0: //Настройки профиля
+                navigate(`${ROUTE_PROFILE}?userId=${user?.id}`);
+                break;
+            case 1: //Выход
+                navigate(`${ROUTE_SIGNUP}`);
+                break;
+        }
+
     }
 
     const handleCloseUserMenu = () => {
@@ -130,7 +138,7 @@ const ResponsiveAppBar = ({user}) => {
                             onClose={handleCloseUserMenu}
                         >
                             {menuItems.map((item, index) => (
-                                <MenuItem key={index} onClick={() => {handleCloseNavMenu(); handleNavigateToMyProfile();}}>
+                                <MenuItem key={index} onClick={() => {handleCloseNavMenu(); handleNavigate(index);}}>
                                     <div className="mr-2"><RoundSubstrate color="orange" children={item?.img} /></div>
                                     <Typography >{item?.title}</Typography>
                                 </MenuItem>
