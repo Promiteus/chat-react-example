@@ -59,6 +59,20 @@ const rejectRequestData = ({state, action}) => {
         state.currentRequestId = undefined
     }
 }
+/**
+ * Получить целочисленный статус ошибки
+ * @param {string} err
+ * @returns {number}
+ */
+const networkErrStatus = (err) => {
+    let status = 404;
+    if ((err?.toString().match(/[0-9]+/) !== null) && ((+err?.toString().match(/[0-9]+/) > 0))) {
+        status = err?.toString().match(/[0-9]+/);
+    } else {
+        status = 500;
+    }
+    return +status;
+}
 
 export {
     initialRequestData,
@@ -70,4 +84,5 @@ export {
     BASE_DATA_URL,
     getHeaderBearerConfigs,
     PROFILE_CHATS_PAGE_SIZE,
+    networkErrStatus,
 }
