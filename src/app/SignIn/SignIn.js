@@ -1,12 +1,12 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import KeySvg from "../Svg/KeySvg";
 import "./SignIn.css"
 import {Button, FormControl, Input, InputLabel} from "@mui/material";
 import PersonSvg from "../Svg/PersonSvg";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {AlertToast} from "../Componetns/Modals/Toasts/AlertToast";
-import {getNotificationMsg} from "../Constants/TextMessagesRu";
+import {CAPTION_FORGET_PASSORD, CAPTION_REGISTRATION, getNotificationMsg} from "../Constants/TextMessagesRu";
 import Loader from "../Componetns/Loader/Loader";
 import {networkErrStatus, TOKEN_KEY, USER_ID_KEY} from "../Stores/api/Common/ApiCommon";
 import {ROUTE_REGISTRATION} from "../Constants/Routes";
@@ -16,7 +16,6 @@ import {authenticateUser} from "../Stores/api/AuthApi/AuthApi";
 export default function SignIn()  {
     const [credential] = useState({login: '', password: ''});
     const dispatch = useDispatch();
-    //const {response, status, loading } = useSelector(selectUser);
     const [auth, setAuth] = useState({
         response: null,
         status: 404,
@@ -26,6 +25,10 @@ export default function SignIn()  {
 
     const openAlert = () => (((+auth.status !== 0) && (+auth.status !== 200) && (credential.login)) || (auth.status === null));
 
+    /**
+     * Сохранение JWT токена, переход на домашнюю страницу при успехе
+     * @param {json} response
+     */
     const handleAuth = (response) => {
         //Обновить токен авторизации
         if (response?.data?.token) {
@@ -112,7 +115,8 @@ export default function SignIn()  {
                      />
                  </FormControl>
 
-                 <div className="mt-3"><Link to="/#">Забыл пароль?</Link></div>
+                 <div className="mt-3 d-flex justify-content-center"><a className="link" href="/#">{CAPTION_FORGET_PASSORD.toUpperCase()}</a></div>
+                 <div className="mt-3 d-flex justify-content-center"><a className="link" href={ROUTE_REGISTRATION}>{CAPTION_REGISTRATION.toUpperCase()}</a></div>
 
                  <div className="d-flex align-items-center justify-content-end">
                     <Button variant="outlined" className="mt-3" onClick={SignInClick}>Войти</Button>

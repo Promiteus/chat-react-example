@@ -14,6 +14,8 @@ const CAPTION_EMPTY_PROFILES = "Здесь пока нет людей.";
 const CAPTION_EMPTY_GUESTS = "У вас пока нет гостей.";
 const CAPTION_SAVE = "Сохранить";
 const CAPTION_BACK = "Назад";
+const CAPTION_REGISTRATION = "Регистрация";
+const CAPTION_FORGET_PASSORD = 'Забыл пароль';
 
 const SUBTITLE_MY_PHOTOS = "Мои фото";
 const SUBTITLE_ABOUT_ME = "О себе";
@@ -132,4 +134,6 @@ export {
     CAPTION_BACK,
     kidsVal,
     kidsValReverse,
+    CAPTION_FORGET_PASSORD,
+    CAPTION_REGISTRATION,
 }

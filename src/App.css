@@ -65,6 +65,11 @@
   left: auto;
 }
 
+.link {
+  text-decoration: none;
+  color: #ff7700;
+}
+
 .inp {
   text-indent: 0.2rem;
 }
