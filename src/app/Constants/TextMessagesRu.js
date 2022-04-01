@@ -13,6 +13,7 @@ const CAPTION_SEARCH = "Поиск";
 const CAPTION_EMPTY_PROFILES = "Здесь пока нет людей.";
 const CAPTION_EMPTY_GUESTS = "У вас пока нет гостей.";
 const CAPTION_SAVE = "Сохранить";
+const CAPTION_BACK = "Назад";
 
 const SUBTITLE_MY_PHOTOS = "Мои фото";
 const SUBTITLE_ABOUT_ME = "О себе";
@@ -128,6 +129,7 @@ export {
     CAPTION_SEARCH_PARAMS,
     SUBTITLE_FAMILY_STATUS_SHORT,
     SUBTITLE_YEARS_OLD,
+    CAPTION_BACK,
     kidsVal,
     kidsValReverse,
 }

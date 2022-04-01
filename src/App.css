@@ -6,6 +6,10 @@
 
 .my-profile {
   background-color: #fdfdf3;
+  padding: 0.8em 0;
+}
+
+.my-profile-shadow {
   box-shadow: 1px 1px 3px #AAAAAA;
 }
 
