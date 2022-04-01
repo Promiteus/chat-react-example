@@ -52,7 +52,7 @@ export default function SignIn()  {
              password: credential.password
          }));*/
         setAuth(prevState => ({...prevState, loading: true}));
-        authenticateUser({
+        /*authenticateUser({
             username: credential.login,
             password: credential.password
         }).then((resp) => {
@@ -61,11 +61,21 @@ export default function SignIn()  {
         }).catch(err => {
             setAuth(prevState => ({...prevState, status: networkErrStatus(err)}));
             setAuth(prevState => ({...prevState, loading: false}));
-        });
+        });*/
+        setTimeout(() => {
+            setAuth(prevState => ({...prevState, loading: false}));
+        }, 2000);
 
     }
 
-    if (auth.loading) return <Loader/>;
+    if (auth.loading)
+        return (
+        <div className="p-2 d-flex justify-content-center ">
+            <div className="d-flex flex-column preloader-panel">
+               <Loader/>
+            </div>
+        </div>
+    );
 
     return (
         <div className="p-2 d-flex justify-content-center h-100">

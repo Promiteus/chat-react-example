@@ -56,6 +56,14 @@
   left: auto;
 }
 
+.preloader-panel {
+  display: block;
+  padding: 1rem 2.0rem;
+  border-radius: 0.5rem;
+  position: absolute;
+  top: 35%;
+  left: auto;
+}
 
 .inp {
   text-indent: 0.2rem;
