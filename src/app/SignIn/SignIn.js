@@ -5,7 +5,6 @@ import "./SignIn.css"
 import {Button, FormControl, Input, InputLabel} from "@mui/material";
 import PersonSvg from "../Svg/PersonSvg";
 import {useDispatch, useSelector} from "react-redux";
-import {authUserAsync, selectUser} from "../Stores/slices/UserSlice";
 import {AlertToast} from "../Componetns/Modals/Toasts/AlertToast";
 import {getNotificationMsg} from "../Constants/TextMessagesRu";
 import Loader from "../Componetns/Loader/Loader";
@@ -27,45 +26,39 @@ export default function SignIn()  {
 
     const openAlert = () => (((+auth.status !== 0) && (+auth.status !== 200) && (credential.login)) || (auth.status === null));
 
-    /*useEffect(() => {
+    const handleAuth = (response) => {
         //Обновить токен авторизации
-        if (auth.response?.token) {
-            localStorage.setItem(TOKEN_KEY, auth.response?.token);
+        if (response?.data?.token) {
+            localStorage.setItem(TOKEN_KEY, response?.data?.token);
         }
 
-        if ((+auth.status === 200) && (auth.response?.token) && (credential.login)) {
-            localStorage.setItem(USER_ID_KEY, auth.response?.userId);
+        if ((+response?.status === 200) && (response?.data?.token) && (credential.login)) {
+            localStorage.setItem(USER_ID_KEY, response?.data?.userId);
             //Перейти на главную страницу
-            navigator(`/?userId=${auth.response?.userId}`);
-        } else if ((+auth.status === 404) && (credential.login)) {
+            navigator(`/?userId=${response?.data?.userId}`);
+        } else if ((+response.status === 404) && (credential.login)) {
             //Перейти на страницу регистрации
             navigator(ROUTE_REGISTRATION);
         }
-    }, [status]);*/
-
-
+    }
 
     function SignInClick() {
         //Попытка войти в приложение
-        /* dispatch(authUserAsync({
-             username: credential.login,
-             password: credential.password
-         }));*/
         setAuth(prevState => ({...prevState, loading: true}));
-        /*authenticateUser({
+        authenticateUser({
             username: credential.login,
             password: credential.password
-        }).then((resp) => {
-            setAuth(prevState => ({...prevState, response: resp?.data}));
-            setAuth(prevState => ({...prevState, loading: false}));
+        }).then((res) => {
+            setAuth({
+                response: res?.data,
+                loading: false,
+                status: res?.status
+            });
+            handleAuth(res);
         }).catch(err => {
             setAuth(prevState => ({...prevState, status: networkErrStatus(err)}));
             setAuth(prevState => ({...prevState, loading: false}));
-        });*/
-        setTimeout(() => {
-            setAuth(prevState => ({...prevState, loading: false}));
-        }, 2000);
-
+        });
     }
 
     if (auth.loading)

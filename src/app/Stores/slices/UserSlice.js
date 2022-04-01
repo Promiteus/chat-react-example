@@ -3,13 +3,6 @@ import {authenticateUser, fullRegistration, removeFullUserAccountData} from "../
 import {fulfilledRequestData, initialRequestData, rejectRequestData} from "../api/Common/ApiCommon";
 
 
-export const authUserAsync = createAsyncThunk(
-    'auth/user',
-    async (data) => {
-        return await authenticateUser(data);
-     }
-);
-
 export const regUserAsync = createAsyncThunk(
     'auth/addUser',
     async ({username, password, firstName, birthDate, meetPreferences, sex}) => {
@@ -43,16 +36,6 @@ export const userSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
-            //Получение JWT токена по логину и паролю
-            .addCase(authUserAsync.pending, (state, action) => {
-                initialRequestData({state, action});
-            })
-            .addCase(authUserAsync.fulfilled, (state, action) => {
-                fulfilledRequestData({state, action});
-            })
-            .addCase(authUserAsync.rejected, (state, action) => {
-                rejectRequestData({state, action});
-            })
             //Регистрация пользователя
             .addCase(regUserAsync.pending, (state, action) => {
                 initialRequestData({state, action});
