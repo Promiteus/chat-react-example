@@ -4,10 +4,29 @@
   box-shadow: 1px 1px 3px #AAAAAA;
 }
 
+.input-label {
+  color: #6c34ef;
+}
+
+.input_field {
+  padding: 0.5em;
+  background: transparent none;
+  border: 1px solid #ff7700;
+  border-radius: 6px;;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active  {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
 .my-profile {
   background-color: #fdfdf3;
   padding: 0.8em 0;
 }
+
 
 .my-profile-shadow {
   box-shadow: 1px 1px 3px #AAAAAA;
@@ -47,13 +66,14 @@
 
 .primary-form {
   display: block;
-  padding: 1rem 2.0rem;
+  padding: 1.6rem 2.7rem;
   border-radius: 0.5rem;
   min-width: 350px;
   background-color: white;
   position: absolute;
   top: 23%;
   left: auto;
+  box-shadow: 1px 1px 3px #AAAAAA;
 }
 
 .preloader-panel {

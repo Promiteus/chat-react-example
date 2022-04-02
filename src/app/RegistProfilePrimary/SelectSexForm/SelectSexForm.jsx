@@ -11,8 +11,8 @@ function SelectSexForm({onClick}) {
     <div className="container p-3 d-flex justify-content-center">
     <div className="d-flex flex-column primary-form">
       <h4 className="text-center">Укажите ваш пол</h4>
-      <Button variant="outlined" value={"MAN"} onClick={onClick} className='mt-2'>Мужчина</Button>
-      <Button variant="outlined" value={"WOMAN"} onClick={onClick} className='mt-4'>Женчина</Button>
+      <Button variant={'contained'} value={"MAN"} onClick={onClick} className='mt-2'>Мужчина</Button>
+      <Button variant={'contained'} value={"WOMAN"} onClick={onClick} className='mt-4'>Женчина</Button>
     </div>
   </div> 
   );

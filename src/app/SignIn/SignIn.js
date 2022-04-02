@@ -1,8 +1,8 @@
 import React, {useState} from "react";
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import KeySvg from "../Svg/KeySvg";
 import "./SignIn.css"
-import {Button, FormControl, Input, InputLabel} from "@mui/material";
+import {Button, FormControl, Input, InputLabel, TextField} from "@mui/material";
 import PersonSvg from "../Svg/PersonSvg";
 import {useDispatch} from "react-redux";
 import {AlertToast} from "../Componetns/Modals/Toasts/AlertToast";
@@ -11,6 +11,7 @@ import Loader from "../Componetns/Loader/Loader";
 import {networkErrStatus, TOKEN_KEY, USER_ID_KEY} from "../Stores/api/Common/ApiCommon";
 import {ROUTE_REGISTRATION} from "../Constants/Routes";
 import {authenticateUser} from "../Stores/api/AuthApi/AuthApi";
+import {Lock} from "@mui/icons-material";
 
 
 export default function SignIn()  {
@@ -77,51 +78,24 @@ export default function SignIn()  {
         <div className="p-2 d-flex justify-content-center h-100">
              <div className="d-flex flex-column primary-form">
                
-                 <div className="d-flex justify-content-center align-items-center">
-                     <h3 className="text-center">Вход</h3>
+                 <div className="d-flex flex-row align-content-center justify-content-center ">
+                     <div className="mt-1"> <Lock/></div>
+                     <h3>Вход</h3>
                  </div>
 
-                 <FormControl variant="standard">
-                     <InputLabel htmlFor="input-with-icon-adornment">
-                         Укажите ваш логин
-                     </InputLabel>
-                     <Input
-                         onChange={(e) => credential.login = e.target.value}
-                         id="input-with-icon-adornment"
-                         type="text"
-                         required
-                         startAdornment={
-                             <div className="mx-1">
-                                 <PersonSvg/>
-                             </div>
-                         }
+                 <label className="input-label">Укажите ваш логин</label>
+                 <input className="input_field" type="email" required onChange={(e) => credential.login = e.target.value}/>
 
-                     />
-                 </FormControl>
-                 <FormControl variant="standard">
-                     <InputLabel htmlFor="input-with-icon-adornment">
-                         Укажите ваш пароль
-                     </InputLabel>
-                     <Input
-                         onChange={(e) => credential.password = e.target.value}
-                         id="input-with-icon-adornment"
-                         type="password"
-                         required
-                         startAdornment={
-                             <div className="mx-1">
-                                 <KeySvg/>
-                             </div>
-                         }
-                     />
-                 </FormControl>
+                 <label className="input-label mt-1">Укажите ваш пароль</label>
+                 <input className="input_field" type="password" required onChange={(e) => credential.password = e.target.value}/>
+
+
+                 <Button variant={'contained'} className="mt-3" onClick={SignInClick}>Войти</Button>
+
 
                  <div className="mt-3 d-flex justify-content-center"><a className="link" href="/#">{CAPTION_FORGET_PASSORD.toUpperCase()}</a></div>
                  <div className="mt-3 d-flex justify-content-center"><a className="link" href={ROUTE_REGISTRATION}>{CAPTION_REGISTRATION.toUpperCase()}</a></div>
 
-                 <div className="d-flex align-items-center justify-content-end">
-                    <Button variant="outlined" className="mt-3" onClick={SignInClick}>Войти</Button>
-                 </div>
-                    
              </div>
             <AlertToast text={getNotificationMsg(auth.status)} open={openAlert} success={false}/>
         </div>
