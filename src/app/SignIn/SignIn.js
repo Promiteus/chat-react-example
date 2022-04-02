@@ -12,6 +12,7 @@ import {networkErrStatus, TOKEN_KEY, USER_ID_KEY} from "../Stores/api/Common/Api
 import {ROUTE_REGISTRATION} from "../Constants/Routes";
 import {authenticateUser} from "../Stores/api/AuthApi/AuthApi";
 import {Lock} from "@mui/icons-material";
+import RoundSubstrate from "../Svg/Sunstrate/RoundSubstrate";
 
 
 export default function SignIn()  {
@@ -78,8 +79,8 @@ export default function SignIn()  {
         <div className="p-2 d-flex justify-content-center h-100">
              <div className="d-flex flex-column primary-form">
                
-                 <div className="d-flex flex-row align-content-center justify-content-center ">
-                     <div className="mt-1"> <Lock/></div>
+                 <div className="d-flex flex-row align-content-center justify-content-center">
+                     <RoundSubstrate color="orange" children={<Lock/>} />
                      <h3>Вход</h3>
                  </div>
 

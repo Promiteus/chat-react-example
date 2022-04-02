@@ -14,7 +14,7 @@ const RoundSubstrate = ({color, children}) => {
     const substrateRef = useRef();
 
     useEffect(() => {
-        substrateWidth = substrateRef?.current?.clientWidth;
+        substrateWidth = substrateRef?.current?.clientWidth*1.1;
     }, [])
 
     return (
