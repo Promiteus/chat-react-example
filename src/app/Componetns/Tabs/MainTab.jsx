@@ -6,11 +6,9 @@ import {CAPTION_CHATS, CAPTION_GUESTS, CAPTION_SEARCH } from "../../Constants/Te
 import {StompClient} from "../../Chat/Websocker/ws";
 import {USER_ID_KEY} from "../../Stores/api/Common/ApiCommon";
 import {useLocation, useNavigate} from "react-router-dom";
-import {dropStatus, selectProfile, userProfileAsync} from "../../Stores/slices/UserProfileSlices";
 import {useDispatch, useSelector} from "react-redux";
 import {AlertToast} from "../Modals/Toasts/AlertToast";
 import {deleteUserAccountAsync} from "../../Stores/slices/UserSlice";
-import Loader from "../Loader/Loader";
 import {GuestsView} from "../../Guests";
 import ResponsiveAppBar from "../../AppBar/ResponsitiveAppBar";
 import SearchProfiles from "../../SearchProfiles/SearchProfiles";

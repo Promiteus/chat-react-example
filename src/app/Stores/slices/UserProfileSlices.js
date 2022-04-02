@@ -6,19 +6,6 @@ import {
 } from "../api/ChatDataApi/ChatDataApi";
 import {fulfilledRequestData, initialRequestData, rejectRequestData, TOKEN_KEY} from "../api/Common/ApiCommon";
 
-/**
- * Получить профиль пользователя по userId
- * @type {AsyncThunk<AxiosResponse<*>, {readonly userId?: *}, {}>}
- */
-export const userProfileAsync = createAsyncThunk(
-   'profile/get',
-   async ({userId}) => {
-       let token = localStorage.getItem(TOKEN_KEY);
-       return await getUserProfile(userId, token);
-   }
-);
-
-
 
 /**
  * Удалить профиль пользователя по его userId
@@ -60,16 +47,6 @@ export const profileSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            //Получение профиль пользователя по userId и токену авторизации
-            .addCase(userProfileAsync.pending, (state, action) => {
-                initialRequestData({state, action});
-            })
-            .addCase(userProfileAsync.fulfilled, (state, action) => {
-                fulfilledRequestData({state, action});
-            })
-            .addCase(userProfileAsync.rejected, (state, action) => {
-                rejectRequestData({state, action});
-            })
             //Удалить профиль пользователя по userId и токену авторизации.
             .addCase(deleteProfileAsync.pending, (state, action) => {
                 initialRequestData({state, action});
