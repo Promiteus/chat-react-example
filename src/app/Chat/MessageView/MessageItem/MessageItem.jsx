@@ -11,7 +11,10 @@ function MessageItem({data, currentUserId}) {
             return (
               <div className="MessageItem p-1 mt-2 d-flex">
                   <MessageItemElement data={data}>
-                      <div><Typography variant={"body2"} sx={{color: '#555588'}}>{`${data?.firstName}`}</Typography></div>
+                      <div className="d-flex flex-row justify-content-between align-items-center">
+                          <Typography variant={"body2"} sx={{color: '#555588'}}>{`${data?.firstName}`}</Typography>
+                          <div className="date-message-badge d-flex flex-row-reverse text-primary">{data?.timestamp}</div>
+                      </div>
                       <div className="d-flex">{data?.message}</div>
                       <div className="date-message-badge d-flex flex-row justify-content-between align-items-center text-danger">
                           <MessageStatusRound isRead={data?.read}/>
@@ -22,7 +25,10 @@ function MessageItem({data, currentUserId}) {
             return (
               <div className="MessageItem p-1 mt-2 d-flex flex-row-reverse">
                   <MessageItemElement color={"#C2F78E"} data={data}>
-                      <div><Typography variant={"body2"} sx={{color: '#555588'}}>{MSG_YOU}</Typography></div>
+                      <div className="d-flex flex-row justify-content-between align-items-center">
+                          <Typography variant={"body2"} sx={{color: '#555588'}}>{MSG_YOU}</Typography>
+                          <div className="date-message-badge d-flex flex-row-reverse text-primary">{data?.timestamp}</div>
+                      </div>
                       <div className="d-flex">{data?.message}</div>
                       <MessageStatus isRead={data?.read}/>
                   </MessageItemElement>

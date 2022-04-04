@@ -7,8 +7,6 @@ const MessageItemElement = (props) => (
      <div style={{backgroundColor: props.color || 'white'}} className="MessageItemElement" >
        {props.children}
      </div>
-     {props?.data &&
-     <div className="date-message-badge d-flex flex-row-reverse">{props?.data?.timestamp}</div>}
    </div>
 );
 
