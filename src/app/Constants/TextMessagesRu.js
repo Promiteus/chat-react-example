@@ -16,6 +16,7 @@ const CAPTION_SAVE = "Сохранить";
 const CAPTION_BACK = "Назад";
 const CAPTION_REGISTRATION = "Регистрация";
 const CAPTION_FORGET_PASSORD = 'Забыл пароль';
+const CAPTION_SIGN = "Войти";
 
 const SUBTITLE_MY_PHOTOS = "Мои фото";
 const SUBTITLE_ABOUT_ME = "О себе";
@@ -27,6 +28,7 @@ const SUBTITLE_CHILDS = "Дети";
 const SUBTITLE_FAMILY_STATUS = "Семейное положение";
 const SUBTITLE_FAMILY_STATUS_SHORT = "Семья";
 const SUBTITLE_YEARS_OLD = "Возраст";
+const SUBTITLE_SELECT_SEX = "Укажите ваш пол";
 
 const CAPTION_SEARCH_PARAMS = "Параметры поиска";
 
@@ -136,4 +138,6 @@ export {
     kidsValReverse,
     CAPTION_FORGET_PASSORD,
     CAPTION_REGISTRATION,
+    SUBTITLE_SELECT_SEX,
+    CAPTION_SIGN,
 }

@@ -1,12 +1,17 @@
 import React, {useEffect, useState} from "react";
 import {Button, FormControl, InputLabel, MenuItem, Select, TextField} from "@mui/material";
-import "./BaseUserProfileForm.css"
+import "./index.css"
 import {Link, useNavigate} from "react-router-dom";
 import ArrowLeftSvg from "../../Svg/ArrowLeftSvg";
 import {useDispatch, useSelector} from "react-redux";
 import {regUserAsync, selectUser} from "../../Stores/slices/UserSlice";
 import {AlertToast} from "../../Componetns/Modals/Toasts/AlertToast";
-import {SOMETHING_WENT_WRONG, SUCH_USER_EXISTS} from "../../Constants/TextMessagesRu";
+import {
+    CAPTION_REGISTRATION,
+    CAPTION_SIGN,
+    SOMETHING_WENT_WRONG,
+    SUCH_USER_EXISTS
+} from "../../Constants/TextMessagesRu";
 
 import Loader from "../../Componetns/Loader/Loader";
 import {USER_ID_KEY} from "../../Stores/api/Common/ApiCommon";
@@ -30,8 +35,13 @@ import {ROUTE_SIGNUP} from "../../Constants/Routes";
  * "meetPreferences":"ALL",
  * "sex":"MAN"}
  * */
-
-export default function BaseUserProfileForm({sex}) {
+/**
+ *
+ * @param sex
+ * @returns {JSX.Element}
+ * @constructor
+ */
+export default function RegistProfileSecondary({sex}) {
     const [credentials] = useState({username: '', password: ''});
     const [userProfile] = useState({ firstName: '', birthDate: '', meetPreferences: 'ALL', sex: sex});
     const dispatch = useDispatch();
@@ -65,16 +75,6 @@ export default function BaseUserProfileForm({sex}) {
         <div className="p-3 d-flex justify-content-center ">
             <div className="d-flex flex-column primary-form">
                 <h4 className="text-center">Почти готово</h4>
-
-                <Link to={ROUTE_SIGNUP}>
-                    <div className="d-inline-block mx-1">
-                        <ArrowLeftSvg/>
-                    </div>
-                    <div className="d-inline-block mt-1">
-                        Вход
-                    </div>
-                </Link>
-
 
                 <div className="d-flex justify-content-center align-content-center mt-2">
                    <TextField
@@ -155,7 +155,15 @@ export default function BaseUserProfileForm({sex}) {
                     />
 
                 </div>
-                <Button onClick={onRegisterUser} className="mt-3" variant="outlined">Регистрация</Button>
+                <Button onClick={onRegisterUser} className="mt-3" variant="outlined">{CAPTION_REGISTRATION}</Button>
+
+                <div className="d-flex justify-content-center align-items-center mt-2">
+                    <Link to={ROUTE_SIGNUP}>
+                        <span className="d-inline-block mt-1">
+                            {CAPTION_SIGN.toUpperCase()}
+                        </span>
+                    </Link>
+                </div>
             </div>
             <AlertToast
                 text={(+status === 409) ? SUCH_USER_EXISTS : SOMETHING_WENT_WRONG}

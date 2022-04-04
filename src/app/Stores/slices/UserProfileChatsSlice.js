@@ -13,7 +13,10 @@ export const userProfileChatsAsync = createAsyncThunk(
         return await getUserProfileChatsPageable(page, size, userId, token);
     }
 );
-
+/**
+ *
+ * @type {Slice<{response: {}, error: string, loading: boolean, status: number, currentRequestId: undefined}, {dropStatus: reducers.dropStatus}, string>}
+ */
 export const userProfileChatsSlice = createSlice({
     name: 'userChat',
     initialState: {

@@ -1,10 +1,14 @@
 import React, {useState} from 'react';
 import SelectSexForm from './SelectSexForm/SelectSexForm';
-import BaseUserProfileForm from "./UserProfileForm/BaseUserProfileForm";
+import RegistProfileSecondary from "./UserProfileForm/RegistProfileSecondary";
 
-
-
-function RegistProfilePrimary() {
+/**
+ * Выбрать пол. 1-й этап регистрации
+ * @param props
+ * @returns {JSX.Element}
+ * @constructor
+ */
+function RegistProfilePrimary(props) {
     const [sex, setSex] = useState('');
 
     return (
@@ -14,7 +18,7 @@ function RegistProfilePrimary() {
                  onClick={(data) => {
                      setSex(data.target.value);
                  }}/> :
-             <BaseUserProfileForm sex={sex}/>
+             <RegistProfileSecondary sex={sex}/>
          }
      </div>
    );
