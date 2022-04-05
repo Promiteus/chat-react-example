@@ -15,9 +15,13 @@ const CAPTION_EMPTY_GUESTS = "У вас пока нет гостей.";
 const CAPTION_SAVE = "Сохранить";
 const CAPTION_BACK = "Назад";
 const CAPTION_REGISTRATION = "Регистрация";
-const CAPTION_FORGET_PASSORD = 'Забыл пароль';
+const CAPTION_FORGET_PASSWORD = 'Забыл пароль';
 const CAPTION_SIGN = "Войти";
 const CAPTION_SIGN_IN = "Вход";
+
+const CAPTION_YOUR_LOGIN = "Введите логин";
+const CAPTION_YOUR_PASSWORD = "Введите пароль";
+const CAPTION_CONFIRM_YOUR_PASSWORD = "Подтвердите пароль";
 
 const SUBTITLE_MY_PHOTOS = "Мои фото";
 const SUBTITLE_ABOUT_ME = "О себе";
@@ -30,6 +34,12 @@ const SUBTITLE_FAMILY_STATUS = "Семейное положение";
 const SUBTITLE_FAMILY_STATUS_SHORT = "Семья";
 const SUBTITLE_YEARS_OLD = "Возраст";
 const SUBTITLE_SELECT_SEX = "Укажите ваш пол";
+const SUBTITLE_YOUR_LOGIN = "Укажите ваш логин";
+const SUBTITLE_YOUR_PASSWORD = "Укажите ваш пароль";
+const SUBTITLE_YOUR_NAME = "Как вас зовут?";
+const SUBTITLE_YOUR_BIRTHDAY = "Ваш день рождения";
+const SUBTITLE_MEETING_FOR = "С кем знакомитесь?";
+
 
 const CAPTION_SEARCH_PARAMS = "Параметры поиска";
 
@@ -43,6 +53,7 @@ const SEX_DATA = [
     {tag: 'MAN', value: 'Мужчина'},
     {tag: 'WOMAN', value: 'Женщина'},
 ];
+
 
 const FAMILY_STATUS_DATA = {
     man: [
@@ -62,6 +73,11 @@ const KIDS_DATA = [
     {tag: 'NO', value: 'Детей нет'},
 ];
 
+/**
+ *
+ * @param {string} value
+ * @returns {number}
+ */
 function kidsVal(value) {
     if (value === KIDS_DATA[0].tag) {
         return 1;
@@ -71,6 +87,11 @@ function kidsVal(value) {
     return -1;
 }
 
+/**
+ *
+ * @param {number} value
+ * @returns {string}
+ */
 function kidsValReverse(value) {
     return value === 1 ? KIDS_DATA[0].tag : KIDS_DATA[1].tag;
 }
@@ -83,8 +104,8 @@ const SEX_ORIENTATION_DATA = [
 ];
 
 const MEET_PREFERENCES_DATA = [
-    {tag: 'MAN', value: 'Женщин/девушек'},
-    {tag: 'WOMAN', value: 'Мужчин/парней'},
+    {tag: 'WOMAN', value: 'Женщин/девушек'},
+    {tag: 'MAN', value: 'Мужчин/парней'},
     {tag: 'ALL', value: 'Ищу друзей'},
 ];
 
@@ -137,9 +158,17 @@ export {
     CAPTION_BACK,
     kidsVal,
     kidsValReverse,
-    CAPTION_FORGET_PASSORD,
+    CAPTION_FORGET_PASSWORD,
     CAPTION_REGISTRATION,
     SUBTITLE_SELECT_SEX,
     CAPTION_SIGN,
     CAPTION_SIGN_IN,
+    CAPTION_YOUR_LOGIN,
+    CAPTION_YOUR_PASSWORD,
+    CAPTION_CONFIRM_YOUR_PASSWORD,
+    SUBTITLE_YOUR_LOGIN,
+    SUBTITLE_YOUR_PASSWORD,
+    SUBTITLE_MEETING_FOR,
+    SUBTITLE_YOUR_BIRTHDAY,
+    SUBTITLE_YOUR_NAME,
 }

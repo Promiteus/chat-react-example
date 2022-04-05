@@ -2,7 +2,7 @@ import React from 'react';
 import {Button} from "@mui/material";
 import {SEX_DATA, SUBTITLE_SELECT_SEX} from "../../Constants/TextMessagesRu";
 import RoundSubstrate from "../../Svg/Sunstrate/RoundSubstrate";
-import {Lock} from "@mui/icons-material";
+import {Wc} from "@mui/icons-material";
 
 /**
  * Форма выбора пола
@@ -14,7 +14,7 @@ function SelectSexForm({onClick}) {
     <div className="container p-3 d-flex justify-content-center">
     <div className="d-flex flex-column primary-form">
       <div className="d-flex flex-row justify-content-center align-items-center">
-        <RoundSubstrate color="orange" children={<Lock/>} />
+        <RoundSubstrate color="orange" children={<Wc/>} />
        <h4 className="mt-2 mx-1">{SUBTITLE_SELECT_SEX}</h4>
       </div>
       {SEX_DATA.map(item => (

@@ -7,10 +7,10 @@ import PersonSvg from "../Svg/PersonSvg";
 import {useDispatch} from "react-redux";
 import {AlertToast} from "../Componetns/Modals/Toasts/AlertToast";
 import {
-    CAPTION_FORGET_PASSORD,
+    CAPTION_FORGET_PASSWORD,
     CAPTION_REGISTRATION,
-    CAPTION_SIGN_IN,
-    getNotificationMsg
+    CAPTION_SIGN_IN, CAPTION_YOUR_LOGIN, CAPTION_YOUR_PASSWORD,
+    getNotificationMsg, SUBTITLE_YOUR_LOGIN, SUBTITLE_YOUR_PASSWORD
 } from "../Constants/TextMessagesRu";
 import Loader from "../Componetns/Loader/Loader";
 import {networkErrStatus, TOKEN_KEY, USER_ID_KEY} from "../Stores/api/Common/ApiCommon";
@@ -89,17 +89,15 @@ export default function SignIn()  {
                      <h4 className="mt-2 mx-1">{CAPTION_SIGN_IN}</h4>
                  </div>
 
-                 <label className="input-label">Укажите ваш логин</label>
-                 <input className="input_field" type="email" required onChange={(e) => credential.login = e.target.value}/>
+                 <label className="input-label">{SUBTITLE_YOUR_LOGIN}</label>
+                 <input className="input_field" placeholder={CAPTION_YOUR_LOGIN} type="email" required onChange={(e) => credential.login = e.target.value}/>
 
-                 <label className="input-label mt-1">Укажите ваш пароль</label>
-                 <input className="input_field" type="password" required onChange={(e) => credential.password = e.target.value}/>
-
+                 <label className="input-label mt-1">{SUBTITLE_YOUR_PASSWORD}</label>
+                 <input className="input_field" placeholder={CAPTION_YOUR_PASSWORD} type="password" required onChange={(e) => credential.password = e.target.value}/>
 
                  <Button variant={'contained'} className="mt-3" onClick={SignInClick}>Войти</Button>
 
-
-                 <div className="mt-3 d-flex justify-content-center"><a className="link" href="/#">{CAPTION_FORGET_PASSORD.toUpperCase()}</a></div>
+                 <div className="mt-3 d-flex justify-content-center"><a className="link" href="/#">{CAPTION_FORGET_PASSWORD.toUpperCase()}</a></div>
                  <div className="mt-3 d-flex justify-content-center"><a className="link" href={ROUTE_REGISTRATION}>{CAPTION_REGISTRATION.toUpperCase()}</a></div>
 
              </div>

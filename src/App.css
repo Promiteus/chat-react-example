@@ -63,7 +63,6 @@ input:-webkit-autofill:active  {
    height: 92%;
 }
 
-
 .primary-form {
   display: block;
   padding: 1.6rem 2.7rem;
@@ -72,6 +71,18 @@ input:-webkit-autofill:active  {
   background-color: white;
   position: absolute;
   top: 23%;
+  left: auto;
+  box-shadow: 1px 1px 3px #AAAAAA;
+}
+
+.reg-primary-form {
+  display: block;
+  padding: 1.6rem 2.7rem;
+  border-radius: 0.5rem;
+  min-width: 350px;
+  background-color: white;
+  position: absolute;
+  top: 15%;
   left: auto;
   box-shadow: 1px 1px 3px #AAAAAA;
 }
@@ -87,8 +98,9 @@ input:-webkit-autofill:active  {
 
 .link {
   text-decoration: none;
-  color: #ff7700;
+  color: #6c34ef;
 }
+
 
 .inp {
   text-indent: 0.2rem;

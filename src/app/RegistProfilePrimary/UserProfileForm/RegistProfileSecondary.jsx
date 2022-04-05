@@ -1,21 +1,30 @@
 import React, {useEffect, useState} from "react";
-import {Button, FormControl, InputLabel, MenuItem, Select, TextField} from "@mui/material";
+import {Button} from "@mui/material";
 import "./index.css"
 import {Link, useNavigate} from "react-router-dom";
-import ArrowLeftSvg from "../../Svg/ArrowLeftSvg";
 import {useDispatch, useSelector} from "react-redux";
 import {regUserAsync, selectUser} from "../../Stores/slices/UserSlice";
 import {AlertToast} from "../../Componetns/Modals/Toasts/AlertToast";
 import {
+    CAPTION_CONFIRM_YOUR_PASSWORD,
     CAPTION_REGISTRATION,
-    CAPTION_SIGN,
+    CAPTION_SIGN, CAPTION_SIGN_IN,
+    CAPTION_YOUR_LOGIN, CAPTION_YOUR_PASSWORD,
+    MEET_PREFERENCES_DATA,
     SOMETHING_WENT_WRONG,
+    SUBTITLE_MEETING_FOR,
+    SUBTITLE_YOUR_BIRTHDAY,
+    SUBTITLE_YOUR_LOGIN,
+    SUBTITLE_YOUR_NAME,
+    SUBTITLE_YOUR_PASSWORD,
     SUCH_USER_EXISTS
 } from "../../Constants/TextMessagesRu";
 
 import Loader from "../../Componetns/Loader/Loader";
 import {USER_ID_KEY} from "../../Stores/api/Common/ApiCommon";
 import {ROUTE_SIGNUP} from "../../Constants/Routes";
+import RoundSubstrate from "../../Svg/Sunstrate/RoundSubstrate";
+import {Assignment, AssignmentInd, Lock} from "@mui/icons-material";
 
 /**
  * status = 409 - такой пользователь уже есть !
@@ -42,7 +51,7 @@ import {ROUTE_SIGNUP} from "../../Constants/Routes";
  * @constructor
  */
 export default function RegistProfileSecondary({sex}) {
-    const [credentials] = useState({username: '', password: ''});
+    const [credentials] = useState({username: '', password: '', confirmPassword: ''});
     const [userProfile] = useState({ firstName: '', birthDate: '', meetPreferences: 'ALL', sex: sex});
     const dispatch = useDispatch();
     const {response, status, loading} = useSelector(selectUser);
@@ -73,93 +82,82 @@ export default function RegistProfileSecondary({sex}) {
 
     return(
         <div className="p-3 d-flex justify-content-center ">
-            <div className="d-flex flex-column primary-form">
-                <h4 className="text-center">Почти готово</h4>
+            <div className="d-flex flex-column reg-primary-form">
 
-                <div className="d-flex justify-content-center align-content-center mt-2">
-                   <TextField
+                <div className="d-flex flex-row align-items-center justify-content-center">
+                    <RoundSubstrate color="orange" children={<AssignmentInd/>} />
+                    <h4 className="mt-2 mx-1">{"Почти готово"}</h4>
+                </div>
+
+                <label className="input-label mt-1">{SUBTITLE_YOUR_NAME}</label>
+                <input className="input_field"
+                       placeholder={SUBTITLE_YOUR_NAME}
+                       type="text" required
                        onChange={(e) => {
                            userProfile.firstName = e.target.value;
                        }}
-                       required
-                       fullWidth={true}
-                       id="first-name-field"
-                       label="Как вас зовут?"
-                       variant="standard"
-                   />
-                </div>
-                <div className="d-flex justify-content-center align-content-center mt-2">
-                   <TextField
-                       id="date-field"
-                       label="Ваш день рождения"
-                       type="date"
-                       onChange={(e) => {userProfile.birthDate = (e.target.value)}}
+                />
+
+                <label className="input-label mt-1">{SUBTITLE_YOUR_BIRTHDAY}</label>
+                <input className="input_field"
+                       placeholder={SUBTITLE_YOUR_BIRTHDAY}
                        defaultValue="1987-05-22"
-                       fullWidth={true}
-                       variant="standard"
-                       InputLabelProps={{
-                           shrink: true,
+                       type="date"
+                       required
+                       onChange={(e) => {
+                           userProfile.birthDate = (e.target.value)
                        }}
-                   />
-                </div>
-                <div className="d-flex justify-content-center align-content-center">
-                    <FormControl fullWidth={true} variant="standard" sx={{ minWidth: 120 }}>
-                        <InputLabel id="sexual-preference">С кем знакомитесь?</InputLabel>
-                        <Select
-                            labelId="demo-simple-select-standard-label"
-                            id="sexual-preference-list"
-                            fullWidth={true}
-                            value={userProfile.meetPreferences}
-                            //defaultValue={'WOMAN'}
-                            onChange={(e) => {console.log(e.target.value); userProfile.meetPreferences = e.target.value;}}
-                            label="С кем знакомитесь?">
-                              <MenuItem value={'MAN'}>Мужчины</MenuItem>
-                              <MenuItem value={'WOMAN'}>Женчины</MenuItem>
-                              <MenuItem value={'ALL'}>Все</MenuItem>
-                        </Select>
-                    </FormControl>
-                </div>
-                <div className="d-flex justify-content-center align-content-center mt-2">
-                    <TextField
-                       // onChange={(e) => credential.login = e.target.value}
-                        required
-                        fullWidth={true}
-                        id="login-field"
-                        label="Укажите ваш логин"
-                        onChange={(e) => {credentials.username = e.target.value}}
-                        variant="standard"
-                    />
-                </div>
-                <div className="d-flex justify-content-center align-content-center mt-2">
-                    <TextField
-                       // onChange={(e) => credential.password = e.target.value}
-                        type="password"
-                        required
-                        fullWidth={true}
-                        onChange={(e) => {credentials.password = e.target.value}}
-                        id="password-field"
-                        label="Укажите ваш пароль"
-                        variant="standard"
-                    />
+                />
 
-                </div>
-                <div className="d-flex justify-content-center align-content-center mt-2">
-                    <TextField
-                        // onChange={(e) => credential.password = e.target.value}
-                        type="password"
-                        required
-                        fullWidth={true}
-                        id="password-confirm-field"
-                        label="Подтвердите ваш пароль"
-                        variant="standard"
-                    />
+                <label className="input-label mt-1">{SUBTITLE_MEETING_FOR}</label>
+                <select
+                    className="input_field"
+                    onChange={(e) => {
+                        console.log(e.target.value);
+                        userProfile.meetPreferences = e.target.value;
+                    }}
+                >
+                    {MEET_PREFERENCES_DATA.map(item => (
+                        <option value={item?.tag}>{item?.value}</option>
+                    ))}
+                </select>
 
-                </div>
-                <Button onClick={onRegisterUser} className="mt-3" variant="outlined">{CAPTION_REGISTRATION}</Button>
+                <label className="input-label mt-1">{SUBTITLE_YOUR_LOGIN}</label>
+                <input
+                    className="input_field"
+                    placeholder={CAPTION_YOUR_LOGIN}
+                    type="email"
+                    required
+                    onChange={(e) => {credentials.username = e.target.value}}/>
+
+                <label className="input-label mt-1">{SUBTITLE_YOUR_PASSWORD}</label>
+                <input
+                    className="input_field"
+                    placeholder={CAPTION_YOUR_PASSWORD}
+                    type="password"
+                    required
+                    onChange={(e) => {
+                        credentials.password = e.target.value
+                    }}
+                />
+
+                <label className="input-label mt-1">{CAPTION_CONFIRM_YOUR_PASSWORD}</label>
+                <input
+                    className="input_field"
+                    placeholder={CAPTION_CONFIRM_YOUR_PASSWORD}
+                    type="password"
+                    required
+                    onChange={(e) => {
+                        credentials.confirmPassword = e.target.value
+                    }}
+                />
+
+
+                <Button onClick={onRegisterUser} className="mt-3" variant={'contained'}>{CAPTION_REGISTRATION}</Button>
 
                 <div className="d-flex justify-content-center align-items-center mt-2">
                     <Link to={ROUTE_SIGNUP}>
-                        <span className="d-inline-block mt-1">
+                        <span className="d-inline-block mt-1 link">
                             {CAPTION_SIGN.toUpperCase()}
                         </span>
                     </Link>
