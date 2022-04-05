@@ -276,7 +276,9 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
 
         <div ref={scrollChat} style={{height: chatViewHeight}} className="chatView d-flex flex-column" >
             {beforeMessageList.map((element) => (<MessageItem key={element?.id} data={element} currentUserId={currentUserId}/>))}
-            {messageList?.length > 0 && messageList.map((element) => (<MessageItem key={element?.id} data={element} currentUserId={currentUserId}/>))}
+
+            {messageList?.length > 0 && messageList.map((element) => (<MessageItem key={element?.id} selectedUser={profile} data={element} currentUserId={currentUserId}/>))}
+
             {((messageList?.length === 0) || (!messageList)) && <EmptyMessageList/>}
             <div ref={chatBottomScroller}/>
         </div>
