@@ -37,7 +37,7 @@ import {ROUTE_SIGNUP} from "../../Constants/Routes";
  * */
 /**
  *
- * @param sex
+ * @param {string} sex
  * @returns {JSX.Element}
  * @constructor
  */

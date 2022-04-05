@@ -17,6 +17,7 @@ const CAPTION_BACK = "Назад";
 const CAPTION_REGISTRATION = "Регистрация";
 const CAPTION_FORGET_PASSORD = 'Забыл пароль';
 const CAPTION_SIGN = "Войти";
+const CAPTION_SIGN_IN = "Вход";
 
 const SUBTITLE_MY_PHOTOS = "Мои фото";
 const SUBTITLE_ABOUT_ME = "О себе";
@@ -140,4 +141,5 @@ export {
     CAPTION_REGISTRATION,
     SUBTITLE_SELECT_SEX,
     CAPTION_SIGN,
+    CAPTION_SIGN_IN,
 }

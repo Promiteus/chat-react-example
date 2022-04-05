@@ -6,7 +6,12 @@ import {Button, FormControl, Input, InputLabel, TextField} from "@mui/material";
 import PersonSvg from "../Svg/PersonSvg";
 import {useDispatch} from "react-redux";
 import {AlertToast} from "../Componetns/Modals/Toasts/AlertToast";
-import {CAPTION_FORGET_PASSORD, CAPTION_REGISTRATION, getNotificationMsg} from "../Constants/TextMessagesRu";
+import {
+    CAPTION_FORGET_PASSORD,
+    CAPTION_REGISTRATION,
+    CAPTION_SIGN_IN,
+    getNotificationMsg
+} from "../Constants/TextMessagesRu";
 import Loader from "../Componetns/Loader/Loader";
 import {networkErrStatus, TOKEN_KEY, USER_ID_KEY} from "../Stores/api/Common/ApiCommon";
 import {ROUTE_REGISTRATION} from "../Constants/Routes";
@@ -79,9 +84,9 @@ export default function SignIn()  {
         <div className="p-2 d-flex justify-content-center h-100">
              <div className="d-flex flex-column primary-form">
                
-                 <div className="d-flex flex-row align-content-center justify-content-center">
+                 <div className="d-flex flex-row align-items-center justify-content-center">
                      <RoundSubstrate color="orange" children={<Lock/>} />
-                     <h3>Вход</h3>
+                     <h4 className="mt-2 mx-1">{CAPTION_SIGN_IN}</h4>
                  </div>
 
                  <label className="input-label">Укажите ваш логин</label>
