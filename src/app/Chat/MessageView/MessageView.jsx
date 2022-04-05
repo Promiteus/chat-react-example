@@ -1,5 +1,4 @@
 import React, {useEffect, useRef, useState} from 'react';
-import MessageItem from './MessageItem/MessageItem';
 import './MessageView.css'
 import {useDispatch, useSelector} from "react-redux";
 import {chatUserAsync, selectChat} from "../../Stores/slices/ChatSlice";
@@ -7,6 +6,9 @@ import {LinearProgress, Stack} from "@mui/material";
 import {selectUserChatCommon} from "../../Stores/slices/UserProfileChatCommonSlice";
 import {getChatMessagesByIds} from "../../Stores/api/ChatApi/ChatApi";
 import {selectUpdateChatMessageStatus, setChatMessageStatus} from "../../Stores/slices/UpdateChatMessageStatusSlice";
+import MessageItem from "./MessageItem/MessageItem";
+import EmptyMessageList from "./MessageItem/EmptyMessageList";
+
 
 let page_ = 0;
 let selectedUser_ = {};
@@ -118,9 +120,6 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
 
   //Получить/подтвердить статус о прочтении сообщений
   useEffect(() => {
-      console.log("useEffect read messages: "+JSON.stringify(updatedMsgChatStatus?.data?.readMsg));
-      console.log("useEffect write messages: "+JSON.stringify(updatedMsgChatStatus?.data?.writeMsg));
-
       let readMsg = updatedMsgChatStatus?.data?.readMsg;
       let writeMsg = updatedMsgChatStatus?.data?.writeMsg;
 
@@ -148,7 +147,6 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
     function updateChatMessagesStatus(readArr, writeArr) {
         if ((readArr?.length > 0) || (writeArr?.length > 0)) {
             getChatMessagesByIds(readArr, writeArr).then((res) => {
-               // console.log("write messages: "+JSON.stringify(updatedMsgChatStatus?.data?.writeMsg));
                 chatDispatch(setChatMessageStatus({readMsg: res?.data?.readMessages, writeMsg: res?.data?.writeMessages}))
             });
         }
@@ -278,7 +276,8 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
 
         <div ref={scrollChat} style={{height: chatViewHeight}} className="chatView d-flex flex-column" >
             {beforeMessageList.map((element) => (<MessageItem key={element?.id} data={element} currentUserId={currentUserId}/>))}
-            {messageList.map((element) => (<MessageItem key={element?.id} data={element} currentUserId={currentUserId}/>))}
+            {messageList?.length > 0 && messageList.map((element) => (<MessageItem key={element?.id} data={element} currentUserId={currentUserId}/>))}
+            {((messageList?.length === 0) || (!messageList)) && <EmptyMessageList/>}
             <div ref={chatBottomScroller}/>
         </div>
     </div>

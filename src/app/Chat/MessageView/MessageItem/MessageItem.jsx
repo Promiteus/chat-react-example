@@ -1,6 +1,6 @@
 import React from 'react';
 import MessageItemElement from '../MessageItemElement/MessageItemElement';
-import './MessageItem.css';
+import './index.css';
 import {Typography} from "@mui/material";
 import {MSG_YOU} from "../../../Constants/TextMessagesRu";
 import {MessageStatus, MessageStatusRound} from "../../Common";

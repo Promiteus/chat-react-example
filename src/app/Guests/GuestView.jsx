@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {Box, Chip, ImageList } from "@mui/material";
+import { Chip, ImageList } from "@mui/material";
 import ProfileViewElement from "./ProfileViewElement";
 import './index.css'
 import {CAPTION_EMPTY_GUESTS} from "../Constants/TextMessagesRu";
@@ -8,7 +8,7 @@ import useWindowDimensions, {D_LG, D_MD, D_SM, D_XL, D_XS} from "../Hooks/useWin
 let imgCols = 5;
 
 const GuestsView = ({visitors}) => {
-    const {width, dimType} = useWindowDimensions();
+    const {dimType} = useWindowDimensions();
     const colsMap = new Map([
         [D_XS, 2],
         [D_SM, 2],
