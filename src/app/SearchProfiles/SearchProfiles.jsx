@@ -52,7 +52,7 @@ const SearchProfiles = ({userId}) => {
         [D_XS, 2],
         [D_SM, 2],
         [D_MD, 3],
-        [D_LG, 5],
+        [D_LG, 4],
         [D_XL, 5],
     ]);
 

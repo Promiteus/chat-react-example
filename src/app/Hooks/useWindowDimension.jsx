@@ -48,7 +48,10 @@ function getWindowDimensions() {
  // xl --- Extra large devices (large desktops, 1200px and up)
  @media (min-width: 1200px) { ... }
  * */
-
+/**
+ * Хук получения размеров экрана
+ * @returns {{dimType: string, width: number, height: number}}
+ */
 export default function useWindowDimensions() {
     const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
 
