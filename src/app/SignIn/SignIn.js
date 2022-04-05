@@ -1,9 +1,7 @@
 import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
-import KeySvg from "../Svg/KeySvg";
 import "./SignIn.css"
-import {Button, FormControl, Input, InputLabel, TextField} from "@mui/material";
-import PersonSvg from "../Svg/PersonSvg";
+import {Button} from "@mui/material";
 import {useDispatch} from "react-redux";
 import {AlertToast} from "../Componetns/Modals/Toasts/AlertToast";
 import {
