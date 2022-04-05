@@ -2,6 +2,7 @@
   height: 91vh;
   background-color: #fdfdf3;
   box-shadow: 1px 1px 3px #AAAAAA;
+  opacity: 0.9;
 }
 
 .input-label {
@@ -68,6 +69,7 @@ input:-webkit-autofill:active  {
   top: 23%;
   left: auto;
   box-shadow: 1px 1px 3px #AAAAAA;
+  opacity: 0.9;
 }
 
 .reg-primary-form {
@@ -80,6 +82,7 @@ input:-webkit-autofill:active  {
   top: 15%;
   left: auto;
   box-shadow: 1px 1px 3px #AAAAAA;
+  opacity: 0.9;
 }
 
 .preloader-panel {
