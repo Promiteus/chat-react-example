@@ -256,7 +256,6 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
 
          fillUnreadMessages(response?.data, currentUserId);
      }
-    /*.filter(elem => (elem?.message !== ''))*/
  }
 
 

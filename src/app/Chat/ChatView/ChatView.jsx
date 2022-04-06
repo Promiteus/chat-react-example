@@ -6,8 +6,6 @@ import './ChatView.css'
 import UserList from "../Users/UserList/UserList";
 import {Grid} from "@mui/material";
 
-
-
 const HIDE_BLOCK = { xs: 'none', sm: 'none', md: 'block' };
 const HIDE_MD_BLOCK = { xs: 'block', sm: 'block', md: 'none' };
 const SHOW_BLOCK = { xs: 'block', sm: 'block', md: 'block' };
@@ -30,17 +28,14 @@ function ChatView ({userId, stomp}) {
 
     useEffect(() => {
         chatClientHeight = chatRef?.current?.clientHeight;
-
-        console.log("ChatView render")
     }, []);
-
 
 
     //Показать чат, скрыть список профилей чатов (история чатов)
     const onSelectedUser = (userId) => {
         setDisplay(prevState => ({...prevState, chatView: {value: SHOW_BLOCK}, chats: {value: HIDE_BLOCK}}));
-        console.log("onSelectedUser ok")
     }
+
     //Показать список профилей (исорию чатов), скрыть чат
     const onBackToChats = (e) => {
         setDisplay(prevState => ({...prevState, chatView: {value: HIDE_BLOCK}, chats: {value: SHOW_BLOCK}}));
@@ -65,6 +60,5 @@ function ChatView ({userId, stomp}) {
       </div>
     );
 }
-
 
 export default ChatView;
