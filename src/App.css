@@ -56,7 +56,8 @@ input:-webkit-autofill:active  {
 }
 
 .tab-view {
-   height: 92%;
+   height: 89%;
+   position: relative;
 }
 
 .primary-form {

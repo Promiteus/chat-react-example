@@ -16,6 +16,7 @@ import {ROUTE_REGISTRATION, ROUTE_SIGNUP} from "../../Constants/Routes";
 import {selectCommon} from "../../Stores/slices/CommonSlice";
 import ProfileDetail from "../../ProfileDetails/ProfileDetail";
 import {userProfile} from "../../Stores/api/ChatDataApi/ChatDataApi";
+import {ChatOutlined, DirectionsWalkOutlined, Pages, SearchOutlined} from "@mui/icons-material";
 
 
 
@@ -111,11 +112,23 @@ const MainTab = (props) => {
             {/*Чат и поиск профиля*/}
             {((pageIndex === 0) || (pageIndex < 0)) &&
               <div className="container main-panel mt-2">
-                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                    <Tabs value={tabIndex} onChange={handleChange} >
-                        <Tab label={CAPTION_CHATS} {...a11yProps(0)} />
-                        <Tab label={CAPTION_GUESTS} {...a11yProps(1)} />
-                        <Tab label={CAPTION_SEARCH} {...a11yProps(2)} />
+                <Box className="py-0" sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                    <Tabs className="py-0" value={tabIndex} onChange={handleChange} >
+                        <Tab icon={<ChatOutlined/>}
+                             iconPosition={"start"}
+                             sx={{color: "#6c34ef"}}
+                             label={CAPTION_CHATS}
+                             {...a11yProps(0)} />
+                        <Tab icon={<DirectionsWalkOutlined/>}
+                             iconPosition={"start"}
+                             sx={{color: "#6c34ef"}}
+                             label={CAPTION_GUESTS}
+                             {...a11yProps(1)} />
+                        <Tab icon={<SearchOutlined/>}
+                             iconPosition={"start"}
+                             sx={{color: "#6c34ef"}}
+                             label={CAPTION_SEARCH}
+                             {...a11yProps(2)} />
                     </Tabs>
                 </Box>
                 <TabItem value={tabIndex} index={0}>
@@ -138,6 +151,6 @@ const MainTab = (props) => {
             <AlertToast text={errMsg} open={showError} success={false}/>
         </div>
     );
-};
+}
 
 export default MainTab;

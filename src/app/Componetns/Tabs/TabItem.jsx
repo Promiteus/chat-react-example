@@ -1,6 +1,7 @@
 
 import React from "react";
 import {Box} from "@mui/material";
+import './index.css';
 
 function TabItem(props) {
     const { children, value, index, ...other } = props;
