@@ -3,20 +3,6 @@ import {authenticateUser, fullRegistration, removeFullUserAccountData} from "../
 import {fulfilledRequestData, initialRequestData, rejectRequestData} from "../api/Common/ApiCommon";
 
 
-export const regUserAsync = createAsyncThunk(
-    'auth/addUser',
-    async ({username, password, firstName, birthDate, meetPreferences, sex}) => {
-        return await fullRegistration({
-            username: username,
-            password: password,
-            firstName: firstName,
-            birthDate: birthDate,
-            meetPreferences: meetPreferences,
-            sex: sex
-        });
-     }
-);
-
 export const deleteUserAccountAsync = createAsyncThunk(
     'auth/deleteAccount',
     async ({userId, isAccountOnly}) => {
@@ -36,16 +22,6 @@ export const userSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
-            //Регистрация пользователя
-            .addCase(regUserAsync.pending, (state, action) => {
-                initialRequestData({state, action});
-            })
-            .addCase(regUserAsync.fulfilled, (state, action) => {
-                fulfilledRequestData({state, action});
-            })
-            .addCase(regUserAsync.rejected, (state, action) => {
-                rejectRequestData({state, action});
-            })
             //Полное удаление аккаунта пользователя из системы
             .addCase(deleteUserAccountAsync.pending, (state, action) => {
             initialRequestData({state, action});

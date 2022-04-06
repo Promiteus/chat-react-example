@@ -21,10 +21,11 @@ import {
 } from "../../Constants/TextMessagesRu";
 
 import Loader from "../../Componetns/Loader/Loader";
-import {USER_ID_KEY} from "../../Stores/api/Common/ApiCommon";
+import {networkErrStatus, USER_ID_KEY} from "../../Stores/api/Common/ApiCommon";
 import {ROUTE_SIGNUP} from "../../Constants/Routes";
 import RoundSubstrate from "../../Svg/Sunstrate/RoundSubstrate";
 import {Assignment, AssignmentInd, Lock} from "@mui/icons-material";
+import {fullRegistration} from "../../Stores/api/AuthApi/AuthApi";
 
 /**
  * status = 409 - такой пользователь уже есть !
@@ -53,31 +54,47 @@ import {Assignment, AssignmentInd, Lock} from "@mui/icons-material";
 export default function RegistProfileSecondary({sex}) {
     const [credentials] = useState({username: '', password: '', confirmPassword: ''});
     const [userProfile] = useState({ firstName: '', birthDate: '', meetPreferences: 'ALL', sex: sex});
-    const dispatch = useDispatch();
-    const {response, status, loading} = useSelector(selectUser);
+    const [registrationResponse, setRegistrationResponse] = useState({
+        response: {},
+        status: 500,
+        loading: false,
+    })
     const navigate = useNavigate();
 
-    const openAlert = () => (((+status !== 202) && (+status !== 0) && (credentials.username)) || (status === null));
+    const openAlert = () => (((+registrationResponse.status !== 202) && (+registrationResponse.status !== 0) && (credentials.username)) || (registrationResponse.status === null));
 
-    useEffect(() => {
-        if ((+status === 202) && (response?.id?.toString().length > 0)) {
-            localStorage.setItem(USER_ID_KEY, response?.id);
-            navigate(`/?userId=${response?.id}`, response);
+
+    const handleRegistration = (response) => {
+        if ((+response?.status === 202) && (response?.data?.id?.toString().length > 0)) {
+            localStorage.setItem(USER_ID_KEY, response?.data?.id);
+            navigate(`/?userId=${response?.data?.id}`);
         }
-    });
+    }
 
-    if (loading) return <Loader/>;
+    if (registrationResponse.loading) return <Loader/>;
 
     const onRegisterUser = () => {
-        //Попытка зарегистрировать пользователя
-        dispatch(regUserAsync({
+        //Зарегистрировать пользователя
+        setRegistrationResponse(prevState => ({...prevState, loading: true}));
+        fullRegistration({
             username: credentials.username,
             password: credentials.password,
             firstName: userProfile.firstName,
             birthDate: userProfile.birthDate,
             meetPreferences: userProfile.meetPreferences,
             sex: userProfile.sex,
-        }));
+        }).then((res) => {
+            setRegistrationResponse({
+                response: res?.data,
+                status: res?.status,
+                loading: false,
+            });
+            handleRegistration(res);
+        }).catch(err => {
+            console.log("Registration error: "+err);
+            setRegistrationResponse(prevState => ({...prevState, loading: false}));
+            setRegistrationResponse(prevState => ({...prevState, status: networkErrStatus(err)}));
+        });
     }
 
     return(
@@ -164,7 +181,7 @@ export default function RegistProfileSecondary({sex}) {
                 </div>
             </div>
             <AlertToast
-                text={(+status === 409) ? SUCH_USER_EXISTS : SOMETHING_WENT_WRONG}
+                text={(+registrationResponse.status === 409) ? SUCH_USER_EXISTS : SOMETHING_WENT_WRONG}
                 open={openAlert}
                 success={false}/>
         </div>

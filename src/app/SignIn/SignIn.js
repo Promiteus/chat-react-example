@@ -32,7 +32,7 @@ export default function SignIn()  {
 
     /**
      * Сохранение JWT токена, переход на домашнюю страницу при успехе
-     * @param {json} response
+     * @param {any} response
      */
     const handleAuth = (response) => {
         //Обновить токен авторизации
