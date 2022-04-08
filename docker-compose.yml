@@ -22,7 +22,7 @@ services:
       - .:/app/node_modules
       - ./docker/nginx/logs:/var/log/nginx
     ports:
-      - '8087:8087'
+      - '10087:10087'
     networks:
       - chat-net
 
