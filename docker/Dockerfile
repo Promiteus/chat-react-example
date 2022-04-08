@@ -3,7 +3,7 @@ FROM node:12 AS builder
 # Рабочая директория
 WORKDIR /app
 
-COPY ../ .
+COPY . .
 
 # Флаг окружения
 ARG NODE_ENV
@@ -27,6 +27,7 @@ RUN yarn install && yarn build
 FROM nginx:1.16.0-alpine
 COPY --from=builder /app/build /usr/share/nginx/html
 RUN rm /etc/nginx/conf.d/default.conf
-COPY nginx/nginx.conf /etc/nginx/conf.d
-EXPOSE 8087
+COPY /docker/nginx/nginx.conf /etc/nginx/conf.d
+EXPOSE 10087
 CMD ["nginx", "-g", "daemon off;"]
+
