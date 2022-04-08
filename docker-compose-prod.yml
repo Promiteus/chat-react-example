@@ -1,0 +1,28 @@
+version: "3.7"
+
+networks:
+  chat-net:
+    external:
+      name: chat-api-network
+
+services:
+  dating_chat_site:
+    container_name: dating_chat_site
+    env_file: .env #Файл, где находятся настройки в виде переменных среды
+    build:
+      context: ./docker
+      dockerfile: Dockerfile
+      args:
+        NODE_ENV: ${APP_ENV}
+        BASE_DATA_URL: ${BASE_DATA_URL_PROD}
+        BASE_AUTH_URL: ${BASE_AUTH_URL_PROD}
+        BASE_WS_URL: ${BASE_WS_URL_PROD}
+    volumes:
+      - .:/app
+      - .:/app/node_modules
+      - ./docker/nginx/logs:/var/log/nginx
+    ports:
+      - '10087:10087'
+    networks:
+      - chat-net
+
