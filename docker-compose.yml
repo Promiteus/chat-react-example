@@ -8,15 +8,16 @@ networks:
 services:
   dating_chat_site:
     container_name: dating_chat_site
-    #restart: on-failure
+    env_file:
+      - .env
     build:
       context: ./docker
-      args:
-        NODE_ENV: dev
-        BASE_DATA_URL: http://localhost:8090
-        BASE_AUTH_URL: http://localhost:8081
-        BASE_WS_URL: http://localhost:10800/wsApp
       dockerfile: Dockerfile
+      args:
+        NODE_ENV: ${APP_ENV}
+        BASE_DATA_URL: ${BASE_DATA_URL_LOCAL}
+        BASE_AUTH_URL: ${BASE_AUTH_URL_LOCAL}
+        BASE_WS_URL: ${BASE_WS_URL_LOCAL}
     volumes:
       - .:/app
       - .:/app/node_modules
