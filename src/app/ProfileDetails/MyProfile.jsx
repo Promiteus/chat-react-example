@@ -5,6 +5,7 @@ import ProfileEditablePage from "../Componetns/ProfilePage/ProfileEditablePage";
 import {Container} from "@mui/material";
 import StandartHeader from "../Componetns/Header/StandartHeader";
 import {ROUTE_HOME} from "../Constants/Routes";
+import {Helmet} from "react-helmet";
 
 function useQuery() {
     return new URLSearchParams(useLocation().search);
@@ -28,14 +29,19 @@ const MyProfile = (props) => {
     }
 
     return(
-        <div className="d-flex flex-column h-100 m-2">
-          <Container className="my-profile my-profile-shadow d-flex flex-column h-100">
-              <StandartHeader onClick={onBack}/>
-              <div className="d-flex">
-                  <ProfileEditablePage profile={currentUserId} currentUserId={currentUserId} isEdit={currentUserId !== null}/>
-              </div>
-          </Container>
-        </div>
+        <>
+            <Helmet>
+                <title>Мой профиль</title>
+            </Helmet>
+            <div className="d-flex flex-column h-100 m-2">
+                <Container className="my-profile my-profile-shadow d-flex flex-column h-100">
+                    <StandartHeader onClick={onBack}/>
+                    <div className="d-flex">
+                        <ProfileEditablePage profile={currentUserId} currentUserId={currentUserId} isEdit={currentUserId !== null}/>
+                    </div>
+                </Container>
+            </div>
+        </>
     );
 }
 
