@@ -1,0 +1,28 @@
+version: "3.7"
+
+networks:
+  chat-net:
+    external:
+      name: chat-api-network
+
+services:
+  dating_chat_site:
+    container_name: dating_chat_site
+    #restart: on-failure
+    build:
+      context: ./docker
+      args:
+        NODE_ENV: dev
+        BASE_DATA_URL: http://localhost:8090
+        BASE_AUTH_URL: http://localhost:8081
+        BASE_WS_URL: http://localhost:10800/wsApp
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+      - .:/app/node_modules
+      - ./docker/nginx/logs:/var/log/nginx
+    ports:
+      - '8087:8087'
+    networks:
+      - chat-net
+
