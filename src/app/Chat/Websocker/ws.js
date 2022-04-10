@@ -1,6 +1,7 @@
 import SockJS from "sockjs-client";
 import Stomp from 'stompjs';
 import { ChatMessage } from "../Common/Models/ChatMessage";
+import {getEnvOfStorage} from "../../Stores/Env";
 
 
 export class StompClient {
@@ -9,7 +10,7 @@ export class StompClient {
     constructor() {
         console.log('StompClient created!'); 
                
-        this.WS_ENDPOOINT_APP = 'http://localhost:10800/wsApp'
+        this.WS_ENDPOOINT_APP = getEnvOfStorage()?.stompUrl
         this.stompClient = null;
         this.client = null
     }
