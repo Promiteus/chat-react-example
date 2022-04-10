@@ -112,8 +112,8 @@ const MainTab = (props) => {
             {/*Чат и поиск профиля*/}
             {((pageIndex === 0) || (pageIndex < 0)) &&
               <div className="container main-panel mt-2">
-                <Box className="py-0" sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                    <Tabs className="py-0" value={tabIndex} onChange={handleChange} >
+                <div className="d-flex justify-content-center flex-row" sx={{ borderBottom: 1, borderColor: 'divider'}}>
+                    <Tabs value={tabIndex} onChange={handleChange} >
                         <Tab icon={<ChatOutlined/>}
                              iconPosition={"start"}
                              sx={{color: "#6c34ef"}}
@@ -130,7 +130,7 @@ const MainTab = (props) => {
                              label={CAPTION_SEARCH}
                              {...a11yProps(2)} />
                     </Tabs>
-                </Box>
+                </div>
                 <TabItem value={tabIndex} index={0}>
                     <ChatView stomp={stompClient} userId={currentUserId} response={profileData?.data} />
                 </TabItem>
