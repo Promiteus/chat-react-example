@@ -33,10 +33,10 @@ const MyProfile = (props) => {
             <Helmet>
                 <title>Мой профиль</title>
             </Helmet>
-            <div className="d-flex flex-column h-100 m-2">
-                <Container className="my-profile my-profile-shadow d-flex flex-column h-100">
+            <div className="d-flex flex-column m-2 scroll-none">
+                <Container className="my-profile my-profile-shadow d-flex flex-column">
                     <StandartHeader onClick={onBack}/>
-                    <div className="d-flex">
+                    <div className="d-flex scroll-y">
                         <ProfileEditablePage profile={currentUserId} currentUserId={currentUserId} isEdit={currentUserId !== null}/>
                     </div>
                 </Container>

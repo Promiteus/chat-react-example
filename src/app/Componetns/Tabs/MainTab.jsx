@@ -89,7 +89,7 @@ const MainTab = (props) => {
                     errorProfileHandler(false);
                 })
         } else {
-            errorProfileHandler(false);
+            navigate(ROUTE_SIGNUP);
         }
 
         stompClient?.connect(currentUserId);

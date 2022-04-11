@@ -8,7 +8,7 @@ const ActionBack = ({onClick}) => {
     return (
         <div className="my-1">
             <div className="d-flex flex-row justify-content-center align-content-center">
-                <Button variant={"none"} style={{color: 'orange'}} startIcon={<ArrowBackIos/>} className="mx-1" onClick={onClick}>
+                <Button variant={"none"} style={{color: '#6c34ef'}} startIcon={<ArrowBackIos/>} className="mx-1" onClick={onClick}>
                     <Typography variant={"subtitle1"}>{CAPTION_BACK}</Typography>
                 </Button>
             </div>
