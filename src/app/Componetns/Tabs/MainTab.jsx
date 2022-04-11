@@ -68,7 +68,7 @@ const MainTab = (props) => {
             userId: currentUserId,
             isAccountOnly: true
         }));
-        navigate(ROUTE_REGISTRATION);
+        navigate(ROUTE_SIGNUP);
     }
 
 
@@ -79,14 +79,17 @@ const MainTab = (props) => {
             userProfile(currentUserId)
                 .then((res) => {
                     setProfileData({data: res?.data, status: res?.status});
-                    if (res?.status === 404) {
+                    if (res?.status !== 200) {
                         errorProfileHandler();
                     }
+                    console.log("status: "+res?.status);
                 })
                 .catch((err) => {
                     console.error(err);
                     errorProfileHandler(false);
                 })
+        } else {
+            errorProfileHandler(false);
         }
 
         stompClient?.connect(currentUserId);

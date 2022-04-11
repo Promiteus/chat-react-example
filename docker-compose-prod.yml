@@ -9,6 +9,7 @@ services:
   dating_chat_site:
     container_name: dating_chat_site
     env_file: .env #Файл, где находятся настройки в виде переменных среды
+    restart: on-failure
     build:
       context: ./docker
       dockerfile: Dockerfile
