@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {BASE_DATA_URL} from "../../Stores/api/Common/ApiCommon";
 import {
     Button,
@@ -187,6 +187,11 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
     const pageDispatch = useDispatch();
     const tabDispatch = useDispatch();
 
+    useEffect(() => {
+        if (profile) {
+           console.log("profile: "+JSON.stringify(profile))
+        }
+    }, [profile]);
 
     function getFullUrls() {
         return (profile?.imgUrls?.length > 0) ?
@@ -342,7 +347,7 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
                         icon={<FamilyRestroom />}
                         isEdit={isEdit}
                         onSelectedItem={(value) => {setProfile(prevState => ({...prevState, familyStatus: value}))}}
-                        defaultValue={profile_?.familyStatus}
+                        defaultValue={profile?.familyStatus}
                         data={profile?.sex === 'MAN' ? FAMILY_STATUS_DATA.man : FAMILY_STATUS_DATA.woman}
                     />
                 </Grid>

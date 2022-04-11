@@ -23,6 +23,7 @@ const MyProfile = (props) => {
     const navigate = useNavigate();
     const [profileData, setProfileData] = useState({data: {}, status: 0});
 
+
     //Получить userId из параметра запроса или из локального хранилища.
     const currentUserId = !(query.get(USER_ID_KEY)) ? localStorage.getItem(USER_ID_KEY) : query.get(USER_ID_KEY);
 
@@ -36,7 +37,6 @@ const MyProfile = (props) => {
             userProfile(currentUserId)
                 .then((res) => {
                     setProfileData({data: res?.data, status: res?.status});
-                    console.log("status: "+res?.status)
                     if (res?.status !== 200) {
                         navigate(ROUTE_SIGNUP);
                     }
