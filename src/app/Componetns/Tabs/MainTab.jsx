@@ -82,10 +82,8 @@ const MainTab = (props) => {
                     if (res?.status !== 200) {
                         errorProfileHandler();
                     }
-                    console.log("status: "+res?.status);
                 })
                 .catch((err) => {
-                    console.error(err);
                     errorProfileHandler(false);
                 })
         } else {
