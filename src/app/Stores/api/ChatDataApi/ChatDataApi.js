@@ -1,5 +1,6 @@
 import axios from "axios";
-import {BASE_DATA_URL, getHeaderBearerConfigs, TOKEN_KEY} from "../Common/ApiCommon";
+import {getHeaderBearerConfigs, TOKEN_KEY} from "../Common/ApiCommon";
+import {getEnvOfStorage} from "../../Env";
 
 
 /**
@@ -9,7 +10,7 @@ import {BASE_DATA_URL, getHeaderBearerConfigs, TOKEN_KEY} from "../Common/ApiCom
  * @returns {Promise<AxiosResponse<any>>}
  */
 export function saveUserProfile(profile, token) {
-    return axios.post(`${BASE_DATA_URL}/api/user_profile`, profile, getHeaderBearerConfigs("application/json", token));
+    return axios.post(`${getEnvOfStorage()?.dataUrl}/api/user_profile`, profile, getHeaderBearerConfigs("application/json", token));
 }
 
 /**
@@ -19,7 +20,7 @@ export function saveUserProfile(profile, token) {
  * @returns {Promise<AxiosResponse<any>>}
  */
 export function removeUserProfile(userId, token) {
-    return axios.delete(`${BASE_DATA_URL}/api/user_profile/${userId}`, getHeaderBearerConfigs("application/json", token))
+    return axios.delete(`${getEnvOfStorage()?.dataUrl}/api/user_profile/${userId}`, getHeaderBearerConfigs("application/json", token))
 }
 
 /**
@@ -29,7 +30,7 @@ export function removeUserProfile(userId, token) {
  * @returns {Promise<AxiosResponse<any>>}
  */
 export function getUserProfile(userId, token) {
-    return axios.get(`${BASE_DATA_URL}/api/user_profile/${userId}`, getHeaderBearerConfigs("application/json", token));
+    return axios.get(`${getEnvOfStorage()?.dataUrl}/api/user_profile/${userId}`, getHeaderBearerConfigs("application/json", token));
 }
 
 /**
@@ -50,7 +51,7 @@ export async function userProfile(userId)  {
  * @returns {Promise<AxiosResponse<any>>}
  */
 export function searchUserProfilesPageable(userId, page, token, searchBody) {
-    return axios.post(`${BASE_DATA_URL}/api/user_profiles/${page}/${userId}`, searchBody, getHeaderBearerConfigs("application/json", token));
+    return axios.post(`${getEnvOfStorage()?.dataUrl}/api/user_profiles/${page}/${userId}`, searchBody, getHeaderBearerConfigs("application/json", token));
 }
 
 

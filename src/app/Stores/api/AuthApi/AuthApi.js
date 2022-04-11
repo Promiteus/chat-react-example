@@ -1,7 +1,8 @@
 import axios from "axios";
 import {saveUserProfile} from "../ChatDataApi/ChatDataApi";
-import {BASE_AUTH_URL, getHeaderBearerConfigs, TOKEN_KEY} from "../Common/ApiCommon";
+import {getHeaderBearerConfigs, TOKEN_KEY} from "../Common/ApiCommon";
 import {dateDiffYears} from "../../../Componetns/DateHandlers";
+import {getEnvOfStorage} from "../../Env";
 
 /**
  * Получить JWT токен в обмен на логин и пароль
@@ -9,7 +10,7 @@ import {dateDiffYears} from "../../../Componetns/DateHandlers";
  * @returns {Promise<AxiosResponse<any>>}
  */
 export function authenticateUser(data) {
-    return axios.post(`${BASE_AUTH_URL}/login`, data, {headers: { contentType: "application/json" } });
+    return axios.post(`${getEnvOfStorage()?.authUrl}/login`, data, {headers: { contentType: "application/json" } });
 }
 
 /**
@@ -18,7 +19,7 @@ export function authenticateUser(data) {
  * @returns {Promise<AxiosResponse<any>>}
  */
 export function registrateUser(data) {
-    return axios.post(`${BASE_AUTH_URL}/api/user`, data, {headers: { contentType: "application/json"}});
+    return axios.post(`${getEnvOfStorage()?.authUrl}/api/user`, data, {headers: { contentType: "application/json"}});
 }
 
 /**
@@ -29,7 +30,7 @@ export function registrateUser(data) {
  */
 export function removeFullUserAccountData({userId, isAccountOnly}) {
     let token = localStorage.getItem(TOKEN_KEY);
-    return axios.delete(`${BASE_AUTH_URL}/api/user?user_id=${userId}&account_only=${isAccountOnly}`, getHeaderBearerConfigs("application/json", token))
+    return axios.delete(`${getEnvOfStorage()?.authUrl}/api/user?user_id=${userId}&account_only=${isAccountOnly}`, getHeaderBearerConfigs("application/json", token))
 }
 
 /**
