@@ -1,6 +1,6 @@
 ### Пример React проекта
 
-<p>Данный проект не полный и является примером использования стеков React, Redux, WebSocket+STOMP, Axios API, Docker и Bootstrap.</p>
+<p>Данный проект не полный и является примером использования стеков React, Redux, React Router, Helmet, Хуки, WebSocket+STOMP, Axios API, Docker и Bootstrap.</p>
 
 ### Создание сети chat-api-network
 
