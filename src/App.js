@@ -7,7 +7,7 @@ import {ROUTE_HOME, ROUTE_PROFILE, ROUTE_REGISTRATION, ROUTE_SIGNUP} from "./app
 import MyProfile from "./app/ProfileDetails/MyProfile";
 import {getEnvOfStorage, setEnvToStorage} from "./app/Stores/Env";
 import {BASE_AUTH_URL, BASE_DATA_URL, WS_STOMP_URL} from "./app/Stores/api/Common/ApiCommon";
-import {useEffect} from "react";
+
 
 /**
  *

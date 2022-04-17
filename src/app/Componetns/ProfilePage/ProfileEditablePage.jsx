@@ -99,7 +99,7 @@ const EditableTextAreaField = ({text, icon, iconTitle, isEdit, onChangeContent})
             </div>
             {(editToggle && isEdit) &&
             <Grid container>
-                  <Grid item md={7} lg={7} sm={12} xs={12}>
+                  <Grid item md={8} lg={8} sm={12} xs={12}>
                     <TextareaAutosize
                         name={"aboutMe"}
                         defaultValue={content}
@@ -185,12 +185,12 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
     const [profile_, setProfile] = useState(profile);
     const profileDispatch = useDispatch();
     const pageDispatch = useDispatch();
-    const tabDispatch = useDispatch();
+
 
     useEffect(() => {
-        if (profile) {
+
            console.log("profile: "+JSON.stringify(profile))
-        }
+
     }, [profile]);
 
     function getFullUrls() {
@@ -282,7 +282,7 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
             </div>
             <div className="d-flex flex-row justify-content-start align-items-center my-4">
                 <RoundSubstrate children={<Person />} color={"orange"}/>
-                <div className="mx-2 text-success">{<Typography variant={"h4"}>{`${profile?.firstName} ${profile?.lastName}, ${profile?.age}`}</Typography>}</div>
+                <div className="mx-2 text-success">{<Typography variant={"h4"}>{`${profile_?.firstName} ${profile_?.lastName}, ${profile?.age}`}</Typography>}</div>
             </div>
             <Grid container className="p-2">
                 <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
@@ -299,13 +299,13 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
                         icon={<Group />}
                         isEdit={isEdit}
                         onSelectedItem={(value) => {setProfile(prevState => ({...prevState, meetPreferences: value}))}}
-                        defaultValue={profile?.meetPreferences}
+                        defaultValue={profile_?.meetPreferences}
                         data={MEET_PREFERENCES_DATA}
                     />
                 </Grid>
                 <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                     <EditableTextAreaField
-                        text={profile_?.aboutMe || EMPTY_TEXT_PROFILE_FIELD}
+                        text={profile?.aboutMe || EMPTY_TEXT_PROFILE_FIELD}
                         isEdit={isEdit}
                         icon={<Mood />}
                         iconTitle={SUBTITLE_ABOUT_ME}

@@ -12,6 +12,7 @@ function useQuery() {
     return new URLSearchParams(useLocation().search);
 }
 
+
 /**
  * Страница главного профиля
  * @param props
@@ -58,7 +59,8 @@ const MyProfile = (props) => {
                 <Container className="my-profile my-profile-shadow d-flex flex-column">
                     <StandartHeader onClick={onBack}/>
                     <div className="d-flex scroll-y">
-                        <ProfileEditablePage profile={profileData?.data?.userProfile} currentUserId={currentUserId} isEdit={currentUserId !== null}/>
+                        {(profileData?.data?.userProfile) &&
+                        <ProfileEditablePage profile={profileData?.data?.userProfile} currentUserId={currentUserId} isEdit={currentUserId !== null}/>}
                     </div>
                 </Container>
             </div>
