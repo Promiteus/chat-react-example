@@ -29,3 +29,27 @@ input {
   border: 0;
   border-bottom: 1px solid rgb(117, 116, 116);
 }
+
+
+*,
+html * /* override x.xhtml.ru style */
+{
+  scrollbar-width: thin;
+  scrollbar-color: gray orange;
+}
+
+*::-webkit-scrollbar,
+html *::-webkit-scrollbar {
+  height: 12px;
+  width: 3px;
+}
+*::-webkit-scrollbar-track,
+html *::-webkit-scrollbar-track {
+  background: gray;
+}
+*::-webkit-scrollbar-thumb,
+html *::-webkit-scrollbar-thumb {
+  background-color: gray;
+  border-radius: 5px;
+  border: 3px solid orange;
+}

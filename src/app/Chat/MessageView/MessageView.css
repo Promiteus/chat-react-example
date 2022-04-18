@@ -5,3 +5,18 @@
     background-image: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), url("/src/assets/sex_icon_50.png");
     background-repeat: repeat;
 }
+
+div.chatView
+{
+    scrollbar-width: thin;
+}
+
+div.chatView::-webkit-scrollbar {
+    height: 12px;
+    width: 0;
+}
+
+div.chatView::-webkit-scrollbar-thumb {
+    border-radius: 0;
+    border: 0 solid orange;
+}
