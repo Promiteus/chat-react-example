@@ -276,7 +276,6 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
                         activeIndex={imageIndex}
                     />
                 </div>
-                <ActionButtons isEdit={isEdit} onComplainClick={onComplainClick} onWriteClick={onWriteClick}/>
                 <div className="d-flex flex-row justify-content-start align-items-center">
                     <IconSubTitle text={SUBTITLE_MY_PHOTOS} icon={<PhotoCamera />}/>
                 </div>
@@ -387,17 +386,25 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
                     </Grid>
                 </Grid>
 
-                <ActionButtons isEdit={isEdit} onComplainClick={onComplainClick} onWriteClick={onWriteClick}/>
                 {((dimType === D_LG) || (dimType === D_XL)) &&
-                <ActionSave isEdit={isEdit} onClick={onProfileSave}/>}
+                   <ActionButtons
+                       isEdit={isEdit}
+                       onComplainClick={onComplainClick}
+                       onWriteClick={onWriteClick}/>
+                }
+                {((dimType === D_LG) || (dimType === D_XL)) &&
+                   <ActionSave
+                       isEdit={isEdit}
+                       onClick={onProfileSave}/>
+                }
 
                 <div className="p-4"></div>
             </div>
-            {((dimType !== D_LG) && (dimType !== D_XL)) &&
+            {((dimType !== D_LG) && (dimType !== D_XL) && isEdit) &&
             <IconFab
                 icon={<Save/>}
                 bgColor={"#6c34ef"}
-                ariaLabel={'add'}
+                ariaLabel={'save'}
                 iconColor={'#ff7700'}
                 fabStyle={fabStyle}
                 onClick={onProfileSave}
