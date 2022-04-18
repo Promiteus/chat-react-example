@@ -14,12 +14,14 @@ import {Fab} from "@mui/material";
  */
 const IconFab = ({onClick, bgColor, iconColor, ariaLabel, icon, fabStyle}) => {
     return (
-       <Fab
-           aria-label={ariaLabel || ''}
-           sx={{...fabStyle, backgroundColor: bgColor || '#FFFFFF', color: iconColor || '#000000'}}
-           onClick={onClick}>
-         {icon}
-       </Fab>
+       <>
+           <Fab
+               aria-label={ariaLabel || ''}
+               sx={{...fabStyle, backgroundColor: bgColor || '#FFFFFF', color: iconColor || '#000000'}}
+               onClick={onClick}>
+               {icon}
+           </Fab>
+       </>
     );
 }
 

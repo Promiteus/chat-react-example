@@ -21,7 +21,7 @@ import {
     Person,
     PhotoCamera,
     RoundaboutLeft,
-    ModeEdit, SearchOutlined, SaveAltOutlined, Save,
+    ModeEdit, SearchOutlined, SaveAltOutlined, Save, ChatOutlined, BlockOutlined,
 } from "@mui/icons-material";
 import RoundSubstrate from '../../Svg/Sunstrate/RoundSubstrate';
 import IconSubTitle from "../Header/IconSubTitle";
@@ -50,6 +50,7 @@ import {setChatSelectedUser, setPageIndex, setTbIndex} from "../../Stores/slices
 import {addChatMessageAsync} from "../../Stores/slices/ChatMessageSlice";
 import useWindowDimensions, {D_LG, D_XL} from "../../Hooks/useWindowDimension";
 import IconFab from "../Fabs/IconFab";
+import VerticalFabs from "../Fabs/VerticalFabs";
 
 
 const ActionButtons = ({isEdit, onWriteClick, onComplainClick, textColor, borderColor, bgColor}) => {
@@ -224,6 +225,28 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
         right: 46,
         zIndex: 999
     };
+
+    const fabs = [
+       {
+            icon: <ChatTwoTone/>,
+            bgColor: '#6c34ef',
+            ariaLabel: 'write',
+            iconColor: '#ffffff',
+            onClick: function (e) {
+                onWriteClick();
+            }
+       },
+       {
+            icon: <BlockOutlined/>,
+            bgColor: '#FF0000',
+            ariaLabel: 'write',
+            iconColor: '#ffffff',
+            onClick: function (e) {
+                onComplainClick();
+            }
+       },
+    ]
+
 
     function getFullUrls() {
         return (profile?.imgUrls?.length > 0) ?
@@ -409,6 +432,9 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
                 fabStyle={fabStyle}
                 onClick={onProfileSave}
             />}
+
+            {((dimType !== D_LG) && (dimType !== D_XL) && !isEdit) &&
+            <VerticalFabs fabStyle={fabStyle} fabs={fabs}/>}
         </>
     )
 }
