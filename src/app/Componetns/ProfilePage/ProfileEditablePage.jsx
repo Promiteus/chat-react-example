@@ -234,7 +234,7 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
     }
 
     return(
-        <div className="w-100 my-2 px-4 py-2">
+        <div className="w-100 my-2 px-4 py-2 position-relative">
             <div>
                 <Viewer
                     visible={visible}
