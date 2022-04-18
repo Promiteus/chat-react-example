@@ -22,7 +22,7 @@ export default function Userprofile({user, selected, onClick}) {
     }
 
     return (
-        <div>
+        <div className="m-1">
             <Box sx={{'&:hover': { backgroundColor: 'primary.main', opacity: [0.9, 0.8, 0.7],}}}
                  className="d-flex flex-row "
                  style={styles.redBg}

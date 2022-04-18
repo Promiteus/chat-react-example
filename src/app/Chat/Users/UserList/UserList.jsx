@@ -162,8 +162,8 @@ export default function UserList({currentUserId, onSelected}) {
               <Divider/>
           </div>
 
-          <div className="h-100 overflow-hidden">
-              <div ref={chatScroll} className="last-chat">
+          <div className="h-100 overflow-hidden mt-1">
+              <div ref={chatScroll} className="last-chat px-1">
                   {(chatUsers.length !== 0) ? chatUsers.map((user) => (
                       <div key={user.id} className="mt-1">
                           <Userprofile onClick={clickItem} selected={(selectedUser === user.id)} user={user}/>
