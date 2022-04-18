@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Chip, Fab, Grid, ImageList} from "@mui/material";
+import {Chip, ImageList} from "@mui/material";
 import ProfileViewElement from "../Guests/ProfileViewElement";
 import {CAPTION_EMPTY_PROFILES, kidsVal} from "../Constants/TextMessagesRu";
 import { SearchOutlined} from "@mui/icons-material";
@@ -14,6 +14,12 @@ import useWindowDimensions, {D_LG, D_MD, D_SM, D_XL, D_XS} from "../Hooks/useWin
 import UserProfilesSkeletons from "../Componetns/Skeletons/UserProfilesSkeletons";
 import IconFab from "../Componetns/Fabs/IconFab";
 
+const fabStyle = {
+    position: 'absolute',
+    bottom: 25,
+    right: 36,
+    zIndex: 999
+};
 
 /**
  * Компанент, показывающий список профилей для поиска пользователя по критерию
@@ -106,6 +112,7 @@ const SearchProfiles = ({userId}) => {
                 bgColor={"#6c34ef"}
                 ariaLabel={'add'}
                 iconColor={'#ff7700'}
+                fabStyle={fabStyle}
                 onClick={() => {setOpenSearch(!openSearch)}}
             />
         </div>

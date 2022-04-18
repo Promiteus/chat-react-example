@@ -21,7 +21,7 @@ import {
     Person,
     PhotoCamera,
     RoundaboutLeft,
-    ModeEdit,
+    ModeEdit, SearchOutlined, SaveAltOutlined, Save,
 } from "@mui/icons-material";
 import RoundSubstrate from '../../Svg/Sunstrate/RoundSubstrate';
 import IconSubTitle from "../Header/IconSubTitle";
@@ -48,17 +48,38 @@ import {saveProfileAsync, selectProfile} from "../../Stores/slices/UserProfileSl
 import {NO_PHOTO_PNG} from "../../../assets";
 import {setChatSelectedUser, setPageIndex, setTbIndex} from "../../Stores/slices/CommonSlice";
 import {addChatMessageAsync} from "../../Stores/slices/ChatMessageSlice";
+import useWindowDimensions, {D_LG, D_XL} from "../../Hooks/useWindowDimension";
+import IconFab from "../Fabs/IconFab";
 
 
-const ActionButtons = ({isEdit, onWriteClick, onComplainClick}) => {
+const ActionButtons = ({isEdit, onWriteClick, onComplainClick, textColor, borderColor, bgColor}) => {
     return (
       <div>
           {!isEdit &&
           <div className="d-flex flex-row justify-content-center align-content-center">
-              <Button variant={"outlined"} startIcon={<ChatTwoTone/>} className="mx-1" onClick={onWriteClick}>
+              <Button
+                  sx={{
+                      color: textColor || '#FFFFFF',
+                      borderColor: borderColor || '#6c34ef',
+                      backgroundColor: bgColor || '#6c34ef'}
+                  }
+                  variant={"contained"}
+                  startIcon={<ChatTwoTone/>}
+                  className="mx-1"
+                  onClick={onWriteClick}>
                   <Typography variant={"subtitle1"}>{CAPTION_WRITE}</Typography>
               </Button>
-              <Button variant={"outlined"} color={"error"} startIcon={<Block/>} className="mx-1" onClick={onComplainClick}>
+              <Button
+                  sx={{
+                      color: textColor || '#FFFFFF',
+                      borderColor: borderColor || '#6c34ef',
+                      backgroundColor: bgColor || '#6c34ef'}
+                  }
+                  variant={"contained"}
+                  color={"error"}
+                  startIcon={<Block/>}
+                  className="mx-1"
+                  onClick={onComplainClick}>
                   <Typography variant={"subtitle1"}>{CAPTION_COMPLAIN}</Typography>
               </Button>
           </div>}
@@ -66,12 +87,22 @@ const ActionButtons = ({isEdit, onWriteClick, onComplainClick}) => {
     );
 }
 
-const ActionSave = ({isEdit, onClick}) => {
+const ActionSave = ({isEdit, onClick, textColor, borderColor, bgColor}) => {
     return (
         <div>
             {isEdit &&
             <div className="d-flex flex-row justify-content-center align-content-center">
-                <Button variant={"outlined"} startIcon={<ChatTwoTone/>} className="mx-1" onClick={onClick}>
+                <Button
+                    sx={{
+                        color: textColor || '#FFFFFF',
+                        borderColor: borderColor || '#6c34ef',
+                        backgroundColor: bgColor || '#6c34ef'}
+                    }
+                    variant={"contained"}
+                    startIcon={<ChatTwoTone/>}
+                    className="mx-1"
+                    onClick={onClick}>
+
                     <Typography variant={"subtitle1"}>{CAPTION_SAVE}</Typography>
                 </Button>
             </div>}
@@ -185,20 +216,20 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
     const [profile_, setProfile] = useState(profile);
     const profileDispatch = useDispatch();
     const pageDispatch = useDispatch();
+    const {dimType} = useWindowDimensions();
 
-
-    useEffect(() => {
-
-           console.log("profile: "+JSON.stringify(profile))
-
-    }, [profile]);
+    const fabStyle = {
+        position: 'absolute',
+        bottom: 35,
+        right: 46,
+        zIndex: 999
+    };
 
     function getFullUrls() {
         return (profile?.imgUrls?.length > 0) ?
             profile?.imgUrls.map(elem => ({src: `${BASE_DATA_URL}${elem?.src}`, alt: elem?.alt})) :
             [{src: '', alt: ''}];
     }
-
 
     /**
      * Событие отправки данных о отредактированном профиле пользователе
@@ -234,129 +265,144 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
     }
 
     return(
-        <div className="w-100 my-2 px-4 py-2 position-relative">
-            <div>
-                <Viewer
-                    visible={visible}
-                    onClose={() => { setVisible(false); } }
-                    images={getFullUrls()}
-                    noFooter={true}
-                    activeIndex={imageIndex}
-                />
-            </div>
-            <ActionButtons isEdit={isEdit} onComplainClick={onComplainClick} onWriteClick={onWriteClick}/>
-            <div className="d-flex flex-row justify-content-start align-items-center">
-                <IconSubTitle text={SUBTITLE_MY_PHOTOS} icon={<PhotoCamera />}/>
-            </div>
-            <div className="d-flex justify-content-start my-2 w-100">
-                <div className="w-100">
-                    <Grid container >
-                        {getFullUrls().map((item, key) => (
-                            <Grid key={key} item xs={12} sm={12} md={3} lg={4}>
-                                <Card className="card m-1 photo-card">
-                                    {(item.src !== '') ?
-                                        <CardMedia
-                                            component="img"
-                                            key={key}
-                                            height="300"
-                                            image={item.src}
-                                            alt={item.alt}
-                                            sx = {{padding: 1}}
-                                            onClick={() => showImagePreview(key)}
-                                        /> :
-                                        <CardMedia
-                                            component="img"
-                                            key={key}
-                                            height="300"
-                                            image={NO_PHOTO_PNG}
-                                            alt={item.alt}
-                                            sx = {{padding: 1}}
-                                        />
-                                    }
-
-                                </Card>
-                            </Grid>
-                        ))}
-                    </Grid>
+        <>
+            <div className="d-block h-100 my-2 px-4 py-2 position-relative">
+                <div>
+                    <Viewer
+                        visible={visible}
+                        onClose={() => { setVisible(false); } }
+                        images={getFullUrls()}
+                        noFooter={true}
+                        activeIndex={imageIndex}
+                    />
                 </div>
-            </div>
-            <div className="d-flex flex-row justify-content-start align-items-center my-4">
-                <RoundSubstrate children={<Person />} color={"orange"}/>
-                <div className="mx-2 text-success">{<Typography variant={"h4"}>{`${profile_?.firstName} ${profile_?.lastName}, ${profile?.age}`}</Typography>}</div>
-            </div>
-            <Grid container className="p-2">
-                <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                    <EditableTextAreaField
-                        text={profile_?.hobby || EMPTY_TEXT_PROFILE_FIELD}
-                        isEdit={isEdit}
-                        icon={<Kitesurfing />}
-                        iconTitle={SUBTITLE_HOBBIES}
-                        onChangeContent={(text) => {setProfile(prevState => ({...prevState, hobby: text}))}}/>
-                </Grid>
-                <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                    <EditableListField
-                        iconTitle={SUBTITLE_WHOM_LOOKING_FOR}
-                        icon={<Group />}
-                        isEdit={isEdit}
-                        onSelectedItem={(value) => {setProfile(prevState => ({...prevState, meetPreferences: value}))}}
-                        defaultValue={profile_?.meetPreferences}
-                        data={MEET_PREFERENCES_DATA}
-                    />
-                </Grid>
-                <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                    <EditableTextAreaField
-                        text={profile?.aboutMe || EMPTY_TEXT_PROFILE_FIELD}
-                        isEdit={isEdit}
-                        icon={<Mood />}
-                        iconTitle={SUBTITLE_ABOUT_ME}
-                        onChangeContent={(text) => {setProfile(prevState => ({...prevState, aboutMe: text}))}}/>
-                </Grid>
-                <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                    <EditableListField
-                        iconTitle={SUBTITLE_SEX_ORIENTATION}
-                        icon={<RoundaboutLeft />}
-                        isEdit={isEdit}
-                        onSelectedItem={(value) => {setProfile(prevState => ({...prevState, sexOrientation: value}))}}
-                        defaultValue={profile_?.sexOrientation}
-                        data={SEX_ORIENTATION_DATA}
-                    />
-                </Grid>
-                <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                    <EditableListField
-                        iconTitle={SUBTITLE_SEX}
-                        icon={<Face />}
-                        isEdit={isEdit}
-                        onSelectedItem={(value) => {setProfile(prevState => ({...prevState, sex: value}))}}
-                        defaultValue={profile_?.sex}
-                        data={SEX_DATA}
-                    />
-                </Grid>
-                <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                    <EditableListField
-                        iconTitle={SUBTITLE_CHILDS}
-                        icon={<ChildCare />}
-                        isEdit={isEdit}
-                        onSelectedItem={(value) => {setProfile(prevState => ({...prevState, kids: value === 'YES' ? 1 : 0}))}}
-                        defaultValue={profile_?.kids > 0 ? 'YES' : 'NO'}
-                        data={KIDS_DATA}
-                    />
-                </Grid>
-                <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                    <EditableListField
-                        iconTitle={SUBTITLE_FAMILY_STATUS}
-                        icon={<FamilyRestroom />}
-                        isEdit={isEdit}
-                        onSelectedItem={(value) => {setProfile(prevState => ({...prevState, familyStatus: value}))}}
-                        defaultValue={profile?.familyStatus}
-                        data={profile?.sex === 'MAN' ? FAMILY_STATUS_DATA.man : FAMILY_STATUS_DATA.woman}
-                    />
-                </Grid>
-            </Grid>
+                <ActionButtons isEdit={isEdit} onComplainClick={onComplainClick} onWriteClick={onWriteClick}/>
+                <div className="d-flex flex-row justify-content-start align-items-center">
+                    <IconSubTitle text={SUBTITLE_MY_PHOTOS} icon={<PhotoCamera />}/>
+                </div>
+                <div className="d-flex justify-content-start my-2 w-100">
+                    <div className="w-100">
+                        <Grid container >
+                            {getFullUrls().map((item, key) => (
+                                <Grid key={key} item xs={12} sm={12} md={3} lg={4}>
+                                    <Card className="card m-1 photo-card">
+                                        {(item.src !== '') ?
+                                            <CardMedia
+                                                component="img"
+                                                key={key}
+                                                height="300"
+                                                image={item.src}
+                                                alt={item.alt}
+                                                sx = {{padding: 1}}
+                                                onClick={() => showImagePreview(key)}
+                                            /> :
+                                            <CardMedia
+                                                component="img"
+                                                key={key}
+                                                height="300"
+                                                image={NO_PHOTO_PNG}
+                                                alt={item.alt}
+                                                sx = {{padding: 1}}
+                                            />
+                                        }
 
-            <ActionButtons isEdit={isEdit} onComplainClick={onComplainClick} onWriteClick={onWriteClick}/>
-            <ActionSave isEdit={isEdit} onClick={onProfileSave}/>
-            <div className="p-4"></div>
-        </div>
+                                    </Card>
+                                </Grid>
+                            ))}
+                        </Grid>
+                    </div>
+                </div>
+                <div className="d-flex flex-row justify-content-start align-items-center my-4">
+                    <RoundSubstrate children={<Person />} color={"orange"}/>
+                    <div className="mx-2 text-success">
+                        {<Typography variant={"h3"}>{`${profile_?.firstName} ${profile_?.lastName}, ${profile?.age}`}</Typography>}
+                    </div>
+                </div>
+                <Grid container className="p-2">
+                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                        <EditableTextAreaField
+                            text={profile_?.hobby || EMPTY_TEXT_PROFILE_FIELD}
+                            isEdit={isEdit}
+                            icon={<Kitesurfing />}
+                            iconTitle={SUBTITLE_HOBBIES}
+                            onChangeContent={(text) => {setProfile(prevState => ({...prevState, hobby: text}))}}/>
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                        <EditableListField
+                            iconTitle={SUBTITLE_WHOM_LOOKING_FOR}
+                            icon={<Group />}
+                            isEdit={isEdit}
+                            onSelectedItem={(value) => {setProfile(prevState => ({...prevState, meetPreferences: value}))}}
+                            defaultValue={profile_?.meetPreferences}
+                            data={MEET_PREFERENCES_DATA}
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                        <EditableTextAreaField
+                            text={profile?.aboutMe || EMPTY_TEXT_PROFILE_FIELD}
+                            isEdit={isEdit}
+                            icon={<Mood />}
+                            iconTitle={SUBTITLE_ABOUT_ME}
+                            onChangeContent={(text) => {setProfile(prevState => ({...prevState, aboutMe: text}))}}/>
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                        <EditableListField
+                            iconTitle={SUBTITLE_SEX_ORIENTATION}
+                            icon={<RoundaboutLeft />}
+                            isEdit={isEdit}
+                            onSelectedItem={(value) => {setProfile(prevState => ({...prevState, sexOrientation: value}))}}
+                            defaultValue={profile_?.sexOrientation}
+                            data={SEX_ORIENTATION_DATA}
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                        <EditableListField
+                            iconTitle={SUBTITLE_SEX}
+                            icon={<Face />}
+                            isEdit={isEdit}
+                            onSelectedItem={(value) => {setProfile(prevState => ({...prevState, sex: value}))}}
+                            defaultValue={profile_?.sex}
+                            data={SEX_DATA}
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                        <EditableListField
+                            iconTitle={SUBTITLE_CHILDS}
+                            icon={<ChildCare />}
+                            isEdit={isEdit}
+                            onSelectedItem={(value) => {setProfile(prevState => ({...prevState, kids: value === 'YES' ? 1 : 0}))}}
+                            defaultValue={profile_?.kids > 0 ? 'YES' : 'NO'}
+                            data={KIDS_DATA}
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                        <EditableListField
+                            iconTitle={SUBTITLE_FAMILY_STATUS}
+                            icon={<FamilyRestroom />}
+                            isEdit={isEdit}
+                            onSelectedItem={(value) => {setProfile(prevState => ({...prevState, familyStatus: value}))}}
+                            defaultValue={profile?.familyStatus}
+                            data={profile?.sex === 'MAN' ? FAMILY_STATUS_DATA.man : FAMILY_STATUS_DATA.woman}
+                        />
+                    </Grid>
+                </Grid>
+
+                <ActionButtons isEdit={isEdit} onComplainClick={onComplainClick} onWriteClick={onWriteClick}/>
+                {((dimType === D_LG) || (dimType === D_XL)) &&
+                <ActionSave isEdit={isEdit} onClick={onProfileSave}/>}
+
+                <div className="p-4"></div>
+            </div>
+            {((dimType !== D_LG) && (dimType !== D_XL)) &&
+            <IconFab
+                icon={<Save/>}
+                bgColor={"#6c34ef"}
+                ariaLabel={'add'}
+                iconColor={'#ff7700'}
+                fabStyle={fabStyle}
+                onClick={onProfileSave}
+            />}
+        </>
     )
 }
 
