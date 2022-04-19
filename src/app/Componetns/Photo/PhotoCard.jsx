@@ -5,6 +5,7 @@ import IconFab from "../Fabs/IconFab";
 import { AddAPhoto, Edit, Stars} from "@mui/icons-material";
 import FloatIcon from "../Fabs/FloatIcon";
 import {isMainPhoto} from "../../Handlers/ImageHandler";
+import {CAPTION_MAIN_IMG} from "../../Constants/TextMessagesRu";
 
 /**
  *
@@ -39,7 +40,12 @@ const PhotoCard = ({imgUrl, alt, key, height, onClick, isAdd}) => {
            {(!(imgUrl) && (isAdd)) &&
            <IconFab fabStyle={fabStyle} icon={<AddAPhoto/>} bgColor={"#6c34ef"} iconColor={"#ff7700"} size={"small"}/>}
            {(isMainPhoto(alt, imgUrl)) &&
-           <FloatIcon icon={<Stars fontSize="large" sx={{color: "#FF0000"}}/>} fabStyle={iconFabStyle}/>}
+           <FloatIcon
+               icon={<Stars fontSize="large" sx={{color: "#FF0000"}}/>}
+               fabStyle={iconFabStyle}
+               caption={CAPTION_MAIN_IMG}
+               color={"#FF0000"}
+           />}
            <CardMedia
                component="img"
                key={key}

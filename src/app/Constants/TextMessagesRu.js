@@ -40,6 +40,7 @@ const SUBTITLE_YOUR_NAME = "Как вас зовут?";
 const SUBTITLE_YOUR_BIRTHDAY = "Ваш день рождения";
 const SUBTITLE_MEETING_FOR = "С кем знакомитесь?";
 
+const CAPTION_MAIN_IMG = 'Главная';
 
 const CAPTION_SEARCH_PARAMS = "Параметры поиска";
 
@@ -171,4 +172,5 @@ export {
     SUBTITLE_MEETING_FOR,
     SUBTITLE_YOUR_BIRTHDAY,
     SUBTITLE_YOUR_NAME,
+    CAPTION_MAIN_IMG,
 }
