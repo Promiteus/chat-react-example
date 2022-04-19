@@ -51,6 +51,7 @@ import {addChatMessageAsync} from "../../Stores/slices/ChatMessageSlice";
 import useWindowDimensions, {D_LG, D_XL} from "../../Hooks/useWindowDimension";
 import IconFab from "../Fabs/IconFab";
 import VerticalFabs from "../Fabs/VerticalFabs";
+import PhotoCard from "../Photo/PhotoCard";
 
 
 const ActionButtons = ({isEdit, onWriteClick, onComplainClick, textColor, borderColor, bgColor}) => {
@@ -247,11 +248,14 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
        },
     ]
 
+    useEffect(() => {
+        console.log("profile: "+JSON.stringify(profile));
+    }, []);
 
     function getFullUrls() {
         return (profile?.imgUrls?.length > 0) ?
             profile?.imgUrls.map(elem => ({src: `${BASE_DATA_URL}${elem?.src}`, alt: elem?.alt})) :
-            [{src: '', alt: ''}];
+            [];
     }
 
     /**
@@ -305,32 +309,30 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
                 <div className="d-flex justify-content-start my-2 w-100">
                     <div className="w-100">
                         <Grid container >
-                            {getFullUrls().map((item, key) => (
-                                <Grid key={key} item xs={12} sm={12} md={3} lg={4}>
-                                    <Card className="card m-1 photo-card">
-                                        {(item.src !== '') ?
-                                            <CardMedia
-                                                component="img"
-                                                key={key}
-                                                height="300"
-                                                image={item.src}
-                                                alt={item.alt}
-                                                sx = {{padding: 1}}
-                                                onClick={() => showImagePreview(key)}
-                                            /> :
-                                            <CardMedia
-                                                component="img"
-                                                key={key}
-                                                height="300"
-                                                image={NO_PHOTO_PNG}
-                                                alt={item.alt}
-                                                sx = {{padding: 1}}
-                                            />
-                                        }
-
-                                    </Card>
-                                </Grid>
-                            ))}
+                            {getFullUrls()?.length > 0 &&
+                             getFullUrls()?.map((item, key) => (
+                                    <Grid key={key} item xs={12} sm={12} md={3} lg={4}>
+                                        <Card className="card m-1 photo-card">
+                                            {(item.src !== '') ?
+                                                <PhotoCard
+                                                    key={key}
+                                                    height={300}
+                                                    imgUrl={item?.src}
+                                                    alt={item?.alt}
+                                                    onClick={() => showImagePreview(key)}
+                                                />
+                                                :
+                                                <PhotoCard/>
+                                            }
+                                        </Card>
+                                    </Grid>
+                                ))}
+                            {getFullUrls()?.length === 0 &&
+                            <Grid item xs={12} sm={12} md={3} lg={4}>
+                                <Card className="card m-1 photo-card">
+                                    <PhotoCard/>
+                                </Card>
+                            </Grid>}
                         </Grid>
                     </div>
                 </div>
