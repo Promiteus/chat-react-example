@@ -5,6 +5,9 @@
  * @returns {boolean}
  */
 export function isMainPhoto(alt, imgUrl) {
-
-    return true;
+    if (!(alt) || !(imgUrl)) {
+        return false;
+    }
+    let fileName = imgUrl.split('file_id=')?.length === 2 ? imgUrl.split('file_id=')[1]: '';
+    return (alt === fileName);
 }

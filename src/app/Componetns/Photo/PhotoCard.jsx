@@ -20,8 +20,8 @@ import {isMainPhoto} from "../../Handlers/ImageHandler";
 const PhotoCard = ({imgUrl, alt, key, height, onClick, isAdd}) => {
    const fabStyle = {
         position: 'absolute',
-        top: 5,
-        right: 5,
+        top: 15,
+        right: 15,
         zIndex: 999
    };
 
@@ -35,11 +35,11 @@ const PhotoCard = ({imgUrl, alt, key, height, onClick, isAdd}) => {
    return(
        <>
            {imgUrl &&
-           <IconFab fabStyle={fabStyle} icon={<Edit/>} bgColor={"#ff7700"}/>}
+           <IconFab fabStyle={fabStyle} icon={<Edit/>} bgColor={"#ff7700"} size={"small"}/>}
            {(!(imgUrl) && (isAdd)) &&
-           <IconFab fabStyle={fabStyle} icon={<AddAPhoto/>} bgColor={"#6c34ef"} iconColor={"#ff7700"}/>}
+           <IconFab fabStyle={fabStyle} icon={<AddAPhoto/>} bgColor={"#6c34ef"} iconColor={"#ff7700"} size={"small"}/>}
            {(isMainPhoto(alt, imgUrl)) &&
-           <FloatIcon icon={<Stars fontSize="large" sx={{color: "#CC0000"}}/>} fabStyle={iconFabStyle}/>}
+           <FloatIcon icon={<Stars fontSize="large" sx={{color: "#FF0000"}}/>} fabStyle={iconFabStyle}/>}
            <CardMedia
                component="img"
                key={key}

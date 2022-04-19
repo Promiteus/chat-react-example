@@ -9,16 +9,19 @@ import {Fab} from "@mui/material";
  * @param {string} iconColor
  * @param {string} ariaLabel
  * @param {JSX.Element} icon
+ * @param {string} size
  * @returns {JSX.Element}
  * @constructor
  */
-const IconFab = ({onClick, bgColor, iconColor, ariaLabel, icon, fabStyle}) => {
+const IconFab = ({onClick, bgColor, iconColor, ariaLabel, icon, fabStyle, size}) => {
     return (
        <>
            <Fab
                aria-label={ariaLabel || ''}
                sx={{...fabStyle, backgroundColor: bgColor || '#FFFFFF', color: iconColor || '#000000'}}
-               onClick={onClick}>
+               onClick={onClick}
+               size={size || 'large'}
+           >
                {icon}
            </Fab>
        </>

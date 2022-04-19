@@ -318,7 +318,7 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
                                                     key={key}
                                                     height={300}
                                                     imgUrl={item?.src}
-                                                    alt={item?.alt}
+                                                    alt={profile?.thumbUrl?.alt}
                                                     onClick={() => showImagePreview(key)}
                                                 />
                                                 :
