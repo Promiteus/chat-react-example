@@ -248,14 +248,9 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
        },
     ]
 
-    useEffect(() => {
-        console.log("profile: "+JSON.stringify(profile));
-    }, []);
-
     function getFullUrls() {
         return (profile?.imgUrls?.length > 0) ?
-            profile?.imgUrls.map(elem => ({src: `${BASE_DATA_URL}${elem?.src}`, alt: elem?.alt})) :
-            [];
+            profile?.imgUrls.map(elem => ({src: `${BASE_DATA_URL}${elem?.src}`, alt: elem?.alt})) : [];
     }
 
     /**
@@ -320,6 +315,8 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
                                                     imgUrl={item?.src}
                                                     alt={profile?.thumbUrl?.alt}
                                                     onClick={() => showImagePreview(key)}
+                                                    sex={profile?.sex}
+                                                    isEdit={isEdit}
                                                 />
                                                 :
                                                 <PhotoCard isAdd={true}/>

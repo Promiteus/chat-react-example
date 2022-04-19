@@ -9,7 +9,7 @@ function MessageItem({data, currentUserId, selectedUser}) {
     function chatBudge(data, curUserId) {
         if (data?.userId === curUserId) {
             return (
-              <div className="MessageItem p-1 mt-2 d-flex">
+              <div className="p-1 mt-2 d-flex">
                   <MessageItemElement data={data}>
                       <div className="d-flex flex-row justify-content-between align-items-center">
                           <Typography variant={"body2"} sx={{color: '#555588'}}>{`${selectedUser?.firstName}`}</Typography>
@@ -23,7 +23,7 @@ function MessageItem({data, currentUserId, selectedUser}) {
               </div>);
         } else {
             return (
-              <div className="MessageItem p-1 mt-2 d-flex flex-row-reverse">
+              <div className="p-1 mt-2 d-flex flex-row-reverse">
                   <MessageItemElement color={"#C2F78E"} data={data}>
                       <div className="d-flex flex-row justify-content-between align-items-center">
                           <Typography variant={"body2"} sx={{color: '#555588'}}>{MSG_YOU}</Typography>
