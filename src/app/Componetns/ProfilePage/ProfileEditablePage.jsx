@@ -267,6 +267,7 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
        //TODO
     }
 
+
     /**
      * Перейти в чат с пользователем
      */
@@ -316,10 +317,10 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
                                                     alt={profile?.thumbUrl?.alt}
                                                     onClick={() => showImagePreview(key)}
                                                     sex={profile?.sex}
-                                                    isEdit={isEdit}
+                                                    isEditable={isEdit}
                                                 />
                                                 :
-                                                <PhotoCard isAdd={true}/>
+                                                <PhotoCard isAdd={true} isEditable={isEdit}/>
                                             }
                                         </Card>
                                     </Grid>
@@ -327,7 +328,7 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
                             {getFullUrls()?.length === 0 &&
                             <Grid item xs={12} sm={12} md={3} lg={4}>
                                 <Card className="card m-1 photo-card">
-                                    <PhotoCard isAdd={true}/>
+                                    <PhotoCard isAdd={true} isEditable={isEdit}/>
                                 </Card>
                             </Grid>}
                         </Grid>

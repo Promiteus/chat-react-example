@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {NO_PHOTO_PNG} from "../../../assets";
 import {CardMedia} from "@mui/material";
 import IconFab from "../Fabs/IconFab";
@@ -16,11 +16,11 @@ import { SEX_DATA} from "../../Constants/TextMessagesRu";
  * @param {any} onClick
  * @param {boolean} isAdd
  * @param {string} sex
- * @param {boolean} isEdit
+ * @param {boolean} isEditable
  * @returns {JSX.Element}
  * @constructor
  */
-const PhotoCard = ({imgUrl, alt, key, height, onClick, isAdd, sex, isEdit}) => {
+const PhotoCard = ({imgUrl, alt, key, height, onClick, isAdd, sex, isEditable}) => {
    const fabStyle = {
         position: 'absolute',
         top: 15,
@@ -35,18 +35,21 @@ const PhotoCard = ({imgUrl, alt, key, height, onClick, isAdd, sex, isEdit}) => {
         zIndex: 999
     };
 
+    useEffect(() => {
+        console.log("isEdit: "+isEditable);
+    }, []);
+
    return(
        <>
-
-           {(imgUrl) && (isEdit) &&
+           {(imgUrl) && (isEditable) &&
            <IconFab
                fabStyle={fabStyle}
                icon={<Edit/>}
                bgColor={"#ff7700"}
                size={"small"}
            />}
-
-           {(!(imgUrl) && (isAdd)) &&
+           {console.log("isEdit mid: "+isEditable)}
+           {(!(imgUrl) && (isAdd) && (isEditable)) &&
            <IconFab
                fabStyle={fabStyle}
                icon={<AddAPhoto/>}
@@ -55,7 +58,7 @@ const PhotoCard = ({imgUrl, alt, key, height, onClick, isAdd, sex, isEdit}) => {
                size={"small"}
            />}
 
-           {(isMainPhoto(alt, imgUrl) && (isEdit)) &&
+           {(isMainPhoto(alt, imgUrl) && (isEditable)) &&
            <FloatIcon
                icon={(sex === SEX_DATA[0]?.tag) ? <Stars fontSize="large" sx={{color: "#FF0000"}}/> : <Favorite fontSize="large" sx={{color: "#ff00DD"}}/>}
                fabStyle={iconFabStyle}
