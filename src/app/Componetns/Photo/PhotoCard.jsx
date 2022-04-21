@@ -18,10 +18,11 @@ import {uploadImageFile} from "../../Stores/api/UploadsApi/UploadFiles";
  * @param {boolean} isAdd
  * @param {string} sex
  * @param {boolean} isEditable
+ * @param {string} userId
  * @returns {JSX.Element}
  * @constructor
  */
-const PhotoCard = ({imgUrl, alt, key, height, onClick, isAdd, sex, isEditable}) => {
+const PhotoCard = ({imgUrl, alt, key, height, onClick, isAdd, sex, isEditable, userId}) => {
     const [selectedFile, setSelectedFile] = useState(null);
     const fileInputRef = useRef();
     const [photo, setPhoto] = useState(imgUrl);
@@ -52,32 +53,36 @@ const PhotoCard = ({imgUrl, alt, key, height, onClick, isAdd, sex, isEditable}) 
         fReader.readAsDataURL(file);
         fReader.onloadend = function(event){
             setPhoto(event?.target?.result);
-            //uploadFile();
+            saveFile(file, userId);
         }
     }
 
-    const uploadFile = (file, userId) => {
+    const saveFile = (file, userId) => {
         const formData = new FormData();
         if ((file) && (userId)) {
             formData.append('user_id', userId);
             formData.append('file', file);
-            uploadImageFile(formData).then((res) => {
+            uploadImageFile(formData)
+             .then((res) => {
                 console.log("data: "+JSON.stringify(res));
-            });
+             })
+             .catch(err => console.log("upload error: "+err));
         }
     }
 
+
    return(
        <>
-           {(imgUrl) && (isEditable) &&
+           {(photo) && (isEditable) &&
            <IconFab
                fabStyle={fabStyle}
                icon={<Edit/>}
                bgColor={"#ff7700"}
                size={"small"}
+               onClick={onAddImage}
            />}
 
-           {(!(imgUrl) && (isAdd) && (isEditable)) &&
+           {(!(photo) && (isAdd) && (isEditable)) &&
            <IconFab
                fabStyle={fabStyle}
                icon={<AddAPhoto/>}
@@ -87,7 +92,7 @@ const PhotoCard = ({imgUrl, alt, key, height, onClick, isAdd, sex, isEditable}) 
                onClick={onAddImage}
            />}
 
-           {(isMainPhoto(alt, imgUrl) && (isEditable)) &&
+           {(isMainPhoto(alt, photo) && (isEditable)) &&
            <FloatIcon
                icon={(sex === SEX_DATA[0]?.tag) ? <Stars fontSize="large" sx={{color: "#FF0000"}}/> : <Favorite  fontSize="large" sx={{color: "#ff00DD"}}/>}
                fabStyle={iconFabStyle}

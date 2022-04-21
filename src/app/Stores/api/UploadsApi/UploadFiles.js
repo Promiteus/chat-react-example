@@ -5,5 +5,5 @@ import {getEnvOfStorage} from "../../Env";
 
 export function uploadImageFile(formData) {
     let token = localStorage.getItem(TOKEN_KEY);
-    return axios.post(`${getEnvOfStorage()?.authUrl}/api/uploads`, formData,  getHeaderBearerConfigs("multipart/form-data", token));
+    return axios.post(`${getEnvOfStorage()?.dataUrl}/api/uploads`, formData,  getHeaderBearerConfigs("multipart/form-data", token));
 }

@@ -318,9 +318,14 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
                                                     onClick={() => showImagePreview(key)}
                                                     sex={profile?.sex}
                                                     isEditable={isEdit}
+                                                    userId={currentUserId}
                                                 />
                                                 :
-                                                <PhotoCard isAdd={true} isEditable={isEdit}/>
+                                                <PhotoCard
+                                                    isAdd={true}
+                                                    isEditable={isEdit}
+                                                    userId={currentUserId}
+                                                />
                                             }
                                         </Card>
                                     </Grid>
@@ -328,7 +333,11 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
                             {getFullUrls()?.length === 0 &&
                             <Grid item xs={12} sm={12} md={3} lg={4}>
                                 <Card className="card m-1 photo-card">
-                                    <PhotoCard isAdd={true} isEditable={isEdit}/>
+                                    <PhotoCard
+                                        isAdd={true}
+                                        isEditable={isEdit}
+                                        userId={currentUserId}
+                                    />
                                 </Card>
                             </Grid>}
                         </Grid>
