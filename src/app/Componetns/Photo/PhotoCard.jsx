@@ -6,6 +6,7 @@ import {AddAPhoto, Edit, Favorite, Stars} from "@mui/icons-material";
 import FloatIcon from "../Fabs/FloatIcon";
 import {isMainPhoto} from "../../Handlers/ImageHandler";
 import { SEX_DATA} from "../../Constants/TextMessagesRu";
+import {uploadImageFile} from "../../Stores/api/UploadsApi/UploadFiles";
 
 /**
  *
@@ -51,6 +52,18 @@ const PhotoCard = ({imgUrl, alt, key, height, onClick, isAdd, sex, isEditable}) 
         fReader.readAsDataURL(file);
         fReader.onloadend = function(event){
             setPhoto(event?.target?.result);
+            //uploadFile();
+        }
+    }
+
+    const uploadFile = (file, userId) => {
+        const formData = new FormData();
+        if ((file) && (userId)) {
+            formData.append('user_id', userId);
+            formData.append('file', file);
+            uploadImageFile(formData).then((res) => {
+                console.log("data: "+JSON.stringify(res));
+            });
         }
     }
 
