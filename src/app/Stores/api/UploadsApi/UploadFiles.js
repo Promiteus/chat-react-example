@@ -10,7 +10,7 @@ function uploadImageFile(formData) {
 
 function deleteImageFile(userId, fileName) {
     let token = localStorage.getItem(TOKEN_KEY);
-    return axios.delete(`${getEnvOfStorage()?.dataUrl}/api/uploads`,  getHeaderBearerConfigs("multipart/form-data", token));
+    return axios.delete(`${getEnvOfStorage()?.dataUrl}/api/uploads?user_id=${userId}&file_id=${fileName}`,  getHeaderBearerConfigs("multipart/form-data", token));
 }
 
 const getFormData = (file, userId) => {
