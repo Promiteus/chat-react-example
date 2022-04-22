@@ -21,6 +21,12 @@ const getFormData = (file, userId) => {
     return formData;
 }
 
+
+/**
+ * Сохранить файл в профиль с userId
+ * @param {any} file
+ * @param {string} userId
+ */
 const saveFile = (file, userId) => {
     if ((file) && (userId)) {
         uploadImageFile(getFormData(file, userId))
@@ -31,13 +37,21 @@ const saveFile = (file, userId) => {
     }
 }
 
-const deleteFile = (fileName, userId) => {
+/**
+ * Удаление файла из профиля по имени файла
+ * @param {string} fileName
+ * @param {string} userId
+ * @param {function(res: any, err: any)} callback
+ */
+const deleteFile = (fileName, userId, callback) => {
     if ((fileName) && (userId)) {
-        deleteImageFile(getFormData(userId, fileName))
+        deleteImageFile(userId, fileName)
             .then((res) => {
-                console.log("data: "+JSON.stringify(res));
+                callback(res, null);
             })
-            .catch(err => console.log("upload error: "+err));
+            .catch(err => {
+                callback(null, err);
+            });
     }
 }
 

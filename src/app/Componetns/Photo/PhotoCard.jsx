@@ -6,7 +6,7 @@ import {AddAPhoto, DeleteOutline, Edit, Favorite, Stars} from "@mui/icons-materi
 import FloatIcon from "../Fabs/FloatIcon";
 import {isMainPhoto} from "../../Handlers/ImageHandler";
 import { SEX_DATA} from "../../Constants/TextMessagesRu";
-import {saveFile} from "../../Stores/api/UploadsApi/UploadFiles";
+import {deleteFile, saveFile} from "../../Stores/api/UploadsApi/UploadFiles";
 import {useDispatch} from "react-redux";
 import {setFilesChanged} from "../../Stores/slices/LoadFilesSlice";
 
@@ -39,7 +39,7 @@ const PhotoCard = ({imgUrl, alt, thumbAlt, key, height, onClick, isAdd, sex, isE
    };
 
     useEffect(() => {
-        console.log("alt: "+alt);
+        setSelectedFile(alt);
     }, []);
 
     const iconFabStyle = {
@@ -54,7 +54,15 @@ const PhotoCard = ({imgUrl, alt, thumbAlt, key, height, onClick, isAdd, sex, isE
     }
 
     function onRemoveImage() {
-        dispatchFiles(setFilesChanged());
+        console.log("remove: "+selectedFile+' userId: '+userId);
+        deleteFile(selectedFile, userId, (res, err) => {
+            if (!err) {
+                dispatchFiles(setFilesChanged());
+            } else {
+                console.log(err);
+            }
+        });
+
     }
 
     const onFileChange = (e) => {
@@ -68,7 +76,6 @@ const PhotoCard = ({imgUrl, alt, thumbAlt, key, height, onClick, isAdd, sex, isE
             saveFile(file, userId);
         }
     }
-
 
 
    return(
