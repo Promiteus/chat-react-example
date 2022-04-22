@@ -9,6 +9,7 @@ import userProfileChatsSlice from "./slices/UserProfileChatsSlice";
 import userProfileChatCommonSlice from "./slices/UserProfileChatCommonSlice";
 import chatMsgSlice from "./slices/ChatMessageSlice";
 import updateChatMessageStatusSlice from "./slices/UpdateChatMessageStatusSlice";
+import loadFilesSlice from "./slices/LoadFilesSlice";
 
 
 export default configureStore({
@@ -23,6 +24,7 @@ export default configureStore({
         chatCommon: userProfileChatCommonSlice,
         chatMsg: chatMsgSlice,
         chatMsgStatus: updateChatMessageStatusSlice,
+        filesChanged: loadFilesSlice,
     },
     middleware: getDefaultMiddleware({serializableCheck: false}),
 });

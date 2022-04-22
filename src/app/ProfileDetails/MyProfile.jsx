@@ -7,6 +7,8 @@ import StandartHeader from "../Componetns/Header/StandartHeader";
 import {ROUTE_HOME, ROUTE_SIGNUP} from "../Constants/Routes";
 import {Helmet} from "react-helmet";
 import {userProfile} from "../Stores/api/ChatDataApi/ChatDataApi";
+import {useSelector} from "react-redux";
+import {selectFilesChange} from "../Stores/slices/LoadFilesSlice";
 
 function useQuery() {
     return new URLSearchParams(useLocation().search);
@@ -23,32 +25,44 @@ const MyProfile = (props) => {
     const query = useQuery();
     const navigate = useNavigate();
     const [profileData, setProfileData] = useState({data: {}, status: 0});
+    const {fileListChanged} = useSelector(selectFilesChange);
 
 
     //Получить userId из параметра запроса или из локального хранилища.
     const currentUserId = !(query.get(USER_ID_KEY)) ? localStorage.getItem(USER_ID_KEY) : query.get(USER_ID_KEY);
 
-    function onBack() {
-        navigate(ROUTE_HOME);
-    }
+    useEffect(() => {
+        if ((fileListChanged) && (fileListChanged > 0)) {
+            getUserProfile(currentUserId);
+        }
+    }, [fileListChanged]);
+
 
     useEffect(() => {
         if (currentUserId) {
-            //Запросить данные профиля пользователя по userId
-            userProfile(currentUserId)
-                .then((res) => {
-                    setProfileData({data: res?.data, status: res?.status});
-                    if (res?.status !== 200) {
-                        navigate(ROUTE_SIGNUP);
-                    }
-                })
-                .catch((err) => {
-                    navigate(ROUTE_SIGNUP);
-                });
+            getUserProfile(currentUserId);
         } else {
             navigate(ROUTE_SIGNUP);
         }
     }, []);
+
+    function onBack() {
+        navigate(ROUTE_HOME);
+    }
+
+    function getUserProfile(userId) {
+        //Запросить данные профиля пользователя по userId
+        userProfile(userId)
+            .then((res) => {
+                setProfileData({data: res?.data, status: res?.status});
+                if (res?.status !== 200) {
+                    navigate(ROUTE_SIGNUP);
+                }
+            })
+            .catch((err) => {
+                navigate(ROUTE_SIGNUP);
+            });
+    }
 
     return(
         <>

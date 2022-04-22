@@ -2,11 +2,13 @@ import React, {useEffect, useRef, useState} from "react";
 import {NO_PHOTO_PNG} from "../../../assets";
 import {CardMedia} from "@mui/material";
 import IconFab from "../Fabs/IconFab";
-import {AddAPhoto, Edit, Favorite, Stars} from "@mui/icons-material";
+import {AddAPhoto, DeleteOutline, Edit, Favorite, Stars} from "@mui/icons-material";
 import FloatIcon from "../Fabs/FloatIcon";
 import {isMainPhoto} from "../../Handlers/ImageHandler";
 import { SEX_DATA} from "../../Constants/TextMessagesRu";
-import {saveFile, uploadImageFile} from "../../Stores/api/UploadsApi/UploadFiles";
+import {saveFile} from "../../Stores/api/UploadsApi/UploadFiles";
+import {useDispatch} from "react-redux";
+import {setFilesChanged} from "../../Stores/slices/LoadFilesSlice";
 
 /**
  *
@@ -26,6 +28,7 @@ const PhotoCard = ({imgUrl, alt, key, height, onClick, isAdd, sex, isEditable, u
     const [selectedFile, setSelectedFile] = useState(null);
     const fileInputRef = useRef();
     const [photo, setPhoto] = useState(imgUrl);
+    const dispatchFiles = useDispatch();
 
     const fabStyle = {
         position: 'absolute',
@@ -43,6 +46,10 @@ const PhotoCard = ({imgUrl, alt, key, height, onClick, isAdd, sex, isEditable, u
 
     function onAddImage() {
         fileInputRef?.current?.click();
+    }
+
+    function onRemoveImage() {
+        dispatchFiles(setFilesChanged());
     }
 
     const onFileChange = (e) => {
@@ -64,10 +71,10 @@ const PhotoCard = ({imgUrl, alt, key, height, onClick, isAdd, sex, isEditable, u
            {(photo) && (isEditable) &&
            <IconFab
                fabStyle={fabStyle}
-               icon={<Edit/>}
+               icon={<DeleteOutline/>}
                bgColor={"#ff7700"}
                size={"small"}
-               onClick={onAddImage}
+               onClick={onRemoveImage}
            />}
 
            {(!(photo) && (isAdd) && (isEditable)) &&

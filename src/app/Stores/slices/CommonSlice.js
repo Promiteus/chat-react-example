@@ -30,7 +30,7 @@ export const commonSlice = createSlice({
             state.chatSelectedUser = action.payload;
         }
     },
-})
+});
 
 export const selectCommon = (state) => state.common;
 export const {increment, setDefaultValue, defineSelectedUser, setPageIndex, setChatSelectedUser} = commonSlice.actions;
