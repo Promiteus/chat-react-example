@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from "react";
 import {NO_PHOTO_PNG} from "../../../assets";
 import {CardMedia} from "@mui/material";
 import IconFab from "../Fabs/IconFab";
-import {AddAPhoto, DeleteOutline, Edit, Favorite, Stars} from "@mui/icons-material";
+import {AddAPhoto, DeleteOutline, Favorite, Stars} from "@mui/icons-material";
 import FloatIcon from "../Fabs/FloatIcon";
 import {isMainPhoto} from "../../Handlers/ImageHandler";
 import { SEX_DATA} from "../../Constants/TextMessagesRu";
@@ -54,7 +54,6 @@ const PhotoCard = ({imgUrl, alt, thumbAlt, key, height, onClick, isAdd, sex, isE
     }
 
     function onRemoveImage() {
-        console.log("remove: "+selectedFile+' userId: '+userId);
         deleteFile(selectedFile, userId, (res, err) => {
             if (!err) {
                 dispatchFiles(setFilesChanged());
