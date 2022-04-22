@@ -14,6 +14,7 @@ import {setFilesChanged} from "../../Stores/slices/LoadFilesSlice";
  *
  * @param {string} imgUrl
  * @param {string} alt
+ * @param {string} thumbAlt
  * @param {string} key
  * @param {number} height
  * @param {any} onClick
@@ -24,7 +25,7 @@ import {setFilesChanged} from "../../Stores/slices/LoadFilesSlice";
  * @returns {JSX.Element}
  * @constructor
  */
-const PhotoCard = ({imgUrl, alt, key, height, onClick, isAdd, sex, isEditable, userId}) => {
+const PhotoCard = ({imgUrl, alt, thumbAlt, key, height, onClick, isAdd, sex, isEditable, userId}) => {
     const [selectedFile, setSelectedFile] = useState(null);
     const fileInputRef = useRef();
     const [photo, setPhoto] = useState(imgUrl);
@@ -36,6 +37,10 @@ const PhotoCard = ({imgUrl, alt, key, height, onClick, isAdd, sex, isEditable, u
         right: 15,
         zIndex: 999
    };
+
+    useEffect(() => {
+        console.log("alt: "+alt);
+    }, []);
 
     const iconFabStyle = {
         position: 'absolute',
@@ -54,7 +59,7 @@ const PhotoCard = ({imgUrl, alt, key, height, onClick, isAdd, sex, isEditable, u
 
     const onFileChange = (e) => {
         let file = e?.target?.files[0];
-        setSelectedFile(file);
+        setSelectedFile(file?.name);
 
         let fReader = new FileReader();
         fReader.readAsDataURL(file);
@@ -87,7 +92,7 @@ const PhotoCard = ({imgUrl, alt, key, height, onClick, isAdd, sex, isEditable, u
                onClick={onAddImage}
            />}
 
-           {(isMainPhoto(alt, photo) && (isEditable)) &&
+           {(isMainPhoto(thumbAlt, photo) && (isEditable)) &&
            <FloatIcon
                icon={(sex === SEX_DATA[0]?.tag) ? <Stars fontSize="large" sx={{color: "#FF0000"}}/> : <Favorite  fontSize="large" sx={{color: "#ff00DD"}}/>}
                fabStyle={iconFabStyle}

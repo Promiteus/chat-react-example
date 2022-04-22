@@ -3,6 +3,7 @@ import axios from "axios";
 import {getEnvOfStorage} from "../../Env";
 
 
+
 function uploadImageFile(formData) {
     let token = localStorage.getItem(TOKEN_KEY);
     return axios.post(`${getEnvOfStorage()?.dataUrl}/api/uploads`, formData,  getHeaderBearerConfigs("multipart/form-data", token));
@@ -30,9 +31,9 @@ const saveFile = (file, userId) => {
     }
 }
 
-const deleteFile = (file, userId) => {
-    if ((file) && (userId)) {
-        deleteImageFile(getFormData(userId, file?.name))
+const deleteFile = (fileName, userId) => {
+    if ((fileName) && (userId)) {
+        deleteImageFile(getFormData(userId, fileName))
             .then((res) => {
                 console.log("data: "+JSON.stringify(res));
             })

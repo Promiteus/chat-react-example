@@ -314,7 +314,8 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
                                                     key={key}
                                                     height={300}
                                                     imgUrl={item?.src}
-                                                    alt={profile?.thumbUrl?.alt}
+                                                    alt={item?.alt}
+                                                    thumbAlt={profile?.thumbUrl?.alt}
                                                     onClick={() => showImagePreview(key)}
                                                     sex={profile?.sex}
                                                     isEditable={isEdit}
