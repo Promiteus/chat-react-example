@@ -20,7 +20,7 @@ import {
     Person,
     PhotoCamera,
     RoundaboutLeft,
-    ModeEdit, SearchOutlined, SaveAltOutlined, Save, ChatOutlined, BlockOutlined, DeleteOutline, Add,
+    ModeEdit, Save, BlockOutlined, Add,
 } from "@mui/icons-material";
 import RoundSubstrate from '../../Svg/Sunstrate/RoundSubstrate';
 import IconSubTitle from "../Header/IconSubTitle";
@@ -42,9 +42,8 @@ import {
     SUBTITLE_SEX_ORIENTATION,
     SUBTITLE_WHOM_LOOKING_FOR
 } from "../../Constants/TextMessagesRu";
-import {useDispatch, useSelector} from "react-redux";
-import {saveProfileAsync, selectProfile} from "../../Stores/slices/UserProfileSlices";
-import {setChatSelectedUser, setPageIndex, setTbIndex} from "../../Stores/slices/CommonSlice";
+import {useDispatch} from "react-redux";
+import {setChatSelectedUser, setPageIndex} from "../../Stores/slices/CommonSlice";
 import {addChatMessageAsync} from "../../Stores/slices/ChatMessageSlice";
 import useWindowDimensions, {D_LG, D_XL} from "../../Hooks/useWindowDimension";
 import IconFab from "../Fabs/IconFab";
@@ -52,6 +51,7 @@ import VerticalFabs from "../Fabs/VerticalFabs";
 import PhotoCard from "../Photo/PhotoCard";
 import {saveFile} from "../../Stores/api/UploadsApi/UploadFiles";
 import {setFilesChanged} from "../../Stores/slices/LoadFilesSlice";
+import {saveUserProfile} from "../../Stores/api/ChatDataApi/ChatDataApi";
 
 
 const ActionButtons = ({isEdit, onWriteClick, onComplainClick, textColor, borderColor, bgColor}) => {
@@ -112,9 +112,13 @@ const ActionSave = ({isEdit, onClick, textColor, borderColor, bgColor}) => {
     );
 }
 
-const EditableTextAreaField = ({text, icon, iconTitle, isEdit, onChangeContent}) => {
+const EditableTextAreaField = ({text, icon, iconTitle, isEdit, onChangeContent, editField}) => {
     const [editToggle, setEditToggle] = useState(false);
     const [content, setContent] = useState(text)
+
+    useEffect(() => {
+        setEditToggle(editField);
+    }, [editField]);
 
     function onChange(e) {
         setContent(e?.target?.value);
@@ -149,9 +153,13 @@ const EditableTextAreaField = ({text, icon, iconTitle, isEdit, onChangeContent})
     );
 }
 
-const EditableListField = ({data, defaultValue, icon, iconTitle, isEdit, onSelectedItem}) => {
+const EditableListField = ({data, defaultValue, icon, iconTitle, isEdit, onSelectedItem, editField}) => {
     const [editToggle, setEditToggle] = useState(false);
     const [value, setValue] = useState(getSelectedValue(defaultValue));
+
+    useEffect(() => {
+        setEditToggle(editField);
+    }, [editField]);
 
     function onSelect(e) {
         let selectedTag = e?.target?.value;
@@ -221,9 +229,9 @@ const EditableListField = ({data, defaultValue, icon, iconTitle, isEdit, onSelec
  */
 const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
     const [visible, setVisible] = useState(false);
+    const [editField, setEditField] = useState(false);
     const [imageIndex, setImageIndex] = useState(0);
     const [profile_, setProfile] = useState(profile);
-    const profileDispatch = useDispatch();
     const pageDispatch = useDispatch();
     const {dimType} = useWindowDimensions();
     const fileInputRef = useRef();
@@ -269,7 +277,13 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
      * Событие отправки данных о отредактированном профиле пользователе
      * */
     function onProfileSave() {
-        profileDispatch(saveProfileAsync({profile: profile_}));
+        saveUserProfile(profile_, (data, err) => {
+           if (!err) {
+               console.log("ok");
+               setEditField(true);
+               setEditField(false);
+           }
+        });
     }
 
     /**
@@ -397,6 +411,7 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
                         <EditableTextAreaField
                             text={profile_?.hobby || EMPTY_TEXT_PROFILE_FIELD}
                             isEdit={isEdit}
+                            editField={editField}
                             icon={<Kitesurfing />}
                             iconTitle={SUBTITLE_HOBBIES}
                             onChangeContent={(text) => {setProfile(prevState => ({...prevState, hobby: text}))}}/>
@@ -406,6 +421,7 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
                             iconTitle={SUBTITLE_WHOM_LOOKING_FOR}
                             icon={<Group />}
                             isEdit={isEdit}
+                            editField={editField}
                             onSelectedItem={(value) => {setProfile(prevState => ({...prevState, meetPreferences: value}))}}
                             defaultValue={profile_?.meetPreferences}
                             data={MEET_PREFERENCES_DATA}
@@ -416,6 +432,7 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
                             text={profile?.aboutMe || EMPTY_TEXT_PROFILE_FIELD}
                             isEdit={isEdit}
                             icon={<Mood />}
+                            editField={editField}
                             iconTitle={SUBTITLE_ABOUT_ME}
                             onChangeContent={(text) => {setProfile(prevState => ({...prevState, aboutMe: text}))}}/>
                     </Grid>
@@ -424,6 +441,7 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
                             iconTitle={SUBTITLE_SEX_ORIENTATION}
                             icon={<RoundaboutLeft />}
                             isEdit={isEdit}
+                            editField={editField}
                             onSelectedItem={(value) => {setProfile(prevState => ({...prevState, sexOrientation: value}))}}
                             defaultValue={profile_?.sexOrientation}
                             data={SEX_ORIENTATION_DATA}
@@ -434,6 +452,7 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
                             iconTitle={SUBTITLE_SEX}
                             icon={<Face />}
                             isEdit={isEdit}
+                            editField={editField}
                             onSelectedItem={(value) => {setProfile(prevState => ({...prevState, sex: value}))}}
                             defaultValue={profile_?.sex}
                             data={SEX_DATA}
@@ -444,6 +463,7 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
                             iconTitle={SUBTITLE_CHILDS}
                             icon={<ChildCare />}
                             isEdit={isEdit}
+                            editField={editField}
                             onSelectedItem={(value) => {setProfile(prevState => ({...prevState, kids: value === 'YES' ? 1 : 0}))}}
                             defaultValue={profile_?.kids > 0 ? 'YES' : 'NO'}
                             data={KIDS_DATA}
@@ -454,6 +474,7 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
                             iconTitle={SUBTITLE_FAMILY_STATUS}
                             icon={<FamilyRestroom />}
                             isEdit={isEdit}
+                            editField={editField}
                             onSelectedItem={(value) => {setProfile(prevState => ({...prevState, familyStatus: value}))}}
                             defaultValue={profile?.familyStatus}
                             data={profile?.sex === 'MAN' ? FAMILY_STATUS_DATA.man : FAMILY_STATUS_DATA.woman}

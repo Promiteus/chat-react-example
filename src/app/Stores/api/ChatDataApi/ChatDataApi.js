@@ -5,9 +5,8 @@ import {getEnvOfStorage} from "../../Env";
 
 /**
  * Сохранить/изменить профиль пользователя
- * @param {string} profile
+ * @param {Object} profile
  * @param {function(res: Object, err: any)} callback
- * @returns {Promise<AxiosResponse<any>>}
  */
 export function saveUserProfile(profile, callback) {
     let token = localStorage.getItem(TOKEN_KEY);
