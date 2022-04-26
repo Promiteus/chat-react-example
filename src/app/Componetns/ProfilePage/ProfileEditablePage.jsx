@@ -1,9 +1,8 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {BASE_DATA_URL} from "../../Stores/api/Common/ApiCommon";
 import {
     Button,
     Card,
-    CardMedia,
     FormControl,
     Grid,
     IconButton, MenuItem, Select,
@@ -21,7 +20,7 @@ import {
     Person,
     PhotoCamera,
     RoundaboutLeft,
-    ModeEdit, SearchOutlined, SaveAltOutlined, Save, ChatOutlined, BlockOutlined,
+    ModeEdit, SearchOutlined, SaveAltOutlined, Save, ChatOutlined, BlockOutlined, DeleteOutline, Add,
 } from "@mui/icons-material";
 import RoundSubstrate from '../../Svg/Sunstrate/RoundSubstrate';
 import IconSubTitle from "../Header/IconSubTitle";
@@ -45,13 +44,14 @@ import {
 } from "../../Constants/TextMessagesRu";
 import {useDispatch, useSelector} from "react-redux";
 import {saveProfileAsync, selectProfile} from "../../Stores/slices/UserProfileSlices";
-import {NO_PHOTO_PNG} from "../../../assets";
 import {setChatSelectedUser, setPageIndex, setTbIndex} from "../../Stores/slices/CommonSlice";
 import {addChatMessageAsync} from "../../Stores/slices/ChatMessageSlice";
 import useWindowDimensions, {D_LG, D_XL} from "../../Hooks/useWindowDimension";
 import IconFab from "../Fabs/IconFab";
 import VerticalFabs from "../Fabs/VerticalFabs";
 import PhotoCard from "../Photo/PhotoCard";
+import {saveFile} from "../../Stores/api/UploadsApi/UploadFiles";
+import {setFilesChanged} from "../../Stores/slices/LoadFilesSlice";
 
 
 const ActionButtons = ({isEdit, onWriteClick, onComplainClick, textColor, borderColor, bgColor}) => {
@@ -211,7 +211,14 @@ const EditableListField = ({data, defaultValue, icon, iconTitle, isEdit, onSelec
             }
  *
  * */
-
+/**
+ *
+ * @param {Object} profile
+ * @param {boolean}} isEdit
+ * @param {string}} currentUserId
+ * @returns {JSX.Element}
+ * @constructor
+ */
 const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
     const [visible, setVisible] = useState(false);
     const [imageIndex, setImageIndex] = useState(0);
@@ -219,6 +226,7 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
     const profileDispatch = useDispatch();
     const pageDispatch = useDispatch();
     const {dimType} = useWindowDimensions();
+    const fileInputRef = useRef();
 
     const fabStyle = {
         position: 'absolute',
@@ -226,6 +234,10 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
         right: 46,
         zIndex: 999
     };
+
+    const fabAddImageStyle = {
+        position: 'relative',
+    }
 
     const fabs = [
        {
@@ -267,6 +279,26 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
        //TODO
     }
 
+    function onAddImage() {
+        fileInputRef?.current?.click();
+    }
+
+    const onFileChange = (e) => {
+        let file = e?.target?.files[0];
+
+        if (file) {
+            let fReader = new FileReader();
+            fReader.readAsDataURL(file);
+            fReader.onloadend = function(event){
+                saveFile(file, currentUserId, (res, err) => {
+                    if (!err) {
+                        pageDispatch(setFilesChanged());
+                    }
+                });
+            }
+        }
+    }
+
 
     /**
      * Перейти в чат с пользователем
@@ -300,7 +332,17 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
                     />
                 </div>
                 <div className="d-flex flex-row justify-content-start align-items-center">
+                    <input type="file" multiple={false} onChange={onFileChange} accept="image/*" ref={fileInputRef} hidden/>
                     <IconSubTitle text={SUBTITLE_MY_PHOTOS} icon={<PhotoCamera />}/>
+                    {((getFullUrls()?.length > 0) && (getFullUrls()?.length < 3)) &&
+                    <IconFab
+                        fabStyle={fabAddImageStyle}
+                        icon={<Add/>}
+                        bgColor={"#6c34ef"}
+                        iconColor={'#ff7700'}
+                        size={"small"}
+                        onClick={onAddImage}
+                    />}
                 </div>
                 <div className="d-flex justify-content-start my-2 w-100">
 

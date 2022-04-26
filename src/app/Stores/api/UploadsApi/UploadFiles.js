@@ -26,14 +26,13 @@ const getFormData = (file, userId) => {
  * Сохранить файл в профиль с userId
  * @param {any} file
  * @param {string} userId
+ * @param {function(res: any, err: any)} callback
  */
-const saveFile = (file, userId) => {
+const saveFile = (file, userId, callback) => {
     if ((file) && (userId)) {
         uploadImageFile(getFormData(file, userId))
-            .then((res) => {
-                console.log("data: "+JSON.stringify(res));
-            })
-            .catch(err => console.log("upload error: "+err));
+            .then((res) => callback(res, null))
+            .catch(err => callback(null, err));
     }
 }
 

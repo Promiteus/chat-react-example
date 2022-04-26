@@ -22,10 +22,11 @@ import {setFilesChanged} from "../../Stores/slices/LoadFilesSlice";
  * @param {string} sex
  * @param {boolean} isEditable
  * @param {string} userId
+ * @param onAddImage
  * @returns {JSX.Element}
  * @constructor
  */
-const PhotoCard = ({imgUrl, alt, thumbAlt, key, height, onClick, isAdd, sex, isEditable, userId}) => {
+const PhotoCard = ({imgUrl, alt, thumbAlt, key, height, onClick, isAdd, sex, isEditable, userId, onAddImage}) => {
     const [selectedFile, setSelectedFile] = useState(null);
     const fileInputRef = useRef();
     const [photo, setPhoto] = useState(imgUrl);
@@ -66,13 +67,18 @@ const PhotoCard = ({imgUrl, alt, thumbAlt, key, height, onClick, isAdd, sex, isE
 
     const onFileChange = (e) => {
         let file = e?.target?.files[0];
-        setSelectedFile(file?.name);
-
-        let fReader = new FileReader();
-        fReader.readAsDataURL(file);
-        fReader.onloadend = function(event){
-            setPhoto(event?.target?.result);
-            saveFile(file, userId);
+        if (file) {
+            setSelectedFile(file?.name);
+            let fReader = new FileReader();
+            fReader.readAsDataURL(file);
+            fReader.onloadend = function(event){
+                setPhoto(event?.target?.result);
+                saveFile(file, userId, (res, err) => {
+                    if (!err) {
+                        dispatchFiles(setFilesChanged());
+                    }
+                });
+            }
         }
     }
 
@@ -112,7 +118,7 @@ const PhotoCard = ({imgUrl, alt, thumbAlt, key, height, onClick, isAdd, sex, isE
                component="img"
                key={key}
                height={height}
-               image={photo || NO_PHOTO_PNG}
+               image={imgUrl || photo || NO_PHOTO_PNG}
                alt={alt || 'no photo'}
                sx = {{padding: 1}}
                onClick={onClick}
