@@ -27,7 +27,7 @@ export const saveProfileAsync = createAsyncThunk(
   'profile/save',
   async ({profile}) => {
        let token = localStorage.getItem(TOKEN_KEY);
-       return await saveUserProfile(profile, token);
+       return await saveUserProfile(profile);
    }
 );
 

@@ -55,7 +55,7 @@ const PhotoCard = ({imgUrl, alt, thumbAlt, key, height, onClick, isAdd, sex, isE
     }
 
     function onRemoveImage() {
-        deleteFile(selectedFile, userId, (res, err) => {
+        deleteFile(alt || selectedFile, userId, (res, err) => {
             if (!err) {
                 dispatchFiles(setFilesChanged());
             } else {

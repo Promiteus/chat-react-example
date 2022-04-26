@@ -9,7 +9,8 @@ import {getEnvOfStorage} from "../../Env";
  * @param {string} token
  * @returns {Promise<AxiosResponse<any>>}
  */
-export function saveUserProfile(profile, token) {
+export function saveUserProfile(profile) {
+    let token = localStorage.getItem(TOKEN_KEY);
     return axios.post(`${getEnvOfStorage()?.dataUrl}/api/user_profile`, profile, getHeaderBearerConfigs("application/json", token));
 }
 
