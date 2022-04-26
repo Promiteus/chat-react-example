@@ -303,11 +303,11 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
                     <IconSubTitle text={SUBTITLE_MY_PHOTOS} icon={<PhotoCamera />}/>
                 </div>
                 <div className="d-flex justify-content-start my-2 w-100">
-                    <div className="w-100">
+
                         <Grid container >
                             {getFullUrls()?.length > 0 &&
                              getFullUrls()?.map((item, key) => (
-                                    <Grid key={key} item xs={12} sm={12} md={3} lg={4}>
+                                    <Grid key={key} item xs={12} sm={6} md={4} lg={4}>
                                         <Card className="card m-1 photo-card">
                                             {(item.src !== '') ?
                                                 <PhotoCard
@@ -332,7 +332,7 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
                                     </Grid>
                                 ))}
                             {getFullUrls()?.length === 0 &&
-                            <Grid item xs={12} sm={12} md={3} lg={4}>
+                            <Grid item xs={12} sm={6} md={4} lg={4}>
                                 <Card className="card m-1 photo-card">
                                     <PhotoCard
                                         isAdd={true}
@@ -342,7 +342,7 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
                                 </Card>
                             </Grid>}
                         </Grid>
-                    </div>
+
                 </div>
                 <div className="d-flex flex-row justify-content-start align-items-center my-4">
                     <RoundSubstrate children={<Person />} color={"orange"}/>
