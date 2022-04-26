@@ -47,7 +47,6 @@ export async function fullRegistration({username, password, firstName, birthDate
     return await registrateUser({username, password})
         .then((res) => authenticateUser({username, password}))
         .then((res) => {
-            localStorage.setItem(TOKEN_KEY, res.data.token);
             return saveUserProfile({
                 id: res.data.userId,
                 firstName: firstName,
@@ -57,7 +56,7 @@ export async function fullRegistration({username, password, firstName, birthDate
                 height: 176,
                 weight: 65,
                 hobby: "Мои увлечения",
-                aboutMe: "Обо мне любая инфа",
+                aboutMe: "Обо мне ...",
                 kids: 0,
                 familyStatus: "SINGLE",
                 rank: 1400,
@@ -67,7 +66,11 @@ export async function fullRegistration({username, password, firstName, birthDate
                 country: 'Россия',
                 region: '',
                 locality: '',
-                }, res.data.token);
+                }, (data, err) => {
+                if (err) {
+                    console.log(err);
+                }
+            });
         });
 }
 

@@ -1,8 +1,6 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {
-    getUserProfile,
     removeUserProfile,
-    saveUserProfile,
 } from "../api/ChatDataApi/ChatDataApi";
 import {fulfilledRequestData, initialRequestData, rejectRequestData, TOKEN_KEY} from "../api/Common/ApiCommon";
 
@@ -19,17 +17,6 @@ export const deleteProfileAsync = createAsyncThunk(
    }
 );
 
-/**
- * Сохранить/изменить профиль пользователя
- * @type {AsyncThunk<AxiosResponse<*>, {readonly profile?: *}, {}>}
- */
-export const saveProfileAsync = createAsyncThunk(
-  'profile/save',
-  async ({profile}) => {
-       let token = localStorage.getItem(TOKEN_KEY);
-       return await saveUserProfile(profile);
-   }
-);
 
 export const profileSlice = createSlice({
     name: 'profile',
@@ -57,16 +44,7 @@ export const profileSlice = createSlice({
             .addCase(deleteProfileAsync.rejected, (state, action) => {
                 rejectRequestData({state, action});
             })
-            //Сохранить/изменить параметры профиля пользователя
-            .addCase(saveProfileAsync.pending, (state, action) => {
-                initialRequestData({state, action});
-            })
-            .addCase(saveProfileAsync.fulfilled, (state, action) => {
-                fulfilledRequestData({state, action});
-            })
-            .addCase(saveProfileAsync.rejected, (state, action) => {
-                rejectRequestData({state, action});
-            })
+
     }
 });
 

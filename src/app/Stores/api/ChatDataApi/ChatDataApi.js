@@ -6,13 +6,16 @@ import {getEnvOfStorage} from "../../Env";
 /**
  * Сохранить/изменить профиль пользователя
  * @param {string} profile
- * @param {string} token
+ * @param {function(res: Object, err: any)} callback
  * @returns {Promise<AxiosResponse<any>>}
  */
-export function saveUserProfile(profile) {
+export function saveUserProfile(profile, callback) {
     let token = localStorage.getItem(TOKEN_KEY);
-    return axios.post(`${getEnvOfStorage()?.dataUrl}/api/user_profile`, profile, getHeaderBearerConfigs("application/json", token));
+    let promise = axios.post(`${getEnvOfStorage()?.dataUrl}/api/user_profile`, profile, getHeaderBearerConfigs("application/json", token));
+    promise.then((data) => callback(data, null)).catch(err => callback(null, err));
 }
+
+
 
 /**
  * Удалить профиль пользователя
