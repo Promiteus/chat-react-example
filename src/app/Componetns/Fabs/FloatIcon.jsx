@@ -1,4 +1,5 @@
 import React from "react";
+import './index.css';
 
 /**
  *
@@ -12,8 +13,11 @@ import React from "react";
  */
 const FloatIcon = ({fabStyle, icon, caption, color, onClick}) => {
     return (
-          <div onClick={onClick} style={{...fabStyle}} className="d-flex flex-row justify-content-center align-items-center">
-              {icon} <span style={{fontWeight: 'bold', color:  color || 'red'}}>{caption.toUpperCase() || ''}</span>
+          <div
+              onClick={onClick}
+              style={{...fabStyle, backgroundColor: 'white', borderRadius: 50}}
+              className="substrate d-flex flex-row justify-content-center align-items-center">
+                 {icon} <span style={{fontWeight: 'bold', color:  color || 'red'}}>{caption.toUpperCase() || ''}</span>
           </div>
     );
 }

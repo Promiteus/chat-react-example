@@ -1,0 +1,9 @@
+.substrate {
+    box-shadow: 2px 2px 6px black;
+    transition:0s 0.1s;
+}
+
+.substrate:active {
+    opacity: 0.8;
+    transition:0s;
+}

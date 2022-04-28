@@ -6,7 +6,7 @@ import {AddAPhoto, DeleteOutline, Favorite, Stars} from "@mui/icons-material";
 import FloatIcon from "../Fabs/FloatIcon";
 import {isMainPhoto} from "../../Handlers/ImageHandler";
 import { SEX_DATA} from "../../Constants/TextMessagesRu";
-import {deleteFile, saveFile} from "../../Stores/api/UploadsApi/UploadFiles";
+import {deleteFile, saveFile, saveThumbFile} from "../../Stores/api/UploadsApi/UploadFiles";
 import {useDispatch} from "react-redux";
 import {setFilesChanged} from "../../Stores/slices/LoadFilesSlice";
 
@@ -47,7 +47,8 @@ const PhotoCard = ({imgUrl, alt, thumbAlt, key, height, onClick, isAdd, sex, isE
         position: 'absolute',
         bottom: 15,
         left: 15,
-        zIndex: 1000
+        zIndex: 1000,
+        boxShadow: 'gray'
     };
 
     function onAddImage() {
@@ -82,6 +83,14 @@ const PhotoCard = ({imgUrl, alt, thumbAlt, key, height, onClick, isAdd, sex, isE
         }
     }
 
+    const onFavorite = () => {
+        console.log("favorite is: "+alt);
+        saveThumbFile(userId, alt, (data, err) => {
+            if (!err) {
+                dispatchFiles(setFilesChanged());
+            }
+        })
+    }
 
    return(
        <>
@@ -110,6 +119,15 @@ const PhotoCard = ({imgUrl, alt, thumbAlt, key, height, onClick, isAdd, sex, isE
                fabStyle={iconFabStyle}
                caption={""}
                color={(sex === SEX_DATA[0]?.tag) ? "#FF0000": "#ff00DD"}
+               onClick={onFavorite}
+           />}
+           {(!isMainPhoto(thumbAlt, photo) && (isEditable)) &&
+           <FloatIcon
+               icon={(sex === SEX_DATA[0]?.tag) ? <Stars fontSize="large" sx={{color: "#AAAAAA"}}/> : <Favorite  fontSize="large" sx={{color: "#AAAAAA"}}/>}
+               fabStyle={iconFabStyle}
+               caption={""}
+               color={'#AAAAAA'}
+               onClick={onFavorite}
            />}
 
            <input type="file" multiple={false} onChange={onFileChange} accept="image/*" ref={fileInputRef} hidden/>
@@ -126,5 +144,6 @@ const PhotoCard = ({imgUrl, alt, thumbAlt, key, height, onClick, isAdd, sex, isE
        </>
    );
 }
+
 
 export default PhotoCard;

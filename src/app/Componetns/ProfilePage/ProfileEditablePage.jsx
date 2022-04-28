@@ -348,7 +348,7 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
                 <div className="d-flex flex-row justify-content-start align-items-center">
                     <input type="file" multiple={false} onChange={onFileChange} accept="image/*" ref={fileInputRef} hidden/>
                     <IconSubTitle text={SUBTITLE_MY_PHOTOS} icon={<PhotoCamera />}/>
-                    {((getFullUrls()?.length > 0) && (getFullUrls()?.length < 3)) &&
+                    {((getFullUrls()?.length > 0) && (getFullUrls()?.length < 3) && isEdit) &&
                     <IconFab
                         fabStyle={fabAddImageStyle}
                         icon={<Add/>}
