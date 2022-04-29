@@ -382,6 +382,9 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
                                                     isAdd={true}
                                                     isEditable={isEdit}
                                                     userId={currentUserId}
+                                                    sex={profile?.sex}
+                                                    alt={item?.alt}
+                                                    thumbAlt={profile?.thumbUrl?.alt}
                                                 />
                                             }
                                         </Card>
@@ -394,6 +397,8 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
                                         isAdd={true}
                                         isEditable={isEdit}
                                         userId={currentUserId}
+                                        sex={profile?.sex}
+                                        thumbAlt={profile?.thumbUrl?.alt}
                                     />
                                 </Card>
                             </Grid>}

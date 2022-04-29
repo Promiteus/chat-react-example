@@ -41,6 +41,8 @@ const PhotoCard = ({imgUrl, alt, thumbAlt, key, height, onClick, isAdd, sex, isE
 
     useEffect(() => {
         setSelectedFile(alt);
+        console.log("thumb: "+thumbAlt+' file: '+alt);
+        console.log("is thumb: "+isMainPhoto(thumbAlt, alt));
     }, []);
 
     const iconFabStyle = {
@@ -121,7 +123,7 @@ const PhotoCard = ({imgUrl, alt, thumbAlt, key, height, onClick, isAdd, sex, isE
                color={(sex === SEX_DATA[0]?.tag) ? "#FF0000": "#ff00DD"}
                onClick={onFavorite}
            />}
-           {(!isMainPhoto(thumbAlt, photo) && (isEditable)) &&
+           {(!isMainPhoto(thumbAlt, photo) && (isEditable) && (imgUrl)) &&
            <FloatIcon
                icon={(sex === SEX_DATA[0]?.tag) ? <Stars fontSize="large" sx={{color: "#AAAAAA"}}/> : <Favorite  fontSize="large" sx={{color: "#AAAAAA"}}/>}
                fabStyle={iconFabStyle}
