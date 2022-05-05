@@ -122,7 +122,7 @@ const EditableTextAreaField = ({text, icon, iconTitle, isEdit, onChangeContent, 
 
     function onChange(e) {
         setContent(e?.target?.value);
-        onChangeContent(content);
+        onChangeContent(e?.target?.value);
     }
 
     return(
@@ -439,7 +439,7 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
                             icon={<Mood />}
                             editField={editField}
                             iconTitle={SUBTITLE_ABOUT_ME}
-                            onChangeContent={(text) => {setProfile(prevState => ({...prevState, aboutMe: text}))}}/>
+                            onChangeContent={(text) => {setProfile(prevState => ({...prevState, aboutMe: text})); console.log("about me: "+text)}}/>
                     </Grid>
                     <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                         <EditableListField
