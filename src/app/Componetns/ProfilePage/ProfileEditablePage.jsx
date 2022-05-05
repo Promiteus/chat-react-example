@@ -74,8 +74,8 @@ const ActionButtons = ({isEdit, onWriteClick, onComplainClick, textColor, border
               <Button
                   sx={{
                       color: textColor || '#FFFFFF',
-                      borderColor: borderColor || '#6c34ef',
-                      backgroundColor: bgColor || '#6c34ef'}
+                      borderColor: borderColor || '#CC0000',
+                      backgroundColor: bgColor || '#CC0000'}
                   }
                   variant={"contained"}
                   color={"error"}
@@ -491,7 +491,8 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
                    <ActionButtons
                        isEdit={isEdit}
                        onComplainClick={onComplainClick}
-                       onWriteClick={onWriteClick}/>
+                       onWriteClick={onWriteClick}
+                   />
                 }
                 {((dimType === D_LG) || (dimType === D_XL)) &&
                    <ActionSave
