@@ -279,7 +279,6 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
     function onProfileSave() {
         saveUserProfile(profile_, (data, err) => {
            if (!err) {
-               console.log("ok");
                setEditField(true);
                setEditField(false);
            }
@@ -379,6 +378,7 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
                                                 />
                                                 :
                                                 <PhotoCard
+                                                    key={key}
                                                     isAdd={true}
                                                     isEditable={isEdit}
                                                     userId={currentUserId}
@@ -394,6 +394,7 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
                             <Grid item xs={12} sm={6} md={4} lg={4}>
                                 <Card className="card m-1 photo-card">
                                     <PhotoCard
+                                        key={1}
                                         isAdd={true}
                                         isEditable={isEdit}
                                         userId={currentUserId}
@@ -439,7 +440,7 @@ const ProfileEditablePage = ({profile, isEdit, currentUserId}) => {
                             icon={<Mood />}
                             editField={editField}
                             iconTitle={SUBTITLE_ABOUT_ME}
-                            onChangeContent={(text) => {setProfile(prevState => ({...prevState, aboutMe: text})); console.log("about me: "+text)}}/>
+                            onChangeContent={(text) => {setProfile(prevState => ({...prevState, aboutMe: text}));}}/>
                     </Grid>
                     <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                         <EditableListField

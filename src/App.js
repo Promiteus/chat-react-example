@@ -25,10 +25,6 @@ function App() {
 
   setEnvToStorage(envData);
 
- /* useEffect(() => {
-      console.log("env: "+getEnvOfStorage()?.stompUrl);
-  }, []);*/
-
   return (
       <div>
         <Routes>

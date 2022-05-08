@@ -62,7 +62,6 @@ const SearchProfiles = ({userId}) => {
     useEffect(() => {
         if ((+status === 200) && (!loading) && (response?.length > 0)) {
             setPage(page+1);
-            console.log("page: "+page);
         }
 
     }, [response]);

@@ -62,7 +62,6 @@ function fillUnreadMessages(data, userId) {
  */
 function removeMsgElem(elem) {
        if (elem?.read) {
-           //console.log("key: "+unreadMessageListForCurrentUser);
            console.log("delete: "+unreadMessageListForCurrentUser.delete(elem?.id));
        }
 }

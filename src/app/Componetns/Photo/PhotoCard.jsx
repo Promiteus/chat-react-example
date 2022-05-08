@@ -15,7 +15,6 @@ import {setFilesChanged} from "../../Stores/slices/LoadFilesSlice";
  * @param {string} imgUrl
  * @param {string} alt
  * @param {string} thumbAlt
- * @param {string} key
  * @param {number} height
  * @param {any} onClick
  * @param {boolean} isAdd
@@ -26,7 +25,7 @@ import {setFilesChanged} from "../../Stores/slices/LoadFilesSlice";
  * @returns {JSX.Element}
  * @constructor
  */
-const PhotoCard = ({imgUrl, alt, thumbAlt, key, height, onClick, isAdd, sex, isEditable, userId, onAddImage}) => {
+const PhotoCard = ({imgUrl, alt, thumbAlt, height, onClick, isAdd, sex, isEditable, userId, onAddImage}) => {
     const [selectedFile, setSelectedFile] = useState(null);
     const fileInputRef = useRef();
     const [photo, setPhoto] = useState(imgUrl);
@@ -41,8 +40,6 @@ const PhotoCard = ({imgUrl, alt, thumbAlt, key, height, onClick, isAdd, sex, isE
 
     useEffect(() => {
         setSelectedFile(alt);
-        console.log("thumb: "+thumbAlt+' file: '+alt);
-        console.log("is thumb: "+isMainPhoto(thumbAlt, alt));
     }, []);
 
     const iconFabStyle = {
@@ -86,7 +83,6 @@ const PhotoCard = ({imgUrl, alt, thumbAlt, key, height, onClick, isAdd, sex, isE
     }
 
     const onFavorite = () => {
-        console.log("favorite is: "+alt);
         saveThumbFile(userId, alt, (data, err) => {
             if (!err) {
                 dispatchFiles(setFilesChanged());
@@ -136,7 +132,7 @@ const PhotoCard = ({imgUrl, alt, thumbAlt, key, height, onClick, isAdd, sex, isE
 
            <CardMedia
                component="img"
-               key={key}
+
                height={height}
                image={imgUrl || photo || NO_PHOTO_PNG}
                alt={alt || 'no photo'}

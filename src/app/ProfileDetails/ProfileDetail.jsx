@@ -3,6 +3,7 @@ import StandartHeader from "../Componetns/Header/StandartHeader";
 import {useDispatch, useSelector} from "react-redux";
 import {selectCommon, setPageIndex} from "../Stores/slices/CommonSlice";
 import ProfileEditablePage from "../Componetns/ProfilePage/ProfileEditablePage";
+import {updateUserVisitor} from "../Stores/api/VisitorApi/VisitorApi";
 
 const ProfileDetail = ({currentUserId}) => {
     const commonDispatch = useDispatch();
@@ -11,6 +12,16 @@ const ProfileDetail = ({currentUserId}) => {
     function onBack() {
         commonDispatch(setPageIndex(0));
     }
+
+    useEffect(() => {
+        let visit = setTimeout(() => {
+            //console.log("visitorUserId: "+currentUserId+" userId: "+selectedUser?.id);
+            updateUserVisitor(selectedUser?.id, currentUserId, (data, err) => {});
+        }, 5000);
+        return () => {
+            clearTimeout(visit);
+        }
+    }, []);
 
     return (
         <div className="d-flex flex-column h-100 my-profile">

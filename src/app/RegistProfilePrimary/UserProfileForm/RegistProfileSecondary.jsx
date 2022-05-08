@@ -130,7 +130,7 @@ export default function RegistProfileSecondary({sex}) {
                 <select
                     className="input_field"
                     onChange={(e) => {
-                        console.log(e.target.value);
+
                         userProfile.meetPreferences = e.target.value;
                     }}
                 >
