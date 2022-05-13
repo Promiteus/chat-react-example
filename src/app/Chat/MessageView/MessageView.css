@@ -1,8 +1,5 @@
 .chatView {
-
     padding: 6px;
-    /*overflow-y: scroll;*/
-
 }
 
 div.chatView
@@ -26,4 +23,5 @@ div.chatView::-webkit-scrollbar-thumb {
     background-image: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), url("/src/assets/sex_icon_50.png");
     background-repeat: repeat;
     background-color: rgb(229, 219, 157);
+    margin: 3px 0;
 }
