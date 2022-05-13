@@ -46,9 +46,9 @@ function ChatView ({userId, stomp}) {
                   <Grid item xs={12} sm={12} md={8} sx={{ display:  display.chatView.value}} className="h-100">
                       <div className="d-flex flex-column chat h-100 ">
                           <TopHeaderView onBack={onBackToChats} navButtonSx={HIDE_MD_BLOCK}/>
-                          <div className="d-flex flex-column chat-view-panel p-1 bg-info">
-                              <MessageView stomp={stomp} currentUserId={userId} />
-                          </div>
+
+                          <MessageView stomp={stomp} currentUserId={userId} />
+
                           <MessageSendView stomp={stomp} currentUserId={userId}/>
                       </div>
                   </Grid>
