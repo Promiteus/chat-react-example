@@ -20,3 +20,8 @@ div.chatView::-webkit-scrollbar-thumb {
     border-radius: 0;
     border: 0 solid orange;
 }
+
+.message-view-panel {
+    flex-grow: 3;
+    position: relative;
+}

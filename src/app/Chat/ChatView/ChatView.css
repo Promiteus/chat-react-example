@@ -12,7 +12,15 @@
    border: 1px solid rgb(161, 159, 159);
    border-radius: 0.5rem;
    background-color: white;
+   position: relative;
 }
+
+
+.chat-view-panel {
+    flex-grow: 4;
+    overflow-y: scroll;
+}
+
 
 .users {
    padding: 0.5rem;

@@ -266,13 +266,13 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
   }, [status]);
   
   return (
-    <div className="flex-grow-1 my-1 h-100">
+    <div className="">
         {loading ?
         <Stack sx={{ width: '100%', color: 'grey.500'}} spacing={2}>
             <LinearProgress color="success" />
         </Stack> : <div className="w-100" style={{height: 4}}></div>}
 
-        <div ref={scrollChat} style={{height: chatViewHeight}} className="chatView d-flex flex-column" >
+        <div ref={scrollChat} /*style={{height: chatViewHeight}}*/ className="chatView d-flex flex-column" >
             {beforeMessageList.map((element) => (<MessageItem key={element?.id} data={element} currentUserId={currentUserId}/>))}
 
             {messageList?.length > 0 && messageList.map((element) => (<MessageItem key={element?.id} selectedUser={profile} data={element} currentUserId={currentUserId}/>))}

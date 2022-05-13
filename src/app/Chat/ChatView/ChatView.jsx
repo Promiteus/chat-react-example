@@ -21,14 +21,8 @@ let initialDisplayState = {
 };
 
 function ChatView ({userId, stomp}) {
-    const chatRef = useRef();
     //Переключение между списком пользователей и чатом с ними
     const [display, setDisplay] = useState(initialDisplayState);
-
-
-    useEffect(() => {
-        chatClientHeight = chatRef?.current?.clientHeight;
-    }, []);
 
 
     //Показать чат, скрыть список профилей чатов (история чатов)
@@ -42,7 +36,7 @@ function ChatView ({userId, stomp}) {
     }
 
     return (
-      <div ref={chatRef} className="d-flex flex-row justify-content-center h-100">
+      <div className="d-flex flex-row justify-content-center h-100">
               <Grid container spacing={0}>
                   <Grid item xs={12} sm={12} md={4} sx={{ display:  display.chats.value}} className="h-100">
                       <div className="users h-100">
@@ -50,9 +44,11 @@ function ChatView ({userId, stomp}) {
                       </div>
                   </Grid>
                   <Grid item xs={12} sm={12} md={8} sx={{ display:  display.chatView.value}} className="h-100">
-                      <div className="d-flex flex-column chat h-100">
+                      <div className="d-flex flex-column chat h-100 ">
                           <TopHeaderView onBack={onBackToChats} navButtonSx={HIDE_MD_BLOCK}/>
-                          <MessageView stomp={stomp} currentUserId={userId} chatClientHeight={chatClientHeight}/>
+                          <div className="d-flex flex-column chat-view-panel p-1 bg-info">
+                              <MessageView stomp={stomp} currentUserId={userId} />
+                          </div>
                           <MessageSendView stomp={stomp} currentUserId={userId}/>
                       </div>
                   </Grid>
