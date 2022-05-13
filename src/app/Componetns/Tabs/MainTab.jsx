@@ -53,6 +53,10 @@ const MainTab = (props) => {
     }
 
     useEffect(() => {
+        console.log("userId main: "+currentUserId);
+    }, []);
+
+    useEffect(() => {
         if (pageIndex === -1) {
             setTabIndex(0);
         }
@@ -74,10 +78,12 @@ const MainTab = (props) => {
 
     //Реагирует однократно для userId
     useEffect(() => {
+        console.log("MainTab currentUserId: "+currentUserId);
         if (currentUserId) {
             //Запросить данные профиля пользователя по userId
             userProfile(currentUserId)
                 .then((res) => {
+                    console.log("MainTab userProfile: "+res?.status);
                     setProfileData({data: res?.data, status: res?.status});
                     if (res?.status !== 200) {
                         errorProfileHandler();
@@ -101,7 +107,7 @@ const MainTab = (props) => {
         return () => {
             stompClient?.disconnect();
         }
-    }, [currentUserId]);
+    }, []);
 
 
     //if (loading) return <Loader/>;

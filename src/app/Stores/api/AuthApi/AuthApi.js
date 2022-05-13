@@ -41,13 +41,15 @@ export function removeFullUserAccountData({userId, isAccountOnly}) {
  * @param birthDate
  * @param meetPreferences
  * @param sex
+ * @param {function(data: object, err: any)} callback
  * @returns {Promise<AxiosResponse<*>>}
  */
-export async function fullRegistration({username, password, firstName, birthDate, meetPreferences, sex}) {
-    return await registrateUser({username, password})
+export function fullRegistration({username, password, firstName, birthDate, meetPreferences, sex}, callback) {
+    registrateUser({username, password})
         .then((res) => authenticateUser({username, password}))
         .then((res) => {
-            return saveUserProfile({
+            callback(res, null);
+            saveUserProfile({
                 id: res.data.userId,
                 firstName: firstName,
                 lastName: "",
@@ -66,12 +68,14 @@ export async function fullRegistration({username, password, firstName, birthDate
                 country: 'Россия',
                 region: '',
                 locality: '',
-                }, (data, err) => {
+            }, (data, err) => {
                 if (err) {
                     console.log(err);
+                    callback(null, err);
                 }
             });
-        });
+
+        }).catch(err => callback(null, err));
 }
 
 

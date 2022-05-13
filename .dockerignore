@@ -1,3 +1,6 @@
-/node_modules
-/docker/Dockerfile
-docker-compose*
+.yml
+.gitignore
+.git
+.md
+.cache
+.example

@@ -22,7 +22,7 @@ ARG BASE_WS_URL
 ENV REACT_APP_BASE_WS_URL $BASE_WS_URL
 
 # Учтановить node modules и собрать assets
-RUN yarn install && yarn build
+RUN yarn install && yarn build --production
 
 FROM nginx:1.16.0-alpine
 COPY --from=builder /app/build /usr/share/nginx/html

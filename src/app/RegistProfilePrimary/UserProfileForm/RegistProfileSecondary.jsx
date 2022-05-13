@@ -65,9 +65,11 @@ export default function RegistProfileSecondary({sex}) {
 
 
     const handleRegistration = (response) => {
-        if ((+response?.status === 202) && (response?.data?.id?.toString().length > 0)) {
-            localStorage.setItem(USER_ID_KEY, response?.data?.id);
-            navigate(`/?userId=${response?.data?.id}`);
+        if ((+response?.status === 200) && (response?.data?.userId?.toString().length > 0)) {
+            localStorage.setItem(USER_ID_KEY, response?.data?.userId);
+            setTimeout(() => {
+                navigate(`/?userId=${response?.data?.userId}`);
+            }, 1000);
         }
     }
 
@@ -83,17 +85,20 @@ export default function RegistProfileSecondary({sex}) {
             birthDate: userProfile.birthDate,
             meetPreferences: userProfile.meetPreferences,
             sex: userProfile.sex,
-        }).then((res) => {
-            setRegistrationResponse({
-                response: res?.data,
-                status: res?.status,
-                loading: false,
-            });
-            handleRegistration(res);
-        }).catch(err => {
-            console.log("Registration error: "+err);
-            setRegistrationResponse(prevState => ({...prevState, loading: false}));
-            setRegistrationResponse(prevState => ({...prevState, status: networkErrStatus(err)}));
+        }, (res, err) => {
+            if (!err) {
+                setRegistrationResponse({
+                    response: res?.data,
+                    status: res?.status,
+                    loading: false,
+                });
+                console.log("register data: "+JSON.stringify(res));
+                handleRegistration(res);
+            } else {
+                console.log("Registration error: "+err);
+                setRegistrationResponse(prevState => ({...prevState, loading: false}));
+                setRegistrationResponse(prevState => ({...prevState, status: networkErrStatus(err)}));
+            }
         });
     }
 
