@@ -68,10 +68,12 @@ const MainTab = (props) => {
      */
     function errorProfileHandler(isDelete= true) {
         //Удалить аккаунт пользователя только из сервиса авторизации
-        profileDispatch(deleteUserAccountAsync({
-            userId: currentUserId,
-            isAccountOnly: true
-        }));
+        if (isDelete) {
+            profileDispatch(deleteUserAccountAsync({
+                userId: currentUserId,
+                isAccountOnly: true
+            }));
+        }
         navigate(ROUTE_SIGNUP);
     }
 
@@ -83,10 +85,11 @@ const MainTab = (props) => {
             //Запросить данные профиля пользователя по userId
             userProfile(currentUserId)
                 .then((res) => {
-                    console.log("MainTab userProfile: "+res?.status);
                     setProfileData({data: res?.data, status: res?.status});
-                    if (res?.status !== 200) {
+                    if ((res?.status !== 200) && (res?.status !== 403)) {
                         errorProfileHandler();
+                    } else if (+res?.status === 403) {
+                        errorProfileHandler(false);
                     }
                 })
                 .catch((err) => {
