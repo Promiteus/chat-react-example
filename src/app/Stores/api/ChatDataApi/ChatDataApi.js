@@ -10,7 +10,7 @@ import {getEnvOfStorage} from "../../Env";
  */
 export function saveUserProfile(profile, callback) {
     let token = localStorage.getItem(TOKEN_KEY);
-    let promise = axios.post(`${getEnvOfStorage()?.dataUrl}/api/user_profile`, profile, getHeaderBearerConfigs("application/json", token));
+    let promise = axios.post(`${getEnvOfStorage()?.dataUrl}/api/user/profile`, profile, getHeaderBearerConfigs("application/json", token));
     promise.then((data) => callback(data, null)).catch(err => callback(null, err));
 }
 
@@ -23,7 +23,7 @@ export function saveUserProfile(profile, callback) {
  * @returns {Promise<AxiosResponse<any>>}
  */
 export function removeUserProfile(userId, token) {
-    return axios.delete(`${getEnvOfStorage()?.dataUrl}/api/user_profile/${userId}`, getHeaderBearerConfigs("application/json", token))
+    return axios.delete(`${getEnvOfStorage()?.dataUrl}/api/user/profile/${userId}`, getHeaderBearerConfigs("application/json", token))
 }
 
 /**
@@ -33,7 +33,7 @@ export function removeUserProfile(userId, token) {
  * @returns {Promise<AxiosResponse<any>>}
  */
 export function getUserProfile(userId, token) {
-    return axios.get(`${getEnvOfStorage()?.dataUrl}/api/user_profile/${userId}`, getHeaderBearerConfigs("application/json", token));
+    return axios.get(`${getEnvOfStorage()?.dataUrl}/api/user/profile/${userId}`, getHeaderBearerConfigs("application/json", token));
 }
 
 /**
@@ -54,7 +54,7 @@ export async function userProfile(userId)  {
  * @returns {Promise<AxiosResponse<any>>}
  */
 export function searchUserProfilesPageable(userId, page, token, searchBody) {
-    return axios.post(`${getEnvOfStorage()?.dataUrl}/api/user_profiles/${page}/${userId}`, searchBody, getHeaderBearerConfigs("application/json", token));
+    return axios.post(`${getEnvOfStorage()?.dataUrl}/api/user/profiles/${page}/${userId}`, searchBody, getHeaderBearerConfigs("application/json", token));
 }
 
 
