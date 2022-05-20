@@ -1,7 +1,7 @@
 import SockJS from "sockjs-client";
 import Stomp from 'stompjs';
-import { ChatMessage } from "../Common/Models/ChatMessage";
-import {getEnvOfStorage} from "../../Stores/Env";
+import { ChatMessage } from "../../../Chat/Common/Models/ChatMessage";
+import {getEnvOfStorage} from "../../Env";
 
 
 export class StompClient {

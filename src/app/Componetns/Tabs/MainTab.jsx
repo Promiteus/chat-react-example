@@ -3,7 +3,7 @@ import {Box, Tab, Tabs} from "@mui/material";
 import TabItem from "./TabItem";
 import ChatView from "../../Chat/ChatView";
 import {CAPTION_CHATS, CAPTION_GUESTS, CAPTION_SEARCH } from "../../Constants/TextMessagesRu";
-import {StompClient} from "../../Chat/Websocker/ws";
+import {StompClient} from "../../Stores/api/Websocker/ws";
 import {USER_ID_KEY} from "../../Stores/api/Common/ApiCommon";
 import {useLocation, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
