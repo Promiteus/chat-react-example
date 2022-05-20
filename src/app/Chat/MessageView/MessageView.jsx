@@ -127,7 +127,6 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
       res?.forEach(elem => {
           arr[elem.index] = elem.data;
       });
-      //setMessageList([]);
       setMessageList(prevState => (prevState = arr));
 
       res = posForUpdateReadMessages(concatUnique(readMsg, writeMsg), beforeMessageList);
@@ -273,7 +272,7 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
         </Stack> : <div className="w-100" style={{height: 4}}></div>}
 
         <div /*style={{height: chatViewHeight}}*/ className="chatView d-flex flex-column" >
-            {beforeMessageList.map((element) => (<MessageItem key={element?.id} data={element} currentUserId={currentUserId}/>))}
+            {beforeMessageList.map((element) => (<MessageItem key={element?.id} data={element} selectedUser={profile} currentUserId={currentUserId}/>))}
 
             {messageList?.length > 0 && messageList.map((element) => (<MessageItem key={element?.id} selectedUser={profile} data={element} currentUserId={currentUserId}/>))}
 
