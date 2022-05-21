@@ -1,6 +1,6 @@
 import axios from "axios";
 import {saveUserProfile} from "../ChatDataApi/ChatDataApi";
-import {getHeaderBearerConfigs, TOKEN_KEY} from "../Common/ApiCommon";
+import {getHeaderBearerConfigs, TOKEN_KEY, USER_ID_KEY} from "../Common/ApiCommon";
 import {dateDiffYears} from "../../../Componetns/DateHandlers";
 import {getEnvOfStorage} from "../../Env";
 
@@ -49,6 +49,9 @@ export function fullRegistration({username, password, firstName, birthDate, meet
         .then((res) => authenticateUser({username, password}))
         .then((res) => {
             callback(res, null);
+            //console.log("data after: "+JSON.stringify(res));
+            localStorage.setItem(USER_ID_KEY, res?.data?.userId);
+            localStorage.setItem(TOKEN_KEY, res?.data?.token);
             saveUserProfile({
                 id: res.data.userId,
                 firstName: firstName,

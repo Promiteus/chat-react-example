@@ -20,7 +20,7 @@ import RoundSubstrate from "../Svg/Sunstrate/RoundSubstrate";
 
 export default function SignIn()  {
     const [credential] = useState({login: '', password: ''});
-    const dispatch = useDispatch();
+   // const dispatch = useDispatch();
     const [auth, setAuth] = useState({
         response: null,
         status: 404,
@@ -36,12 +36,14 @@ export default function SignIn()  {
      */
     const handleAuth = (response) => {
         //Обновить токен авторизации
-        if (response?.data?.token) {
+        /*if (response?.data?.token) {
             localStorage.setItem(TOKEN_KEY, response?.data?.token);
-        }
+        }*/
 
         if ((+response?.status === 200) && (response?.data?.token) && (credential.login)) {
             localStorage.setItem(USER_ID_KEY, response?.data?.userId);
+            //Обновить токен авторизации
+            localStorage.setItem(TOKEN_KEY, response?.data?.token);
             //Перейти на главную страницу
             navigator(`/?userId=${response?.data?.userId}`);
         } else if ((+response.status === 404) && (credential.login)) {
