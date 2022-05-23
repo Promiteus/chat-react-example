@@ -1,11 +1,13 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import { Chip, ImageList } from "@mui/material";
 import ProfileViewElement from "./ProfileViewElement";
 import './index.css'
 import {CAPTION_EMPTY_GUESTS} from "../Constants/TextMessagesRu";
 import useWindowDimensions, {D_LG, D_MD, D_SM, D_XL, D_XS} from "../Hooks/useWindowDimension";
 
+
 let imgCols = 5;
+let guestsPage = 0;
 
 const GuestsView = ({visitors}) => {
     const {dimType} = useWindowDimensions();
@@ -16,13 +18,46 @@ const GuestsView = ({visitors}) => {
         [D_LG, 4],
         [D_XL, 5],
     ]);
+    const guestsScroll = useRef(null);
+    const [guests, setGuests] = useState([]);
 
     useEffect(() => {
         imgCols = colsMap.get(dimType);
     }, [dimType]);
 
+    useEffect(() => {
+        guestsPage = 0;
+        loadChatsHistoryNextPage(0);
+    }, []);
+
+    /**
+     * Запросить у api посетителей постранично
+     * @param {number} aPage
+     */
+    function loadChatsHistoryNextPage(aPage) {
+
+    }
+
+    function scrollLoad() {
+        if ((guestsScroll?.current?.scrollTop + guestsScroll?.current?.clientHeight) >= guestsScroll?.current?.scrollHeight) {
+            loadMore();
+        }
+    }
+
+    /**
+     * Выполняется для подрузки данных постранично при прокрутке вниз
+     */
+    function loadMore() {
+        if (guestsPage === 0) {
+            guestsPage++;
+        } else if (guestsPage > 0) {
+            guestsPage = guestsPage + (guests?.length > 0 ? 1: 0);
+        }
+        loadChatsHistoryNextPage(guestsPage);
+    }
+
     return (
-            <div style={{overflowY: 'scroll'}} className="d-block m-1 p-1 h-100">
+            <div ref={guestsScroll} style={{overflowY: 'scroll'}} className="d-block m-1 p-1 h-100">
                 {visitors?.length ?
                     <ImageList cols={imgCols}>
                         {visitors?.map(elem => (
