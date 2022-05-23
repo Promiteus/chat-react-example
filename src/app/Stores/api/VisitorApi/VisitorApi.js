@@ -27,6 +27,34 @@ const updateUserVisitor = (userId, visitorUserId, callback) => {
     }
 }
 
+/**
+ * Запросить список профилей гостей для данного пользоватлея постранично
+ * @param {string} userId
+ * @param {number} page
+ * @param {number} pageSize
+ * @returns {Promise<AxiosResponse<any>>}
+ */
+function getUserVisitorsRequest(userId, page, pageSize) {
+    let token = localStorage.getItem(TOKEN_KEY);
+    return axios.get(`${getEnvOfStorage()?.dataUrl}/api/user/visitor?user_id=${userId}&page=${page}&size=${pageSize}`, getHeaderBearerConfigs("application/json", token));
+}
+
+/**
+ * Получить список профилей гостей для данного пользоватлея постранично
+ * @param {string} userId
+ * @param {number} page
+ * @param {number} pageSize
+ * @param {function(data: any, err: any)} callback
+ */
+const getUserVisitors = (userId, page, pageSize, callback) => {
+    if (userId) {
+        getUserVisitorsRequest(userId, page | 0, pageSize | 10)
+            .then(data => callback(data, null))
+            .catch(err => {callback(null, err); console.log("getUserVisitorsRequest Error: "+err)});
+    }
+}
+
 export {
     updateUserVisitor,
+    getUserVisitors,
 }

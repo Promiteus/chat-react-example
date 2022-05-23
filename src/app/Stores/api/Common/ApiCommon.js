@@ -6,6 +6,7 @@ const BASE_DATA_URL = 'http://localhost:8090';
 const WS_STOMP_URL = 'http://localhost:10800/wsApp';
 
 const PROFILE_CHATS_PAGE_SIZE = 20;
+const PROFILE_GUESTS_PAGE_SIZE = 30;
 
 /**
  * Сформировать заголовок с токеном авторизации
@@ -87,4 +88,5 @@ export {
     PROFILE_CHATS_PAGE_SIZE,
     networkErrStatus,
     WS_STOMP_URL,
+    PROFILE_GUESTS_PAGE_SIZE,
 }

@@ -4,12 +4,15 @@ import ProfileViewElement from "./ProfileViewElement";
 import './index.css'
 import {CAPTION_EMPTY_GUESTS} from "../Constants/TextMessagesRu";
 import useWindowDimensions, {D_LG, D_MD, D_SM, D_XL, D_XS} from "../Hooks/useWindowDimension";
+import {getUserVisitors} from "../Stores/api/VisitorApi/VisitorApi";
+import {PROFILE_CHATS_PAGE_SIZE, PROFILE_GUESTS_PAGE_SIZE} from "../Stores/api/Common/ApiCommon";
 
 
 let imgCols = 5;
 let guestsPage = 0;
+let vis = [];
 
-const GuestsView = ({visitors}) => {
+const GuestsView = ({visitors, userId}) => {
     const {dimType} = useWindowDimensions();
     const colsMap = new Map([
         [D_XS, 2],
@@ -30,17 +33,31 @@ const GuestsView = ({visitors}) => {
         loadChatsHistoryNextPage(0);
     }, []);
 
+    useEffect(() => {
+        guestsScroll?.current?.addEventListener("scroll", scrollLoad);
+
+        return () => {
+            guestsScroll?.current?.removeEventListener("scroll", scrollLoad);
+        }
+    }, []);
+
     /**
      * Запросить у api посетителей постранично
      * @param {number} aPage
      */
     function loadChatsHistoryNextPage(aPage) {
-
+        getUserVisitors(userId, aPage, PROFILE_GUESTS_PAGE_SIZE, ((data, err) => {
+           if (!err) {
+               setGuests(data?.data);
+               vis = data?.data;
+           }
+        }));
     }
 
     function scrollLoad() {
         if ((guestsScroll?.current?.scrollTop + guestsScroll?.current?.clientHeight) >= guestsScroll?.current?.scrollHeight) {
             loadMore();
+            console.log("load visitors");
         }
     }
 
@@ -58,9 +75,9 @@ const GuestsView = ({visitors}) => {
 
     return (
             <div ref={guestsScroll} style={{overflowY: 'scroll'}} className="d-block m-1 p-1 h-100">
-                {visitors?.length ?
+                {guests?.length ?
                     <ImageList cols={imgCols}>
-                        {visitors?.map(elem => (
+                        {guests?.map(elem => (
                               <ProfileViewElement key={elem?.id} profile={elem}/>
                         ))}
                     </ImageList>

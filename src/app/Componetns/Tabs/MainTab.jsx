@@ -145,7 +145,7 @@ const MainTab = (props) => {
                     <ChatView stomp={stompClient} userId={currentUserId} response={profileData?.data} />
                 </TabItem>
                 <TabItem value={tabIndex} index={1} >
-                    <GuestsView visitors={profileData?.data?.lastVisitors || []}/>
+                    <GuestsView visitors={profileData?.data?.lastVisitors || []} userId={currentUserId}/>
                 </TabItem>
                 <TabItem value={tabIndex} index={2} >
                     <SearchProfiles userId={currentUserId}/>
