@@ -8,9 +8,10 @@ import {getUserVisitors} from "../Stores/api/VisitorApi/VisitorApi";
 import {PROFILE_CHATS_PAGE_SIZE, PROFILE_GUESTS_PAGE_SIZE} from "../Stores/api/Common/ApiCommon";
 
 
-let imgCols = 5;
+let imgCols = 4;
 let guestsPage = 0;
-let vis = [];
+let result = [];
+let status = 200;
 
 const GuestsView = ({visitors, userId}) => {
     const {dimType} = useWindowDimensions();
@@ -38,6 +39,7 @@ const GuestsView = ({visitors, userId}) => {
 
         return () => {
             guestsScroll?.current?.removeEventListener("scroll", scrollLoad);
+            status = 200;
         }
     }, []);
 
@@ -46,18 +48,24 @@ const GuestsView = ({visitors, userId}) => {
      * @param {number} aPage
      */
     function loadChatsHistoryNextPage(aPage) {
-        getUserVisitors(userId, aPage, PROFILE_GUESTS_PAGE_SIZE, ((data, err) => {
-           if (!err) {
-               setGuests(data?.data);
-               vis = data?.data;
-           }
-        }));
+        if (+status == 200) {
+            getUserVisitors(userId, aPage, PROFILE_GUESTS_PAGE_SIZE, ((data, err) => {
+                status = data?.status;
+                if (!err) {
+                    result = data?.data;
+                    if (data?.data) {
+                        setGuests(prevState => prevState.concat(result));
+                    }
+                } else {
+                    result = [];
+                }
+            }));
+        }
     }
 
     function scrollLoad() {
         if ((guestsScroll?.current?.scrollTop + guestsScroll?.current?.clientHeight) >= guestsScroll?.current?.scrollHeight) {
             loadMore();
-            console.log("load visitors");
         }
     }
 
@@ -68,7 +76,8 @@ const GuestsView = ({visitors, userId}) => {
         if (guestsPage === 0) {
             guestsPage++;
         } else if (guestsPage > 0) {
-            guestsPage = guestsPage + (guests?.length > 0 ? 1: 0);
+            guestsPage = guestsPage + (result?.length > 0 ? 1: 0);
+            console.log("guestsPage: "+guestsPage);
         }
         loadChatsHistoryNextPage(guestsPage);
     }
