@@ -66,7 +66,7 @@ function searchUserProfilesRequest(userId, page, searchBody) {
  * @param {function(data: any, err: any)} callback
  */
 const searchUserProfiles = (userId, page, searchBody, callback) => {
-    if (userId) {
+    if ((userId) && (searchBody)) {
         searchUserProfilesRequest(userId, page | 0, searchBody)
             .then(data => callback(data, null))
             .catch(err => {callback(null, err); console.log("searchUserProfilesRequest Error: "+err)});

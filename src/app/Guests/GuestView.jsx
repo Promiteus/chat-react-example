@@ -60,7 +60,7 @@ const GuestsView = ({visitors, userId}) => {
 
 
     return (
-            <ScrollDownLoader loadNextPage={loadNextPage} data={result} loading={loading}>
+            <ScrollDownLoader loadNextPage={loadNextPage} data={result} loading={loading} isStartLoad={true}>
                 {guests?.length ?
                     <ImageList cols={imgCols}>
                         {guests?.map(elem => (

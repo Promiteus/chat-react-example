@@ -11,7 +11,9 @@ const ScrollDownLoader = (props) => {
 
     useEffect(() => {
         reqPage = 0;
-        props?.loadNextPage(0);
+        if (props?.isStartLoad) {
+            props?.loadNextPage(0);
+        }
 
         downScroll?.current?.addEventListener("scroll", scrollLoad);
 

@@ -9,6 +9,9 @@ import useWindowDimensions, {D_LG, D_MD, D_SM, D_XL, D_XS} from "../Hooks/useWin
 import UserProfilesSkeletons from "../Componetns/Skeletons/UserProfilesSkeletons";
 import IconFab from "../Componetns/Fabs/IconFab";
 import ScrollDownLoader from "../Componetns/ScrollLoaders/ScrollDownLoader";
+import {getUserVisitors} from "../Stores/api/VisitorApi/VisitorApi";
+import {PROFILE_GUESTS_PAGE_SIZE} from "../Stores/api/Common/ApiCommon";
+import {searchUserProfiles} from "../Stores/api/ChatDataApi/ChatDataApi";
 
 const fabStyle = {
     position: 'absolute',
@@ -19,6 +22,18 @@ const fabStyle = {
 
 let result = [];
 let status = 200;
+let searchParams = {
+    kids: 0,
+    ageFrom: 18,
+    ageTo: 55,
+    sexOrientation: "HETERO",
+    meetPreferences: "ALL",
+    sex: "MAN",
+    familyStatus: null,
+    country: "Россия",
+    region: "",
+    locality: ""
+}
 
 /**
  * Компанент, показывающий список профилей для поиска пользователя по критерию
@@ -34,7 +49,7 @@ const SearchProfiles = ({userId}) => {
         [D_LG, 4],
         [D_XL, 5],
     ]);
-    const [searchParams, setSearchParams] = useState({
+    /*const [searchParams, setSearchParams] = useState({
         kids: 0,
         ageFrom: 18,
         ageTo: 55,
@@ -45,7 +60,7 @@ const SearchProfiles = ({userId}) => {
         country: "Россия",
         region: "",
         locality: ""
-    });
+    });*/
 
     const [page, setPage] = useState(0);
     const [openSearch, setOpenSearch] = useState(false);
@@ -59,17 +74,23 @@ const SearchProfiles = ({userId}) => {
         setImgCols(colsMap.get(dimType));
     }, [dimType]);
 
+    useEffect(() => {
+        return () => {
+            result = [];
+            status = 200;
+        }
+    }, []);
 
     function onSearch(params) {
-        setSearchParams(params);
+        searchParams = params;
         setPage(0);
 
         let searchBody = {};
         Object.assign(searchBody, params);
         searchBody.kids = kidsVal(params.kids);
 
+        loadNextPage(0);
 
-      //  profileDispatch(userProfileSearchAsync({userId: userId, page: 0, searchBody: searchBody}));
         setOpenSearch(false);
     }
 
@@ -78,18 +99,31 @@ const SearchProfiles = ({userId}) => {
      * @param {number} aPage
      */
     function loadNextPage(aPage) {
+        //console.log("params: "+JSON.stringify(searchParams))
         if (+status === 200) {
-
+            setLoading(true);
+            searchUserProfiles(userId, aPage, searchParams, ((data, err) => {
+                status = data?.status;
+                if (!err) {
+                    result = data?.data;
+                    if (data?.data) {
+                        setSearched(prevState => prevState.concat(result));
+                    }
+                } else {
+                    result = [];
+                }
+                setLoading(false);
+            }));
         }
     }
 
     return (
         <div className="d-block m-1 h-100 position-relative">
-            <ScrollDownLoader loadNextPage={loadNextPage} data={result} loading={loading}>
+            <ScrollDownLoader loadNextPage={loadNextPage} data={result} loading={loading} isStartLoad={false}>
                 {/*Скелетон-прелодер для первой страницы*/}
                 {((loading) && (page === 0)) && <UserProfilesSkeletons count={20} />}
                 {/*Загружаемый контент постранично (фотокарточки пользователей)*/}
-                {((searched?.length) && (+status === 200) && (loading === false)) ?
+                {((searched?.length) && (loading === false)) ?
                     <ImageList cols={imgCols}>
                         {searched?.map((elem) => (
                             <ProfileViewElement key={elem?.id} profile={elem}/>
