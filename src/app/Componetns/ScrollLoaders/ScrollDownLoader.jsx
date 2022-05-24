@@ -2,43 +2,29 @@ import React, {useEffect, useRef, useState} from "react";
 
 
 let reqPage = 0;
+let res = [];
 
 const ScrollDownLoader = (props) => {
     const downScroll = useRef(null);
 
-
     useEffect(() => {
         reqPage = 0;
-        props?.loadChatsHistoryNextPage(0);
-    }, []);
+        props?.loadNextPage(0);
 
-    useEffect(() => {
         downScroll?.current?.addEventListener("scroll", scrollLoad);
 
         return () => {
             downScroll?.current?.removeEventListener("scroll", scrollLoad);
+            res = [];
         }
     }, []);
 
-    /**
-     * Запросить у api посетителей постранично
-     * @param {number} aPage
-     */
-   /* function loadChatsHistoryNextPage(aPage) {
-        if (+status == 200) {
-            getUserVisitors(userId, aPage, PROFILE_GUESTS_PAGE_SIZE, ((data, err) => {
-                status = data?.status;
-                if (!err) {
-                    result = data?.data;
-                    if (data?.data) {
-                        setResponse(prevState => prevState.concat(result));
-                    }
-                } else {
-                    result = [];
-                }
-            }));
-        }
-    }*/
+
+
+    useEffect(() => {
+        res = props?.data;
+    }, [props.data]);
+
 
     function scrollLoad() {
         if ((downScroll?.current?.scrollTop + downScroll?.current?.clientHeight) >= downScroll?.current?.scrollHeight) {
@@ -53,10 +39,9 @@ const ScrollDownLoader = (props) => {
         if (reqPage === 0) {
             reqPage++;
         } else if (reqPage > 0) {
-            reqPage = reqPage + (props?.result?.length > 0 ? 1: 0);
-            console.log("guestsPage: "+reqPage);
+            reqPage = reqPage + (res?.length > 0 ? 1: 0);
         }
-        props?.loadChatsHistoryNextPage(reqPage);
+        props?.loadNextPage(reqPage);
     }
 
     return (
