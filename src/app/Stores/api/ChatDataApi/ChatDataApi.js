@@ -47,14 +47,32 @@ export async function userProfile(userId)  {
 }
 
 /**
- * Получить список профилей постранично и по параметрам searchBody
+ * Запрос получения списка профилей постранично и по параметрам searchBody
  * @param {string} userId
  * @param {number} page
+ * @param {Object} searchBody
  * @returns {Promise<AxiosResponse<any>>}
  */
-export function searchUserProfilesPageable(userId, page, searchBody) {
+function searchUserProfilesRequest(userId, page, searchBody) {
     let token = localStorage.getItem(TOKEN_KEY);
     return axios.post(`${getEnvOfStorage()?.dataUrl}/api/user/profiles/${page}/${userId}`, searchBody, getHeaderBearerConfigs("application/json", token));
 }
 
+/**
+ * Получить список профилей постранично и по параметрам searchBody
+ * @param {string} userId
+ * @param {number} page
+ * @param {Object} searchBody
+ * @param {function(data: any, err: any)} callback
+ */
+const searchUserProfiles = (userId, page, searchBody, callback) => {
+    if (userId) {
+        searchUserProfilesRequest(userId, page | 0, searchBody)
+            .then(data => callback(data, null))
+            .catch(err => {callback(null, err); console.log("searchUserProfilesRequest Error: "+err)});
+    }
+}
 
+export {
+    searchUserProfiles,
+}
