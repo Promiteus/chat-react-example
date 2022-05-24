@@ -5,14 +5,10 @@ import {CAPTION_EMPTY_PROFILES, kidsVal} from "../Constants/TextMessagesRu";
 import { SearchOutlined} from "@mui/icons-material";
 import BottomDrawer from "../Componetns/Drawers/BottomDrawer";
 import SearchBox from "./SearchBox";
-import {useDispatch, useSelector} from "react-redux";
-import {
-    selectSearchProfile,
-    userProfileSearchAsync
-} from "../Stores/slices/UserProfileSearchSlice";
 import useWindowDimensions, {D_LG, D_MD, D_SM, D_XL, D_XS} from "../Hooks/useWindowDimension";
 import UserProfilesSkeletons from "../Componetns/Skeletons/UserProfilesSkeletons";
 import IconFab from "../Componetns/Fabs/IconFab";
+import ScrollDownLoader from "../Componetns/ScrollLoaders/ScrollDownLoader";
 
 const fabStyle = {
     position: 'absolute',
@@ -21,6 +17,9 @@ const fabStyle = {
     zIndex: 999
 };
 
+let result = [];
+let status = 200;
+
 /**
  * Компанент, показывающий список профилей для поиска пользователя по критерию
  * @param profiles
@@ -28,8 +27,13 @@ const fabStyle = {
  * @constructor
  */
 const SearchProfiles = ({userId}) => {
-    const [page, setPage] = useState(0);
-    const [openSearch, setOpenSearch] = useState(false);
+    const colsMap = new Map([
+        [D_XS, 2],
+        [D_SM, 2],
+        [D_MD, 3],
+        [D_LG, 4],
+        [D_XL, 5],
+    ]);
     const [searchParams, setSearchParams] = useState({
         kids: 0,
         ageFrom: 18,
@@ -42,29 +46,19 @@ const SearchProfiles = ({userId}) => {
         region: "",
         locality: ""
     });
-    const [imgCols, setImgCols] = useState(5);
 
-    const profileDispatch = useDispatch();
-    const {status, response, loading} = useSelector(selectSearchProfile);
+    const [page, setPage] = useState(0);
+    const [openSearch, setOpenSearch] = useState(false);
+    const [imgCols, setImgCols] = useState(5);
     const {dimType} = useWindowDimensions();
-    const colsMap = new Map([
-        [D_XS, 2],
-        [D_SM, 2],
-        [D_MD, 3],
-        [D_LG, 4],
-        [D_XL, 5],
-    ]);
+    const [loading, setLoading] = useState(false);
+    const [searched, setSearched] = useState([]);
+
 
     useEffect(() => {
         setImgCols(colsMap.get(dimType));
     }, [dimType]);
 
-    useEffect(() => {
-        if ((+status === 200) && (!loading) && (response?.length > 0)) {
-            setPage(page+1);
-        }
-
-    }, [response]);
 
     function onSearch(params) {
         setSearchParams(params);
@@ -75,19 +69,29 @@ const SearchProfiles = ({userId}) => {
         searchBody.kids = kidsVal(params.kids);
 
 
-        profileDispatch(userProfileSearchAsync({userId: userId, page: 0, searchBody: searchBody}));
+      //  profileDispatch(userProfileSearchAsync({userId: userId, page: 0, searchBody: searchBody}));
         setOpenSearch(false);
+    }
+
+    /**
+     * Запросить у api искомых пользователей постранично
+     * @param {number} aPage
+     */
+    function loadNextPage(aPage) {
+        if (+status === 200) {
+
+        }
     }
 
     return (
         <div className="d-block m-1 h-100 position-relative">
-            <div style={{overflowY: loading ? 'hidden': 'scroll', position: 'relative'}} className="d-block m-1 h-100">
+            <ScrollDownLoader loadNextPage={loadNextPage} data={result} loading={loading}>
                 {/*Скелетон-прелодер для первой страницы*/}
                 {((loading) && (page === 0)) && <UserProfilesSkeletons count={20} />}
                 {/*Загружаемый контент постранично (фотокарточки пользователей)*/}
-                {((response?.length) && (+status === 200) && (loading === false)) ?
+                {((searched?.length) && (+status === 200) && (loading === false)) ?
                     <ImageList cols={imgCols}>
-                        {response?.map((elem) => (
+                        {searched?.map((elem) => (
                             <ProfileViewElement key={elem?.id} profile={elem}/>
                         ))}
                     </ImageList>
@@ -102,7 +106,7 @@ const SearchProfiles = ({userId}) => {
                 <BottomDrawer isOpen={openSearch} onClosed={() => {setOpenSearch(false)}}>
                     <SearchBox onClose={onSearch} defaultParams={searchParams}/>
                 </BottomDrawer>
-            </div>
+            </ScrollDownLoader>
             {/*<Fab color="primary" aria-label="add" sx={fabStyle} onClick={() => {setOpenSearch(!openSearch)}}>
                 <SearchOutlined />
             </Fab>*/}

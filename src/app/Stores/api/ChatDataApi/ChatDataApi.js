@@ -50,10 +50,10 @@ export async function userProfile(userId)  {
  * Получить список профилей постранично и по параметрам searchBody
  * @param {string} userId
  * @param {number} page
- * @param {string} token
  * @returns {Promise<AxiosResponse<any>>}
  */
-export function searchUserProfilesPageable(userId, page, token, searchBody) {
+export function searchUserProfilesPageable(userId, page, searchBody) {
+    let token = localStorage.getItem(TOKEN_KEY);
     return axios.post(`${getEnvOfStorage()?.dataUrl}/api/user/profiles/${page}/${userId}`, searchBody, getHeaderBearerConfigs("application/json", token));
 }
 
