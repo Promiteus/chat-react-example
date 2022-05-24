@@ -5,7 +5,7 @@ import './index.css'
 import {CAPTION_EMPTY_GUESTS} from "../Constants/TextMessagesRu";
 import useWindowDimensions, {D_LG, D_MD, D_SM, D_XL, D_XS} from "../Hooks/useWindowDimension";
 import {getUserVisitors} from "../Stores/api/VisitorApi/VisitorApi";
-import {PROFILE_CHATS_PAGE_SIZE, PROFILE_GUESTS_PAGE_SIZE} from "../Stores/api/Common/ApiCommon";
+import { PROFILE_GUESTS_PAGE_SIZE} from "../Stores/api/Common/ApiCommon";
 
 
 let imgCols = 4;
