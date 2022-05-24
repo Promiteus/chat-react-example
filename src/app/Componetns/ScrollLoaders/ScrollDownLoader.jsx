@@ -9,7 +9,6 @@ const ScrollDownLoader = (props) => {
     const downScroll = useRef(null);
     const [loading, setLoading] = useState(props?.loading);
 
-
     useEffect(() => {
         reqPage = 0;
         props?.loadNextPage(0);
@@ -51,7 +50,7 @@ const ScrollDownLoader = (props) => {
     }
 
     return (
-        <div className="d-flex flex-column h-100">
+        <div className="d-flex flex-column h-100 position-relative">
             <div ref={downScroll} style={{overflowY: 'scroll'}} className="d-block m-1 p-1 h-100">
                 {props.children}
             </div>

@@ -87,7 +87,7 @@ const MainTab = (props) => {
                 .then((res) => {
                     setProfileData({data: res?.data, status: res?.status});
                     if ((res?.status !== 200) && (res?.status !== 403)) {
-                        errorProfileHandler();
+                        errorProfileHandler(true);
                     } else if (+res?.status === 403) {
                         errorProfileHandler(false);
                     }
