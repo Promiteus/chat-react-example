@@ -24,6 +24,13 @@ const ScrollDownLoader = (props) => {
     }, []);
 
     useEffect(() => {
+        if (props?.isDropPage) {
+            reqPage = 0;
+        }
+        console.log("props?.isDropPage: "+props?.isDropPage)
+    }, [props?.isDropPage]);
+
+    useEffect(() => {
         res = props?.data;
     }, [props.data]);
 

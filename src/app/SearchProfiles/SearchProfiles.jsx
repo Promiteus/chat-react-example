@@ -24,9 +24,9 @@ let searchParams = {
     kids: 0,
     ageFrom: 18,
     ageTo: 55,
-    sexOrientation: "HETERO",
-    meetPreferences: "ALL",
-    sex: "MAN",
+    sexOrientation: null,
+    meetPreferences: null,
+    sex: null,
     familyStatus: null,
     country: "Россия",
     region: "",
@@ -67,10 +67,16 @@ const SearchProfiles = ({userId}) => {
         }
     }, []);
 
-    function onSearch(params) {
-        searchParams = params;
+    function dropParams() {
         setPage(0);
         status = 200;
+        setSearched([]);
+        result = [];
+    }
+
+    function onSearch(params) {
+        searchParams = params;
+        dropParams();
 
         let searchBody = {};
         Object.assign(searchBody, params);
@@ -88,9 +94,9 @@ const SearchProfiles = ({userId}) => {
     function loadNextPage(aPage) {
         //console.log("params: "+JSON.stringify(searchParams))
         if (+status === 200) {
-            setLoading(true);
             searchUserProfiles(userId, aPage, searchParams, ((data, err) => {
                 status = data?.status;
+                setLoading(+status === 200);
                 if (!err) {
                     result = data?.data;
                     if (data?.data) {
@@ -106,7 +112,7 @@ const SearchProfiles = ({userId}) => {
 
     return (
         <div className="d-block m-1 h-100 position-relative">
-            <ScrollDownLoader loadNextPage={loadNextPage} data={result} loading={loading} isStartLoad={false}>
+            <ScrollDownLoader loadNextPage={loadNextPage} data={result} loading={loading} isStartLoad={false} isDropPage={result?.length == 0}>
                 {/*Скелетон-прелодер для первой страницы*/}
                 {((loading) && (page === 0)) && <UserProfilesSkeletons count={20} />}
                 {/*Загружаемый контент постранично (фотокарточки пользователей)*/}
