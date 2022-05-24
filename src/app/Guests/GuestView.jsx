@@ -23,6 +23,7 @@ const GuestsView = ({visitors, userId}) => {
         [D_XL, 5],
     ]);
     const [guests, setGuests] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         imgCols = colsMap.get(dimType);
@@ -40,7 +41,8 @@ const GuestsView = ({visitors, userId}) => {
      * @param {number} aPage
      */
     function loadNextPage(aPage) {
-        if (+status == 200) {
+        if (+status === 200) {
+            setLoading(true);
             getUserVisitors(userId, aPage, PROFILE_GUESTS_PAGE_SIZE, ((data, err) => {
                 status = data?.status;
                 if (!err) {
@@ -51,13 +53,14 @@ const GuestsView = ({visitors, userId}) => {
                 } else {
                     result = [];
                 }
+                setLoading(false);
             }));
         }
     }
 
 
     return (
-            <ScrollDownLoader loadNextPage={loadNextPage} data={result}>
+            <ScrollDownLoader loadNextPage={loadNextPage} data={result} loading={loading}>
                 {guests?.length ?
                     <ImageList cols={imgCols}>
                         {guests?.map(elem => (
