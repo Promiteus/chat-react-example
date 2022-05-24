@@ -9,8 +9,6 @@ import useWindowDimensions, {D_LG, D_MD, D_SM, D_XL, D_XS} from "../Hooks/useWin
 import UserProfilesSkeletons from "../Componetns/Skeletons/UserProfilesSkeletons";
 import IconFab from "../Componetns/Fabs/IconFab";
 import ScrollDownLoader from "../Componetns/ScrollLoaders/ScrollDownLoader";
-import {getUserVisitors} from "../Stores/api/VisitorApi/VisitorApi";
-import {PROFILE_GUESTS_PAGE_SIZE} from "../Stores/api/Common/ApiCommon";
 import {searchUserProfiles} from "../Stores/api/ChatDataApi/ChatDataApi";
 
 const fabStyle = {
@@ -49,18 +47,6 @@ const SearchProfiles = ({userId}) => {
         [D_LG, 4],
         [D_XL, 5],
     ]);
-    /*const [searchParams, setSearchParams] = useState({
-        kids: 0,
-        ageFrom: 18,
-        ageTo: 55,
-        sexOrientation: "HETERO",
-        meetPreferences: "ALL",
-        sex: "MAN",
-        familyStatus: null,
-        country: "Россия",
-        region: "",
-        locality: ""
-    });*/
 
     const [page, setPage] = useState(0);
     const [openSearch, setOpenSearch] = useState(false);
@@ -84,6 +70,7 @@ const SearchProfiles = ({userId}) => {
     function onSearch(params) {
         searchParams = params;
         setPage(0);
+        status = 200;
 
         let searchBody = {};
         Object.assign(searchBody, params);
