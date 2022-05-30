@@ -10,8 +10,8 @@ const UserProfilesSkeletons = ({count}) => {
         [D_XS, 2],
         [D_SM, 2],
         [D_MD, 3],
-        [D_LG, 5],
-        [D_XL, 6],
+        [D_LG, 4],
+        [D_XL, 5],
     ]);
 
     function getItems() {
@@ -29,9 +29,8 @@ const UserProfilesSkeletons = ({count}) => {
     return(
         <ImageList cols={imgCols}>
             {getItems().map((i, key) => (
-                <ImageListItem key={key} className="m-1">
-                    <Skeleton variant="rectangular"  height={290} />
-                    <Skeleton variant={"text"} height={60}/>
+                <ImageListItem key={key} className="m-0">
+                    <Skeleton variant="rectangular" height={190} />
                 </ImageListItem>
             ))}
         </ImageList>

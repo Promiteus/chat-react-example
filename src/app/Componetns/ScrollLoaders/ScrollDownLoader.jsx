@@ -49,12 +49,14 @@ const ScrollDownLoader = (props) => {
      * Выполняется для подрузки данных постранично при прокрутке вниз
      */
     function loadMore() {
-        if (reqPage === 0) {
-            reqPage++;
-        } else if (reqPage > 0) {
-            reqPage = reqPage + (res?.length > 0 ? 1: 0);
+        if ((props?.loading === false)) {
+            if (reqPage === 0) {
+                reqPage++;
+            } else if (reqPage > 0) {
+                reqPage = reqPage + (res?.length > 0 ? 1: 0);
+            }
+            props?.loadNextPage(reqPage);
         }
-        props?.loadNextPage(reqPage);
     }
 
     return (

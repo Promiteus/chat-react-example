@@ -92,6 +92,7 @@ const SearchProfiles = ({userId}) => {
      * @param {number} aPage
      */
     function loadNextPage(aPage) {
+        setPage(aPage);
         //console.log("params: "+JSON.stringify(searchParams))
         if (+status === 200) {
             searchUserProfiles(userId, aPage, searchParams, ((data, err) => {

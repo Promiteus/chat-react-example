@@ -7,6 +7,7 @@ import useWindowDimensions, {D_LG, D_MD, D_SM, D_XL, D_XS} from "../Hooks/useWin
 import {getUserVisitors} from "../Stores/api/VisitorApi/VisitorApi";
 import { PROFILE_GUESTS_PAGE_SIZE} from "../Stores/api/Common/ApiCommon";
 import ScrollDownLoader from "../Componetns/ScrollLoaders/ScrollDownLoader";
+import UserProfilesSkeletons from "../Componetns/Skeletons/UserProfilesSkeletons";
 
 
 let imgCols = 4;
@@ -24,6 +25,7 @@ const GuestsView = ({visitors, userId}) => {
     ]);
     const [guests, setGuests] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [page, setPage] = useState(0);
 
     useEffect(() => {
         imgCols = colsMap.get(dimType);
@@ -41,6 +43,7 @@ const GuestsView = ({visitors, userId}) => {
      * @param {number} aPage
      */
     function loadNextPage(aPage) {
+        setPage(aPage);
         if (+status === 200) {
             setLoading(true);
             getUserVisitors(userId, aPage, PROFILE_GUESTS_PAGE_SIZE, ((data, err) => {
@@ -61,6 +64,7 @@ const GuestsView = ({visitors, userId}) => {
 
     return (
             <ScrollDownLoader loadNextPage={loadNextPage} data={result} loading={loading} isStartLoad={true}>
+                {((loading) && (page === 0)) && <UserProfilesSkeletons count={30} />}
                 {guests?.length ?
                     <ImageList cols={imgCols}>
                         {guests?.map(elem => (
