@@ -1,5 +1,6 @@
 import React, {useEffect, useRef, useState} from "react";
 import {LinearProgress, Stack} from "@mui/material";
+import {useDispatch} from "react-redux";
 
 
 let reqPage = 0;
@@ -7,7 +8,6 @@ let res = [];
 
 const ScrollDownLoader = (props) => {
     const downScroll = useRef(null);
-    const [loading, setLoading] = useState(props?.loading);
 
     useEffect(() => {
         reqPage = 0;
@@ -33,14 +33,9 @@ const ScrollDownLoader = (props) => {
         res = props?.data;
     }, [props.data]);
 
-    useEffect(() => {
-        setLoading(props?.loading);
-    }, [props?.loading]);
-
-
 
     function scrollLoad() {
-        if ((downScroll?.current?.scrollTop + downScroll?.current?.clientHeight+50) >= downScroll?.current?.scrollHeight) {
+        if ((downScroll?.current?.scrollTop + downScroll?.current?.clientHeight+1) >= downScroll?.current?.scrollHeight) {
             loadMore();
         }
     }
@@ -64,7 +59,7 @@ const ScrollDownLoader = (props) => {
             <div ref={downScroll} style={{overflowY: 'scroll'}} className="d-block m-1 p-1 h-100">
                 {props.children}
             </div>
-            {loading ?
+            {props?.loading ?
             <Stack sx={{ width: '100%', color: 'grey.500', height: 4}} spacing={2}>
                 <LinearProgress color="success" />
             </Stack> : <div className="w-100" style={{height: 4}}></div>}

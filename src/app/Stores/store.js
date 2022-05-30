@@ -9,6 +9,7 @@ import userProfileChatCommonSlice from "./slices/UserProfileChatCommonSlice";
 import chatMsgSlice from "./slices/ChatMessageSlice";
 import updateChatMessageStatusSlice from "./slices/UpdateChatMessageStatusSlice";
 import loadFilesSlice from "./slices/LoadFilesSlice";
+import scrollLoaderSlice from "./slices/ScrollLoaderSlice";
 
 
 export default configureStore({
@@ -18,6 +19,7 @@ export default configureStore({
         profile: profileSlice,
         chat: chatSlice,
         searchBox: searchBoxSlice,
+        scrollLoader: scrollLoaderSlice,
         userChat: userProfileChatsSlice,
         chatCommon: userProfileChatCommonSlice,
         chatMsg: chatMsgSlice,

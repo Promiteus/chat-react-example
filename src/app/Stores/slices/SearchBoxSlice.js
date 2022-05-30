@@ -8,7 +8,6 @@ export const searchBoxSlice = createSlice({
         sexOrientationCheck: false,
         sexCheck: false,
         familyCheck: false,
-        page: 0,
         searchedData: [],
         searchParams: {
             kids: 0,
@@ -39,9 +38,6 @@ export const searchBoxSlice = createSlice({
         setFamilyCheck: (state, action) => {
             state.familyCheck = action.payload;
         },
-        setPage: (state, action) => {
-            state.page = action.payload;
-        },
         setSearchedData: (state, action) => {
             state.searchedData = action.payload;
         },
@@ -52,5 +48,5 @@ export const searchBoxSlice = createSlice({
 })
 
 export const selectSearchBox = (state) => state.searchBox;
-export const {setAgeCheck, setKidsCheck, setSexOrientationCheck, setSexCheck, setFamilyCheck, setPage, setSearchedData, setSearchParams} = searchBoxSlice.actions;
+export const {setAgeCheck, setKidsCheck, setSexOrientationCheck, setSexCheck, setFamilyCheck, setSearchedData, setSearchParams} = searchBoxSlice.actions;
 export default searchBoxSlice.reducer;

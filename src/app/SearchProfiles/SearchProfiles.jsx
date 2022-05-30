@@ -10,6 +10,8 @@ import UserProfilesSkeletons from "../Componetns/Skeletons/UserProfilesSkeletons
 import IconFab from "../Componetns/Fabs/IconFab";
 import ScrollDownLoader from "../Componetns/ScrollLoaders/ScrollDownLoader";
 import {searchUserProfiles} from "../Stores/api/ChatDataApi/ChatDataApi";
+import {useDispatch, useSelector} from "react-redux";
+import {selectScrollLoader, setPage} from "../Stores/slices/ScrollLoaderSlice";
 
 const fabStyle = {
     position: 'absolute',
@@ -48,17 +50,22 @@ const SearchProfiles = ({userId}) => {
         [D_XL, 5],
     ]);
 
-    const [page, setPage] = useState(0);
+    //const [page, setPage] = useState(0);
     const [openSearch, setOpenSearch] = useState(false);
     const [imgCols, setImgCols] = useState(5);
     const {dimType} = useWindowDimensions();
     const [loading, setLoading] = useState(false);
     const [searched, setSearched] = useState([]);
 
+    const {page} = useSelector(selectScrollLoader);
+    const searchDispatcher = useDispatch();
+
 
     useEffect(() => {
         setImgCols(colsMap.get(dimType));
     }, [dimType]);
+
+    useEffect(() => {console.log("page: "+page);}, [page]);
 
     useEffect(() => {
         return () => {
@@ -68,7 +75,7 @@ const SearchProfiles = ({userId}) => {
     }, []);
 
     function dropParams() {
-        setPage(0);
+        searchDispatcher(setPage(0));
         status = 200;
         setSearched([]);
         result = [];
@@ -92,8 +99,6 @@ const SearchProfiles = ({userId}) => {
      * @param {number} aPage
      */
     function loadNextPage(aPage) {
-        setPage(aPage);
-        //console.log("params: "+JSON.stringify(searchParams))
         if (+status === 200) {
             searchUserProfiles(userId, aPage, searchParams, ((data, err) => {
                 status = data?.status;
