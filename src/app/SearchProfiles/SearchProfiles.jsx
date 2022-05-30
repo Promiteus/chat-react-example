@@ -50,7 +50,6 @@ const SearchProfiles = ({userId}) => {
         [D_XL, 5],
     ]);
 
-    //const [page, setPage] = useState(0);
     const [openSearch, setOpenSearch] = useState(false);
     const [imgCols, setImgCols] = useState(5);
     const {dimType} = useWindowDimensions();
@@ -65,7 +64,10 @@ const SearchProfiles = ({userId}) => {
         setImgCols(colsMap.get(dimType));
     }, [dimType]);
 
-    useEffect(() => {console.log("page: "+page);}, [page]);
+    useEffect(() => {
+        console.log("SearchProfiles page: "+page);
+        loadNextPage(page);
+    }, [page]);
 
     useEffect(() => {
         return () => {
@@ -79,6 +81,7 @@ const SearchProfiles = ({userId}) => {
         status = 200;
         setSearched([]);
         result = [];
+        console.log("drop params")
     }
 
     function onSearch(params) {
@@ -118,7 +121,7 @@ const SearchProfiles = ({userId}) => {
 
     return (
         <div className="d-block m-1 h-100 position-relative">
-            <ScrollDownLoader loadNextPage={loadNextPage} data={result} loading={loading} isStartLoad={false} isDropPage={result?.length == 0}>
+            <ScrollDownLoader /*loadNextPage={loadNextPage}*/ data={result} loading={loading} /*isStartLoad={false}*/ isDropPage={result?.length == 0}>
                 {/*Скелетон-прелодер для первой страницы*/}
                 {((loading) && (page === 0)) && <UserProfilesSkeletons count={20} />}
                 {/*Загружаемый контент постранично (фотокарточки пользователей)*/}

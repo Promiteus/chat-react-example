@@ -1,20 +1,17 @@
 import React, {useEffect, useRef, useState} from "react";
 import {LinearProgress, Stack} from "@mui/material";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {incPage, selectScrollLoader, setPage} from "../../Stores/slices/ScrollLoaderSlice";
 
-
-let reqPage = 0;
 let res = [];
+let isExecuting = false;
 
 const ScrollDownLoader = (props) => {
     const downScroll = useRef(null);
+    const dispatch = useDispatch();
+    const {page} = useSelector(selectScrollLoader);
 
     useEffect(() => {
-        reqPage = 0;
-        if (props?.isStartLoad) {
-            props?.loadNextPage(0);
-        }
-
         downScroll?.current?.addEventListener("scroll", scrollLoad);
 
         return () => {
@@ -23,11 +20,6 @@ const ScrollDownLoader = (props) => {
         }
     }, []);
 
-    useEffect(() => {
-        if (props?.isDropPage) {
-            reqPage = 0;
-        }
-    }, [props?.isDropPage]);
 
     useEffect(() => {
         res = props?.data;
@@ -36,7 +28,7 @@ const ScrollDownLoader = (props) => {
 
     function scrollLoad() {
         if ((downScroll?.current?.scrollTop + downScroll?.current?.clientHeight+1) >= downScroll?.current?.scrollHeight) {
-            loadMore();
+             loadMore();
         }
     }
 
@@ -45,12 +37,11 @@ const ScrollDownLoader = (props) => {
      */
     function loadMore() {
         if ((props?.loading === false)) {
-            if (reqPage === 0) {
-                reqPage++;
-            } else if (reqPage > 0) {
-                reqPage = reqPage + (res?.length > 0 ? 1: 0);
+            if (page === 0) {
+                dispatch(incPage())
+            } else if (page > 0) {
+                dispatch(setPage(page + (props?.data?.length > 0 ? 1: 0)));
             }
-            props?.loadNextPage(reqPage);
         }
     }
 
