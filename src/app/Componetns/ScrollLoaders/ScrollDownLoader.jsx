@@ -27,7 +27,6 @@ const ScrollDownLoader = (props) => {
         if (props?.isDropPage) {
             reqPage = 0;
         }
-        console.log("props?.isDropPage: "+props?.isDropPage)
     }, [props?.isDropPage]);
 
     useEffect(() => {
@@ -41,7 +40,7 @@ const ScrollDownLoader = (props) => {
 
 
     function scrollLoad() {
-        if ((downScroll?.current?.scrollTop + downScroll?.current?.clientHeight) >= downScroll?.current?.scrollHeight) {
+        if ((downScroll?.current?.scrollTop + downScroll?.current?.clientHeight+50) >= downScroll?.current?.scrollHeight) {
             loadMore();
         }
     }
