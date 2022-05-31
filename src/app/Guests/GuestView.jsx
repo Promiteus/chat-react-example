@@ -51,8 +51,6 @@ const GuestsView = ({visitors, userId}) => {
      * @param {number} aPage
      */
     function loadNextPage(aPage) {
-        //setPage(aPage);
-        if (+status === 200) {
             setLoading(true);
             getUserVisitors(userId, aPage, PROFILE_GUESTS_PAGE_SIZE, ((data, err) => {
                 status = data?.status;
@@ -66,13 +64,12 @@ const GuestsView = ({visitors, userId}) => {
                 }
                 setLoading(false);
             }));
-        }
     }
 
 
     return (
             <ScrollDownLoader data={result} loading={loading} status={+status} page={page}>
-                {((loading) && (page === 0)) && <UserProfilesSkeletons count={30} />}
+                {((loading) && (page === 0)) && <UserProfilesSkeletons count={20} />}
                 {guests?.length ?
                     <ImageList cols={imgCols}>
                         {guests?.map((elem, index) => (

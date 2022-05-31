@@ -92,9 +92,9 @@ const SearchProfiles = ({userId}) => {
         Object.assign(searchBody, params);
         searchBody.kids = kidsVal(params.kids);
 
-        if (page === 0) {
+        /*if (page === 0) {
             loadNextPage(0);
-        }
+        }*/
 
         setOpenSearch(false);
     }
@@ -104,10 +104,10 @@ const SearchProfiles = ({userId}) => {
      * @param {number} aPage
      */
     function loadNextPage(aPage) {
-        if (+status === 200) {
+            setLoading(true);
             searchUserProfiles(userId, aPage, searchParams, ((data, err) => {
                 status = data?.status;
-                setLoading(+status === 200);
+
                 if (!err) {
                     result = data?.data;
                     if (data?.data) {
@@ -118,7 +118,6 @@ const SearchProfiles = ({userId}) => {
                 }
                 setLoading(false);
             }));
-        }
     }
 
     return (
@@ -127,7 +126,7 @@ const SearchProfiles = ({userId}) => {
                 {/*Скелетон-прелодер для первой страницы*/}
                 {((loading) && (page === 0)) && <UserProfilesSkeletons count={30} />}
                 {/*Загружаемый контент постранично (фотокарточки пользователей)*/}
-                {((searched?.length) && (loading === false)) ?
+                {(searched?.length) ?
                     <ImageList cols={imgCols}>
                         {searched?.map((elem) => (
                             <ProfileViewElement key={elem?.id} profile={elem}/>
