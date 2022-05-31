@@ -11,10 +11,13 @@ export const scrollLoaderSlice = createSlice({
         },
         incPage: state => {
             state.page += 1;
+        },
+        dropPage: state => {
+            state.page = 0;
         }
     },
 });
 
 export const selectScrollLoader = (state) => state.scrollLoader;
-export const { setPage, incPage } = scrollLoaderSlice.actions;
+export const { setPage, incPage, dropPage } = scrollLoaderSlice.actions;
 export default scrollLoaderSlice.reducer;

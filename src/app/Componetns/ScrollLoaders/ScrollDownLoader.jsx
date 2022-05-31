@@ -3,8 +3,8 @@ import {LinearProgress, Stack} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import {incPage, selectScrollLoader, setPage} from "../../Stores/slices/ScrollLoaderSlice";
 
+let cPage = 0;
 let res = [];
-let isExecuting = false;
 
 const ScrollDownLoader = (props) => {
     const downScroll = useRef(null);
@@ -20,11 +20,8 @@ const ScrollDownLoader = (props) => {
         }
     }, []);
 
-
-    useEffect(() => {
-        res = props?.data;
-    }, [props.data]);
-
+    useEffect(() => {cPage = page}, [page]);
+    useEffect(() => { res = props?.data}, [props?.data]);
 
     function scrollLoad() {
         if ((downScroll?.current?.scrollTop + downScroll?.current?.clientHeight+1) >= downScroll?.current?.scrollHeight) {
@@ -37,10 +34,10 @@ const ScrollDownLoader = (props) => {
      */
     function loadMore() {
         if ((props?.loading === false)) {
-            if (page === 0) {
-                dispatch(incPage())
-            } else if (page > 0) {
-                dispatch(setPage(page + (props?.data?.length > 0 ? 1: 0)));
+            if (cPage === 0) {
+                dispatch(incPage());
+            } else if ((cPage > 0) && (props?.status === 200)) {
+                dispatch(setPage(cPage + (res?.length > 0 ? 1: 0)));
             }
         }
     }

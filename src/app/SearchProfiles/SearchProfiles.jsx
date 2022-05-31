@@ -11,7 +11,7 @@ import IconFab from "../Componetns/Fabs/IconFab";
 import ScrollDownLoader from "../Componetns/ScrollLoaders/ScrollDownLoader";
 import {searchUserProfiles} from "../Stores/api/ChatDataApi/ChatDataApi";
 import {useDispatch, useSelector} from "react-redux";
-import {selectScrollLoader, setPage} from "../Stores/slices/ScrollLoaderSlice";
+import {dropPage, selectScrollLoader, setPage} from "../Stores/slices/ScrollLoaderSlice";
 
 const fabStyle = {
     position: 'absolute',
@@ -77,7 +77,7 @@ const SearchProfiles = ({userId}) => {
     }, []);
 
     function dropParams() {
-        searchDispatcher(setPage(0));
+        searchDispatcher(dropPage());
         status = 200;
         setSearched([]);
         result = [];
@@ -92,7 +92,9 @@ const SearchProfiles = ({userId}) => {
         Object.assign(searchBody, params);
         searchBody.kids = kidsVal(params.kids);
 
-        loadNextPage(0);
+        if (page === 0) {
+            loadNextPage(0);
+        }
 
         setOpenSearch(false);
     }
@@ -121,9 +123,9 @@ const SearchProfiles = ({userId}) => {
 
     return (
         <div className="d-block m-1 h-100 position-relative">
-            <ScrollDownLoader /*loadNextPage={loadNextPage}*/ data={result} loading={loading} /*isStartLoad={false}*/ isDropPage={result?.length == 0}>
+            <ScrollDownLoader data={result} loading={loading} status={+status}>
                 {/*Скелетон-прелодер для первой страницы*/}
-                {((loading) && (page === 0)) && <UserProfilesSkeletons count={20} />}
+                {((loading) && (page === 0)) && <UserProfilesSkeletons count={30} />}
                 {/*Загружаемый контент постранично (фотокарточки пользователей)*/}
                 {((searched?.length) && (loading === false)) ?
                     <ImageList cols={imgCols}>
@@ -136,16 +138,11 @@ const SearchProfiles = ({userId}) => {
                         <Chip label={CAPTION_EMPTY_PROFILES.toUpperCase()} color={"primary"} variant={"outlined"}/>
                     </div>
                 }
-                {/*Скелетон-прелодер для последующих страниц*/}
-                {((loading) && (page > 0)) && <div></div>}
 
                 <BottomDrawer isOpen={openSearch} onClosed={() => {setOpenSearch(false)}}>
                     <SearchBox onClose={onSearch} defaultParams={searchParams}/>
                 </BottomDrawer>
             </ScrollDownLoader>
-            {/*<Fab color="primary" aria-label="add" sx={fabStyle} onClick={() => {setOpenSearch(!openSearch)}}>
-                <SearchOutlined />
-            </Fab>*/}
             <IconFab
                 icon={<SearchOutlined />}
                 bgColor={"#6c34ef"}

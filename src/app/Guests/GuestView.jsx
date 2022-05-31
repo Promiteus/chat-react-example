@@ -8,8 +8,8 @@ import {getUserVisitors} from "../Stores/api/VisitorApi/VisitorApi";
 import { PROFILE_GUESTS_PAGE_SIZE} from "../Stores/api/Common/ApiCommon";
 import ScrollDownLoader from "../Componetns/ScrollLoaders/ScrollDownLoader";
 import UserProfilesSkeletons from "../Componetns/Skeletons/UserProfilesSkeletons";
-import {useSelector} from "react-redux";
-import {selectScrollLoader} from "../Stores/slices/ScrollLoaderSlice";
+import {useDispatch, useSelector} from "react-redux";
+import {dropPage, selectScrollLoader} from "../Stores/slices/ScrollLoaderSlice";
 
 
 let imgCols = 4;
@@ -27,8 +27,8 @@ const GuestsView = ({visitors, userId}) => {
     ]);
     const [guests, setGuests] = useState([]);
     const [loading, setLoading] = useState(false);
-    //const [page, setPage] = useState(0);
     const {page} = useSelector(selectScrollLoader);
+    const scrollDispatch = useDispatch();
 
     useEffect(() => {
         imgCols = colsMap.get(dimType);
@@ -38,11 +38,11 @@ const GuestsView = ({visitors, userId}) => {
     useEffect(() => {
         return () => {
             status = 200;
+            scrollDispatch(dropPage());
         }
     }, []);
 
     useEffect(() => {
-        console.log("GuestsView page: "+page);
         loadNextPage(page);
     }, [page]);
 
@@ -71,12 +71,12 @@ const GuestsView = ({visitors, userId}) => {
 
 
     return (
-            <ScrollDownLoader /*loadNextPage={loadNextPage}*/  data={result} loading={loading} /*isStartLoad={true}*/>
+            <ScrollDownLoader data={result} loading={loading} status={+status}>
                 {((loading) && (page === 0)) && <UserProfilesSkeletons count={30} />}
                 {guests?.length ?
                     <ImageList cols={imgCols}>
-                        {guests?.map(elem => (
-                              <ProfileViewElement key={elem?.id} profile={elem}/>
+                        {guests?.map((elem, index) => (
+                              <ProfileViewElement key={index} profile={elem}/>
                         ))}
                     </ImageList>
                     :
