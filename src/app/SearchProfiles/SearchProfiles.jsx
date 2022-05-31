@@ -123,7 +123,7 @@ const SearchProfiles = ({userId}) => {
 
     return (
         <div className="d-block m-1 h-100 position-relative">
-            <ScrollDownLoader data={result} loading={loading} status={+status}>
+            <ScrollDownLoader data={result} loading={loading} status={+status} page={page}>
                 {/*Скелетон-прелодер для первой страницы*/}
                 {((loading) && (page === 0)) && <UserProfilesSkeletons count={30} />}
                 {/*Загружаемый контент постранично (фотокарточки пользователей)*/}

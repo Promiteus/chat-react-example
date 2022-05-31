@@ -71,7 +71,7 @@ const GuestsView = ({visitors, userId}) => {
 
 
     return (
-            <ScrollDownLoader data={result} loading={loading} status={+status}>
+            <ScrollDownLoader data={result} loading={loading} status={+status} page={page}>
                 {((loading) && (page === 0)) && <UserProfilesSkeletons count={30} />}
                 {guests?.length ?
                     <ImageList cols={imgCols}>

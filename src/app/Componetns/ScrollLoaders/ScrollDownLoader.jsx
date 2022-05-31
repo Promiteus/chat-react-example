@@ -9,7 +9,7 @@ let res = [];
 const ScrollDownLoader = (props) => {
     const downScroll = useRef(null);
     const dispatch = useDispatch();
-    const {page} = useSelector(selectScrollLoader);
+    //const {page} = useSelector(selectScrollLoader);
 
     useEffect(() => {
         downScroll?.current?.addEventListener("scroll", scrollLoad);
@@ -20,7 +20,7 @@ const ScrollDownLoader = (props) => {
         }
     }, []);
 
-    useEffect(() => {cPage = page}, [page]);
+    useEffect(() => {cPage = props?.page}, [props?.page]);
     useEffect(() => { res = props?.data}, [props?.data]);
 
     function scrollLoad() {
