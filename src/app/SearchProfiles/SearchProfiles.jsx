@@ -64,12 +64,9 @@ const SearchProfiles = ({userId}) => {
         setImgCols(colsMap.get(dimType));
     }, [dimType]);
 
-    useEffect(() => {
-        console.log("SearchProfiles page: "+page);
-        loadNextPage(page);
-    }, [page]);
 
     useEffect(() => {
+        loadNextPage(0);
         return () => {
             result = [];
             status = 200;
@@ -92,10 +89,7 @@ const SearchProfiles = ({userId}) => {
         Object.assign(searchBody, params);
         searchBody.kids = kidsVal(params.kids);
 
-        /*if (page === 0) {
-            loadNextPage(0);
-        }*/
-
+        loadNextPage(0);
         setOpenSearch(false);
     }
 
@@ -122,7 +116,7 @@ const SearchProfiles = ({userId}) => {
 
     return (
         <div className="d-block m-1 h-100 position-relative">
-            <ScrollDownLoader data={result} loading={loading} status={+status} page={page}>
+            <ScrollDownLoader loadNextPage={loadNextPage} data={result} loading={loading} status={+status} page={page}>
                 {/*Скелетон-прелодер для первой страницы*/}
                 {((loading) && (page === 0)) && <UserProfilesSkeletons count={30} />}
                 {/*Загружаемый контент постранично (фотокарточки пользователей)*/}

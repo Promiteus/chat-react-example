@@ -36,15 +36,13 @@ const GuestsView = ({visitors, userId}) => {
 
 
     useEffect(() => {
+        loadNextPage(0);
         return () => {
             status = 200;
             scrollDispatch(dropPage());
         }
     }, []);
 
-    useEffect(() => {
-        loadNextPage(page);
-    }, [page]);
 
     /**
      * Запросить у api посетителей постранично
@@ -68,7 +66,7 @@ const GuestsView = ({visitors, userId}) => {
 
 
     return (
-            <ScrollDownLoader data={result} loading={loading} status={+status} page={page}>
+            <ScrollDownLoader loadNextPage={loadNextPage} data={result} loading={loading} status={+status} page={page}>
                 {((loading) && (page === 0)) && <UserProfilesSkeletons count={20} />}
                 {guests?.length ?
                     <ImageList cols={imgCols}>

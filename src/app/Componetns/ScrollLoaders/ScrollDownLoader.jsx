@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from "react";
 import {LinearProgress, Stack} from "@mui/material";
-import {useDispatch, useSelector} from "react-redux";
-import {incPage, selectScrollLoader, setPage} from "../../Stores/slices/ScrollLoaderSlice";
+import {useDispatch} from "react-redux";
+import {setPage} from "../../Stores/slices/ScrollLoaderSlice";
 
 let cPage = 0;
 let res = [];
@@ -9,7 +9,6 @@ let res = [];
 const ScrollDownLoader = (props) => {
     const downScroll = useRef(null);
     const dispatch = useDispatch();
-    //const {page} = useSelector(selectScrollLoader);
 
     useEffect(() => {
         downScroll?.current?.addEventListener("scroll", scrollLoad);
@@ -20,8 +19,15 @@ const ScrollDownLoader = (props) => {
         }
     }, []);
 
-    useEffect(() => {cPage = props?.page}, [props?.page]);
-    useEffect(() => { res = props?.data}, [props?.data]);
+    useEffect(() => {
+        if (props?.page === 0) {
+            cPage = 0;
+        }
+        console.log("cPage = "+cPage);
+    }, [props?.page]);
+
+
+    useEffect(() => {res = props?.data}, [props?.data]);
 
     function scrollLoad() {
         if ((downScroll?.current?.scrollTop + downScroll?.current?.clientHeight+1) >= downScroll?.current?.scrollHeight) {
@@ -35,9 +41,15 @@ const ScrollDownLoader = (props) => {
     function loadMore() {
         if ((props?.loading === false)) {
             if (cPage === 0) {
-                dispatch(incPage());
+                cPage++;
+                dispatch(setPage(cPage));
             } else if ((cPage > 0) && (props?.status === 200)) {
-                dispatch(setPage(cPage + (res?.length > 0 ? 1: 0)));
+                cPage = cPage + (res?.length > 0 ? 1: 0);
+                dispatch(setPage(cPage));
+            }
+
+            if (res?.length > 0) {
+                props?.loadNextPage(cPage);
             }
         }
     }
