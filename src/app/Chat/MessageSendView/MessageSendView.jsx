@@ -7,7 +7,7 @@ import {selectUserChatCommon} from "../../Stores/slices/UserProfileChatCommonSli
 
 function MessageSendView ({stomp, currentUserId}) {
   const dispatch = useDispatch();
-    const {profile} = useSelector(selectUserChatCommon);
+  const {profile} = useSelector(selectUserChatCommon);
 
   let content = {};
   let inputMessage = {};
@@ -23,7 +23,6 @@ function MessageSendView ({stomp, currentUserId}) {
 
   function onSend() {
     if (stomp) {
-        console.log("topic: "+profile?.id)
         stomp.sendMessage('chat', profile?.firstName, profile?.id, content);
         dispatch(increment());
     }
