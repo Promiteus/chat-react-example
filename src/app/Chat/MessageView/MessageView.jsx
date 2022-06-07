@@ -110,8 +110,6 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
   useEffect(() => {
       setTimeout(() => {
           scrollToBottom();
-          //console.log("profile: "+JSON.stringify(selectedProfile));
-          //setProfile(selectedProfile);
       }, 500);
   }, [profile]);
 
@@ -178,13 +176,11 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
       scrollChat?.current.addEventListener("scroll", scrollDown);
 
       if (stomp) {
-           //Получить подтверждение, что сообщение отправлено
+           //Получить подтверждение, что сообщение отправлено мной же или получено от другого пользователя
            stomp.onMessageReceived = (data) => {
                let body = JSON.parse(data?.body);
 
-               //console.log(`${selectedUser_?.id} === ${body?.content?.fromUserId}`);
-
-               if ((body) && (body?.content) && (selectedUser_?.id === body?.content?.fromUserId)) {
+               if ((body) && (body?.content) && ((selectedUser_?.id === body?.content?.fromUserId) || (selectedUser_?.id === body?.content?.userId))) {
                  setMessageList(prev => [...prev, {
                     id: body?.content?.id,
                     userId: body?.content?.userId, //Кому сообщение

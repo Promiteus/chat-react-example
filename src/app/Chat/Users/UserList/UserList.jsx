@@ -21,7 +21,7 @@ let chatPage = 0;
  * @returns {JSX.Element}
  * @constructor
  */
-export default function UserList({currentUserId, onSelected}) {
+export default function UserList({currentUserId, onSelected, stomp}) {
     const [selectedUser, setSelectedUser] = useState('0');
     const [chatUsers, setChatUsers] = useState([]);
     const chatDispatch = useDispatch();
@@ -33,6 +33,13 @@ export default function UserList({currentUserId, onSelected}) {
     useEffect(() => {
         chatPage = 0;
         loadChatsHistoryNextPage(0);
+
+        if (stomp) {
+            stomp.onMessageReceived = (data) => {
+                let body = JSON.parse(data?.body);
+
+            };
+        }
     }, []);
 
     /**

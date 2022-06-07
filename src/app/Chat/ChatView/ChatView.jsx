@@ -40,7 +40,7 @@ function ChatView ({userId, stomp}) {
               <Grid container spacing={0}>
                   <Grid item xs={12} sm={12} md={4} sx={{ display:  display.chats.value}} className="h-100">
                       <div className="users h-100">
-                           <UserList  currentUserId={userId} onSelected={onSelectedUser}/>
+                           <UserList stomp={stomp} currentUserId={userId} onSelected={onSelectedUser}/>
                       </div>
                   </Grid>
                   <Grid item xs={12} sm={12} md={8} sx={{ display:  display.chatView.value}} className="h-100">
