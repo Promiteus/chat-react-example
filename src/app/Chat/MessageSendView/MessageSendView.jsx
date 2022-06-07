@@ -2,20 +2,20 @@ import React from 'react';
 import './MessageSendView.css';
 import SendMsgButton from '../Controls/SVG/SendMsgButton/SendMsgButton';
 import {useDispatch, useSelector} from "react-redux";
-import {increment, selectCommon} from "../../Stores/slices/CommonSlice";
+import {increment} from "../../Stores/slices/CommonSlice";
+import {selectUserChatCommon} from "../../Stores/slices/UserProfileChatCommonSlice";
 
 function MessageSendView ({stomp, currentUserId}) {
   const dispatch = useDispatch();
-  const {selectedUser} = useSelector(selectCommon);
+    const {profile} = useSelector(selectUserChatCommon);
 
-  const TOPIC = `${selectedUser?.id}`;
   let content = {};
   let inputMessage = {};
 
   function updateInputValue(e) {
     content = {
         id: null,
-        userId: selectedUser?.id,
+        userId: profile?.id,
         fromUserId: currentUserId,
         message: e.target.value,
     };
@@ -23,16 +23,16 @@ function MessageSendView ({stomp, currentUserId}) {
 
   function onSend() {
     if (stomp) {
-       stomp.sendMessage('chat', 'Roman Matveev', TOPIC, content);
-       dispatch(increment());
+        console.log("topic: "+profile?.id)
+        stomp.sendMessage('chat', profile?.firstName, profile?.id, content);
+        dispatch(increment());
     }
   }
 
   function onKey(e) {
     if (e.keyCode === 13) { //Enter key
       if (stomp) {
-          stomp.sendMessage('chat', 'Roman Matveev', TOPIC, content);
-          dispatch(increment());
+          onSend();
       }
       inputMessage.value = '';
     }
