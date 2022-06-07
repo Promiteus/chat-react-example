@@ -105,10 +105,13 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
   const chatBottomScroller = useRef(null);
   const chatDispatch = useDispatch();
   const updatedMsgChatStatus = useSelector(selectUpdateChatMessageStatus);
+ // const [profile, setProfile] = useState(null);
 
   useEffect(() => {
       setTimeout(() => {
           scrollToBottom();
+          //console.log("profile: "+JSON.stringify(selectedProfile));
+          //setProfile(selectedProfile);
       }, 500);
   }, [profile]);
 
@@ -179,7 +182,9 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
            stomp.onMessageReceived = (data) => {
                let body = JSON.parse(data?.body);
 
-               if ((body) && (body?.content)) {
+               //console.log(`${selectedUser_?.id} === ${body?.content?.fromUserId}`);
+
+               if ((body) && (body?.content) && (selectedUser_?.id === body?.content?.fromUserId)) {
                  setMessageList(prev => [...prev, {
                     id: body?.content?.id,
                     userId: body?.content?.userId, //Кому сообщение
