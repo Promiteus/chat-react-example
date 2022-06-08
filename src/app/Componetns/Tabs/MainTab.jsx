@@ -31,8 +31,7 @@ function useQuery() {
     return new URLSearchParams(useLocation().search);
 }
 
-let stompClient =  new StompClient();
-let pattleHeight = 0;
+let stompClient = new StompClient();
 
 const MainTab = (props) => {
     const [tabIndex, setTabIndex] = useState(0);
@@ -47,14 +46,9 @@ const MainTab = (props) => {
     //Получить userId из параметра запроса или из локального хранилища.
     const currentUserId = !(query.get(USER_ID_KEY)) ? localStorage.getItem(USER_ID_KEY) : query.get(USER_ID_KEY);
 
-
     const handleChange = (event, newIndex) => {
         setTabIndex(newIndex);
     }
-
-    useEffect(() => {
-        console.log("userId main: "+currentUserId);
-    }, []);
 
     useEffect(() => {
         if (pageIndex === -1) {
@@ -80,7 +74,6 @@ const MainTab = (props) => {
 
     //Реагирует однократно для userId
     useEffect(() => {
-        console.log("MainTab currentUserId: "+currentUserId);
         if (currentUserId) {
             //Запросить данные профиля пользователя по userId
             userProfile(currentUserId)
@@ -99,16 +92,16 @@ const MainTab = (props) => {
             navigate(ROUTE_SIGNUP);
         }
 
-        stompClient?.connect(currentUserId);
 
-        stompClient.connectionError = (error) => {
+        stompClient.tryStompConnect(stompClient, currentUserId, (error) => {
             setErrMsg(error);
             setShowError(true);
             setInterval(() => {setShowError(false)}, 5000);
-        }
+        })
 
         return () => {
             stompClient?.disconnect();
+           // stompClient = null;
         }
     }, []);
 

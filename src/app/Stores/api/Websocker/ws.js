@@ -23,7 +23,11 @@ export class StompClient {
             {}, 
             (data) => this.connectionSuccess(userId),
             (error) => this.connectionError(error)
-        );     
+        );
+        this.client.onclose = () => {
+            console.log("closed");
+            this.connected = false;
+        }
     }
 
     connectionSuccess(userId) {
@@ -46,12 +50,13 @@ export class StompClient {
 
            if (this.client) {
                this.client.close();
+               this.connected = false;
            }
        }
     }
 
     connectionError(error) {
-        console.log('connectionError error: '+error);
+        console.log('connectionError: '+error);
         this.connected = false;
     }
 
@@ -60,12 +65,33 @@ export class StompClient {
     sendMessage(type, sender, routerKey, content) {
         //this.topicName = routerKey;
         if (this.stompClient) {
-            this.stompClient.send(
+            let res = this.stompClient.send(
                 "/app/chat",
                 {},
                 JSON.stringify(new ChatMessage(type, sender, content, routerKey))
             );
+
         }
     }
+
+    /**
+     * Попытка соединиться к серверу WebSocket
+     * @param {StompClient} stomp
+     * @param {string} currentUserId
+     * @param function(error: any) callback
+     */
+    async tryStompConnect(stomp, currentUserId, callback) {
+           setInterval(() => {
+               if (!this.connected) {
+                   console.log("try to ws connect...")
+                   stomp?.connect(currentUserId);
+
+                   stomp.connectionError = (error) => {
+                       callback(error);
+                   }
+               }
+           }, 3000);
+    }
+
 }
 
