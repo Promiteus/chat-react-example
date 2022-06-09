@@ -17,7 +17,10 @@ export class StompClient {
     }
 
     destructor() {
-        clearInterval(this.attemts);
+        if (this.attemts) {
+            clearInterval(this.attemts);
+        }
+
     }
     
 
