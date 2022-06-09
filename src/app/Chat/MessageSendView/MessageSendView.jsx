@@ -18,6 +18,9 @@ function MessageSendView ({stomp, currentUserId}) {
         userId: profile?.id,
         fromUserId: currentUserId,
         message: e.target.value,
+        group: 0,
+        isEmailed: false,
+        isRead: false,
     };
   }
 
