@@ -105,7 +105,7 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
   const chatBottomScroller = useRef(null);
   const chatDispatch = useDispatch();
   const updatedMsgChatStatus = useSelector(selectUpdateChatMessageStatus);
- // const [profile, setProfile] = useState(null);
+
 
   useEffect(() => {
       setTimeout(() => {
@@ -162,9 +162,11 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
   }
 
   function scrollDown() {
-      if ((scrollChat?.current?.scrollTop + scrollChat?.current?.clientHeight) >= scrollChat?.current?.scrollHeight) {
+      if ((scrollChat?.current?.scrollTop + scrollChat?.current?.clientHeight+1) >= scrollChat?.current?.scrollHeight) {
           //Проверить/изменить статус непрочитанных сообщений
-          updateChatMessagesStatus(Array.from(unreadMessageListForCurrentUser), Array.from(unreadMessageListForAnotherUser));
+          setTimeout(() => {
+              updateChatMessagesStatus(Array.from(unreadMessageListForCurrentUser), Array.from(unreadMessageListForAnotherUser));
+          }, 1000);
       }
   }
 
@@ -191,6 +193,7 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
                  }]);
                }
              scrollToBottom();
+             updateChatMessagesStatus(Array.from(unreadMessageListForCurrentUser), Array.from(unreadMessageListForAnotherUser));
            };
       }
 
@@ -272,7 +275,7 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
             <LinearProgress color="success" />
         </Stack> : <div className="w-100" style={{height: 4}}></div>}
 
-        <div /*style={{height: chatViewHeight}}*/ className="chatView d-flex flex-column" >
+        <div className="chatView d-flex flex-column" >
             {beforeMessageList.map((element) => (<MessageItem key={element?.id} data={element} selectedUser={profile} currentUserId={currentUserId}/>))}
 
             {messageList?.length > 0 && messageList.map((element) => (<MessageItem key={element?.id} selectedUser={profile} data={element} currentUserId={currentUserId}/>))}
