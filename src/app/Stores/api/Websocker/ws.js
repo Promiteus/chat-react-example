@@ -6,13 +6,18 @@ import {getEnvOfStorage} from "../../Env";
 
 export class StompClient {
     connected = false;
+    attemts = null;
    
     constructor() {
         console.log('StompClient created!'); 
                
         this.WS_ENDPOOINT_APP = getEnvOfStorage()?.stompUrl
         this.stompClient = null;
-        this.client = null
+        this.client = null;
+    }
+
+    destructor() {
+        clearInterval(this.attemts);
     }
     
 
@@ -81,7 +86,7 @@ export class StompClient {
      * @param function(error: any) callback
      */
     async tryStompConnect(stomp, currentUserId, callback) {
-           setInterval(() => {
+        this.attemts = setInterval(() => {
                if (!this.connected) {
                    console.log("try to ws connect...")
                    stomp?.connect(currentUserId);

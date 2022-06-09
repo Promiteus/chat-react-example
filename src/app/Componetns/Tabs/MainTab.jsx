@@ -101,7 +101,7 @@ const MainTab = (props) => {
 
         return () => {
             stompClient?.disconnect();
-           // stompClient = null;
+            stompClient = null;
         }
     }, []);
 
