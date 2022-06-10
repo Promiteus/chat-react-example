@@ -98,7 +98,7 @@ export class StompClient {
                        callback(error);
                    }
                }
-           }, 3000);
+           }, 5000);
     }
 
 }

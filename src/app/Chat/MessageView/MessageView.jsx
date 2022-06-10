@@ -1,10 +1,9 @@
 import React, {useEffect, useRef, useState} from 'react';
 import './MessageView.css'
 import {useDispatch, useSelector} from "react-redux";
-import {chatUserAsync, selectChat} from "../../Stores/slices/ChatSlice";
 import {LinearProgress, Stack} from "@mui/material";
 import {selectUserChatCommon} from "../../Stores/slices/UserProfileChatCommonSlice";
-import {getChatMessagesByIds, getChatUsersMessages} from "../../Stores/api/ChatApi/ChatApi";
+import {getChatMessages, getChatMessagesByIds} from "../../Stores/api/ChatApi/ChatApi";
 import {selectUpdateChatMessageStatus, setChatMessageStatus} from "../../Stores/slices/UpdateChatMessageStatusSlice";
 import MessageItem from "./MessageItem/MessageItem";
 import EmptyMessageList from "./MessageItem/EmptyMessageList";
@@ -12,8 +11,6 @@ import EmptyMessageList from "./MessageItem/EmptyMessageList";
 
 let page_ = 0;
 let selectedUser_ = {};
-let isExecuted = false;
-let chatViewHeight = 578;
 const CHAT_VIEW_PERCENT_HEIGHT = 78;
 
 /**
@@ -101,7 +98,7 @@ function posForUpdateReadMessages(msgArr, state) {
 function MessageView({stomp, currentUserId, chatClientHeight}) {
   const [messageList, setMessageList] = useState([]);
   const [beforeMessageList, setBeforeMessageList] = useState([]);
-  const {status, response, loading} = useSelector(selectChat);
+  const [loading, setLoading] = useState(false);
   const {profile} = useSelector(selectUserChatCommon);
   const scrollChat = useRef(null);
   const chatBottomScroller = useRef(null);
@@ -111,14 +108,11 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
 
   useEffect(() => {
       setTimeout(() => {
+          loadMore(true);
           scrollToBottom();
       }, 500);
   }, [profile]);
 
-  useEffect(() => {
-      //Пересчитать фиксированнцю высоту chatView и присвоить div контейнеру.
-      chatViewHeight = (chatClientHeight*CHAT_VIEW_PERCENT_HEIGHT)/100;
-  }, [chatClientHeight]);
 
   //Получить/подтвердить статус о прочтении сообщений
   useEffect(() => {
@@ -159,7 +153,7 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
 
   function scrollUp() {
       if (scrollChat.current.scrollTop === 0) {
-          isExecuted = false;
+         // isExecuted = false;
           loadMore();
           //Проверить/изменить статус непрочитанных сообщений
           updateChatMessagesStatus(Array.from(unreadMessageListForCurrentUser), Array.from(unreadMessageListForAnotherUser));
@@ -205,6 +199,7 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
 
       clearUnreadMessages();
 
+
       return () => {
           scrollChat?.current?.removeEventListener("scroll", scrollUp);
           scrollChat?.current?.removeEventListener("scroll", scrollDown);
@@ -218,27 +213,33 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
      chatBottomScroller?.current?.scrollIntoView({behavior: "smooth"});
  }
 
- //TODO изменить на сандартный промисс
+
     /**
      * Запросить переписку постранично
-     * @param {boolean} isMore
+     * @param {boolean} isDropPage
      */
- function loadMore() {
-     let selectedUserId = selectedUser_?.id;
-     if (!isExecuted) {
-         page_++;
-         getChatUsersMessages(page_, selectedUserId, currentUserId, (res, err) => {
-
-
-             isExecuted = true;
+ function loadMore(isDropPage = false) {
+     let selectedUserId = profile?.id;
+         setLoading(true);
+        //TODO page должен быть в центрально хранилище и обнуляться там
+         page_ = !isDropPage ? page_++: 0;
+         //page_++;
+         getChatMessages(page_, selectedUserId, currentUserId, (res, err) => {
+             if (!err) {
+                 beforeData(res?.data);
+                 defaultData(res?.data);
+             } else {
+                 console.error(err);
+             }
+             setLoading(false);
          });
 
-     }
+    // }
  }
 
  /**Загружает сообщения, которые были написанны ранее при прокрутке чата вверх*/
- function beforeData() {
-     if ((+status === 200) && (response?.page > 0)) {
+ function beforeData(response) {
+     if (response?.page > 0) {
          response?.data?.forEach(elem => {
              setBeforeMessageList(prevState => [...prevState, elem ]);
          });
@@ -249,10 +250,10 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
 /**
  * Получает первую страницу сообщений переписки
  * */
- function defaultData() {
+ function defaultData(response) {
      clearUnreadMessages();
 
-     if ((+status === 200) && (response?.page === 0)) {
+     if (response?.page === 0) {
          //Предочистка сиска сообщений перед переключением между пользователями
          setMessageList([]);
          setBeforeMessageList([]);
@@ -266,13 +267,6 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
      }
  }
 
-
-  //Реагировать на смену статуса при запросе последних сообщений из чата
-  useEffect(() => {
-        selectedUser_ = profile;
-        defaultData();
-        beforeData();
-  }, [status]);
   
   return (
     <div ref={scrollChat} className="message-view-panel p-1">

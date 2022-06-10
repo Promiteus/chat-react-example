@@ -123,12 +123,12 @@ export default function UserList({currentUserId, onSelected, stomp}) {
             //Занести в хранилище выбранного объект выбранного пользователя
             userChatDispatch(defineUserProfileOfChat(user));
             //Запросить переписку двух пользователей постранично
-            chatDispatch(chatUserAsync({
+            /*chatDispatch(chatUserAsync({
                 page: 0,
                 size: 10,
                 userId: selectedUserId,
                 fromUserId: currentUserId
-            }));
+            }));*/
             onSelected(user?.id);
         }
     }

@@ -30,7 +30,7 @@ function getChatUsersMessagesRequest(page, size, userId, fromUserId) {
  * @param {string} fromUserId
  * @param {function(data: object, err: any)} callback
  */
-export function getChatUsersMessages(page, userId, fromUserId, callback) {
+export function getChatMessages(page, userId, fromUserId, callback) {
     getChatUsersMessagesRequest(page, 10, userId, fromUserId)
         .then((data) => callback(data, null))
         .catch((err) => callback(null, err));
