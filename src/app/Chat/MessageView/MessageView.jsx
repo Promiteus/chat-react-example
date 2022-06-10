@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {chatUserAsync, selectChat} from "../../Stores/slices/ChatSlice";
 import {LinearProgress, Stack} from "@mui/material";
 import {selectUserChatCommon} from "../../Stores/slices/UserProfileChatCommonSlice";
-import {getChatMessagesByIds} from "../../Stores/api/ChatApi/ChatApi";
+import {getChatMessagesByIds, getChatUsersMessages} from "../../Stores/api/ChatApi/ChatApi";
 import {selectUpdateChatMessageStatus, setChatMessageStatus} from "../../Stores/slices/UpdateChatMessageStatusSlice";
 import MessageItem from "./MessageItem/MessageItem";
 import EmptyMessageList from "./MessageItem/EmptyMessageList";
@@ -48,6 +48,8 @@ function concatUnique(a1, a2) {
  * @param {string} userId
  */
 function fillUnreadMessages(data, userId) {
+    //console.log("fillUnreadMessages messageList : "+JSON.stringify(data));
+
     unreadMessages(data, userId, false)?.forEach(item => {
         unreadMessageListForCurrentUser.add(item?.id);
     });
@@ -144,7 +146,10 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
      * @param {string[]} writeArr
      */
     function updateChatMessagesStatus(readArr, writeArr) {
+        console.log("((readArr?.length > 0) || (writeArr?.length > 0)): "+((readArr?.length > 0) || (writeArr?.length > 0)));
         if ((readArr?.length > 0) || (writeArr?.length > 0)) {
+            console.log("read: "+JSON.stringify(readArr));
+            console.log("write: "+JSON.stringify(writeArr));
             getChatMessagesByIds(readArr, writeArr).then((res) => {
                 chatDispatch(setChatMessageStatus({readMsg: res?.data?.readMessages, writeMsg: res?.data?.writeMessages}))
             });
@@ -165,6 +170,7 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
       if ((scrollChat?.current?.scrollTop + scrollChat?.current?.clientHeight+1) >= scrollChat?.current?.scrollHeight) {
           //Проверить/изменить статус непрочитанных сообщений
           setTimeout(() => {
+              console.log("scrollDown()");
               updateChatMessagesStatus(Array.from(unreadMessageListForCurrentUser), Array.from(unreadMessageListForAnotherUser));
           }, 1000);
       }
@@ -193,7 +199,7 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
                  }]);
                }
              scrollToBottom();
-             updateChatMessagesStatus(Array.from(unreadMessageListForCurrentUser), Array.from(unreadMessageListForAnotherUser));
+            // updateChatMessagesStatus(Array.from(unreadMessageListForCurrentUser), Array.from(unreadMessageListForAnotherUser));
            };
       }
 
@@ -212,6 +218,7 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
      chatBottomScroller?.current?.scrollIntoView({behavior: "smooth"});
  }
 
+ //TODO изменить на сандартный промисс
     /**
      * Запросить переписку постранично
      * @param {boolean} isMore
@@ -220,13 +227,12 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
      let selectedUserId = selectedUser_?.id;
      if (!isExecuted) {
          page_++;
-         chatDispatch(chatUserAsync({
-             page: page_,
-             size: 10,
-             userId: selectedUserId,
-             fromUserId: currentUserId
-         }));
-         isExecuted = true;
+         getChatUsersMessages(page_, selectedUserId, currentUserId, (res, err) => {
+
+
+             isExecuted = true;
+         });
+
      }
  }
 

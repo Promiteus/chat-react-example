@@ -2,19 +2,38 @@ import axios from "axios";
 import {getHeaderBearerConfigs, TOKEN_KEY} from "../Common/ApiCommon";
 import {getEnvOfStorage} from "../../Env";
 
-/**
- * Получить последнюю переписку двух пользователей пострнично
- * @param {number} page
- * @param {number} size
- * @param {string} userId
- * @param {string} fromUserId
- * @param {string} token
- * @returns {Promise<AxiosResponse<any>>}
- */
 export function chatUsersMessages(page, size, userId, fromUserId, token) {
     let query = `?page=${page}&size=${size}&user_id=${userId}&from_user_id=${fromUserId}`;
     return axios.get(`${getEnvOfStorage()?.dataUrl}/api/chat_users_messages${query}`,
         getHeaderBearerConfigs("application/json", token));
+}
+
+/**
+ * Запрос - Получить последнюю переписку двух пользователей пострнично
+ * @param {number} page
+ * @param {number} size
+ * @param {string} userId
+ * @param {string} fromUserId
+ * @returns {Promise<AxiosResponse<any>>}
+ */
+function getChatUsersMessagesRequest(page, size, userId, fromUserId) {
+    let token = localStorage.getItem(TOKEN_KEY);
+    let query = `?page=${page}&size=${size}&user_id=${userId}&from_user_id=${fromUserId}`;
+    return axios.get(`${getEnvOfStorage()?.dataUrl}/api/chat_users_messages${query}`,
+        getHeaderBearerConfigs("application/json", token));
+}
+
+/**
+ * Получить последнюю переписку двух пользователей пострнично
+ * @param {number} page
+ * @param {string} userId
+ * @param {string} fromUserId
+ * @param {function(data: object, err: any)} callback
+ */
+export function getChatUsersMessages(page, userId, fromUserId, callback) {
+    getChatUsersMessagesRequest(page, 10, userId, fromUserId)
+        .then((data) => callback(data, null))
+        .catch((err) => callback(null, err));
 }
 
 /**
