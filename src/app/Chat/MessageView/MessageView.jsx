@@ -1,10 +1,10 @@
 import React, {useEffect, useRef, useState} from 'react';
 import './MessageView.css'
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {LinearProgress, Stack} from "@mui/material";
 import {selectUserChatCommon} from "../../Stores/slices/UserProfileChatCommonSlice";
-import {getChatMessages, getChatMessagesByIds} from "../../Stores/api/ChatApi/ChatApi";
-import {selectUpdateChatMessageStatus, setChatMessageStatus} from "../../Stores/slices/UpdateChatMessageStatusSlice";
+import {getChatMessages} from "../../Stores/api/ChatApi/ChatApi";
+import {selectUpdateChatMessageStatus} from "../../Stores/slices/UpdateChatMessageStatusSlice";
 import MessageItem from "./MessageItem/MessageItem";
 import EmptyMessageList from "./MessageItem/EmptyMessageList";
 
@@ -12,6 +12,7 @@ import EmptyMessageList from "./MessageItem/EmptyMessageList";
 let page_ = 0;
 let selectedUser_ = {};
 let chatMessages_ = [];
+
 
 /**
  * Список непрочитанных сообщений.
@@ -22,14 +23,15 @@ let unreadMessageListForAnotherUser = new Set();
 
 /**
  * Выдать массив из непрочитанных сообщений для выбранного пользователя
+ * isUserMsg = true - сообщения текущего пользоватлея профиля
+ * isUserMsg = false - сообщения собеседника
  * @param messageList
  * @param {string} userId
  * @param {boolean} isNotForUserId
  * @returns {{any[]}}
  */
-function unreadMessages(messageList, userId, isUserMsg) {
-
-    if (!isUserMsg) {
+function unreadMessages(messageList, userId, isMyMessages) {
+    if (!isMyMessages) {
          return messageList.filter(item => (item?.read === false)).filter(item => (item?.fromUserId !== userId));
     }
     return messageList.filter(item => (item?.read === false)).filter(item => (item?.fromUserId === userId));
@@ -46,26 +48,16 @@ function concatUnique(a1, a2) {
  * @param {string} userId
  */
 function fillUnreadMessages(data, userId) {
-    console.log("fillUnreadMessages messageList : ok ");
-    console.log("fillUnreadMessages messageList : "+JSON.stringify(data));
-
-   /* unreadMessages(data, userId, false)?.forEach(item => {
+    unreadMessages(data, userId, true)?.forEach(item => {
         unreadMessageListForCurrentUser.add(item?.id);
     });
-    unreadMessages(data, userId, true)?.forEach(item => {
+
+    unreadMessages(data, userId, false)?.forEach(item => {
         unreadMessageListForAnotherUser.add(item?.id);
-    });*/
+    });
+
 }
 
-/**
- *
- * @param {any} chatMessages
- */
-function removeMsgElem(elem) {
-       if (elem?.read) {
-           console.log("delete: "+unreadMessageListForCurrentUser.delete(elem?.id));
-       }
-}
 
 function clearUnreadMessages() {
     unreadMessageListForAnotherUser?.clear();
@@ -104,11 +96,11 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
   const {profile} = useSelector(selectUserChatCommon);
   const scrollChat = useRef(null);
   const chatBottomScroller = useRef(null);
-  const chatDispatch = useDispatch();
   const updatedMsgChatStatus = useSelector(selectUpdateChatMessageStatus);
 
 
     useEffect(() => {
+        clearUnreadMessages();
         selectedUser_ = profile;
         page_=0;
         loadMore(true);
@@ -117,9 +109,17 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
         }, 1000);
     }, [profile]);
 
+
+
+
     useEffect(() => {
         chatMessages_ = messageList;
-    }, [messageList])
+    }, [messageList]);
+
+
+    useEffect(() => {
+        chatMessages_ = concatUnique(chatMessages_, beforeMessageList);
+    }, [beforeMessageList]);
 
 
   //Получить/подтвердить статус о прочтении сообщений
@@ -144,20 +144,17 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
 
     /**
      * Проверить/изменить статус непрочитанных сообщений
-     * @param {string[]} readArr
-     * @param {string[]} writeArr
+     * @param {string[]} myMessages
+     * @param {string[]} notMyMessages
      */
-    function updateChatMessagesStatus(readArr, writeArr) {
-        //console.log("((readArr?.length > 0) || (writeArr?.length > 0)): "+((readArr?.length > 0) || (writeArr?.length > 0)));
+    function updateChatMessagesStatus(myMessages, notMyMessages) {
+        console.log("myMessages: "+myMessages?.length);
+        console.log("notMyMessages: "+notMyMessages?.length);
+        if ((myMessages?.length > 0) || (notMyMessages?.length > 0)) {
 
-        console.log("read: "+readArr?.length);
-        console.log("write: "+writeArr?.length);
-        if ((readArr?.length > 0) || (writeArr?.length > 0)) {
-         //   console.log("read: "+JSON.stringify(readArr));
-          //  console.log("write: "+JSON.stringify(writeArr));
-            getChatMessagesByIds(readArr, writeArr).then((res) => {
+           /* getChatMessagesByIds(readArr, writeArr).then((res) => {
                 chatDispatch(setChatMessageStatus({readMsg: res?.data?.readMessages, writeMsg: res?.data?.writeMessages}))
-            });
+            });*/
         }
     }
 
@@ -166,20 +163,21 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
        if (scrollChat.current.scrollTop === 0) {
            page_++;
            loadMore();
-           fillUnreadMessages(chatMessages_, currentUserId);
            //Проверить/изменить статус непрочитанных сообщений
            updateChatMessagesStatus(Array.from(unreadMessageListForCurrentUser), Array.from(unreadMessageListForAnotherUser));
        }
    }
+
+
 
    function scrollDown() {
        if ((scrollChat?.current?.scrollTop + scrollChat?.current?.clientHeight+1) >= scrollChat?.current?.scrollHeight) {
            fillUnreadMessages(chatMessages_, currentUserId);
-
            //Проверить/изменить статус непрочитанных сообщений
            updateChatMessagesStatus(Array.from(unreadMessageListForCurrentUser), Array.from(unreadMessageListForAnotherUser));
        }
    }
+
 
    useEffect(() => {
        //При достижении прокрутки чата до верхней границы контейнера
@@ -192,23 +190,15 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
            //Получить подтверждение, что сообщение отправлено мной же или получено от другого пользователя
            stomp.onMessageReceived = (data) => {
                let body = JSON.parse(data?.body);
-
                if ((body) && (body?.content) && ((selectedUser_?.id === body?.content?.fromUserId) || (selectedUser_?.id === body?.content?.userId))) {
-                   setMessageList(prev => [...prev, {
-                       id: body?.content?.id,
-                       userId: body?.content?.userId, //Кому сообщение
-                       fromUserId: body?.content?.fromUserId, //От кого сообщение
-                       message: body?.content?.message, //Текст сообщения
-                       timestamp: body?.content?.timestamp, //Время создания сообщения
-                       read: body?.content?.isRead,
-                   }]);
+                   setMessageList(prev => [...prev, body?.content]);
                }
                scrollToBottom();
                // updateChatMessagesStatus(Array.from(unreadMessageListForCurrentUser), Array.from(unreadMessageListForAnotherUser));
            };
        }
 
-       clearUnreadMessages();
+       //clearUnreadMessages();
 
 
        return () => {
@@ -251,13 +241,15 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
            response?.data?.forEach(elem => {
                setBeforeMessageList(prevState => [...prevState, elem ]);
            });
+
+           fillUnreadMessages(chatMessages_, currentUserId);
        }
    }
    /**
     * Получает первую страницу сообщений переписки
     * */
     function defaultData(response) {
-        clearUnreadMessages();
+
 
         if (response?.page === 0) {
             //Предочистка сиска сообщений перед переключением между пользователями
