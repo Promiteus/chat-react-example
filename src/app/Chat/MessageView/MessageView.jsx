@@ -11,7 +11,6 @@ import EmptyMessageList from "./MessageItem/EmptyMessageList";
 
 let page_ = 0;
 let selectedUser_ = {};
-const CHAT_VIEW_PERCENT_HEIGHT = 78;
 
 /**
  * Список непрочитанных сообщений.
@@ -106,33 +105,34 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
   const updatedMsgChatStatus = useSelector(selectUpdateChatMessageStatus);
 
 
-  useEffect(() => {
-      setTimeout(() => {
-          loadMore(true);
-          scrollToBottom();
-      }, 500);
-  }, [profile]);
+    useEffect(() => {
+        selectedUser_ = profile;
+        loadMore(true);
+        setTimeout(() => {
+            scrollToBottom();
+        }, 1000);
+    }, [profile]);
 
 
   //Получить/подтвердить статус о прочтении сообщений
-  useEffect(() => {
-      let readMsg = updatedMsgChatStatus?.data?.readMsg;
-      let writeMsg = updatedMsgChatStatus?.data?.writeMsg;
+    useEffect(() => {
+        let readMsg = updatedMsgChatStatus?.data?.readMsg;
+        let writeMsg = updatedMsgChatStatus?.data?.writeMsg;
 
-      let res = posForUpdateReadMessages(concatUnique(readMsg, writeMsg), messageList);
-      let arr = messageList;
-      res?.forEach(elem => {
-          arr[elem.index] = elem.data;
-      });
-      setMessageList(prevState => (prevState = arr));
+        let res = posForUpdateReadMessages(concatUnique(readMsg, writeMsg), messageList);
+        let arr = messageList;
+        res?.forEach(elem => {
+            arr[elem.index] = elem.data;
+        });
+        setMessageList(prevState => (prevState = arr));
 
-      res = posForUpdateReadMessages(concatUnique(readMsg, writeMsg), beforeMessageList);
-      res?.forEach(elem => {
-          let arr = messageList;
-          arr[elem.index] = elem.data;
-          setBeforeMessageList(arr);
-      });
-  }, [updatedMsgChatStatus]);
+        res = posForUpdateReadMessages(concatUnique(readMsg, writeMsg), beforeMessageList);
+        res?.forEach(elem => {
+            let arr = messageList;
+            arr[elem.index] = elem.data;
+            setBeforeMessageList(arr);
+        });
+    }, [updatedMsgChatStatus]);
 
     /**
      * Проверить/изменить статус непрочитанных сообщений
@@ -140,10 +140,10 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
      * @param {string[]} writeArr
      */
     function updateChatMessagesStatus(readArr, writeArr) {
-        console.log("((readArr?.length > 0) || (writeArr?.length > 0)): "+((readArr?.length > 0) || (writeArr?.length > 0)));
+      //  console.log("((readArr?.length > 0) || (writeArr?.length > 0)): "+((readArr?.length > 0) || (writeArr?.length > 0)));
         if ((readArr?.length > 0) || (writeArr?.length > 0)) {
-            console.log("read: "+JSON.stringify(readArr));
-            console.log("write: "+JSON.stringify(writeArr));
+         //   console.log("read: "+JSON.stringify(readArr));
+          //  console.log("write: "+JSON.stringify(writeArr));
             getChatMessagesByIds(readArr, writeArr).then((res) => {
                 chatDispatch(setChatMessageStatus({readMsg: res?.data?.readMessages, writeMsg: res?.data?.writeMessages}))
             });
@@ -151,123 +151,121 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
     }
 
 
-  function scrollUp() {
-      if (scrollChat.current.scrollTop === 0) {
-         // isExecuted = false;
-          loadMore();
-          //Проверить/изменить статус непрочитанных сообщений
-          updateChatMessagesStatus(Array.from(unreadMessageListForCurrentUser), Array.from(unreadMessageListForAnotherUser));
-      }
-  }
+   function scrollUp() {
+       if (scrollChat.current.scrollTop === 0) {
+          // isExecuted = false;
+           loadMore();
+           //Проверить/изменить статус непрочитанных сообщений
+           updateChatMessagesStatus(Array.from(unreadMessageListForCurrentUser), Array.from(unreadMessageListForAnotherUser));
+       }
+   }
 
-  function scrollDown() {
-      if ((scrollChat?.current?.scrollTop + scrollChat?.current?.clientHeight+1) >= scrollChat?.current?.scrollHeight) {
-          //Проверить/изменить статус непрочитанных сообщений
-          setTimeout(() => {
-              console.log("scrollDown()");
-              updateChatMessagesStatus(Array.from(unreadMessageListForCurrentUser), Array.from(unreadMessageListForAnotherUser));
-          }, 1000);
-      }
-  }
+   function scrollDown() {
+       if ((scrollChat?.current?.scrollTop + scrollChat?.current?.clientHeight+1) >= scrollChat?.current?.scrollHeight) {
+           //Проверить/изменить статус непрочитанных сообщений
+           setTimeout(() => {
+               console.log("scrollDown()");
+               updateChatMessagesStatus(Array.from(unreadMessageListForCurrentUser), Array.from(unreadMessageListForAnotherUser));
+           }, 1000);
+       }
+   }
 
-  useEffect(() => {
-      //При достижении прокрутки чата до верхней границы контейнера
-      //происходит дозагрузка прошлых сообщений
-      scrollChat?.current.addEventListener("scroll", scrollUp);
-      //Событие вызывается при прокрутки чата вниз до самого последнего сообщения
-      scrollChat?.current.addEventListener("scroll", scrollDown);
+   useEffect(() => {
+       //При достижении прокрутки чата до верхней границы контейнера
+       //происходит дозагрузка прошлых сообщений
+       scrollChat?.current.addEventListener("scroll", scrollUp);
+       //Событие вызывается при прокрутки чата вниз до самого последнего сообщения
+       scrollChat?.current.addEventListener("scroll", scrollDown);
 
-      if (stomp) {
+       if (stomp) {
            //Получить подтверждение, что сообщение отправлено мной же или получено от другого пользователя
            stomp.onMessageReceived = (data) => {
                let body = JSON.parse(data?.body);
 
                if ((body) && (body?.content) && ((selectedUser_?.id === body?.content?.fromUserId) || (selectedUser_?.id === body?.content?.userId))) {
-                 setMessageList(prev => [...prev, {
-                    id: body?.content?.id,
-                    userId: body?.content?.userId, //Кому сообщение
-                    fromUserId: body?.content?.fromUserId, //От кого сообщение
-                    message: body?.content?.message, //Текст сообщения
-                    timestamp: body?.content?.timestamp, //Время создания сообщения
-                    read: body?.content?.isRead,
-                 }]);
+                   setMessageList(prev => [...prev, {
+                       id: body?.content?.id,
+                       userId: body?.content?.userId, //Кому сообщение
+                       fromUserId: body?.content?.fromUserId, //От кого сообщение
+                       message: body?.content?.message, //Текст сообщения
+                       timestamp: body?.content?.timestamp, //Время создания сообщения
+                       read: body?.content?.isRead,
+                   }]);
                }
-             scrollToBottom();
-            // updateChatMessagesStatus(Array.from(unreadMessageListForCurrentUser), Array.from(unreadMessageListForAnotherUser));
+               scrollToBottom();
+               // updateChatMessagesStatus(Array.from(unreadMessageListForCurrentUser), Array.from(unreadMessageListForAnotherUser));
            };
-      }
+       }
 
-      clearUnreadMessages();
+       clearUnreadMessages();
 
 
-      return () => {
-          scrollChat?.current?.removeEventListener("scroll", scrollUp);
-          scrollChat?.current?.removeEventListener("scroll", scrollDown);
-      }
- }, []);
+       return () => {
+           scrollChat?.current?.removeEventListener("scroll", scrollUp);
+           scrollChat?.current?.removeEventListener("scroll", scrollDown);
+       }
+   }, []);
 
- /*
-   * Вызывает прокрутку чата вниз при появлении новых сообщений
-   *  */
- const scrollToBottom = () => {
-     chatBottomScroller?.current?.scrollIntoView({behavior: "smooth"});
- }
+   /*
+     * Вызывает прокрутку чата вниз при появлении новых сообщений
+     *  */
+   const scrollToBottom = () => {
+       chatBottomScroller?.current?.scrollIntoView({behavior: "smooth"});
+   }
 
 
     /**
      * Запросить переписку постранично
      * @param {boolean} isDropPage
      */
- function loadMore(isDropPage = false) {
-     let selectedUserId = profile?.id;
-         setLoading(true);
-        //TODO page должен быть в центрально хранилище и обнуляться там
-         page_ = !isDropPage ? page_++: 0;
-         //page_++;
-         getChatMessages(page_, selectedUserId, currentUserId, (res, err) => {
-             if (!err) {
-                 beforeData(res?.data);
-                 defaultData(res?.data);
-             } else {
-                 console.error(err);
-             }
-             setLoading(false);
-         });
+    function loadMore(isDropPage = false) {
+            setLoading(true);
+           //TODO page должен быть в центрально хранилище и обнуляться там
+            page_ = !isDropPage ? page_++: 0;
+            getChatMessages(page_, selectedUser_?.id, currentUserId, (res, err) => {
+                if (!err) {
+                    beforeData(res?.data);
+                    defaultData(res?.data);
+                } else {
+                    console.error(err);
+                }
+                setLoading(false);
+            });
 
-    // }
- }
+       // }
+    }
 
- /**Загружает сообщения, которые были написанны ранее при прокрутке чата вверх*/
- function beforeData(response) {
-     if (response?.page > 0) {
-         response?.data?.forEach(elem => {
-             setBeforeMessageList(prevState => [...prevState, elem ]);
-         });
+   /**Загружает сообщения, которые были написанны ранее при прокрутке чата вверх*/
+   function beforeData(response) {
+       if (response?.page > 0) {
+           response?.data?.forEach(elem => {
+               setBeforeMessageList(prevState => [...prevState, elem ]);
+           });
 
-         fillUnreadMessages(response?.data, currentUserId);
-     }
- }
-/**
- * Получает первую страницу сообщений переписки
- * */
- function defaultData(response) {
-     clearUnreadMessages();
+           fillUnreadMessages(response?.data, currentUserId);
+       }
+   }
+   /**
+    * Получает первую страницу сообщений переписки
+    * */
+    function defaultData(response) {
+        clearUnreadMessages();
 
-     if (response?.page === 0) {
-         //Предочистка сиска сообщений перед переключением между пользователями
-         setMessageList([]);
-         setBeforeMessageList([]);
-         page_ = 0;
-         //Обновить список сообщений для выбранного пользователя
-         response?.data?.forEach(elem => {
-             setMessageList(prevState => [...prevState, elem ]);
-         });
+        if (response?.page === 0) {
+            //Предочистка сиска сообщений перед переключением между пользователями
+            setMessageList([]);
+            setBeforeMessageList([]);
+            page_ = 0;
+            //Обновить список сообщений для выбранного пользователя
+            response?.data?.forEach(elem => {
+                setMessageList(prevState => [...prevState, elem ]);
+            });
 
-         fillUnreadMessages(response?.data, currentUserId);
-     }
- }
+            fillUnreadMessages(response?.data, currentUserId);
+        }
+    }
 
-  
+
   return (
     <div ref={scrollChat} className="message-view-panel p-1">
         {loading ?
