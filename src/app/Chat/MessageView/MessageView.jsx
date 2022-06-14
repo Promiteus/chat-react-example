@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import './MessageView.css'
 import {useDispatch, useSelector} from "react-redux";
 import {LinearProgress, Stack} from "@mui/material";
-import {selectUserChatCommon} from "../../Stores/slices/UserProfileChatCommonSlice";
+import {incPage, selectUserChatCommon} from "../../Stores/slices/UserProfileChatCommonSlice";
 import {getChatMessages, getChatMessagesByIds} from "../../Stores/api/ChatApi/ChatApi";
 import {selectUpdateChatMessageStatus, setChatMessageStatus} from "../../Stores/slices/UpdateChatMessageStatusSlice";
 import MessageItem from "./MessageItem/MessageItem";
@@ -107,6 +107,7 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
 
     useEffect(() => {
         selectedUser_ = profile;
+        page_=0;
         loadMore(true);
         setTimeout(() => {
             scrollToBottom();
@@ -153,7 +154,7 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
 
    function scrollUp() {
        if (scrollChat.current.scrollTop === 0) {
-          // isExecuted = false;
+           page_++;
            loadMore();
            //Проверить/изменить статус непрочитанных сообщений
            updateChatMessagesStatus(Array.from(unreadMessageListForCurrentUser), Array.from(unreadMessageListForAnotherUser));
@@ -218,7 +219,6 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
     function loadMore(isDropPage = false) {
             setLoading(true);
            //TODO page должен быть в центрально хранилище и обнуляться там
-            page_ = !isDropPage ? page_++: 0;
             getChatMessages(page_, selectedUser_?.id, currentUserId, (res, err) => {
                 if (!err) {
                     beforeData(res?.data);

@@ -9,7 +9,7 @@ export const userProfileChatCommonSlice = createSlice({
     reducers: {
         defineUserProfileOfChat: (state, action) => {
             state.profile = action.payload;
-        },
+        }
     },
 })
 
