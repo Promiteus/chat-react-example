@@ -1,10 +1,8 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {useSelector} from "react-redux";
 import {LeftChevronSvg} from "../../Svg";
-import {Avatar, Divider, IconButton, Paper, Typography} from "@mui/material";
+import {Avatar, Divider, IconButton, Typography} from "@mui/material";
 import {BASE_DATA_URL} from "../../Stores/api/Common/ApiCommon";
-import {selectCommon} from "../../Stores/slices/CommonSlice";
-import {dateDiffYears} from "../../Componetns/DateHandlers";
 import {selectUserChatCommon} from "../../Stores/slices/UserProfileChatCommonSlice";
 
 function TopHeaderView ({onBack, navButtonSx})  {

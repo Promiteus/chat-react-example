@@ -5,7 +5,7 @@ import RegistProfilePrimary from './app/RegistProfilePrimary/RegistProfilePrimar
 import MainTab from "./app/Componetns/Tabs/MainTab";
 import {ROUTE_HOME, ROUTE_PROFILE, ROUTE_REGISTRATION, ROUTE_SIGNUP} from "./app/Constants/Routes";
 import MyProfile from "./app/ProfileDetails/MyProfile";
-import {getEnvOfStorage, setEnvToStorage} from "./app/Stores/Env";
+import {setEnvToStorage} from "./app/Stores/Env";
 import {BASE_AUTH_URL, BASE_DATA_URL, WS_STOMP_URL} from "./app/Stores/api/Common/ApiCommon";
 
 

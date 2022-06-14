@@ -3,8 +3,7 @@ import {
     AppBar,
     Avatar,
     Box,
-    Button,
-    Container, Divider,
+    Container,
     IconButton,
     Menu,
     MenuItem,
@@ -12,7 +11,7 @@ import {
     Tooltip,
     Typography,
 } from "@mui/material";
-import {MenuListSvg, PersonSvg, SearchSvg} from "../Svg";
+import {MenuListSvg} from "../Svg";
 import {BASE_DATA_URL} from "../Stores/api/Common/ApiCommon";
 import {IMG_LOGO} from "../../assets";
 import {LogoutOutlined, Person} from "@mui/icons-material";

@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useState} from 'react';
 import MessageSendView from '../MessageSendView/MessageSendView';
 import MessageView from '../MessageView/MessageView';
 import TopHeaderView from '../TopHeaderView/TopHeaderView';

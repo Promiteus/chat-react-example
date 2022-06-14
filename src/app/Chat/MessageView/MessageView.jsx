@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import './MessageView.css'
 import {useDispatch, useSelector} from "react-redux";
 import {LinearProgress, Stack} from "@mui/material";
-import {incPage, selectUserChatCommon} from "../../Stores/slices/UserProfileChatCommonSlice";
+import {selectUserChatCommon} from "../../Stores/slices/UserProfileChatCommonSlice";
 import {getChatMessages, getChatMessagesByIds} from "../../Stores/api/ChatApi/ChatApi";
 import {selectUpdateChatMessageStatus, setChatMessageStatus} from "../../Stores/slices/UpdateChatMessageStatusSlice";
 import MessageItem from "./MessageItem/MessageItem";
@@ -11,6 +11,7 @@ import EmptyMessageList from "./MessageItem/EmptyMessageList";
 
 let page_ = 0;
 let selectedUser_ = {};
+let chatMessages_ = [];
 
 /**
  * Список непрочитанных сообщений.
@@ -26,8 +27,9 @@ let unreadMessageListForAnotherUser = new Set();
  * @param {boolean} isNotForUserId
  * @returns {{any[]}}
  */
-function unreadMessages(messageList, userId, isNotForUserId) {
-    if (isNotForUserId) {
+function unreadMessages(messageList, userId, isUserMsg) {
+
+    if (!isUserMsg) {
          return messageList.filter(item => (item?.read === false)).filter(item => (item?.fromUserId !== userId));
     }
     return messageList.filter(item => (item?.read === false)).filter(item => (item?.fromUserId === userId));
@@ -44,14 +46,15 @@ function concatUnique(a1, a2) {
  * @param {string} userId
  */
 function fillUnreadMessages(data, userId) {
-    //console.log("fillUnreadMessages messageList : "+JSON.stringify(data));
+    console.log("fillUnreadMessages messageList : ok ");
+    console.log("fillUnreadMessages messageList : "+JSON.stringify(data));
 
-    unreadMessages(data, userId, false)?.forEach(item => {
+   /* unreadMessages(data, userId, false)?.forEach(item => {
         unreadMessageListForCurrentUser.add(item?.id);
     });
     unreadMessages(data, userId, true)?.forEach(item => {
         unreadMessageListForAnotherUser.add(item?.id);
-    });
+    });*/
 }
 
 /**
@@ -114,6 +117,10 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
         }, 1000);
     }, [profile]);
 
+    useEffect(() => {
+        chatMessages_ = messageList;
+    }, [messageList])
+
 
   //Получить/подтвердить статус о прочтении сообщений
     useEffect(() => {
@@ -141,7 +148,10 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
      * @param {string[]} writeArr
      */
     function updateChatMessagesStatus(readArr, writeArr) {
-      //  console.log("((readArr?.length > 0) || (writeArr?.length > 0)): "+((readArr?.length > 0) || (writeArr?.length > 0)));
+        //console.log("((readArr?.length > 0) || (writeArr?.length > 0)): "+((readArr?.length > 0) || (writeArr?.length > 0)));
+
+        console.log("read: "+readArr?.length);
+        console.log("write: "+writeArr?.length);
         if ((readArr?.length > 0) || (writeArr?.length > 0)) {
          //   console.log("read: "+JSON.stringify(readArr));
           //  console.log("write: "+JSON.stringify(writeArr));
@@ -156,6 +166,7 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
        if (scrollChat.current.scrollTop === 0) {
            page_++;
            loadMore();
+           fillUnreadMessages(chatMessages_, currentUserId);
            //Проверить/изменить статус непрочитанных сообщений
            updateChatMessagesStatus(Array.from(unreadMessageListForCurrentUser), Array.from(unreadMessageListForAnotherUser));
        }
@@ -163,6 +174,8 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
 
    function scrollDown() {
        if ((scrollChat?.current?.scrollTop + scrollChat?.current?.clientHeight+1) >= scrollChat?.current?.scrollHeight) {
+           fillUnreadMessages(chatMessages_, currentUserId);
+
            //Проверить/изменить статус непрочитанных сообщений
            updateChatMessagesStatus(Array.from(unreadMessageListForCurrentUser), Array.from(unreadMessageListForAnotherUser));
        }
@@ -238,8 +251,6 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
            response?.data?.forEach(elem => {
                setBeforeMessageList(prevState => [...prevState, elem ]);
            });
-
-           fillUnreadMessages(response?.data, currentUserId);
        }
    }
    /**
@@ -257,8 +268,6 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
             response?.data?.forEach(elem => {
                 setMessageList(prevState => [...prevState, elem ]);
             });
-
-            fillUnreadMessages(response?.data, currentUserId);
         }
     }
 
