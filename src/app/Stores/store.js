@@ -2,7 +2,6 @@ import {configureStore, getDefaultMiddleware} from "@reduxjs/toolkit";
 import commonSlice from "./slices/CommonSlice";
 import userSlice from "./slices/UserSlice";
 import profileSlice from "./slices/UserProfileSlices";
-import chatSlice from "./slices/ChatSlice";
 import searchBoxSlice from "./slices/SearchBoxSlice";
 import userProfileChatsSlice from "./slices/UserProfileChatsSlice";
 import userProfileChatCommonSlice from "./slices/UserProfileChatCommonSlice";
@@ -17,7 +16,6 @@ export default configureStore({
         common: commonSlice,
         user: userSlice,
         profile: profileSlice,
-        chat: chatSlice,
         searchBox: searchBoxSlice,
         scrollLoader: scrollLoaderSlice,
         userChat: userProfileChatsSlice,

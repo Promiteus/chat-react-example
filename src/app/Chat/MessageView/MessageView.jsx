@@ -163,10 +163,7 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
    function scrollDown() {
        if ((scrollChat?.current?.scrollTop + scrollChat?.current?.clientHeight+1) >= scrollChat?.current?.scrollHeight) {
            //Проверить/изменить статус непрочитанных сообщений
-           setTimeout(() => {
-               console.log("scrollDown()");
-               updateChatMessagesStatus(Array.from(unreadMessageListForCurrentUser), Array.from(unreadMessageListForAnotherUser));
-           }, 1000);
+           updateChatMessagesStatus(Array.from(unreadMessageListForCurrentUser), Array.from(unreadMessageListForAnotherUser));
        }
    }
 
