@@ -1,10 +1,10 @@
 import React, {useEffect, useRef, useState} from 'react';
 import './MessageView.css'
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {LinearProgress, Stack} from "@mui/material";
 import {selectUserChatCommon} from "../../Stores/slices/UserProfileChatCommonSlice";
-import {getChatMessages} from "../../Stores/api/ChatApi/ChatApi";
-import {selectUpdateChatMessageStatus} from "../../Stores/slices/UpdateChatMessageStatusSlice";
+import {getChatMessages, getChatMessagesByIds} from "../../Stores/api/ChatApi/ChatApi";
+import {selectUpdateChatMessageStatus, setChatMessageStatus} from "../../Stores/slices/UpdateChatMessageStatusSlice";
 import MessageItem from "./MessageItem/MessageItem";
 import EmptyMessageList from "./MessageItem/EmptyMessageList";
 
@@ -97,6 +97,7 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
   const scrollChat = useRef(null);
   const chatBottomScroller = useRef(null);
   const updatedMsgChatStatus = useSelector(selectUpdateChatMessageStatus);
+  const chatDispatch = useDispatch();
 
 
     useEffect(() => {
@@ -148,13 +149,13 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
      * @param {string[]} notMyMessages
      */
     function updateChatMessagesStatus(myMessages, notMyMessages) {
-        console.log("myMessages: "+myMessages?.length);
-        console.log("notMyMessages: "+notMyMessages?.length);
+        console.log("myMessages: "+JSON.stringify(myMessages));
+        console.log("notMyMessages: "+JSON.stringify(notMyMessages));
         if ((myMessages?.length > 0) || (notMyMessages?.length > 0)) {
 
-           /* getChatMessagesByIds(readArr, writeArr).then((res) => {
+            getChatMessagesByIds(myMessages, notMyMessages).then((res) => {
                 chatDispatch(setChatMessageStatus({readMsg: res?.data?.readMessages, writeMsg: res?.data?.writeMessages}))
-            });*/
+            });
         }
     }
 
@@ -194,14 +195,11 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
                    setMessageList(prev => [...prev, body?.content]);
                }
                scrollToBottom();
-               // updateChatMessagesStatus(Array.from(unreadMessageListForCurrentUser), Array.from(unreadMessageListForAnotherUser));
            };
        }
 
-       //clearUnreadMessages();
-
-
        return () => {
+           clearUnreadMessages();
            scrollChat?.current?.removeEventListener("scroll", scrollUp);
            scrollChat?.current?.removeEventListener("scroll", scrollDown);
        }
@@ -249,8 +247,6 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
     * Получает первую страницу сообщений переписки
     * */
     function defaultData(response) {
-
-
         if (response?.page === 0) {
             //Предочистка сиска сообщений перед переключением между пользователями
             setMessageList([]);
