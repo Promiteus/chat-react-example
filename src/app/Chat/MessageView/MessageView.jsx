@@ -28,7 +28,7 @@ let unreadMessageListForAnotherUser = new Set();
  * @param messageList
  * @param {string} userId
  * @param {boolean} isNotForUserId
- * @returns {{any[]}}
+ * @returns {string[]}
  */
 function unreadMessages(messageList, userId, isMyMessages) {
     if (!isMyMessages) {
@@ -73,6 +73,7 @@ function clearUnreadMessages() {
  */
 function posForUpdateReadMessages(msgArr, state) {
     let arrPos = [];
+    console.log("msgArr: "+msgArr.length)
     msgArr.forEach(item => {
         let pos = state?.findIndex((elem) => (elem?.id === item?.id));
         if (pos >= 0) {
@@ -129,29 +130,21 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
         let readMsg = updatedMsgChatStatus?.data?.readMsg;
         let writeMsg = updatedMsgChatStatus?.data?.writeMsg;
 
-        console.log("has item: "+JSON.stringify(unreadMessageListForCurrentUser));
-
         let res = posForUpdateReadMessages(concatUnique(readMsg, writeMsg), messageList);
         let arr = messageList;
         res?.forEach(elem => {
+            console.log(`msg id: ${elem.data?.id}; read: ${elem.data?.read}`);
             arr[elem.index] = elem.data;
-            if (elem.data?.read) {
-
-                console.log("deleted: "+unreadMessageListForAnotherUser?.delete(elem.data?.id))
-                console.log(`updated message item: ${elem.data?.id}; status: ${elem.data?.read}`)
-            }
         });
         setMessageList(prevState => (prevState = arr));
 
-        res = posForUpdateReadMessages(concatUnique(readMsg, writeMsg), beforeMessageList);
-        res?.forEach(elem => {
-            let arr = messageList;
-            arr[elem.index] = elem.data;
-            setBeforeMessageList(arr);
-            if (elem.data?.read) {
-               // unreadMessageListForAnotherUser?.delete(elem.data?.id);
-            }
+
+        let res0 = posForUpdateReadMessages(concatUnique(readMsg, writeMsg), beforeMessageList);
+        let arr0 = beforeMessageList;
+        res0?.forEach(elem => {
+            arr0[elem.index] = elem.data;
         });
+        setBeforeMessageList(prevState => (prevState = arr0));
 
     }, [updatedMsgChatStatus]);
 
@@ -162,14 +155,14 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
      */
     function updateChatMessagesStatus(myMessages, notMyMessages) {
 
-        console.log("send update: "+((myMessages?.length > 0) || (notMyMessages?.length > 0)));
+        console.log("updateMessage: "+((myMessages?.length > 0) || (notMyMessages?.length > 0)))
 
-        if ((myMessages?.length > 0) || (notMyMessages?.length > 0)) {
+        //if ((myMessages?.length > 0) || (notMyMessages?.length > 0)) {
 
             getChatMessagesByIds(myMessages, notMyMessages).then((res) => {
                 chatDispatch(setChatMessageStatus({readMsg: res?.data?.readMessages, writeMsg: res?.data?.writeMessages}));
             });
-        }
+       // }
     }
 
 
@@ -178,7 +171,7 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
            page_++;
            loadMore();
            //Проверить/изменить статус непрочитанных сообщений
-           updateChatMessagesStatus(Array.from(unreadMessageListForCurrentUser), Array.from(unreadMessageListForAnotherUser));
+           updateChatMessagesStatus(unreadMessages(chatMessages_, currentUserId, true).map(item => item?.id), unreadMessages(chatMessages_, currentUserId, false).map(item => item?.id));
        }
    }
 
@@ -188,7 +181,7 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
        if ((scrollChat?.current?.scrollTop + scrollChat?.current?.clientHeight+1) >= scrollChat?.current?.scrollHeight) {
            fillUnreadMessages(chatMessages_, currentUserId);
            //Проверить/изменить статус непрочитанных сообщений
-           updateChatMessagesStatus(Array.from(unreadMessageListForCurrentUser), Array.from(unreadMessageListForAnotherUser));
+           updateChatMessagesStatus(unreadMessages(chatMessages_, currentUserId, true).map(item => item?.id), unreadMessages(chatMessages_, currentUserId, false).map(item => item?.id));
        }
    }
 
