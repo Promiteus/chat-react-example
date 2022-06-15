@@ -144,10 +144,6 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
            page_++;
            loadMore();
            //Проверить/изменить статус непрочитанных сообщений
-           updateChatMessagesStatus(
-               unreadMessages(chatMessages_, currentUserId, true).map(item => item?.id),
-               unreadMessages(chatMessages_, currentUserId, false).map(item => item?.id)
-           );
        }
    }
 
@@ -156,10 +152,6 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
    function scrollDown() {
        if ((scrollChat?.current?.scrollTop + scrollChat?.current?.clientHeight+1) >= scrollChat?.current?.scrollHeight) {
            //Проверить/изменить статус непрочитанных сообщений
-           updateChatMessagesStatus(
-               unreadMessages(chatMessages_, currentUserId, true).map(item => item?.id),
-               unreadMessages(chatMessages_, currentUserId, false).map(item => item?.id)
-           );
        }
    }
 
@@ -182,7 +174,15 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
            };
        }
 
+       let checkMsgs = setInterval(() => {
+           updateChatMessagesStatus(
+               unreadMessages(chatMessages_, currentUserId, true).map(item => item?.id),
+               unreadMessages(chatMessages_, currentUserId, false).map(item => item?.id)
+           );
+       }, 8000);
+
        return () => {
+           clearInterval(checkMsgs);
            scrollChat?.current?.removeEventListener("scroll", scrollUp);
            scrollChat?.current?.removeEventListener("scroll", scrollDown);
        }
