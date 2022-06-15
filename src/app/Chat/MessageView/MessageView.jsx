@@ -48,6 +48,7 @@ function concatUnique(a1, a2) {
  * @param {string} userId
  */
 function fillUnreadMessages(data, userId) {
+
     unreadMessages(data, userId, true)?.forEach(item => {
         unreadMessageListForCurrentUser.add(item?.id);
     });
@@ -128,10 +129,17 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
         let readMsg = updatedMsgChatStatus?.data?.readMsg;
         let writeMsg = updatedMsgChatStatus?.data?.writeMsg;
 
+        console.log("has item: "+JSON.stringify(unreadMessageListForCurrentUser));
+
         let res = posForUpdateReadMessages(concatUnique(readMsg, writeMsg), messageList);
         let arr = messageList;
         res?.forEach(elem => {
             arr[elem.index] = elem.data;
+            if (elem.data?.read) {
+
+                console.log("deleted: "+unreadMessageListForAnotherUser?.delete(elem.data?.id))
+                console.log(`updated message item: ${elem.data?.id}; status: ${elem.data?.read}`)
+            }
         });
         setMessageList(prevState => (prevState = arr));
 
@@ -140,7 +148,11 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
             let arr = messageList;
             arr[elem.index] = elem.data;
             setBeforeMessageList(arr);
+            if (elem.data?.read) {
+               // unreadMessageListForAnotherUser?.delete(elem.data?.id);
+            }
         });
+
     }, [updatedMsgChatStatus]);
 
     /**
@@ -149,12 +161,13 @@ function MessageView({stomp, currentUserId, chatClientHeight}) {
      * @param {string[]} notMyMessages
      */
     function updateChatMessagesStatus(myMessages, notMyMessages) {
-        console.log("myMessages: "+JSON.stringify(myMessages));
-        console.log("notMyMessages: "+JSON.stringify(notMyMessages));
+
+        console.log("send update: "+((myMessages?.length > 0) || (notMyMessages?.length > 0)));
+
         if ((myMessages?.length > 0) || (notMyMessages?.length > 0)) {
 
             getChatMessagesByIds(myMessages, notMyMessages).then((res) => {
-                chatDispatch(setChatMessageStatus({readMsg: res?.data?.readMessages, writeMsg: res?.data?.writeMessages}))
+                chatDispatch(setChatMessageStatus({readMsg: res?.data?.readMessages, writeMsg: res?.data?.writeMessages}));
             });
         }
     }
