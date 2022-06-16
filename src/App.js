@@ -7,9 +7,26 @@ import {ROUTE_HOME, ROUTE_PROFILE, ROUTE_REGISTRATION, ROUTE_SIGNUP} from "./app
 import MyProfile from "./app/ProfileDetails/MyProfile";
 import {setEnvToStorage} from "./app/Stores/Env";
 import {BASE_AUTH_URL, BASE_DATA_URL, WS_STOMP_URL} from "./app/Stores/api/Common/ApiCommon";
+import {createTheme, ThemeProvider} from "@mui/material";
+import {orange} from "@mui/material/colors";
 
 
-
+const theme = createTheme({
+    palette: {
+        primary: {
+            light: '#757ce8',
+            main: orange[800],
+            dark: '#002884',
+            contrastText: '#fff',
+        },
+        secondary: {
+            light: '#ff7961',
+            main: '#f44336',
+            dark: '#ba000d',
+            contrastText: '#000',
+        },
+    },
+});
 
 /**
  *
@@ -28,14 +45,16 @@ function App() {
   setEnvToStorage(envData);
 
   return (
-      <div>
-        <Routes>
-          <Route index path={ROUTE_SIGNUP} element={<SignIn/>}/>
-          <Route path={ROUTE_REGISTRATION} element={<RegistProfilePrimary/>}/>
-          <Route path={ROUTE_HOME} element={<MainTab/>}/>
-          <Route path={ROUTE_PROFILE} element={<MyProfile />}/>
-        </Routes>
-      </div>
+      <ThemeProvider theme={theme}>
+          <div>
+              <Routes>
+                  <Route index path={ROUTE_SIGNUP} element={<SignIn/>}/>
+                  <Route path={ROUTE_REGISTRATION} element={<RegistProfilePrimary/>}/>
+                  <Route path={ROUTE_HOME} element={<MainTab/>}/>
+                  <Route path={ROUTE_PROFILE} element={<MyProfile />}/>
+              </Routes>
+          </div>
+      </ThemeProvider>
   );
 }
 
