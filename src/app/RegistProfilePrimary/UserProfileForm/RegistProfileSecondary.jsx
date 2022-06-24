@@ -4,7 +4,7 @@ import "./index.css"
 import {Link, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {regUserAsync, selectUser} from "../../Stores/slices/UserSlice";
-import {AlertToast} from "../../Componetns/Modals/Toasts/AlertToast";
+import {AlertToast} from "../../Components/Modals/Toasts/AlertToast";
 import {
     CAPTION_CONFIRM_YOUR_PASSWORD,
     CAPTION_REGISTRATION,
@@ -20,7 +20,7 @@ import {
     SUCH_USER_EXISTS
 } from "../../Constants/TextMessagesRu";
 
-import Loader from "../../Componetns/Loader/Loader";
+import Loader from "../../Components/Loader/Loader";
 import {networkErrStatus, USER_ID_KEY} from "../../Stores/api/Common/ApiCommon";
 import {ROUTE_SIGNUP} from "../../Constants/Routes";
 import RoundSubstrate from "../../Svg/Sunstrate/RoundSubstrate";

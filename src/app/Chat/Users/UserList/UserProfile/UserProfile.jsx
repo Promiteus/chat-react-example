@@ -2,8 +2,8 @@ import React, {useEffect, useState} from 'react';
 import RightChevron from "../../../../Svg/RightChevron";
 import './UserProfile.css';
 import {Avatar, Box, Divider, Paper, Typography} from "@mui/material";
-import {dateDiffYears} from "../../../../Componetns/DateHandlers";
-import {stringAvatar} from "../../../../Componetns/GraphicHandler";
+import {dateDiffYears} from "../../../../Components/DateHandlers";
+import {stringAvatar} from "../../../../Components/GraphicHandler";
 import {BASE_DATA_URL} from "../../../../Stores/api/Common/ApiCommon";
 
 

@@ -2,7 +2,7 @@ import './App.css';
 import {Routes, Route} from 'react-router-dom';
 import SignIn from "./app/SignIn/SignIn";
 import RegistProfilePrimary from './app/RegistProfilePrimary/RegistProfilePrimary';
-import MainTab from "./app/Componetns/Tabs/MainTab";
+import MainTab from "./app/Components/Tabs/MainTab";
 import {ROUTE_HOME, ROUTE_PROFILE, ROUTE_REGISTRATION, ROUTE_SIGNUP} from "./app/Constants/Routes";
 import MyProfile from "./app/ProfileDetails/MyProfile";
 import {setEnvToStorage} from "./app/Stores/Env";
@@ -14,15 +14,11 @@ import {orange} from "@mui/material/colors";
 const theme = createTheme({
     palette: {
         primary: {
-            light: '#757ce8',
-            main: orange[800],
-            dark: '#002884',
-            contrastText: '#fff',
+            main: '#f55f0d',
+            contrastText: '#FFFFFF',
         },
         secondary: {
-            light: '#ff7961',
-            main: '#f44336',
-            dark: '#ba000d',
+            main: '#9d1cf8',
             contrastText: '#000',
         },
     },

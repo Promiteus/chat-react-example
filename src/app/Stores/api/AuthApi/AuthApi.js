@@ -1,7 +1,7 @@
 import axios from "axios";
 import {saveUserProfile} from "../ChatDataApi/ChatDataApi";
 import {getHeaderBearerConfigs, TOKEN_KEY, USER_ID_KEY} from "../Common/ApiCommon";
-import {dateDiffYears} from "../../../Componetns/DateHandlers";
+import {dateDiffYears} from "../../../Components/DateHandlers";
 import {getEnvOfStorage} from "../../Env";
 
 /**

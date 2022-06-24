@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
 import {USER_ID_KEY} from "../Stores/api/Common/ApiCommon";
 import {useLocation, useNavigate} from "react-router-dom";
-import ProfileEditablePage from "../Componetns/ProfilePage/ProfileEditablePage";
+import ProfileEditablePage from "../Components/ProfilePage/ProfileEditablePage";
 import {Container} from "@mui/material";
-import StandartHeader from "../Componetns/Header/StandartHeader";
+import StandartHeader from "../Components/Header/StandartHeader";
 import {ROUTE_HOME, ROUTE_SIGNUP} from "../Constants/Routes";
 import {Helmet} from "react-helmet";
 import {userProfile} from "../Stores/api/ChatDataApi/ChatDataApi";

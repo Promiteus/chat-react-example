@@ -3,14 +3,14 @@ import {useNavigate} from "react-router-dom";
 import "./SignIn.css"
 import {Button} from "@mui/material";
 import {useDispatch} from "react-redux";
-import {AlertToast} from "../Componetns/Modals/Toasts/AlertToast";
+import {AlertToast} from "../Components/Modals/Toasts/AlertToast";
 import {
     CAPTION_FORGET_PASSWORD,
     CAPTION_REGISTRATION,
     CAPTION_SIGN_IN, CAPTION_YOUR_LOGIN, CAPTION_YOUR_PASSWORD,
     getNotificationMsg, SUBTITLE_YOUR_LOGIN, SUBTITLE_YOUR_PASSWORD
 } from "../Constants/TextMessagesRu";
-import Loader from "../Componetns/Loader/Loader";
+import Loader from "../Components/Loader/Loader";
 import {networkErrStatus, TOKEN_KEY, USER_ID_KEY} from "../Stores/api/Common/ApiCommon";
 import {ROUTE_REGISTRATION} from "../Constants/Routes";
 import {authenticateUser} from "../Stores/api/AuthApi/AuthApi";

@@ -17,7 +17,7 @@ import {
     SUBTITLE_SEX,
     SUBTITLE_SEX_ORIENTATION, SUBTITLE_YEARS_OLD
 } from "../Constants/TextMessagesRu";
-import {ListField, RangeField} from "../Componetns/Controls";
+import {ListField, RangeField} from "../Components/Controls";
 import {useDispatch, useSelector} from "react-redux";
 import {
     selectSearchBox,

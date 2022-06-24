@@ -6,8 +6,8 @@ import {CAPTION_EMPTY_GUESTS} from "../Constants/TextMessagesRu";
 import useWindowDimensions, {D_LG, D_MD, D_SM, D_XL, D_XS} from "../Hooks/useWindowDimension";
 import {getUserVisitors} from "../Stores/api/VisitorApi/VisitorApi";
 import { PROFILE_GUESTS_PAGE_SIZE} from "../Stores/api/Common/ApiCommon";
-import ScrollDownLoader from "../Componetns/ScrollLoaders/ScrollDownLoader";
-import UserProfilesSkeletons from "../Componetns/Skeletons/UserProfilesSkeletons";
+import ScrollDownLoader from "../Components/ScrollLoaders/ScrollDownLoader";
+import UserProfilesSkeletons from "../Components/Skeletons/UserProfilesSkeletons";
 import {useDispatch, useSelector} from "react-redux";
 import {dropPage, selectScrollLoader} from "../Stores/slices/ScrollLoaderSlice";
 

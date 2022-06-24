@@ -1,8 +1,8 @@
 import React, {useEffect} from "react";
-import StandartHeader from "../Componetns/Header/StandartHeader";
+import StandartHeader from "../Components/Header/StandartHeader";
 import {useDispatch, useSelector} from "react-redux";
 import {selectCommon, setPageIndex} from "../Stores/slices/CommonSlice";
-import ProfileEditablePage from "../Componetns/ProfilePage/ProfileEditablePage";
+import ProfileEditablePage from "../Components/ProfilePage/ProfileEditablePage";
 import {updateUserVisitor} from "../Stores/api/VisitorApi/VisitorApi";
 
 const ProfileDetail = ({currentUserId}) => {
